@@ -1,0 +1,62 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'com.zomato.plugins.publish'
+    id 'kotlin-kapt'
+}
+
+def rootConfiguration = rootProject.ext
+
+import com.zomato.plugins.publish.ArtifactInfo
+import com.zomato.plugins.publish.BuildType
+
+// Maven Publishing Details
+
+def version_info = getVersionInfo(projectDir.absolutePath)
+def version_code = version_info[0].toInteger()
+def version_name = version_info[1]
+
+def artifactData = new ArtifactInfo(monoGroupId, project.name, version_name, monoRepo, false)
+def releaseBuildData = new BuildType('release', null, false)
+def debugBuildData = new BuildType('debug', null, false)
+
+mavenPublishing {
+    artifactInfo = artifactData
+    buildTypes = [ releaseBuildData, debugBuildData ]
+}
+
+applyCompose()
+
+android {
+    namespace 'com.zomato.sushi.compose'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+applyDefaults(version_code, version_name)
+
+dependencies {
+    // Androidx Core
+    implementation "androidx.core:core-ktx:$rootConfiguration.androidxCoreVersion"
+    implementation "io.coil-kt.coil3:coil-compose:$rootConfiguration.coilVersion"
+    implementation "io.coil-kt.coil3:coil-network-okhttp:$rootConfiguration.coilVersion"
+
+    applyZomatoKitsApi('sushi-core')
+
+    // Compose
+    api platform("androidx.compose:compose-bom:${rootConfiguration.composeBomVersion}")
+    api 'androidx.compose.material3:material3'
+
+    // Android Studio Preview support
+    api 'androidx.compose.ui:ui-tooling-preview'
+    debugApi 'androidx.compose.ui:ui-tooling'
+
+    implementation "androidx.activity:activity-compose:${rootConfiguration.composeActivityVersion}"
+    debugImplementation "com.zomato:thirdeye-release:${rootConfiguration.thirdEyeVersion}"
+}
