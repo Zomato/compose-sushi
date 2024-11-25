@@ -4,6 +4,7 @@ package com.zomato.sushi.compose.atoms.animation
 
 import androidx.annotation.RawRes
 import androidx.compose.runtime.Immutable
+import com.airbnb.lottie.LottieComposition
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
 @Immutable
@@ -27,3 +28,6 @@ value class LottieResource(@RawRes val resId: Int) : LottieSource
 
 @JvmInline
 value class LottieUrl(val url: String) : LottieSource
+
+@JvmInline
+value class LottieCompositionSource(val composition: LottieComposition?) : LottieSource

@@ -499,7 +499,6 @@ data class SushiColorScheme(
         val error: Color,
         val offer: Color,
         val shimmer: Color,
-        val shimmerInset: Color,
         val backgroundDark: Color,
         val default: Color,
         val deepened: Color,

@@ -120,7 +120,6 @@ fun sushiDarkColorScheme(
         error = themeColorScheme.v500,
         offer = SushiBlue500,
         shimmer = SushiSlate700,
-        shimmerInset = SushiSlate700,
         // todox: Fix with actual values, after defaults are merged in View sushi.
         backgroundDark = SushiWhite,
         default = SushiWhite,
