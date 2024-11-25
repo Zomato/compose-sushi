@@ -120,7 +120,6 @@ fun sushiLightColorScheme(
         error = SushiOrange600,
         offer = SushiBlue500,
         shimmer = SushiGrey100,
-        shimmerInset = SushiGrey050,
         // todox: Fix with actual values, after defaults are merged in View sushi.
         backgroundDark = SushiWhite,
         default = SushiWhite,
