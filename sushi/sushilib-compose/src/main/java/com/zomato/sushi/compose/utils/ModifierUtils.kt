@@ -1,6 +1,5 @@
 package com.zomato.sushi.compose.utils
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -12,7 +11,6 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
 
-@SuppressLint("ModifierFactoryUnreferencedReceiver")
 @Composable
 inline fun Modifier.ifTrue(condition: Boolean, crossinline transform: Modifier.() -> Modifier): Modifier {
     return if (condition) {
@@ -22,7 +20,6 @@ inline fun Modifier.ifTrue(condition: Boolean, crossinline transform: Modifier.(
     }
 }
 
-@SuppressLint("ModifierFactoryUnreferencedReceiver")
 @Composable
 inline fun <T> Modifier.ifNonNull(data: T?, crossinline transform: @Composable Modifier.(it: T) -> Modifier): Modifier {
     return if (data != null) {
@@ -47,7 +44,6 @@ open class DebouncedEventHandler(private val debounceDurationMs: Long) {
     }
 }
 
-@SuppressLint("ModifierFactoryUnreferencedReceiver")
 fun Modifier.atomClickable(
     enabled: Boolean = true,
     onClickLabel: String? = null,

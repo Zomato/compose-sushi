@@ -3,6 +3,7 @@ package com.zomato.sushi.compose.markdown
 import android.content.Context
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.internal.scaled
@@ -21,21 +22,15 @@ import com.zomato.sushi.compose.foundation.SushiTextSize900
 import com.zomato.sushi.compose.foundation.fontWeight
 import java.util.regex.Pattern
 
-internal class FontWeightProcessorCompose(private val parserVersion: Int) :
-    RegexProcessor<AnnotatedString.Builder> {
+class FontWeightProcessor(): Processor {
 
     companion object {
         private const val FONT_REGEX_V3 = "(\\<)(.+?)(\\|)((.|\\n)+?)(\\>)"
-        private const val FONT_REGEX_DEFAULT = "(\\<)(.+?)(\\|)(.+?)(\\>)"
         private const val FONT_GROUP = 2
         private const val TEXT_GROUP = 4
         private val FONT_DATA_DELIMITER = "-".toRegex()
         private const val FONT_WEIGHT_INDEX = 0
         private const val FONT_SIZE_INDEX = 1
-    }
-
-    override fun transform(t: AnnotatedString.Builder): AnnotatedString.Builder {
-        return t
     }
 
     private data class Transformation(
@@ -46,15 +41,15 @@ internal class FontWeightProcessorCompose(private val parserVersion: Int) :
         val fontSize: TextUnit
     )
 
-    fun transformWithFontData(
-        annotatedString: AnnotatedString,
-        context: Context
-    ): AnnotatedString {
-        val transformationsList = mutableListOf<Transformation>()
-        val matcher = getPattern().matcher(annotatedString)
+    override fun isApplicable(props: MarkdownParserProps): Boolean {
+        return true
+    }
 
-        while (true) {
-            if (!matcher.find()) break
+    override fun process(context: Context?, src: AnnotatedString): AnnotatedString {
+        val transformationsList = mutableListOf<Transformation>()
+        val matcher = getPattern().matcher(src)
+
+        while (matcher.find()) {
             val font = matcher.group(FONT_GROUP)
             var textStart = -1
             var textEnd = -1
@@ -64,7 +59,7 @@ internal class FontWeightProcessorCompose(private val parserVersion: Int) :
             }
 
             if (textStart != -1 && textEnd != -1) {
-                val text = annotatedString.subSequence(textStart, textEnd)
+                val text = src.subSequence(textStart, textEnd)
 
                 val fontDataList = font?.split(FONT_DATA_DELIMITER)
 
@@ -80,11 +75,11 @@ internal class FontWeightProcessorCompose(private val parserVersion: Int) :
             }
         }
 
-        val result = AnnotatedString.Builder().apply {
+        return buildAnnotatedString {
             var currentStartIdx = 0
 
             transformationsList.forEach {
-                this.append(annotatedString.subSequence(currentStartIdx, it.start))
+                this.append(src.subSequence(currentStartIdx, it.start))
                 this.append(it.transformedText)
 
                 this.addStyle(
@@ -98,18 +93,12 @@ internal class FontWeightProcessorCompose(private val parserVersion: Int) :
                 currentStartIdx = it.end
             }
 
-            append(annotatedString.subSequence(currentStartIdx, annotatedString.length))
+            append(src.subSequence(currentStartIdx, src.length))
         }
-
-        return result.toAnnotatedString()
     }
 
     private fun getPattern(): Pattern {
-        return if (parserVersion == MarkdownParser.PARSER_VERSION_3) {
-            Pattern.compile(FONT_REGEX_V3)
-        } else {
-            Pattern.compile(FONT_REGEX_DEFAULT)
-        }
+        return Pattern.compile(FONT_REGEX_V3)
     }
 
     private fun getFontWeight(label: String?): FontWeight {
@@ -117,7 +106,7 @@ internal class FontWeightProcessorCompose(private val parserVersion: Int) :
         return fontType.fontWeight()
     }
 
-    private fun getFontSize(value: String?, context: Context): TextUnit {
+    private fun getFontSize(value: String?, context: Context?): TextUnit {
         val sizeInt = runCatching { value?.toInt() }.getOrNull()
         val size = when (sizeInt) {
             50 -> SushiTextSize050
@@ -132,6 +121,6 @@ internal class FontWeightProcessorCompose(private val parserVersion: Int) :
             900 -> SushiTextSize900
             else -> SushiTextSize500
         }
-        return size.scaled(context)
+        return context?.let { size.scaled(context) } ?: size
     }
 }
