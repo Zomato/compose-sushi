@@ -5,7 +5,6 @@ package com.zomato.sushi.compose.internal
 import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.ColorTokenMapper
@@ -14,7 +13,6 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.foundation.SushiTypography
 import com.zomato.sushi.compose.foundation.sushiDarkColorScheme
 import com.zomato.sushi.compose.foundation.sushiLightColorScheme
-import java.io.IOException
 
 @Composable
 internal fun Preview(
@@ -23,9 +21,6 @@ internal fun Preview(
     colorTokenMapper: ColorTokenMapper = SushiTheme.colorTokenMapper,
     content: @Composable () -> Unit
 ) {
-    if (!LocalInspectionMode.current) {
-        throw IOException("Only allowed in inspection mode")
-    }
     val colorScheme = if (isSystemInDarkTheme()) {
         sushiDarkColorScheme()
     } else {

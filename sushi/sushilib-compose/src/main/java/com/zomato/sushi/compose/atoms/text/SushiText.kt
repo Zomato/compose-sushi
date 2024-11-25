@@ -26,6 +26,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorName
@@ -43,7 +44,6 @@ import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.markdown.MarkdownParser
 import com.zomato.sushi.compose.utils.atomClickable
 import com.zomato.sushi.compose.utils.ifNonNull
-import com.zomato.sushi.compose.markdown.parseMarkedDownText
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 @Immutable
@@ -123,10 +123,9 @@ private fun SushiTextImpl(
 
         val text = remember(context, rawText, isMarkDownEnabled) {
             if (isMarkDownEnabled) {
-                parseMarkedDownText(
-                    text = rawText,
-                    parserVersion = MarkdownParser.PARSER_VERSION_3,
-                    context = context
+                MarkdownParser.default.parse(
+                    context = context,
+                    text = rawText
                 )
             } else {
                 AnnotatedString(rawText)
@@ -278,22 +277,20 @@ fun SushiTextPreview1() {
                     type = SushiTextType.Regular400
                 )
             )
-            // SushiText(
-            //     data = SushiTextData(
-            //         text = "a_fsdgy_\n<bold-100|{red-500|fs}>ad**gy**\nfsdgy",
-            //         prefixIcon = SushiIconData(code = "e926"),
-            //         suffixIcon = SushiIconData(
-            //             code = "e93f",
-            //             color = SushiColorData(ColorName.BLUE, ColorVariation.Variation500)
-            //         ),
-            //         prefixText = SushiTextData("PreText"),
-            //         suffixText = SushiTextData("SuffixText"),
-            //         color = SushiColorData(ColorToken.COLOR_TEXT_SUCCESS),
-            //         maxLines = 2,
-            //         letterSpacing = 4.sp,
-            //         type = SushiTextType.Regular900
-            //     )
-            // )
+            SushiText(
+                props = SushiTextProps(
+                    text = "a_fsdgy_\n[<bold-800|{red-500|fs}>ad**gy**google](https://google.com)\nfs~~dg~~y",
+                    prefixIcon = SushiIconProps(code = "e926"),
+                    suffixIcon = SushiIconProps(
+                        code = "e93f",
+                        color = SushiTheme.colors.blue.v500.asColorSpec()
+                    ),
+                    color = SushiTheme.colors.text.success.asColorSpec(),
+                    maxLines = 3,
+                    letterSpacing = 4.sp,
+                    type = SushiTextType.Regular900
+                )
+            )
             SushiText(
                 props = SushiTextProps(
                     text = "Free",

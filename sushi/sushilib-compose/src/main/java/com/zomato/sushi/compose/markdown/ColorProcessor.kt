@@ -1,22 +1,17 @@
 package com.zomato.sushi.compose.markdown
 
 import android.content.Context
-import android.text.TextUtils
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import com.zomato.sushi.compose.atoms.color.ColorName
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.getColor
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import java.util.regex.Pattern
 
-internal class ColorProcessorCompose(private val parserVersion: Int) :
-    RegexProcessor<AnnotatedString.Builder> {
-
-    override fun transform(t: AnnotatedString.Builder): AnnotatedString.Builder {
-        return t
-    }
+class ColorProcessor() : Processor {
 
     private data class Transformation(
         val start: Int,
@@ -25,16 +20,22 @@ internal class ColorProcessorCompose(private val parserVersion: Int) :
         val color: ULong
     )
 
-    @OptIn(ExperimentalSushiApi::class)
-    fun transformWithColorData(
-        annotatedString: AnnotatedString,
-        context: Context
-    ): AnnotatedString {
-        val transformationsList = mutableListOf<Transformation>()
-        val matcher = getPattern().matcher(annotatedString)
+    companion object {
+        private const val REGEX = "(\\{)(.+?)(\\|)((.|\\n)+?)(\\})"
+        const val COLOR_GROUP = 2
+        const val TEXT_GROUP = 4
+    }
 
-        while (true) {
-            if (!matcher.find()) break
+    override fun isApplicable(props: MarkdownParserProps): Boolean {
+        return true
+    }
+
+    @OptIn(ExperimentalSushiApi::class)
+    override fun process(context: Context?, src: AnnotatedString): AnnotatedString {
+        val transformationsList = mutableListOf<Transformation>()
+        val matcher = getPattern().matcher(src)
+
+        while (matcher.find()) {
             val color = matcher.group(COLOR_GROUP)
             var textStart = -1
             var textEnd = -1
@@ -43,7 +44,7 @@ internal class ColorProcessorCompose(private val parserVersion: Int) :
                 textEnd = matcher.end(TEXT_GROUP)
             }
             if (textStart != -1 && textEnd != -1) {
-                val text = annotatedString.subSequence(textStart, textEnd)
+                val text = src.subSequence(textStart, textEnd)
 
                 var parsedColor: ULong = ColorName.fromColorName(color)
                     ?.let { getColor(it, ColorVariation.Variation500).value } ?: 0UL
@@ -81,11 +82,11 @@ internal class ColorProcessorCompose(private val parserVersion: Int) :
             }
         }
 
-        val result = AnnotatedString.Builder().apply {
+        return buildAnnotatedString {
             var currentStartIdx = 0
 
             transformationsList.forEach {
-                this.append(annotatedString.subSequence(currentStartIdx, it.start))
+                this.append(src.subSequence(currentStartIdx, it.start))
                 this.append(it.transformedText)
                 this.addStyle(
                     SpanStyle(color = Color(it.color)),
@@ -94,23 +95,17 @@ internal class ColorProcessorCompose(private val parserVersion: Int) :
                 currentStartIdx = it.end
             }
 
-            append(annotatedString.subSequence(currentStartIdx, annotatedString.length))
+            append(src.subSequence(currentStartIdx, src.length))
         }
-
-        return result.toAnnotatedString()
     }
 
 
     private fun getPattern(): Pattern {
-        return if (parserVersion == MarkdownParser.PARSER_VERSION_3) {
-            Pattern.compile(COLOR_REGEX_V3)
-        } else {
-            Pattern.compile(COLOR_REGEX_DEFAULT)
-        }
+        return Pattern.compile(REGEX)
     }
 
     private fun isValidInteger(integerString: String?): Boolean {
-        if (TextUtils.isEmpty(integerString))
+        if (integerString.isNullOrEmpty())
             return false
         else {
             try {
@@ -120,12 +115,5 @@ internal class ColorProcessorCompose(private val parserVersion: Int) :
             }
         }
         return true
-    }
-
-    companion object {
-        private const val COLOR_REGEX_V3 = "(\\{)(.+?)(\\|)((.|\\n)+?)(\\})"
-        private const val COLOR_REGEX_DEFAULT = "(\\{)(.+?)(\\|)(.+?)(\\})"
-        const val COLOR_GROUP = 2
-        const val TEXT_GROUP = 4
     }
 }

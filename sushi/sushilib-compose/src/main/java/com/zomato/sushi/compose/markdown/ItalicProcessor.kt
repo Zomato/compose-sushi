@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontStyle
 import java.util.regex.Pattern
 
-class BoldProcessor() : Processor {
+class ItalicProcessor() : Processor {
 
     private data class Transformation(
         val start: Int,
@@ -16,7 +16,7 @@ class BoldProcessor() : Processor {
     )
 
     companion object {
-        private const val REGEX = "\\*\\*(.*?)\\*\\*"
+        private const val REGEX = "_(.*?)_"
         const val TEXT_GROUP = 1
     }
 
@@ -31,12 +31,10 @@ class BoldProcessor() : Processor {
         while (matcher.find()) {
             var textStart = -1
             var textEnd = -1
-
             runCatching {
                 textStart = matcher.start(TEXT_GROUP)
                 textEnd = matcher.end(TEXT_GROUP)
             }
-
             if (textStart != -1 && textEnd != -1) {
                 val text = src.subSequence(textStart, textEnd)
                 transformationsList.add(
@@ -55,7 +53,7 @@ class BoldProcessor() : Processor {
             transformationsList.forEach {
                 this.append(src.subSequence(currentStartIdx, it.start))
                 this.append(it.text)
-                this.addStyle(SpanStyle(fontWeight = FontWeight.Bold), it.start, it.end)
+                this.addStyle(SpanStyle(fontStyle = FontStyle.Italic), it.start, it.end)
                 currentStartIdx = it.end
             }
 
