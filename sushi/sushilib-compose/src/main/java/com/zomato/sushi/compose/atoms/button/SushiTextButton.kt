@@ -28,7 +28,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
-import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
@@ -50,8 +49,8 @@ internal fun SushiTextButton(
     var isTapped by remember(props) { mutableStateOf(false) }
     val isDisabled = props.isDisabled == true
 
-    val bgColor = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackground.asColorSpec()
-    val bgColorPressed = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackgroundPressed.asColorSpec()
+    val bgColor = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackground
+    val bgColorPressed = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackgroundPressed
     val bgColorDisabled = bgColor   // todox: change needed?
 
     val appliedBgColor = when {
@@ -114,9 +113,9 @@ private fun SushiTextButtonContent(
     isDisabled: Boolean,
     isTapped: Boolean
 ) {
-    val fontColor = data.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabel.asColorSpec()
-    val fontColorPressed = data.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabelPressed.asColorSpec()
-    val fontColorDisabled = SushiTheme.colors.button.ghostLabelDisabled.asColorSpec()
+    val fontColor = data.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabel
+    val fontColorPressed = data.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabelPressed
+    val fontColorDisabled = SushiTheme.colors.button.ghostLabelDisabled
 
     val appliedFontColor = when {
         isDisabled -> fontColorDisabled

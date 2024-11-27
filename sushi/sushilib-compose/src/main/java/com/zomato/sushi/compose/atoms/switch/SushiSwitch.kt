@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.text.SushiText
@@ -79,7 +78,7 @@ private fun SushiSwitchImpl(
             .height(IntrinsicSize.Min),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val enabledColor = props.color.takeIfSpecified() ?: SushiTheme.colors.theme.v500.asColorSpec()
+        val enabledColor = props.color.takeIfSpecified() ?: SushiTheme.colors.theme.v500
         val padding = props.padding ?: Defaults.padding
         val alignment = props.alignment ?: Defaults.alignment
         val direction = props.direction ?: Defaults.direction
@@ -119,13 +118,13 @@ private fun SushiSwitchImpl(
                 enabled = isEnabled,
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = enabledColor.value,
-                    checkedTrackColor = SushiTheme.colors.theme.v300,
-                    uncheckedThumbColor = SushiTheme.colors.grey.v200,
-                    uncheckedTrackColor = SushiTheme.colors.grey.v500,
-                    disabledCheckedThumbColor = SushiTheme.colors.grey.v400,
-                    disabledCheckedTrackColor = SushiTheme.colors.grey.v200,
-                    disabledUncheckedThumbColor = SushiTheme.colors.grey.v400,
-                    disabledUncheckedTrackColor = SushiTheme.colors.grey.v200,
+                    checkedTrackColor = SushiTheme.colors.theme.v300.value,
+                    uncheckedThumbColor = SushiTheme.colors.grey.v200.value,
+                    uncheckedTrackColor = SushiTheme.colors.grey.v500.value,
+                    disabledCheckedThumbColor = SushiTheme.colors.grey.v400.value,
+                    disabledCheckedTrackColor = SushiTheme.colors.grey.v200.value,
+                    disabledUncheckedThumbColor = SushiTheme.colors.grey.v400.value,
+                    disabledUncheckedTrackColor = SushiTheme.colors.grey.v200.value,
                 ),
                 interactionSource = interactionSource
             )

@@ -5,6 +5,7 @@ package com.zomato.sushi.compose.foundation
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import com.zomato.sushi.compose.atoms.color.asColorSpec
 
 fun sushiGreenColorScheme(type: SushiColorSchemeType): SushiColorScheme {
     return when (type) {
@@ -19,17 +20,17 @@ fun sushiGreenDarkColorScheme(
     return sushiDarkColorScheme(
         materialColorScheme = materialColorScheme,
         themeColorScheme = SushiColorScheme.ThemeColorScheme(
-            v050 = SushiGreen900,
-            v100 = SushiGreen800,
-            v200 = SushiGreen700,
-            v300 = SushiGreen600,
-            v400 = SushiGreen500,
-            v500 = SushiGreen600,
-            v600 = SushiGreen300,
-            v700 = SushiGreen200,
-            v800 = SushiGreen100,
-            v900 = SushiGreen050,
-            accentColor = SushiGreen600
+            v050 = SushiGreen900.asColorSpec(),
+            v100 = SushiGreen800.asColorSpec(),
+            v200 = SushiGreen700.asColorSpec(),
+            v300 = SushiGreen600.asColorSpec(),
+            v400 = SushiGreen500.asColorSpec(),
+            v500 = SushiGreen600.asColorSpec(),
+            v600 = SushiGreen300.asColorSpec(),
+            v700 = SushiGreen200.asColorSpec(),
+            v800 = SushiGreen100.asColorSpec(),
+            v900 = SushiGreen050.asColorSpec(),
+            accentColor = SushiGreen600.asColorSpec()
         )
     )
 }
@@ -40,17 +41,17 @@ fun sushiGreenLightColorScheme(
     return sushiLightColorScheme(
         materialColorScheme = materialColorScheme,
         themeColorScheme = SushiColorScheme.ThemeColorScheme(
-            v050 = SushiGreen050,
-            v100 = SushiGreen100,
-            v200 = SushiGreen200,
-            v300 = SushiGreen300,
-            v400 = SushiGreen400,
-            v500 = SushiGreen600,
-            v600 = SushiGreen600,
-            v700 = SushiGreen700,
-            v800 = SushiGreen800,
-            v900 = SushiGreen900,
-            accentColor = SushiGreen600
+            v050 = SushiGreen050.asColorSpec(),
+            v100 = SushiGreen100.asColorSpec(),
+            v200 = SushiGreen200.asColorSpec(),
+            v300 = SushiGreen300.asColorSpec(),
+            v400 = SushiGreen400.asColorSpec(),
+            v500 = SushiGreen600.asColorSpec(),
+            v600 = SushiGreen600.asColorSpec(),
+            v700 = SushiGreen700.asColorSpec(),
+            v800 = SushiGreen800.asColorSpec(),
+            v900 = SushiGreen900.asColorSpec(),
+            accentColor = SushiGreen600.asColorSpec()
         )
     )
 }

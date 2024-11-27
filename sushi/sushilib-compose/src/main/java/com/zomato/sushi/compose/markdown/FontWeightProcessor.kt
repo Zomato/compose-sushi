@@ -7,7 +7,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.internal.scaled
-import com.zomato.sushi.compose.foundation.FontTypes
+import com.zomato.sushi.compose.foundation.SushiFontWeight
 import com.zomato.sushi.compose.foundation.OkraFontFamily
 import com.zomato.sushi.compose.foundation.SushiTextSize050
 import com.zomato.sushi.compose.foundation.SushiTextSize100
@@ -25,7 +25,7 @@ import java.util.regex.Pattern
 class FontWeightProcessor(): Processor {
 
     companion object {
-        private const val FONT_REGEX_V3 = "(\\<)(.+?)(\\|)((.|\\n)+?)(\\>)"
+        private const val FONT_REGEX = "(\\<)(.+?)(\\|)((.|\\n)+?)(\\>)"
         private const val FONT_GROUP = 2
         private const val TEXT_GROUP = 4
         private val FONT_DATA_DELIMITER = "-".toRegex()
@@ -98,12 +98,12 @@ class FontWeightProcessor(): Processor {
     }
 
     private fun getPattern(): Pattern {
-        return Pattern.compile(FONT_REGEX_V3)
+        return Pattern.compile(FONT_REGEX)
     }
 
     private fun getFontWeight(label: String?): FontWeight {
-        val fontType = FontTypes.fromLabel(label) ?: FontTypes.Regular
-        return fontType.fontWeight()
+        val sushiFontWeight = SushiFontWeight.fromLabel(label) ?: SushiFontWeight.Regular
+        return sushiFontWeight.fontWeight()
     }
 
     private fun getFontSize(value: String?, context: Context?): TextUnit {

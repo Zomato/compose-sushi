@@ -2,24 +2,58 @@
 
 package com.zomato.sushi.compose.atoms.animation
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.airbnb.lottie.LottieComposition
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionResult
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieAnimatable
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.airbnb.lottie.compose.rememberLottieRetrySignal
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.internal.Preview
+import com.zomato.sushi.compose.internal.SushiPreview
+
+private object Defaults {
+    val playback = SushiAnimationPlayback.AutoPlay()
+}
+
+@Composable
+fun rememberSushiAnimationProps(
+    source: SushiAnimationSource?,
+    playback: SushiAnimationPlayback?
+): State<SushiAnimationProps> {
+    return remember(source, playback) {
+        mutableStateOf(
+            SushiAnimationProps(
+                source = source,
+                playback = playback
+            )
+        )
+    }
+}
 
 @ExperimentalSushiApi
 @Composable
 fun SushiAnimation(
-    data: SushiAnimationData,
-    onClick: () -> Unit,
+    props: SushiAnimationProps,
     modifier: Modifier = Modifier
 ) {
     Base(modifier) {
         SushiAnimationImpl(
-            data,
-            onClick = onClick,
+            props,
             modifier = modifier
         )
     }
@@ -27,22 +61,161 @@ fun SushiAnimation(
 
 @Composable
 private fun SushiAnimationImpl(
-    data: SushiAnimationData,
-    onClick: () -> Unit,
+    props: SushiAnimationProps,
     modifier: Modifier = Modifier
 ) {
+    if (props.source != null) {
+        val source = props.source
+        val playback = props.playback ?: Defaults.playback
 
+        val composition: LottieComposition? = when(source) {
+            is LottieCompositionSource -> source.composition
+            is LottieContent -> rememberLottieComposition(source).value
+        }
+
+        if (composition != null) {
+            when (playback) {
+                is SushiAnimationPlayback.AutoPlay -> {
+                    LottieAutoPlay(composition, playback, modifier)
+                }
+                is SushiAnimationPlayback.Progress -> {
+                    LottieWithProgress(composition, playback, modifier)
+                }
+            }
+        }
+    }
 }
 
-@Preview
+@Composable
+private fun LottieAutoPlay(
+    composition: LottieComposition,
+    playback: SushiAnimationPlayback.AutoPlay,
+    modifier: Modifier = Modifier
+) {
+    val animationState = animateLottieCompositionAsState(
+        composition,
+        isPlaying = playback.isPlaying,
+        restartOnPlay = playback.restartOnPlay,
+        reverseOnRepeat = playback.reverseOnRepeat,
+        speed = playback.speed,
+        iterations = playback.iterations
+    )
+    LottieAnimation(
+        composition = composition,
+        progress = { animationState.progress },
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun LottieWithProgress(
+    composition: LottieComposition,
+    progress: SushiAnimationPlayback.Progress,
+    modifier: Modifier = Modifier
+) {
+    LottieAnimation(
+        composition = composition,
+        progress = progress.valueProvider,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun rememberLottieComposition(source: LottieContent): LottieCompositionResult {
+    val retrySignal = rememberLottieRetrySignal()
+    val compositionSpec = remember(source) { lottieCompositionSpec(source) }
+    val compositionResult: LottieCompositionResult = rememberLottieComposition(
+        compositionSpec,
+        onRetry = { failCount, exception ->
+            if (failCount > 2) {
+                false
+            } else {
+                retrySignal.awaitRetry()
+                true
+            }
+        }
+    )
+    return compositionResult
+}
+
+private fun lottieCompositionSpec(source: LottieContent): LottieCompositionSpec {
+    return when (source) {
+        is LottieAsset -> LottieCompositionSpec.Asset(source.assetName)
+        is LottieFile -> LottieCompositionSpec.File(source.filePath)
+        is LottieJson -> LottieCompositionSpec.JsonString(source.jsonString)
+        is LottieResource -> LottieCompositionSpec.RawRes(source.resId)
+        is LottieUrl -> LottieCompositionSpec.Url(source.url)
+    }
+}
+
+@SushiPreview
 @Composable
 fun SushiAnimationPreview1() {
-    Column {
-        SushiAnimation(
-            SushiAnimationData(
-                text = "Asdf"
-            ),
-            onClick = {}
+    Preview {
+        val props by rememberSushiAnimationProps(
+            source = LottieAsset("collection_lottie.json"),
+            playback = SushiAnimationPlayback.AutoPlay(
+                isPlaying = true,
+                restartOnPlay = true,
+                reverseOnRepeat = false,
+                speed = 1f,
+                iterations = 10
+            )
         )
+
+        SushiAnimation(props)
+    }
+}
+
+@SushiPreview
+@Composable
+fun SushiAnimationPreview2() {
+    Preview {
+        val lottieAnimatable = rememberLottieAnimatable()
+
+        val composition = rememberLottieComposition(LottieCompositionSpec.Asset("collection_lottie.json"))
+
+        val props by rememberSushiAnimationProps(
+            source = LottieCompositionSource(composition.value),
+            playback = SushiAnimationPlayback.Progress { 1f - lottieAnimatable.progress }
+        )
+
+        LaunchedEffect(Unit) {
+            lottieAnimatable.animate(
+                composition = composition.value,
+                iterations = 10
+            )
+        }
+
+        SushiAnimation(props)
+    }
+}
+
+@SushiPreview
+@Composable
+fun SushiAnimationPreview3() {
+    Preview {
+        val durationMs = 1650 / 2
+        var targetValue by remember { mutableFloatStateOf(0f) }
+
+        val progress by animateFloatAsState(
+            targetValue = targetValue,
+            animationSpec = tween(durationMs),
+            label = "keyframe",
+            finishedListener = {
+                targetValue = 1 - targetValue
+            }
+        )
+
+        LaunchedEffect(Unit) {
+            targetValue = 1f
+        }
+
+        val props by rememberSushiAnimationProps(
+            source = LottieAsset("collection_lottie.json"),
+            playback = SushiAnimationPlayback.Progress { progress }
+        )
+
+        SushiAnimation(props)
     }
 }

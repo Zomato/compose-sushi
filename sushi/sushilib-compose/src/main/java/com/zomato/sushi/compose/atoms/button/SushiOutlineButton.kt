@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
-import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -19,16 +18,16 @@ internal fun SushiOutlineButton(
     modifier: Modifier = Modifier,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
-    val color = props.color.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBackground.asColorSpec()
-    val disabledColor = SushiTheme.colors.button.backgroundDisabled.asColorSpec()
+    val color = props.color.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBackground
+    val disabledColor = SushiTheme.colors.button.backgroundDisabled
 
-    val fontColor = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabel.asColorSpec()
-    val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabelPressed.asColorSpec()
-    val fontColorDisabled = SushiTheme.colors.button.secondaryLabelDisabled.asColorSpec()
+    val fontColor = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabel
+    val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabelPressed
+    val fontColorDisabled = SushiTheme.colors.button.secondaryLabelDisabled
 
-    val borderStrokeColor = props.borderColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBorder.asColorSpec()
-    val borderStrokeColorPressed = props.borderColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBorderPressed.asColorSpec()
-    val borderStrokeColorDisabled = SushiTheme.colors.button.secondaryBorderDisabled.asColorSpec()
+    val borderStrokeColor = props.borderColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBorder
+    val borderStrokeColorPressed = props.borderColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBorderPressed
+    val borderStrokeColorDisabled = SushiTheme.colors.button.secondaryBorderDisabled
 
     SushiSurfaceButtonImpl(
         props = props,

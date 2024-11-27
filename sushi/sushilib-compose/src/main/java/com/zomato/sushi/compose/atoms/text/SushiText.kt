@@ -2,42 +2,59 @@
 
 package com.zomato.sushi.compose.atoms.text
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorName
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.SushiColorData
-import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.TextUnitIconSizeSpec
+import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.atoms.internal.scaled
+import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -50,12 +67,13 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 private object Defaults {
     val isMarkDownEnabled: Boolean = true
     val textType: TextTypeSpec = SushiTextType.Regular100
-    val textColor: ColorSpec @Composable get() = SushiTheme.colors.text.default.asColorSpec()
+    val textColor: ColorSpec @Composable get() = SushiTheme.colors.text.default
     val maxLines: Int = Int.MAX_VALUE
     val overflow: TextOverflow = TextOverflow.Clip
     val softWrap: Boolean = true
     val minLines: Int = 1
-    val safeOverflowTextLimit = 4
+    val prefixSpacing: Dp @Composable get() = SushiTheme.dimens.spacing.micro
+    val suffixSpacing: Dp @Composable get() = SushiTheme.dimens.spacing.micro
 }
 
 @ExperimentalSushiApi
@@ -68,9 +86,13 @@ fun SushiText(
     onTextLayout: (TextLayoutResult) -> Unit = {},
     onClick: (() -> Unit)? = null
 ) {
-    Base(modifier) {
+    Base(modifier
+        .width(IntrinsicSize.Max)
+        .height(IntrinsicSize.Min)
+    ) {
         SushiTextImpl(
             props,
+            Modifier.fillMaxWidth(),
             prefix = prefix,
             suffix = suffix,
             onTextLayout = onTextLayout,
@@ -88,22 +110,34 @@ private fun SushiTextImpl(
     onTextLayout: (TextLayoutResult) -> Unit = {},
     onClick: (() -> Unit)? = null
 ) {
+    val horizontalArrangement = props.horizontalArrangement ?: Arrangement.Center
+    val verticalAlignment = props.verticalAlignment ?: Alignment.CenterVertically
+
     Row(
         modifier
             .ifNonNull(onClick) {
                 this.atomClickable(onClick = it)
             },
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        verticalAlignment = verticalAlignment,
+        horizontalArrangement = horizontalArrangement
     ) {
         val context = LocalContext.current
         val rawText = props.text ?: ""
         val isMarkDownEnabled = props.isMarkDownEnabled ?: Defaults.isMarkDownEnabled
         val textType = props.type ?: Defaults.textType
         val textColor = props.color.takeIfSpecified() ?: Defaults.textColor
+        val overflowTextColor = props.overflowTextColor?.takeIfSpecified() ?: textColor
         val letterSpacing = props.letterSpacing
         val typeStyle = textType.typeStyle
         val maxLines = props.maxLines ?: Defaults.maxLines
+        val textDecoration = props.textDecoration
+        val textAlign = props.textAlign
+        val overflow = props.overflow ?: Defaults.overflow
+        val softWrap = Defaults.softWrap
+        val minLines = Defaults.minLines
+        val overflowText = props.overflowText
+        val prefixSpacing = props.prefixSpacing ?: Defaults.prefixSpacing
+        val suffixSpacing = props.suffixSpacing ?: Defaults.suffixSpacing
 
         val localCurrentTextStyle = LocalTextStyle.current
         val textStyle = remember(
@@ -138,65 +172,38 @@ private fun SushiTextImpl(
             PrefixIcon(
                 props = props.prefixIcon,
                 fontSize = textStyle.fontSize,
-                textColor = textColor
+                textColor = textColor,
+                spacing = prefixSpacing
             )
         }
 
-        val isOverflowTextPresent = !props.overflowText.isNullOrEmpty()
-        if (isOverflowTextPresent) {
-            var isOverflowing by remember { mutableStateOf(false) }
-            var displayableText by remember(text) { mutableStateOf(text) }
-            val displayedText = remember(text, displayableText, isOverflowing, props.overflowText) {
-                if (isOverflowing) {
-                    buildAnnotatedString {
-                        append(displayableText)
-                        append("… ")
-                        append(props.overflowText)
-                    }
-                } else {
-                    text
-                }
-            }
-
-            Text(
-                text = displayedText,
-                Modifier.wrapContentSize(),
-                color = textColor.value,
+        if (!overflowText.isNullOrEmpty()) {
+            ExpandableText(
+                text = text,
                 maxLines = maxLines,
+                textColor = textColor,
                 letterSpacing = letterSpacing,
-                style = textStyle,
-                textDecoration = props.textDecoration,
-                textAlign = props.textAlign,
-                overflow = props.overflow ?: Defaults.overflow,
-                softWrap = Defaults.softWrap,
-                minLines = Defaults.minLines,
-                onTextLayout = { textLayoutResult: TextLayoutResult ->
-                    onTextLayout(textLayoutResult)
-                    if (textLayoutResult.hasVisualOverflow) {
-                        isOverflowing = true
-
-                        // Calculate the visible text up to the last character within max lines
-                        val lastCharIndex = textLayoutResult.getLineEnd(maxLines - 1)
-                        displayableText = text.subSequence(0, lastCharIndex - props.overflowText!!.length - Defaults.safeOverflowTextLimit)
-                    } else {
-                        isOverflowing = false
-                    }
-                }
+                textStyle = textStyle,
+                textDecoration = textDecoration,
+                textAlign = textAlign,
+                onTextLayout = onTextLayout,
+                overflowText = overflowText,
+                overflowTextColor = overflowTextColor
             )
         } else {
-            Text(
+            BaseSushiText(
                 text = text,
-                Modifier.wrapContentSize(),
-                color = textColor.value,
+                textColor = textColor,
                 maxLines = maxLines,
                 letterSpacing = letterSpacing,
-                style = textStyle,
-                textDecoration = props.textDecoration,
-                textAlign = props.textAlign,
-                overflow = props.overflow ?: Defaults.overflow,
-                softWrap = Defaults.softWrap,
-                minLines = Defaults.minLines,
+                textStyle = textStyle,
+                textDecoration = textDecoration,
+                textAlign = textAlign,
+                overflow = overflow,
+                softWrap = softWrap,
+                minLines = minLines,
                 onTextLayout = onTextLayout,
+                Modifier
             )
         }
 
@@ -206,7 +213,8 @@ private fun SushiTextImpl(
             SuffixIcon(
                 props = props.suffixIcon,
                 fontSize = textStyle.fontSize,
-                textColor = textColor
+                textColor = textColor,
+                spacing = suffixSpacing
             )
         }
     }
@@ -216,7 +224,8 @@ private fun SushiTextImpl(
 private fun RowScope.PrefixIcon(
     props: SushiIconProps?,
     fontSize: TextUnit,
-    textColor: ColorSpec
+    textColor: ColorSpec,
+    spacing: Dp
 ) {
     if (props != null) {
         val actualIconProps = props.copy(
@@ -225,16 +234,138 @@ private fun RowScope.PrefixIcon(
         )
         SushiIcon(
             props = actualIconProps,
-            Modifier.padding(end = SushiTheme.dimens.spacing.mini)
+            Modifier.padding(end = spacing)
         )
     }
+}
+
+@Composable
+private fun ExpandableText(
+    text: AnnotatedString,
+    maxLines: Int,
+    textColor: ColorSpec,
+    letterSpacing: TextUnit,
+    textStyle: TextStyle,
+    textDecoration: TextDecoration? = null,
+    textAlign: TextAlign?,
+    onTextLayout: (TextLayoutResult) -> Unit,
+    overflowText: String,
+    overflowTextColor: ColorSpec
+) {
+    Box {
+        var cutText by remember(text) { mutableStateOf<AnnotatedString?>(null) }
+        var expanded by remember { mutableStateOf(false) }
+        val textLayoutResultState = remember { mutableStateOf<TextLayoutResult?>(null) }
+        val seeMoreSizeState = remember { mutableStateOf<IntSize?>(null) }
+        val seeMoreOffsetState = remember { mutableStateOf<Offset?>(null) }
+
+        val textLayoutResult = textLayoutResultState.value
+        val seeMoreSize = seeMoreSizeState.value
+        val seeMoreOffset = seeMoreOffsetState.value
+
+        LaunchedEffect(text, expanded, textLayoutResult, seeMoreSize, maxLines) {
+            val lastLineIndex = maxLines - 1
+            if (!expanded && textLayoutResult != null && seeMoreSize != null
+                && lastLineIndex + 1 == textLayoutResult.lineCount
+                && textLayoutResult.isLineEllipsized(lastLineIndex)
+            ) {
+                var lastCharIndex = textLayoutResult.getLineEnd(lastLineIndex, visibleEnd = true) + 1
+                var charRect: Rect
+                do {
+                    lastCharIndex -= 1
+                    charRect = textLayoutResult.getCursorRect(lastCharIndex)
+                } while (
+                    charRect.left > textLayoutResult.size.width - seeMoreSize.width
+                )
+                seeMoreOffsetState.value = Offset(charRect.left, charRect.bottom - seeMoreSize.height)
+                cutText = AnnotatedString(text.substring(startIndex = 0, endIndex = lastCharIndex))
+            }
+        }
+
+        BaseSushiText(
+            text = cutText ?: text,
+            textColor = textColor,
+            maxLines = if (expanded) Int.MAX_VALUE else maxLines,
+            letterSpacing = letterSpacing,
+            textStyle = textStyle,
+            textDecoration = textDecoration,
+            textAlign = textAlign,
+            overflow = TextOverflow.Ellipsis,
+            softWrap = Defaults.softWrap,
+            minLines = Defaults.minLines,
+            onTextLayout = {
+                onTextLayout(it)
+                textLayoutResultState.value = it
+            },
+            Modifier
+        )
+
+        if (!expanded) {
+            val density = LocalDensity.current
+            Text(
+                " …$overflowText",
+                color = overflowTextColor.value,
+                letterSpacing = letterSpacing,
+                style = textStyle,
+                textDecoration = textDecoration,
+                onTextLayout = { seeMoreSizeState.value = it.size },
+                modifier = Modifier
+                    .then(
+                        if (seeMoreOffset != null)
+                            Modifier.offset(
+                                x = with(density) { seeMoreOffset.x.toDp() },
+                                y = with(density) { seeMoreOffset.y.toDp() },
+                            )
+                        else
+                            Modifier
+                    )
+                    .clickable {
+                        expanded = true
+                        cutText = null
+                    }
+                    .alpha(if (seeMoreOffset != null) 1f else 0f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun BaseSushiText(
+    text: AnnotatedString,
+    textColor: ColorSpec,
+    maxLines: Int,
+    letterSpacing: TextUnit,
+    textStyle: TextStyle,
+    textDecoration: TextDecoration?,
+    textAlign: TextAlign?,
+    overflow: TextOverflow,
+    softWrap: Boolean,
+    minLines: Int,
+    onTextLayout: (TextLayoutResult) -> Unit,
+    modifier: Modifier
+) {
+    Text(
+        text = text,
+        modifier.wrapContentSize(),
+        color = textColor.value,
+        maxLines = maxLines,
+        letterSpacing = letterSpacing,
+        style = textStyle,
+        textDecoration = textDecoration,
+        textAlign = textAlign,
+        overflow = overflow,
+        softWrap = softWrap,
+        minLines = minLines,
+        onTextLayout = onTextLayout,
+    )
 }
 
 @Composable
 private fun RowScope.SuffixIcon(
     props: SushiIconProps?,
     fontSize: TextUnit,
-    textColor: ColorSpec
+    textColor: ColorSpec,
+    spacing: Dp
 ) {
     if (props != null) {
         val actualIconProps = props.copy(
@@ -243,7 +374,7 @@ private fun RowScope.SuffixIcon(
         )
         SushiIcon(
             props = actualIconProps,
-            Modifier.padding(start = SushiTheme.dimens.spacing.mini)
+            Modifier.padding(start = spacing)
         )
     }
 }
@@ -252,7 +383,7 @@ private fun RowScope.SuffixIcon(
 @SushiPreview
 fun SushiTextPreview1() {
     Preview {
-        Column {
+        Column(Modifier.fillMaxSize().background(SushiTheme.colors.surface.primary.value)) {
             SushiText(
                 props = SushiTextProps(
                     text = "fsdgy",
@@ -262,8 +393,11 @@ fun SushiTextPreview1() {
                         color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)
                     ),
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
-                    type = SushiTextType.Regular300
-                )
+                    type = SushiTextType.Regular300,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ),
+                Modifier.fillMaxWidth()
             )
             SushiText(
                 props = SushiTextProps(
@@ -273,7 +407,7 @@ fun SushiTextPreview1() {
                         code = "e93f",
                         color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)
                     ),
-                    color = SushiTheme.colors.text.success.asColorSpec(),
+                    color = SushiTheme.colors.text.success,
                     type = SushiTextType.Regular400
                 )
             )
@@ -283,9 +417,9 @@ fun SushiTextPreview1() {
                     prefixIcon = SushiIconProps(code = "e926"),
                     suffixIcon = SushiIconProps(
                         code = "e93f",
-                        color = SushiTheme.colors.blue.v500.asColorSpec()
+                        color = SushiTheme.colors.blue.v500
                     ),
-                    color = SushiTheme.colors.text.success.asColorSpec(),
+                    color = SushiTheme.colors.text.success,
                     maxLines = 3,
                     letterSpacing = 4.sp,
                     type = SushiTextType.Regular900
@@ -295,7 +429,7 @@ fun SushiTextPreview1() {
                 props = SushiTextProps(
                     text = "Free",
                     prefixIcon = SushiIconProps(code = "edae"),
-                    color = SushiTheme.colors.text.primary.asColorSpec(),
+                    color = SushiTheme.colors.text.primary,
                     type = SushiTextType.Regular900
                 )
             )
@@ -304,9 +438,11 @@ fun SushiTextPreview1() {
                     text = "Lorem Ipsum is simply dummy \ntext of the printing and typesetting industry. Lorem \nIpsum has been the industry's standard dummy text ever since t\nhehe",
                     maxLines = 3,
                     prefixIcon = SushiIconProps(code = "edae"),
-                    color = SushiTheme.colors.text.primary.asColorSpec(),
+                    color = SushiTheme.colors.text.primary,
                     type = SushiTextType.Regular900,
-                    overflowText = "Read More"
+                    overflowText = "Read More",
+                    overflowTextColor = SushiTheme.colors.text.success,
+                    verticalAlignment = Alignment.Top
                 )
             )
         }

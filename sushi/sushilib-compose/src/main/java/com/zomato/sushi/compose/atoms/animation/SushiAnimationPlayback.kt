@@ -10,7 +10,8 @@ sealed interface SushiAnimationPlayback {
     ) : SushiAnimationPlayback
 
     /**
-     * Value between 0..1, signifying the progress
+     * Value between 0..1, signifying the progress.
+     * Generally used when [LottieCompositionSource] is provided as the source in [SushiAnimation].
      */
-    @JvmInline value class Progress(val value: Float) : SushiAnimationPlayback
+    @JvmInline value class Progress(val valueProvider: () -> Float) : SushiAnimationPlayback
 }

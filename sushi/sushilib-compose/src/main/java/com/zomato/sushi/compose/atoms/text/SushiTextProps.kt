@@ -1,9 +1,12 @@
 package com.zomato.sushi.compose.atoms.text
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorSpec
@@ -33,8 +36,13 @@ data class SushiTextProps constructor(
     val textAlign: TextAlign? = Default.textAlign,
     val overflow: TextOverflow? = Default.overflow,
     val overflowText: String? = Default.overflowText,
+    val overflowTextColor: ColorSpec? = Default.overflowTextColor,
     val softWrap: Boolean? = Default.softWrap,
-    val minLines: Int? = null
+    val minLines: Int? = null,
+    val prefixSpacing: Dp? = Default.prefixSpacing,
+    val suffixSpacing: Dp? = Default.suffixSpacing,
+    val horizontalArrangement: Arrangement.Horizontal? = Default.horizontalArrangement,
+    val verticalAlignment: Alignment.Vertical? = Default.verticalAlignment
 ) {
 
     companion object {
@@ -51,8 +59,13 @@ data class SushiTextProps constructor(
             textAlign = null,
             overflow = null,
             overflowText = null,
+            overflowTextColor = SushiUnspecified.asColorSpec(),
             softWrap = null,
-            minLines = null
+            minLines = null,
+            prefixSpacing = null,
+            suffixSpacing = null,
+            horizontalArrangement = null,
+            verticalAlignment = null
         )
     }
 }

@@ -4,7 +4,6 @@ package com.zomato.sushi.compose.atoms.image
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
@@ -23,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.R
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
-import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -62,24 +60,21 @@ private fun SushiImageImpl(
         val alpha = props.alpha ?: Defaults.alpha
         val colorFilter = props.colorFilter ?: Defaults.colorFilter
 
-        Box(modifier
-            .ifNonNull(props.shape) { this.clip(it) }
-            .ifNonNull(props.height) { this.height(it) }
-            .ifNonNull(props.width) { this.width(it) }
-            .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
-            .ifNonNull(bgColor) { this.background(it.value) }
-            .ifNonNull(props.scaleFactor) { this.scale(it) }
-        ) {
-            Image(
-                painter,
-                contentDescription,
-                Modifier.align(alignment),
-                alignment = alignment,
-                contentScale = contentScale,
-                alpha = alpha,
-                colorFilter = colorFilter
-            )
-        }
+        Image(
+            painter,
+            contentDescription,
+            modifier
+                .ifNonNull(props.shape) { this.clip(it) }
+                .ifNonNull(props.height) { this.height(it) }
+                .ifNonNull(props.width) { this.width(it) }
+                .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
+                .ifNonNull(bgColor) { this.background(it.value) }
+                .ifNonNull(props.scaleFactor) { this.scale(it) },
+            alignment = alignment,
+            contentScale = contentScale,
+            alpha = alpha,
+            colorFilter = colorFilter
+        )
     }
 }
 
@@ -91,7 +86,7 @@ fun SushiImagePreview1() {
             SushiImage(
                 props = SushiImageProps(
                     painterResource(R.drawable.feedback_rating_star),
-                    bgColor = SushiTheme.colors.red.v500.asColorSpec(),
+                    bgColor = SushiTheme.colors.red.v500,
                     width = 50.dp,
                     // height = 10.dp,
                     shape = RoundedCornerShape(10.dp),
@@ -107,7 +102,7 @@ fun SushiImagePreview1() {
             SushiImage(
                 props = SushiImageProps(
                     painterResource(R.drawable.feedback_rating_star),
-                    bgColor = SushiTheme.colors.red.v500.asColorSpec(),
+                    bgColor = SushiTheme.colors.red.v500,
                     width = 50.dp,
                     // height = 10.dp,
                     shape = RoundedCornerShape(10.dp),
@@ -115,7 +110,7 @@ fun SushiImagePreview1() {
                     contentScale = ContentScale.Fit,
                     alpha = 0.3f,
                     scaleFactor = 0.6f,
-                    colorFilter = ColorFilter.tint(SushiTheme.colors.green.v900, blendMode = BlendMode.SrcIn),
+                    colorFilter = ColorFilter.tint(SushiTheme.colors.green.v900.value, blendMode = BlendMode.SrcIn),
                     aspectRatio = 3f
                 ),
                 Modifier.weight(1f)
