@@ -31,6 +31,7 @@ import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.utils.takeIfSpecified
 
 private object Defaults {
     const val isSelected = false
@@ -77,10 +78,10 @@ private fun SushiRadioButtonImpl(
             .height(IntrinsicSize.Min),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val selectedColor = props.selectedColor?.value ?: SushiTheme.colors.theme.v500
+        val selectedColor = props.selectedColor.takeIfSpecified() ?: SushiTheme.colors.theme.v500
         val selectedColorDisabled = SushiTheme.colors.grey.v500
 
-        val unselectedColor = props.unselectedColor?.value ?: SushiTheme.colors.theme.v500
+        val unselectedColor = props.unselectedColor.takeIfSpecified() ?: SushiTheme.colors.theme.v500
         val unselectedColorDisabled = SushiTheme.colors.grey.v500
 
         val padding = props.padding ?: Defaults.padding
@@ -118,10 +119,10 @@ private fun SushiRadioButtonImpl(
                     .size(Defaults.radioButtonSize),
                 enabled = isEnabled,
                 colors = RadioButtonDefaults.colors(
-                    selectedColor = selectedColor,
-                    unselectedColor = unselectedColor,
-                    disabledSelectedColor = selectedColorDisabled,
-                    disabledUnselectedColor = unselectedColorDisabled
+                    selectedColor = selectedColor.value,
+                    unselectedColor = unselectedColor.value,
+                    disabledSelectedColor = selectedColorDisabled.value,
+                    disabledUnselectedColor = unselectedColorDisabled.value
                 ),
                 interactionSource = interactionSource
             )

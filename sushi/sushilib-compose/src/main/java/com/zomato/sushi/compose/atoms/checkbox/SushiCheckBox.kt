@@ -83,7 +83,7 @@ private fun SushiCheckBoxImpl(
             .height(IntrinsicSize.Min),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val enabledColor = props.color?.value ?: SushiTheme.colors.theme.v500
+        val enabledColor = props.color ?: SushiTheme.colors.theme.v500
         val disabledColor = SushiTheme.colors.grey.v500
         val padding = props.padding ?: Defaults.padding
         val alignment = props.alignment ?: Defaults.alignment
@@ -127,14 +127,14 @@ private fun SushiCheckBoxImpl(
                     .size(Defaults.checkBoxSize * scale),
                 enabled = isEnabled,
                 colors = CheckboxDefaults.colors().copy(
-                    checkedBoxColor = enabledColor,
-                    checkedBorderColor = enabledColor,
-                    uncheckedBorderColor = enabledColor,
-                    uncheckedBoxColor = SushiTheme.colors.white,
-                    disabledCheckedBoxColor = disabledColor,
-                    disabledBorderColor = disabledColor,
-                    disabledUncheckedBoxColor = SushiTheme.colors.white,
-                    disabledUncheckedBorderColor = disabledColor
+                    checkedBoxColor = enabledColor.value,
+                    checkedBorderColor = enabledColor.value,
+                    uncheckedBorderColor = enabledColor.value,
+                    uncheckedBoxColor = SushiTheme.colors.white.value,
+                    disabledCheckedBoxColor = disabledColor.value,
+                    disabledBorderColor = disabledColor.value,
+                    disabledUncheckedBoxColor = SushiTheme.colors.white.value,
+                    disabledUncheckedBorderColor = disabledColor.value
                 ),
                 interactionSource = interactionSource
             )

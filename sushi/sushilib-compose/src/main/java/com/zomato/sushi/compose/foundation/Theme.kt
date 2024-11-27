@@ -9,9 +9,11 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.zomato.sushi.compose.atoms.color.ColorSpec
+import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.core.SushiColorToken
 
-typealias ColorTokenMapper = @Composable (colorToken: SushiColorToken) -> Color
+typealias ColorTokenMapper = @Composable (colorToken: SushiColorToken) -> ColorSpec
 
 fun sushiDimension(
     spacing: SushiDimension.Spacing = SushiDimension.Spacing(),
@@ -28,7 +30,7 @@ internal val LocalSushiColorScheme = staticCompositionLocalOf<SushiColorScheme> 
 internal val LocalSushiTypography = staticCompositionLocalOf<SushiTypography> { sushiTypography() }
 internal val LocalSushiDimension = staticCompositionLocalOf<SushiDimension> { sushiDimension() }
 internal val LocalSushiColorTokenMapper = staticCompositionLocalOf<ColorTokenMapper> {
-    @Composable { Color.Unspecified }
+    @Composable { SushiUnspecified.asColorSpec() }
 }
 
 @ExperimentalSushiApi

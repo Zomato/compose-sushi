@@ -9,6 +9,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,8 +37,15 @@ fun SushiLoader(
     props: SushiLoaderProps,
     modifier: Modifier = Modifier
 ) {
-    Base(modifier) {
-        SushiLoaderImpl(props)
+    Base(
+        modifier
+            .size(50.dp)
+            .defaultMinSize(50.dp, 50.dp)
+    ) {
+        SushiLoaderImpl(
+            props,
+            Modifier.fillMaxSize()
+        )
     }
 }
 
@@ -48,8 +56,8 @@ private fun SushiLoaderImpl(
 ) {
     val animationSpeedMultiplier = props.animationSpeedMultiplier ?: Defaults.animationSpeedMultiplier
     val innerAngleOffset = props.innerAngleOffset ?: Defaults.innerAngleOffset
-    val innerColor = props.innerColor.value.takeIfSpecified() ?: SushiTheme.colors.red.v500
-    val outerColor = props.outerColor.value.takeIfSpecified() ?: SushiTheme.colors.red.v500
+    val innerColor = props.innerColor.value.takeIfSpecified() ?: SushiTheme.colors.red.v500.value
+    val outerColor = props.outerColor.value.takeIfSpecified() ?: SushiTheme.colors.red.v500.value
 
     val infiniteTransition = rememberInfiniteTransition(label = "transition")
     val outerStartAngle by infiniteTransition.animateFloat(
@@ -62,9 +70,7 @@ private fun SushiLoaderImpl(
             )
         ), label = "rotation"
     )
-    Canvas(modifier = modifier
-        .defaultMinSize(50.dp, 50.dp)
-    ) {
+    Canvas(modifier) {
         val actualSize = Math.min(size.width, size.height)
         val borderStrokeSize = actualSize / 10
         val outerSize = actualSize - borderStrokeSize

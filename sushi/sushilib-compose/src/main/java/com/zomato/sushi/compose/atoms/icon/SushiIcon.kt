@@ -11,7 +11,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.LineHeightStyle
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
-import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.internal.scaled
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
@@ -50,7 +49,7 @@ private fun SushiIconImpl(
     val parsedIcon = props.parsedIcon
     val context = LocalContext.current
     val baseTextStyle = LocalTextStyle.current
-    val color = props.color.takeIfSpecified() ?: SushiTheme.colors.icon.primary.asColorSpec()
+    val color = props.color.takeIfSpecified() ?: SushiTheme.colors.icon.primary
 
     val overrideTextStyle = remember(
         context,
@@ -99,7 +98,7 @@ fun SushiIconPreview2() {
         SushiIcon(
             SushiIconProps(
                 code = "e93f",
-                color = SushiTheme.colors.red.v500.asColorSpec()
+                color = SushiTheme.colors.red.v500
             ),
             Modifier
         )
