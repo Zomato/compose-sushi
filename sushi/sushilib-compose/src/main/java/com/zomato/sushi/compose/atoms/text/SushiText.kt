@@ -88,7 +88,7 @@ fun SushiText(
 ) {
     Base(modifier
         .width(IntrinsicSize.Max)
-        .height(IntrinsicSize.Min)
+        .height(IntrinsicSize.Max)
     ) {
         SushiTextImpl(
             props,

@@ -32,7 +32,7 @@ import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
-import com.zomato.sushi.compose.atoms.text.TextUnitTextType
+import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -98,7 +98,7 @@ internal fun SushiTextButton(
                 contentScopeData.content()
             } else {
                 SushiTextButtonContent(
-                    data = props,
+                    props = props,
                     isDisabled = isDisabled,
                     isTapped = isTapped
                 )
@@ -109,12 +109,12 @@ internal fun SushiTextButton(
 
 @Composable
 private fun SushiTextButtonContent(
-    data: SushiButtonProps,
+    props: SushiButtonProps,
     isDisabled: Boolean,
     isTapped: Boolean
 ) {
-    val fontColor = data.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabel
-    val fontColorPressed = data.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabelPressed
+    val fontColor = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabel
+    val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabelPressed
     val fontColorDisabled = SushiTheme.colors.button.ghostLabelDisabled
 
     val appliedFontColor = when {
@@ -123,21 +123,21 @@ private fun SushiTextButtonContent(
         else -> fontColor
     }
 
-    val textSize: TextUnit = getButtonTextSize(data.getButtonSizeWithDefaults())
-    val defaultIconSize: TextUnit = getButtonIconSize(data.getButtonSizeWithDefaults()) // todox
-    val iconPadding: Dp = data.iconSpacing ?: getButtonIconPadding(data.getButtonSizeWithDefaults())
+    val textType: TextStyle = props.fontType?.typeStyle ?: TextStyle(fontSize = getButtonTextSize(props.getButtonSizeWithDefaults()))
+    val defaultIconSize: TextUnit = getButtonIconSize(props.getButtonSizeWithDefaults()) // todox
+    val iconPadding: Dp = props.iconSpacing ?: getButtonIconPadding(props.getButtonSizeWithDefaults())
 
-    val prefixIcon = data.prefixIcon?.copy(
-        size = data.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = data.prefixIcon.color.takeIfSpecified() ?: appliedFontColor
+    val prefixIcon = props.prefixIcon?.copy(
+        size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
+        color = props.prefixIcon.color.takeIfSpecified() ?: appliedFontColor
     )
 
-    val suffixIcon = data.suffixIcon?.copy(
-        size = data.suffixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = data.suffixIcon.color.takeIfSpecified() ?: appliedFontColor
+    val suffixIcon = props.suffixIcon?.copy(
+        size = props.suffixIcon.size ?: defaultIconSize.asIconSizeSpec(),
+        color = props.suffixIcon.color.takeIfSpecified() ?: appliedFontColor
     )
 
-    Column(horizontalAlignment = data.getButtonAlignmentWithDefaults()) {
+    Column(horizontalAlignment = props.getButtonAlignmentWithDefaults()) {
         Row {
             if (prefixIcon != null) {
                 SushiIcon(
@@ -147,12 +147,12 @@ private fun SushiTextButtonContent(
             }
             SushiText(
                 SushiTextProps(
-                    text = data.text,
-                    type = TextUnitTextType(TextStyle(fontSize = textSize)),
+                    text = props.text,
+                    type = textType.asTextTypeSpec(),
                     color = appliedFontColor,
-                    prefixIcon = data.prefixIcon,
-                    suffixIcon = data.suffixIcon,
-                    isMarkDownEnabled = data.isMarkDownEnabled
+                    prefixIcon = props.prefixIcon,
+                    suffixIcon = props.suffixIcon,
+                    isMarkDownEnabled = props.isMarkDownEnabled
                 )
             )
             if (suffixIcon != null) {
@@ -162,12 +162,12 @@ private fun SushiTextButtonContent(
                 )
             }
         }
-        if (!data.subtext.isNullOrEmpty()) {
+        if (!props.subtext.isNullOrEmpty()) {
             SushiText(
                 SushiTextProps(
-                    text = data.subtext,
+                    text = props.subtext,
                     color = appliedFontColor,
-                    type = data.getSubtextTextType(textSize)
+                    type = props.getSubtextTextStyle(textType).asTextTypeSpec()
                 )
             )
         }

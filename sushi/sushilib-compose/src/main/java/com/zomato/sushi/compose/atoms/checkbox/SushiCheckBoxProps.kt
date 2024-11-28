@@ -19,10 +19,11 @@ data class SushiCheckBoxProps(
     val id: String? = Default.id,
     val isChecked: Boolean? = Default.isChecked,
     val text: SushiTextProps? = Default.text,
+    val subText: SushiTextProps? = Default.subText,
     val isEnabled: Boolean? = Default.isEnabled,
     val color: ColorSpec? = Default.color,
     val size: SushiCheckboxSize? = Default.size,
-    val padding: Dp? = Default.padding,
+    val boxPadding: Dp? = Default.boxPadding,
     val alignment: Alignment.Vertical? = Default.alignment,
     val direction: CheckBoxDirection? = Default.direction
 ) {
@@ -31,10 +32,11 @@ data class SushiCheckBoxProps(
             id = null,
             isChecked = null,
             text = null,
+            subText = null,
             isEnabled = null,
             color = null,
             size = null,
-            padding = null,
+            boxPadding = null,
             alignment = null,
             direction = null
         )

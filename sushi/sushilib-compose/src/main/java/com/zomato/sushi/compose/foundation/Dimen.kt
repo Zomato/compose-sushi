@@ -20,6 +20,7 @@ val SushiSpacingNano = 2.dp
 val SushiSpacingMicro = 4.dp
 val SushiSpacingMini = 6.dp
 val SushiSpacingMacro = 8.dp
+val SushiSpacingLarge = 10.dp
 val SushiSpacingBase = 12.dp
 val SushiSpacingExtra = 16.dp
 val SushiSpacingLoose = 24.dp

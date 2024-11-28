@@ -8,6 +8,7 @@ import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
+import com.zomato.sushi.compose.atoms.text.TextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiUnspecified
 
 @ExperimentalSushiApi
@@ -18,6 +19,7 @@ data class SushiButtonProps(
     val type: SushiButtonType? = Default.type,
     val size: SushiButtonSize? = Default.size,
     val fontColor: ColorSpec = Default.fontColor,
+    val fontType: TextTypeSpec? = Default.fontType,
     val color: ColorSpec = Default.color,
     val borderColor: ColorSpec = Default.borderColor,
     val suffixIcon: SushiIconProps? = Default.suffixIcon,
@@ -35,6 +37,7 @@ data class SushiButtonProps(
             type = null,
             size = null,
             fontColor = SushiUnspecified.asColorSpec(),
+            fontType = null,
             color = SushiUnspecified.asColorSpec(),
             borderColor = SushiUnspecified.asColorSpec(),
             suffixIcon = null,

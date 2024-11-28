@@ -32,6 +32,8 @@ import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.internal.Preview
+import com.zomato.sushi.compose.internal.SushiPreview
 
 @ExperimentalSushiApi
 enum class SushiCheckboxSize {
@@ -85,7 +87,7 @@ private fun SushiCheckBoxImpl(
     ) {
         val enabledColor = props.color ?: SushiTheme.colors.theme.v500
         val disabledColor = SushiTheme.colors.grey.v500
-        val padding = props.padding ?: Defaults.padding
+        val padding = props.boxPadding ?: Defaults.padding
         val alignment = props.alignment ?: Defaults.alignment
         val scale = when (props.size) {
             SushiCheckboxSize.Mini -> 0.75f
@@ -153,132 +155,159 @@ private fun SushiCheckBoxImpl(
 private fun RowScope.InfoContentImpl(
     props: SushiCheckBoxProps
 ) {
-    props.text?.let {
+    if (props.text != null || props.subText != null) {
+        val horizontalAlignment = when (props.direction) {
+            CheckBoxDirection.Start -> Alignment.Start
+            CheckBoxDirection.End -> Alignment.End
+            null -> Alignment.Start
+        }
         val defaultTextType = when(props.size) {
             SushiCheckboxSize.Mini -> SushiTextType.Regular100
             SushiCheckboxSize.Default -> SushiTextType.Regular300
             else -> SushiTextType.Regular300
         }
-        SushiText(
-            props = it.copy(
-                type = it.type ?: defaultTextType
-            ),
-            Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
-        )
+        Column(horizontalAlignment = horizontalAlignment) {
+            props.text?.let {
+                SushiText(
+                    props = it.copy(
+                        type = it.type ?: defaultTextType
+                    ),
+                    Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
+                )
+            }
+            props.subText?.let {
+                SushiText(
+                    props = it.copy(
+                        type = it.type ?: defaultTextType
+                    ),
+                    Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
+                )
+            }
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiCheckboxPreview1() {
-    var checked by remember {
-        mutableStateOf(false)
-    }
-    Column {
-        SushiCheckBox(
-            SushiCheckBoxProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-                size = SushiCheckboxSize.Default
-            ),
-            onCheckedChange = { checked = !checked }
-        )
-        SushiCheckBox(
-            SushiCheckBoxProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-                size = SushiCheckboxSize.Mini
-            ),
-            onCheckedChange = { checked = !checked }
-        )
+    Preview {
+        var checked by remember {
+            mutableStateOf(false)
+        }
+        Column {
+            SushiCheckBox(
+                SushiCheckBoxProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                    size = SushiCheckboxSize.Default
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+            SushiCheckBox(
+                SushiCheckBoxProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                    size = SushiCheckboxSize.Mini
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiCheckboxPreview2() {
-    var checked by remember {
-        mutableStateOf(false)
-    }
-    Column {
-        SushiCheckBox(
-            SushiCheckBoxProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                size = SushiCheckboxSize.Default,
-                alignment = Alignment.Bottom,
-            ),
-            onCheckedChange = { checked = !checked }
-        )
-        SushiCheckBox(
-            SushiCheckBoxProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                size = SushiCheckboxSize.Mini,
-                alignment = Alignment.Bottom,
-                isEnabled = false
-            ),
-            onCheckedChange = { checked = !checked }
-        )
+    Preview {
+        var checked by remember {
+            mutableStateOf(false)
+        }
+        Column {
+            SushiCheckBox(
+                SushiCheckBoxProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    subText = SushiTextProps(text = "SubText"),
+                    size = SushiCheckboxSize.Default,
+                    alignment = Alignment.Top,
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+            SushiCheckBox(
+                SushiCheckBoxProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    size = SushiCheckboxSize.Mini,
+                    alignment = Alignment.Bottom,
+                    isEnabled = false
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiCheckboxPreview3() {
-    var checked by remember {
-        mutableStateOf(false)
-    }
+    Preview {
+        var checked by remember {
+            mutableStateOf(false)
+        }
 
-    Column(horizontalAlignment = Alignment.End) {
-        SushiCheckBox(
-            SushiCheckBoxProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-                size = SushiCheckboxSize.Default,
-                direction = CheckBoxDirection.End
-            ),
-            onCheckedChange = { checked = !checked }
-        )
-        SushiCheckBox(
-            SushiCheckBoxProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-                size = SushiCheckboxSize.Mini,
-                direction = CheckBoxDirection.End
-            ),
-            onCheckedChange = { checked = !checked }
-        )
+        Column(horizontalAlignment = Alignment.End) {
+            SushiCheckBox(
+                SushiCheckBoxProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                    size = SushiCheckboxSize.Default,
+                    direction = CheckBoxDirection.End
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+            SushiCheckBox(
+                SushiCheckBoxProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                    size = SushiCheckboxSize.Mini,
+                    direction = CheckBoxDirection.End
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiCheckboxPreview4() {
-    var checked by remember {
-        mutableStateOf(false)
-    }
-    Column(horizontalAlignment = Alignment.End) {
-        SushiCheckBox(
-            SushiCheckBoxProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                size = SushiCheckboxSize.Default,
-                alignment = Alignment.Top,
-                direction = CheckBoxDirection.End
-            ),
-            onCheckedChange = { checked = !checked }
-        )
-        SushiCheckBox(
-            SushiCheckBoxProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                size = SushiCheckboxSize.Mini,
-                alignment = Alignment.Top,
-                isEnabled = false,
-                direction = CheckBoxDirection.End
-            ),
-            onCheckedChange = { checked = !checked }
-        )
+    Preview {
+        var checked by remember {
+            mutableStateOf(false)
+        }
+        Column(horizontalAlignment = Alignment.End) {
+            SushiCheckBox(
+                SushiCheckBoxProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    size = SushiCheckboxSize.Default,
+                    alignment = Alignment.Top,
+                    direction = CheckBoxDirection.End
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+            SushiCheckBox(
+                SushiCheckBoxProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    subText = SushiTextProps(text = "SubText"),
+                    size = SushiCheckboxSize.Mini,
+                    alignment = Alignment.Top,
+                    isEnabled = false,
+                    direction = CheckBoxDirection.End
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+        }
     }
 }
