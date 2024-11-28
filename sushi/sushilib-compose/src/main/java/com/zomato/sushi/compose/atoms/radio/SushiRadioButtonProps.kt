@@ -15,11 +15,12 @@ data class SushiRadioButtonProps(
     val id: String? = Default.id,
     val isSelected: Boolean? = Default.isSelected,
     val text: SushiTextProps? = Default.text,
+    val subText: SushiTextProps? = Default.subText,
     val isEnabled: Boolean? = Default.isEnabled,
     val unselectedColor: ColorSpec = Default.unselectedColor,
     val selectedColor: ColorSpec = Default.selectedColor,
     val padding: Dp? = Default.padding,
-    val alignment: Alignment.Vertical? = Default.alignment,
+    val verticalAlignment: Alignment.Vertical? = Default.verticalAlignment,
     val direction: RadioButtonDirection? = Default.direction
 ) {
     companion object {
@@ -27,11 +28,12 @@ data class SushiRadioButtonProps(
             id = null,
             isSelected = null,
             text = null,
+            subText = null,
             isEnabled = null,
             unselectedColor = SushiUnspecified.asColorSpec(),
             selectedColor = SushiUnspecified.asColorSpec(),
             padding = null,
-            alignment = null,
+            verticalAlignment = null,
             direction = null
         )
     }

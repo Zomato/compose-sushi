@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
-import com.zomato.sushi.compose.atoms.text.TextUnitTextType
 import com.zomato.sushi.compose.foundation.SushiTextSize200
 import com.zomato.sushi.compose.foundation.SushiTextSize300
 import com.zomato.sushi.compose.foundation.SushiTextSize500
@@ -28,7 +27,11 @@ internal fun SushiButtonProps.getButtonTypeWithDefaults() = this.type ?: SushiBu
 internal fun SushiButtonProps.getButtonSizeWithDefaults() = this.size ?: SushiButtonDefaults.size
 internal fun SushiButtonProps.getButtonAlignmentWithDefaults() = this.textAlignment ?: SushiButtonDefaults.alignment
 internal fun SushiButtonProps.getButtonShapeWithDefaults() = this.shape ?: SushiButtonDefaults.shape
-internal fun SushiButtonProps.getSubtextTextType(textSize: TextUnit) = TextUnitTextType(TextStyle(fontSize = textSize  * SushiButtonDefaults.subTextSizePercentage))
+
+@Composable
+internal fun SushiButtonProps.getSubtextTextStyle(textStyle: TextStyle) = textStyle.copy(
+    fontSize = textStyle.fontSize * SushiButtonDefaults.subTextSizePercentage
+)
 
 fun getButtonTextSize(size: SushiButtonSize): TextUnit = when (size) {
     SushiButtonSize.Small -> SushiTextSize200

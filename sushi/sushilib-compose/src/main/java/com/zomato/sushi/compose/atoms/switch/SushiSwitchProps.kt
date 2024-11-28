@@ -21,10 +21,11 @@ data class SushiSwitchProps(
     val id: String? = Default.id,
     val isChecked: Boolean? = Default.isChecked,
     val text: SushiTextProps? = Default.text,
+    val subText: SushiTextProps? = Default.subText,
     val isEnabled: Boolean? = Default.isEnabled,
     val color: ColorSpec = Default.color,
     val padding: Dp? = Default.padding,
-    val alignment: Alignment.Vertical? = Default.alignment,
+    val verticalAlignment: Alignment.Vertical? = Default.verticalAlignment,
     val direction: SwitchDirection? = Default.direction
 ) {
     companion object {
@@ -32,10 +33,11 @@ data class SushiSwitchProps(
             id = null,
             isChecked = null,
             text = null,
+            subText = null,
             isEnabled = null,
             color = SushiUnspecified.asColorSpec(),
             padding = null,
-            alignment = null,
+            verticalAlignment = null,
             direction = null
         )
     }

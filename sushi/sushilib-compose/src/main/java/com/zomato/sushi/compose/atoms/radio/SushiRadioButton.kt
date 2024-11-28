@@ -3,15 +3,17 @@
 package com.zomato.sushi.compose.atoms.radio
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -31,6 +33,8 @@ import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.internal.Preview
+import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 private object Defaults {
@@ -38,7 +42,7 @@ private object Defaults {
     const val isEnabled = true
     val radioButtonSize = 21.dp
     val padding @Composable get() = SushiTheme.dimens.spacing.macro
-    val alignment = Alignment.Top
+    val verticalAlignment = Alignment.Top
     val textType = SushiTextType.Regular300
     val direction = RadioButtonDirection.Start
 }
@@ -50,12 +54,16 @@ fun SushiRadioButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    infoContent: (@Composable () -> Unit)? = null
+    infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Base(modifier) {
+    Base(modifier
+        .height(IntrinsicSize.Max)
+        .width(IntrinsicSize.Max)
+    ) {
         SushiRadioButtonImpl(
             props,
-            onClick = onClick,
+            onClick,
+            Modifier.fillMaxSize(),
             interactionSource = interactionSource,
             infoContent = infoContent
         )
@@ -68,15 +76,15 @@ private fun SushiRadioButtonImpl(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    infoContent: (@Composable () -> Unit)? = null
+    infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
     val isSelected = props.isSelected ?: Defaults.isSelected
     val isEnabled = props.isEnabled ?: Defaults.isEnabled
 
     Row(
-        modifier
-            .height(IntrinsicSize.Min),
+        modifier,
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         val selectedColor = props.selectedColor.takeIfSpecified() ?: SushiTheme.colors.theme.v500
         val selectedColorDisabled = SushiTheme.colors.grey.v500
@@ -85,53 +93,47 @@ private fun SushiRadioButtonImpl(
         val unselectedColorDisabled = SushiTheme.colors.grey.v500
 
         val padding = props.padding ?: Defaults.padding
-        val alignment = props.alignment ?: Defaults.alignment
+        val verticalAlignment = props.verticalAlignment ?: Defaults.verticalAlignment
         val direction = props.direction ?: Defaults.direction
 
         if (direction == RadioButtonDirection.End) {
             if (infoContent != null) {
                 infoContent()
             } else {
-                InfoContentImpl(props)
+                InfoContentImpl(props, Modifier.weight(1f, fill = false))
             }
         }
 
-        Box(Modifier.fillMaxHeight()) {
-            RadioButton(
-                selected = isSelected,
-                onClick = null,
-                Modifier
-                    .align(when (alignment) {
-                        Alignment.Top -> Alignment.TopStart
-                        Alignment.CenterVertically -> Alignment.CenterStart
-                        Alignment.Bottom -> Alignment.BottomStart
-                        else -> Alignment.TopStart
-                    })
-                    .padding(padding)
-                    .selectable(
-                        selected = isSelected,
-                        onClick = onClick,
-                        enabled = isEnabled,
-                        role = Role.RadioButton,
-                        interactionSource = interactionSource,
-                        indication = null
-                    )
-                    .size(Defaults.radioButtonSize),
-                enabled = isEnabled,
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = selectedColor.value,
-                    unselectedColor = unselectedColor.value,
-                    disabledSelectedColor = selectedColorDisabled.value,
-                    disabledUnselectedColor = unselectedColorDisabled.value
-                ),
-                interactionSource = interactionSource
-            )
-        }
+        RadioButton(
+            selected = isSelected,
+            onClick = null,
+            Modifier
+                .align(verticalAlignment)
+                .padding(padding)
+                .selectable(
+                    selected = isSelected,
+                    onClick = onClick,
+                    enabled = isEnabled,
+                    role = Role.RadioButton,
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+                .size(Defaults.radioButtonSize),
+            enabled = isEnabled,
+            colors = RadioButtonDefaults.colors(
+                selectedColor = selectedColor.value,
+                unselectedColor = unselectedColor.value,
+                disabledSelectedColor = selectedColorDisabled.value,
+                disabledUnselectedColor = unselectedColorDisabled.value
+            ),
+            interactionSource = interactionSource
+        )
+
         if (direction == RadioButtonDirection.Start) {
             if (infoContent != null) {
                 infoContent()
             } else {
-                InfoContentImpl(props)
+                InfoContentImpl(props, Modifier.weight(1f, fill = false))
             }
         }
     }
@@ -139,138 +141,165 @@ private fun SushiRadioButtonImpl(
 
 @Composable
 private fun RowScope.InfoContentImpl(
-    props: SushiRadioButtonProps
+    props: SushiRadioButtonProps,
+    modifier: Modifier = Modifier
 ) {
-    props.text?.let {
-        SushiText(
-            props = it.copy(
-                type = it.type ?: Defaults.textType
-            ),
-            Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
-        )
+    if (props.text != null || props.subText != null) {
+        Column(
+            modifier,
+            horizontalAlignment = Alignment.Start
+        ) {
+            props.text?.let {
+                SushiText(
+                    props = it.copy(
+                        type = it.type ?: Defaults.textType
+                    ),
+                    Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
+                )
+            }
+            props.subText?.let {
+                SushiText(
+                    props = it.copy(
+                        type = it.type ?: Defaults.textType
+                    ),
+                    Modifier.padding(top = SushiTheme.dimens.spacing.nano, bottom = SushiTheme.dimens.spacing.mini)
+                )
+            }
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiCheckboxPreview1() {
-    Column {
-        var firstSelected by remember {
-            mutableStateOf(false)
-        }
-        SushiRadioButton(
-            SushiRadioButtonProps(
-                isSelected = firstSelected == true,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends")
-            ),
-            onClick = {
-                firstSelected = true
-            },
-            Modifier.padding(bottom = 10.dp)
-        )
-        SushiRadioButton(
-            SushiRadioButtonProps(
-                isSelected = firstSelected == false,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends")
-            ),
-            onClick = {
-                firstSelected = false
+    Preview {
+        Column {
+            var firstSelected by remember {
+                mutableStateOf(false)
             }
-        )
+            SushiRadioButton(
+                SushiRadioButtonProps(
+                    isSelected = firstSelected == true,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends")
+                ),
+                onClick = {
+                    firstSelected = true
+                },
+                Modifier.padding(bottom = 10.dp)
+            )
+            SushiRadioButton(
+                SushiRadioButtonProps(
+                    isSelected = firstSelected == false,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends")
+                ),
+                onClick = {
+                    firstSelected = false
+                }
+            )
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiCheckboxPreview2() {
-    Column {
-        var firstSelected by remember {
-            mutableStateOf(false)
+    Preview {
+        Column {
+            var firstSelected by remember {
+                mutableStateOf(false)
+            }
+            SushiRadioButton(
+                SushiRadioButtonProps(
+                    isSelected = firstSelected == true,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    verticalAlignment = Alignment.Top
+                ),
+                onClick = {
+                    firstSelected = true
+                }
+            )
+            SushiRadioButton(
+                SushiRadioButtonProps(
+                    isSelected = firstSelected == false,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    verticalAlignment = Alignment.Top,
+                    isEnabled = false
+                ),
+                onClick = {
+                    firstSelected = false
+                }
+            )
         }
-        SushiRadioButton(
-            SushiRadioButtonProps(
-                isSelected = firstSelected == true,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                alignment = Alignment.Top
-            ),
-            onClick = {
-                firstSelected = true
-            }
-        )
-        SushiRadioButton(
-            SushiRadioButtonProps(
-                isSelected = firstSelected == false,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                alignment = Alignment.Top,
-                isEnabled = false
-            ),
-            onClick = {
-                firstSelected = false
-            }
-        )
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiCheckboxPreview3() {
-    Column {
-        var firstSelected by remember {
-            mutableStateOf(false)
-        }
-        SushiRadioButton(
-            SushiRadioButtonProps(
-                isSelected = firstSelected == true,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-                direction = RadioButtonDirection.End
-            ),
-            onClick = {
-                firstSelected = true
-            },
-            Modifier.padding(bottom = 10.dp)
-        )
-        SushiRadioButton(
-            SushiRadioButtonProps(
-                isSelected = firstSelected == false,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-                direction = RadioButtonDirection.End
-            ),
-            onClick = {
-                firstSelected = false
+    Preview {
+        Column {
+            var firstSelected by remember {
+                mutableStateOf(false)
             }
-        )
+            SushiRadioButton(
+                SushiRadioButtonProps(
+                    isSelected = firstSelected == true,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                    direction = RadioButtonDirection.End
+                ),
+                onClick = {
+                    firstSelected = true
+                },
+                Modifier.padding(bottom = 10.dp)
+            )
+            SushiRadioButton(
+                SushiRadioButtonProps(
+                    isSelected = firstSelected == false,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                    direction = RadioButtonDirection.End
+                ),
+                onClick = {
+                    firstSelected = false
+                }
+            )
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiCheckboxPreview4() {
-    Column {
-        var firstSelected by remember {
-            mutableStateOf(false)
+    Preview {
+        Column {
+            var firstSelected by remember {
+                mutableStateOf(false)
+            }
+            SushiRadioButton(
+                SushiRadioButtonProps(
+                    isSelected = firstSelected == true,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    subText = SushiTextProps(text = "subText"),
+                    verticalAlignment = Alignment.CenterVertically,
+                    direction = RadioButtonDirection.Start
+                ),
+                onClick = {
+                    firstSelected = true
+                },
+                Modifier.fillMaxWidth()
+            )
+            SushiRadioButton(
+                SushiRadioButtonProps(
+                    isSelected = firstSelected == false,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    subText = SushiTextProps(text = "subText"),
+                    verticalAlignment = Alignment.Bottom,
+                    isEnabled = false,
+                    direction = RadioButtonDirection.End
+                ),
+                onClick = {
+                    firstSelected = false
+                }
+            )
         }
-        SushiRadioButton(
-            SushiRadioButtonProps(
-                isSelected = firstSelected == true,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                alignment = Alignment.Top,
-                direction = RadioButtonDirection.End
-            ),
-            onClick = {
-                firstSelected = true
-            }
-        )
-        SushiRadioButton(
-            SushiRadioButtonProps(
-                isSelected = firstSelected == false,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                alignment = Alignment.Top,
-                isEnabled = false,
-                direction = RadioButtonDirection.End
-            ),
-            onClick = {
-                firstSelected = false
-            }
-        )
     }
 }

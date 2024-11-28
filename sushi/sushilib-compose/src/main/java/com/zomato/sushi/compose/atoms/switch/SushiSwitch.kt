@@ -9,10 +9,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,6 +31,8 @@ import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.internal.Preview
+import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 private object Defaults {
@@ -37,7 +40,7 @@ private object Defaults {
     const val isEnabled = true
     val switchSize = 21.dp
     val padding @Composable get() = SushiTheme.dimens.spacing.extra
-    val alignment = Alignment.Top
+    val verticalAlignment = Alignment.Top
     val textType = SushiTextType.Regular300
     val direction = SwitchDirection.Start
 }
@@ -51,10 +54,14 @@ fun SushiSwitch(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable () -> Unit)? = null
 ) {
-    Base(modifier) {
+    Base(modifier
+        .height(IntrinsicSize.Max)
+        .width(IntrinsicSize.Max)
+    ) {
         SushiSwitchImpl(
             props,
             onCheckedChange,
+            Modifier.fillMaxSize(),
             interactionSource = interactionSource,
             infoContent = infoContent
         )
@@ -74,13 +81,12 @@ private fun SushiSwitchImpl(
     val isEnabled = props.isEnabled ?: Defaults.isEnabled
 
     Row(
-        modifier
-            .height(IntrinsicSize.Min),
+        modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val enabledColor = props.color.takeIfSpecified() ?: SushiTheme.colors.theme.v500
         val padding = props.padding ?: Defaults.padding
-        val alignment = props.alignment ?: Defaults.alignment
+        val verticalAlignment = props.verticalAlignment ?: Defaults.verticalAlignment
         val direction = props.direction ?: Defaults.direction
 
         if (direction == SwitchDirection.End) {
@@ -91,44 +97,36 @@ private fun SushiSwitchImpl(
             }
         }
 
-        Box(Modifier.fillMaxHeight()) {
-            SwitchImpl(
-                checked = isChecked,
-                onCheckedChange = null,
-                Modifier
-                    .align(
-                        when (alignment) {
-                            Alignment.Top -> Alignment.TopStart
-                            Alignment.CenterVertically -> Alignment.CenterStart
-                            Alignment.Bottom -> Alignment.BottomStart
-                            else -> Alignment.TopStart
-                        }
-                    )
-                    .padding(padding)
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        enabled = isEnabled,
-                        role = Role.Checkbox,
-                        onClick = {
-                            onCheckedChange?.invoke(!isChecked)
-                        }
-                    )
-                    .size(Defaults.switchSize),
-                enabled = isEnabled,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = enabledColor.value,
-                    checkedTrackColor = SushiTheme.colors.theme.v300.value,
-                    uncheckedThumbColor = SushiTheme.colors.grey.v200.value,
-                    uncheckedTrackColor = SushiTheme.colors.grey.v500.value,
-                    disabledCheckedThumbColor = SushiTheme.colors.grey.v400.value,
-                    disabledCheckedTrackColor = SushiTheme.colors.grey.v200.value,
-                    disabledUncheckedThumbColor = SushiTheme.colors.grey.v400.value,
-                    disabledUncheckedTrackColor = SushiTheme.colors.grey.v200.value,
-                ),
-                interactionSource = interactionSource
-            )
-        }
+        SwitchImpl(
+            checked = isChecked,
+            onCheckedChange = null,
+            Modifier
+                .align(verticalAlignment)
+                .padding(padding)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    enabled = isEnabled,
+                    role = Role.Checkbox,
+                    onClick = {
+                        onCheckedChange?.invoke(!isChecked)
+                    }
+                )
+                .size(Defaults.switchSize),
+            enabled = isEnabled,
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = enabledColor.value,
+                checkedTrackColor = SushiTheme.colors.theme.v300.value,
+                uncheckedThumbColor = SushiTheme.colors.grey.v200.value,
+                uncheckedTrackColor = SushiTheme.colors.grey.v500.value,
+                disabledCheckedThumbColor = SushiTheme.colors.grey.v400.value,
+                disabledCheckedTrackColor = SushiTheme.colors.grey.v200.value,
+                disabledUncheckedThumbColor = SushiTheme.colors.grey.v400.value,
+                disabledUncheckedTrackColor = SushiTheme.colors.grey.v200.value,
+            ),
+            interactionSource = interactionSource
+        )
+
         if (direction == SwitchDirection.Start) {
             if (infoContent != null) {
                 infoContent()
@@ -141,121 +139,146 @@ private fun SushiSwitchImpl(
 
 @Composable
 private fun RowScope.InfoContentImpl(
-    props: SushiSwitchProps
+    props: SushiSwitchProps,
+    modifier: Modifier = Modifier
 ) {
-    props.text?.let {
-        SushiText(
-            props = it.copy(
-                type = it.type ?: Defaults.textType
-            ),
-            Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
-        )
+    if (props.text != null || props.subText != null) {
+        Column(
+            modifier,
+            horizontalAlignment = Alignment.Start
+        ) {
+            props.text?.let {
+                SushiText(
+                    props = it.copy(
+                        type = it.type ?: Defaults.textType
+                    ),
+                    Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
+                )
+            }
+            props.subText?.let {
+                SushiText(
+                    props = it.copy(
+                        type = it.type ?: Defaults.textType
+                    ),
+                    Modifier.padding(top = SushiTheme.dimens.spacing.nano, bottom = SushiTheme.dimens.spacing.mini)
+                )
+            }
+        }
     }
+
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiSwitchPreview1() {
-    var checked by remember {
-        mutableStateOf(false)
-    }
-    Column {
-        SushiSwitch(
-            SushiSwitchProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-            ),
-            onCheckedChange = { checked = !checked }
-        )
-        SushiSwitch(
-            SushiSwitchProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-            ),
-            onCheckedChange = { checked = !checked }
-        )
+    Preview {
+        var checked by remember {
+            mutableStateOf(false)
+        }
+        Column {
+            SushiSwitch(
+                SushiSwitchProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+            SushiSwitch(
+                SushiSwitchProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiSwitchPreview2() {
-    var checked by remember {
-        mutableStateOf(false)
-    }
-    Column {
-        SushiSwitch(
-            SushiSwitchProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                alignment = Alignment.Bottom,
-            ),
-            onCheckedChange = { checked = !checked }
-        )
-        SushiSwitch(
-            SushiSwitchProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                alignment = Alignment.Bottom,
-                isEnabled = false
-            ),
-            onCheckedChange = { checked = !checked }
-        )
+    Preview {
+        var checked by remember {
+            mutableStateOf(false)
+        }
+        Column {
+            SushiSwitch(
+                SushiSwitchProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    verticalAlignment = Alignment.Bottom,
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+            SushiSwitch(
+                SushiSwitchProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    verticalAlignment = Alignment.Bottom,
+                    isEnabled = false
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiSwitchPreview3() {
-    var checked by remember {
-        mutableStateOf(false)
-    }
+    Preview {
+        var checked by remember {
+            mutableStateOf(false)
+        }
 
-    Column(horizontalAlignment = Alignment.End) {
-        SushiSwitch(
-            SushiSwitchProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-                direction = SwitchDirection.End
-            ),
-            onCheckedChange = { checked = !checked }
-        )
-        SushiSwitch(
-            SushiSwitchProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends"),
-                direction = SwitchDirection.End
-            ),
-            onCheckedChange = { checked = !checked }
-        )
+        Column(horizontalAlignment = Alignment.End) {
+            SushiSwitch(
+                SushiSwitchProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                    direction = SwitchDirection.End
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+            SushiSwitch(
+                SushiSwitchProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends"),
+                    direction = SwitchDirection.End
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+        }
     }
 }
 
-@Preview
+@SushiPreview
 @Composable
 fun SushiSwitchPreview4() {
-    var checked by remember {
-        mutableStateOf(false)
-    }
-    Column(horizontalAlignment = Alignment.End) {
-        SushiSwitch(
-            SushiSwitchProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                alignment = Alignment.Top,
-                direction = SwitchDirection.End
-            ),
-            onCheckedChange = { checked = !checked }
-        )
-        SushiSwitch(
-            SushiSwitchProps(
-                isChecked = checked,
-                text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
-                alignment = Alignment.Top,
-                isEnabled = false,
-                direction = SwitchDirection.End
-            ),
-            onCheckedChange = { checked = !checked }
-        )
+    Preview {
+        var checked by remember {
+            mutableStateOf(false)
+        }
+        Column(horizontalAlignment = Alignment.End) {
+            SushiSwitch(
+                SushiSwitchProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    verticalAlignment = Alignment.Top,
+                    direction = SwitchDirection.End
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+            SushiSwitch(
+                SushiSwitchProps(
+                    isChecked = checked,
+                    text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
+                    verticalAlignment = Alignment.Top,
+                    isEnabled = false,
+                    direction = SwitchDirection.End
+                ),
+                onCheckedChange = { checked = !checked }
+            )
+        }
     }
 }

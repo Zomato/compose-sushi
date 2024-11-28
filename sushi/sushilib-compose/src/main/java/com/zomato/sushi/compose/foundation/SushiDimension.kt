@@ -17,6 +17,7 @@ data class SushiDimension(
         val micro: Dp = SushiSpacingMicro,
         val mini: Dp = SushiSpacingMini,
         val macro: Dp = SushiSpacingMacro,
+        val large: Dp = SushiSpacingLarge,
         val base: Dp = SushiSpacingBase,
         val extra: Dp = SushiSpacingExtra,
         val loose: Dp = SushiSpacingLoose,
