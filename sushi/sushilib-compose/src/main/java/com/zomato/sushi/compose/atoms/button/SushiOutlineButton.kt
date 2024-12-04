@@ -2,6 +2,7 @@
 
 package com.zomato.sushi.compose.atoms.button
 
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,7 +20,7 @@ internal fun SushiOutlineButton(
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val color = props.color.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBackground
-    val disabledColor = SushiTheme.colors.button.backgroundDisabled
+    val disabledColor = color
 
     val fontColor = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabel
     val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabelPressed
@@ -29,9 +30,12 @@ internal fun SushiOutlineButton(
     val borderStrokeColorPressed = props.borderColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBorderPressed
     val borderStrokeColorDisabled = SushiTheme.colors.button.secondaryBorderDisabled
 
+    val minHeight = getButtonMinHeight(props.getButtonSizeWithDefaults())
+
     SushiSurfaceButtonImpl(
         props = props,
-        modifier = modifier,
+        modifier = modifier
+            .heightIn(min = minHeight),
         color = color,
         colorDisabled = disabledColor,
         fontColor = fontColor,
@@ -45,6 +49,7 @@ internal fun SushiOutlineButton(
         content = content
     )
 }
+
 
 @SushiPreview
 @Composable
@@ -83,7 +88,7 @@ fun SushiOutlineButtonPreview3() {
             SushiButtonProps(
                 type = SushiButtonType.Outline,
                 text = "Tsogy",
-                subtext = "hehe"
+                // subText = "hehe"
             ),
             onClick = {}
         )
@@ -99,6 +104,22 @@ fun SushiOutlineButtonPreview4() {
                 type = SushiButtonType.Outline,
                 text = "Small",
                 size = SushiButtonSize.Small
+            ),
+            onClick = {}
+        )
+    }
+}
+
+
+@SushiPreview
+@Composable
+fun SushiOutlineButtonPreview5() {
+    Preview {
+        SushiButton(
+            SushiButtonProps(
+                type = SushiButtonType.Outline,
+                text = "Large",
+                size = SushiButtonSize.Large
             ),
             onClick = {}
         )

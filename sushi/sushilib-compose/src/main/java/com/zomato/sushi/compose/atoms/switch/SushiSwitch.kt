@@ -52,7 +52,7 @@ fun SushiSwitch(
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    infoContent: (@Composable () -> Unit)? = null
+    infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
     Base(modifier
         .height(IntrinsicSize.Max)
@@ -74,7 +74,7 @@ private fun SushiSwitchImpl(
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    infoContent: (@Composable () -> Unit)? = null
+    infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
 
     val isChecked = props.isChecked ?: Defaults.isChecked
@@ -93,7 +93,7 @@ private fun SushiSwitchImpl(
             if (infoContent != null) {
                 infoContent()
             } else {
-                InfoContentImpl(props)
+                InfoContentImpl(props, Modifier.weight(1f, fill = false))
             }
         }
 
@@ -131,7 +131,7 @@ private fun SushiSwitchImpl(
             if (infoContent != null) {
                 infoContent()
             } else {
-                InfoContentImpl(props)
+                InfoContentImpl(props, Modifier.weight(1f, fill = false))
             }
         }
     }
@@ -165,7 +165,6 @@ private fun RowScope.InfoContentImpl(
             }
         }
     }
-
 }
 
 @SushiPreview

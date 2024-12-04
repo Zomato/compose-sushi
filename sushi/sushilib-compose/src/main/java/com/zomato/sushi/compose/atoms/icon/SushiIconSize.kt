@@ -5,6 +5,9 @@ package com.zomato.sushi.compose.atoms.icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTextSize050
@@ -17,6 +20,7 @@ import com.zomato.sushi.compose.foundation.SushiTextSize600
 import com.zomato.sushi.compose.foundation.SushiTextSize700
 import com.zomato.sushi.compose.foundation.SushiTextSize800
 import com.zomato.sushi.compose.foundation.SushiTextSize900
+import com.zomato.sushi.compose.utils.toSp
 
 @ExperimentalSushiApi
 @Immutable
@@ -28,11 +32,18 @@ sealed interface IconSizeSpec {
 
 @ExperimentalSushiApi
 @JvmInline
-value class TextUnitIconSizeSpec(private val textUnit: TextUnit) : IconSizeSpec {
+internal value class TextUnitIconSizeSpec(private val textUnit: TextUnit) : IconSizeSpec {
     override val size: TextUnit @Composable @Stable get() = textUnit
 }
 
-fun TextUnit.asIconSizeSpec(): TextUnitIconSizeSpec = TextUnitIconSizeSpec(this)
+@ExperimentalSushiApi
+@JvmInline
+internal value class DpIconSizeSpec(private val dp: Dp) : IconSizeSpec {
+    override val size: TextUnit @Composable @Stable get() = dp.toSp()
+}
+
+fun TextUnit.asIconSizeSpec(): IconSizeSpec = TextUnitIconSizeSpec(this)
+fun Dp.asIconSizeSpec(): IconSizeSpec = DpIconSizeSpec(this)
 
 @ExperimentalSushiApi
 @Immutable

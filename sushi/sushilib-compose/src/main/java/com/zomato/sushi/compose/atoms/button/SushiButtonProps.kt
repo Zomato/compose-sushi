@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.atoms.button
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Shape
@@ -15,7 +16,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 @Immutable
 data class SushiButtonProps(
     val text: String? = Default.text,
-    val subtext: String? = Default.subtext,
+    val subText: String? = Default.subText,
     val type: SushiButtonType? = Default.type,
     val size: SushiButtonSize? = Default.size,
     val fontColor: ColorSpec = Default.fontColor,
@@ -25,6 +26,8 @@ data class SushiButtonProps(
     val suffixIcon: SushiIconProps? = Default.suffixIcon,
     val prefixIcon: SushiIconProps? = Default.prefixIcon,
     val isDisabled: Boolean? = Default.isDisabled,
+    val horizontalArrangement: Arrangement.Horizontal? = Default.horizontalArrangement,
+    val verticalAlignment: Alignment.Vertical? = Default.verticalAlignment,
     val textAlignment: Alignment.Horizontal? = Default.textAlignment,
     val isMarkDownEnabled: Boolean? = Default.isMarkDownEnabled,
     val shape: Shape? = Default.shape,
@@ -33,7 +36,7 @@ data class SushiButtonProps(
     companion object {
         val Default = SushiButtonProps(
             text = null,
-            subtext = null,
+            subText = null,
             type = null,
             size = null,
             fontColor = SushiUnspecified.asColorSpec(),
@@ -42,6 +45,8 @@ data class SushiButtonProps(
             borderColor = SushiUnspecified.asColorSpec(),
             suffixIcon = null,
             prefixIcon = null,
+            horizontalArrangement = null,
+            verticalAlignment = null,
             textAlignment = null,
             isDisabled = null,
             isMarkDownEnabled = null,

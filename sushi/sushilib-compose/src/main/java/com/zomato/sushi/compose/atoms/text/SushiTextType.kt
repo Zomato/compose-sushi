@@ -17,12 +17,12 @@ sealed interface TextTypeSpec {
 
 @ExperimentalSushiApi
 @JvmInline
-value class TextUnitTextType(val textStyle: TextStyle) : TextTypeSpec {
+internal value class TextStyleTextType(val textStyle: TextStyle) : TextTypeSpec {
     override val typeStyle: TextStyle
         @Composable @Stable get() = textStyle
 }
 
-fun TextStyle.asTextTypeSpec() = TextUnitTextType(this)
+fun TextStyle.asTextTypeSpec(): TextTypeSpec = TextStyleTextType(this)
 
 @ExperimentalSushiApi
 enum class SushiTextType : TextTypeSpec {

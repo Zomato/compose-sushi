@@ -37,7 +37,8 @@ internal fun Preview(
 
 @Preview(
     showBackground = true,
-    backgroundColor = 0xFFFFFFFF, uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL,
+    backgroundColor = 0xFFFFFFFF,
+    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL,
     name = "Light Mode"
 )
 @Preview(

@@ -2,9 +2,15 @@
 
 package com.zomato.sushi.compose.atoms.button
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
@@ -29,9 +35,12 @@ internal fun SushiSolidButton(
     val borderStrokeColorPressed = color
     val borderStrokeColorDisabled = SushiTheme.colors.button.secondaryBorderDisabled
 
+    val minHeight = getButtonMinHeight(props.getButtonSizeWithDefaults())
+
     SushiSurfaceButtonImpl(
         props = props,
-        modifier = modifier,
+        modifier = modifier
+            .heightIn(min = minHeight),
         color = color,
         colorDisabled = disabledColor,
         fontColor = fontColor,
@@ -83,7 +92,7 @@ fun SushiSolidButtonPreview3() {
             SushiButtonProps(
                 type = SushiButtonType.Solid,
                 text = "Tsogy",
-                subtext = "hehe"
+                // subText = "hehe"
             ),
             onClick = {}
         )
@@ -101,6 +110,43 @@ fun SushiSolidButtonPreview4() {
                 size = SushiButtonSize.Small
             ),
             onClick = {}
+        )
+    }
+}
+
+
+@SushiPreview
+@Composable
+fun SushiSolidButtonPreview5() {
+    Preview {
+        SushiButton(
+            SushiButtonProps(
+                type = SushiButtonType.Solid,
+                text = "Large",
+                size = SushiButtonSize.Large,
+                prefixIcon = SushiIconProps(code = "edae"),
+                suffixIcon = SushiIconProps(code = "edae"),
+            ),
+            onClick = {}
+        )
+    }
+}
+
+@SushiPreview
+@Composable
+fun SushiSolidButtonPreview6() {
+    Preview {
+        SushiButton(
+            SushiButtonProps(
+                type = SushiButtonType.Solid,
+                text = "Large",
+                size = SushiButtonSize.Large,
+                suffixIcon = SushiIconProps(code = "e932"),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ),
+            onClick = {},
+            Modifier.width(180.dp).height(70.dp)
         )
     }
 }

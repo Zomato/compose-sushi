@@ -1,10 +1,10 @@
 package com.zomato.sushi.compose.atoms.button
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.runtime.State
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
 @ExperimentalSushiApi
 interface SushiButtonContentScope : RowScope {
-    val isTapped: Boolean
-    val isDisabled: Boolean
+    val isTapped: State<Boolean>
 }

@@ -12,8 +12,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,8 +32,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
+import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
@@ -46,16 +53,16 @@ internal fun SushiTextButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
-    var isTapped by remember(props) { mutableStateOf(false) }
+    val isTapped = remember(props) { mutableStateOf(false) }
     val isDisabled = props.isDisabled == true
 
     val bgColor = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackground
     val bgColorPressed = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackgroundPressed
-    val bgColorDisabled = bgColor   // todox: change needed?
+    val bgColorDisabled = bgColor
 
     val appliedBgColor = when {
         isDisabled -> bgColorDisabled
-        isTapped -> bgColorPressed
+        isTapped.value -> bgColorPressed
         else -> bgColor
     }
 
@@ -66,9 +73,9 @@ internal fun SushiTextButton(
                 while (true) {
                     awaitPointerEventScope {
                         awaitFirstDown(false)
-                        isTapped = true
+                        isTapped.value = true
                         waitForUpOrCancellation()
-                        isTapped = false
+                        isTapped.value = false
                     }
                 }
             }
@@ -78,20 +85,17 @@ internal fun SushiTextButton(
                 enabled = !isDisabled,
                 onClick = onClick
             )
-            .background(color = appliedBgColor.value),
-        propagateMinConstraints = true
+            .background(color = appliedBgColor.value)
     ) {
         Row(
-            Modifier,
+            Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val contentScopeData = remember(isTapped, isDisabled) {
+            val contentScopeData = remember(isTapped) {
                 object : SushiButtonContentScope, RowScope by this {
-                    override val isTapped: Boolean
+                    override val isTapped: State<Boolean>
                         get() = isTapped
-                    override val isDisabled: Boolean
-                        get() = isDisabled
                 }
             }
             if (content != null) {
@@ -100,7 +104,8 @@ internal fun SushiTextButton(
                 SushiTextButtonContent(
                     props = props,
                     isDisabled = isDisabled,
-                    isTapped = isTapped
+                    isTapped = isTapped.value,
+                    Modifier.fillMaxSize()
                 )
             }
         }
@@ -108,10 +113,11 @@ internal fun SushiTextButton(
 }
 
 @Composable
-private fun SushiTextButtonContent(
+private fun RowScope.SushiTextButtonContent(
     props: SushiButtonProps,
     isDisabled: Boolean,
-    isTapped: Boolean
+    isTapped: Boolean,
+    modifier: Modifier = Modifier
 ) {
     val fontColor = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabel
     val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabelPressed
@@ -137,38 +143,43 @@ private fun SushiTextButtonContent(
         color = props.suffixIcon.color.takeIfSpecified() ?: appliedFontColor
     )
 
-    Column(horizontalAlignment = props.getButtonAlignmentWithDefaults()) {
-        Row {
-            if (prefixIcon != null) {
-                SushiIcon(
-                    props = prefixIcon,
-                    Modifier.padding(end = iconPadding)
-                )
-            }
+    val horizontalArrangement = props.getButtonHorizontalArrangementWithDefaults()
+    val verticalAlignment = props.getButtonVerticalAlignmentWithDefaults()
+
+    Row(
+        modifier,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
+    ) {
+        if (prefixIcon != null) {
+            SushiIcon(
+                props = prefixIcon,
+                Modifier.padding(end = iconPadding)
+            )
+        }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             SushiText(
                 SushiTextProps(
                     text = props.text,
                     type = textType.asTextTypeSpec(),
                     color = appliedFontColor,
-                    prefixIcon = props.prefixIcon,
-                    suffixIcon = props.suffixIcon,
                     isMarkDownEnabled = props.isMarkDownEnabled
                 )
             )
-            if (suffixIcon != null) {
-                SushiIcon(
-                    props = suffixIcon,
-                    Modifier.padding(start = iconPadding)
+            if (!props.subText.isNullOrEmpty()) {
+                SushiText(
+                    SushiTextProps(
+                        text = props.subText,
+                        color = appliedFontColor,
+                        type = props.getSubtextTextStyle(textType).asTextTypeSpec()
+                    )
                 )
             }
         }
-        if (!props.subtext.isNullOrEmpty()) {
-            SushiText(
-                SushiTextProps(
-                    text = props.subtext,
-                    color = appliedFontColor,
-                    type = props.getSubtextTextStyle(textType).asTextTypeSpec()
-                )
+        if (suffixIcon != null) {
+            SushiIcon(
+                props = suffixIcon,
+                Modifier.padding(start = iconPadding)
             )
         }
     }
@@ -211,9 +222,13 @@ fun SushiTextButtonPreview3() {
             SushiButtonProps(
                 type = SushiButtonType.Text,
                 text = "Tsogy",
-                subtext = "hehe"
+                subText = "hehe",
+                prefixIcon = SushiIconProps(code = "edae"),
+                suffixIcon = SushiIconProps(code = "edae"),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
             ),
-            onClick = {}
+            onClick = {},
         )
     }
 }
@@ -221,6 +236,26 @@ fun SushiTextButtonPreview3() {
 @SushiPreview
 @Composable
 fun SushiTextButtonPreview4() {
+    Preview {
+        SushiButton(
+            SushiButtonProps(
+                type = SushiButtonType.Text,
+                text = "Tsogy",
+                subText = "hehe",
+                prefixIcon = SushiIconProps(code = "edae"),
+                suffixIcon = SushiIconProps(code = "edae"),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ),
+            onClick = {},
+            Modifier.fillMaxWidth().height(200.dp)
+        )
+    }
+}
+
+@SushiPreview
+@Composable
+fun SushiTextButtonPreview5() {
     Preview {
         SushiButton(
             SushiButtonProps(
