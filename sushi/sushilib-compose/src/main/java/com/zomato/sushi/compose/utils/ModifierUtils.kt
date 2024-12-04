@@ -59,10 +59,12 @@ fun Modifier.atomClickable(
     properties["onClick"] = onClick
 }) {
     val eventDebouncer = LocalDebounceEventHandler.current
-    Modifier.clickable(enabled = enabled,
+    Modifier.clickable(
+        enabled = enabled,
         onClickLabel = onClickLabel,
         onClick = { if (debounced == true) eventDebouncer.processEvent { onClick() } else onClick() },
         role = role,
         indication = if (showIndication == true) LocalIndication.current else null,
-        interactionSource = remember { MutableInteractionSource() })
+        interactionSource = remember { MutableInteractionSource() }
+    )
 }

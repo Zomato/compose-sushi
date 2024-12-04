@@ -15,10 +15,9 @@ sealed interface ColorSpec {
     val value: Color
 }
 
-internal fun ColorSpec.Companion.fromColor(color: Color): ColorSpec = ComposeColorSpec(color)
-internal fun ColorSpec.Companion.fromColorInt(color: Long): ColorSpec = IntColorSpec(color)
-internal fun ColorSpec.Companion.fromHexCode(hexCode: String): ColorSpec = HexColorSpec(hexCode)
-
 fun Color.asColorSpec(): ColorSpec = ComposeColorSpec(this)
+fun Int.asIntColorSpec(): ColorSpec = IntColorSpec(this.toLong())
+fun Long.asIntColorSpec(): ColorSpec = IntColorSpec(this)
+fun String.asHexColorSpec(): ColorSpec = HexColorSpec(this)
 
 fun ColorSpec.withAlpha(alpha: Float) = this.transform { it.copy(alpha = alpha) }

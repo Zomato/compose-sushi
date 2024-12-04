@@ -2,9 +2,6 @@ package com.zomato.sushi.compose.atoms.internal
 
 import android.content.Context
 import android.util.TypedValue
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
@@ -25,9 +22,4 @@ fun Context.spToPx(sp: Float): Int {
         sp,
         this.resources.displayMetrics
     ).toInt()
-}
-
-@Composable
-fun TextUnit.toDp(): Dp {
-    return with(LocalDensity.current) { this@toDp.toDp() }
 }

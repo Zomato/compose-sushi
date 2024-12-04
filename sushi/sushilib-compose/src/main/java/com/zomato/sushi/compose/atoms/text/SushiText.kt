@@ -51,7 +51,7 @@ import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.SushiColorData
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
-import com.zomato.sushi.compose.atoms.icon.TextUnitIconSizeSpec
+import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.atoms.internal.scaled
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
@@ -188,7 +188,8 @@ private fun SushiTextImpl(
                 textAlign = textAlign,
                 onTextLayout = onTextLayout,
                 overflowText = overflowText,
-                overflowTextColor = overflowTextColor
+                overflowTextColor = overflowTextColor,
+                Modifier.weight(1f, fill = false)
             )
         } else {
             BaseSushiText(
@@ -203,7 +204,7 @@ private fun SushiTextImpl(
                 softWrap = softWrap,
                 minLines = minLines,
                 onTextLayout = onTextLayout,
-                Modifier
+                Modifier.weight(1f, fill = false)
             )
         }
 
@@ -229,7 +230,7 @@ private fun RowScope.PrefixIcon(
 ) {
     if (props != null) {
         val actualIconProps = props.copy(
-            size = props.size ?: TextUnitIconSizeSpec(fontSize),
+            size = props.size ?: fontSize.asIconSizeSpec(),
             color = props.color.takeIf { it.value.isSpecified } ?: textColor
         )
         SushiIcon(
@@ -250,9 +251,10 @@ private fun ExpandableText(
     textAlign: TextAlign?,
     onTextLayout: (TextLayoutResult) -> Unit,
     overflowText: String,
-    overflowTextColor: ColorSpec
+    overflowTextColor: ColorSpec,
+    modifier: Modifier
 ) {
-    Box {
+    Box(modifier) {
         var cutText by remember(text) { mutableStateOf<AnnotatedString?>(null) }
         var expanded by remember { mutableStateOf(false) }
         val textLayoutResultState = remember { mutableStateOf<TextLayoutResult?>(null) }
@@ -369,7 +371,7 @@ private fun RowScope.SuffixIcon(
 ) {
     if (props != null) {
         val actualIconProps = props.copy(
-            size = props.size ?: TextUnitIconSizeSpec(fontSize),
+            size = props.size ?: fontSize.asIconSizeSpec(),
             color = props.color.takeIf { it.value.isSpecified } ?: textColor
         )
         SushiIcon(

@@ -8,32 +8,34 @@ import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
+import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 @Composable
@@ -52,42 +54,46 @@ internal fun SushiSurfaceButtonImpl(
     modifier: Modifier = Modifier,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
-    var isTapped by remember { mutableStateOf(false) }
+    val isTapped = remember { mutableStateOf(false) }
     val isDisabled = props.isDisabled == true
 
     val appliedStrokeColor = when {
         isDisabled -> borderStrokeColorDisabled
-        isTapped -> borderStrokeColorPressed
+        isTapped.value -> borderStrokeColorPressed
         else -> borderStrokeColor
     }
-    val minHeight: Dp = getButtonMinHeight(props.getButtonSizeWithDefaults())
 
-    Button(
+    val contentPadding = when (props.getButtonSizeWithDefaults()) {
+        SushiButtonSize.Small -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.mini)
+        SushiButtonSize.Medium -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
+        SushiButtonSize.Large -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
+    }
+
+    ButtonImpl(
         onClick = onClick,
         modifier
-            .semantics { role = Role.Button }
-            .pointerInput(props) {
+            .pointerInput(isTapped) {
                 while (true) {
                     awaitPointerEventScope {
                         awaitFirstDown(false)
-                        isTapped = true
+                        isTapped.value = true
                         waitForUpOrCancellation()
-                        isTapped = false
+                        isTapped.value = false
                     }
                 }
             }
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null,
+                indication = ripple(),
                 enabled = !isDisabled,
                 onClick = onClick
-            )
-            .heightIn(min = minHeight),
+            ),
         enabled = !isDisabled,
+        contentPadding = contentPadding,
         shape = props.getButtonShapeWithDefaults(),
         colors = ButtonDefaults.buttonColors().copy(
             containerColor = color.value,
-            contentColor = if (isTapped) fontColorPressed.value else fontColor.value,
+            contentColor = if (isTapped.value) fontColorPressed.value else fontColor.value,
             disabledContainerColor = colorDisabled.value,
             disabledContentColor = fontColorDisabled.value
         ),
@@ -98,10 +104,8 @@ internal fun SushiSurfaceButtonImpl(
         if (content != null) {
             val contentScopeData = remember(isTapped, isDisabled) {
                 object : SushiButtonContentScope, RowScope by this {
-                    override val isTapped: Boolean
+                    override val isTapped: State<Boolean>
                         get() = isTapped
-                    override val isDisabled: Boolean
-                        get() = isDisabled
                 }
             }
             contentScopeData.content()
@@ -109,23 +113,25 @@ internal fun SushiSurfaceButtonImpl(
             SushiSurfaceButtonImplContent(
                 props = props,
                 isDisabled = isDisabled,
-                isTapped = isTapped,
+                isTapped = isTapped.value,
                 fontColorDisabled = fontColorDisabled,
                 fontColorPressed = fontColorPressed,
-                fontColor = fontColor
+                fontColor = fontColor,
+                Modifier.fillMaxSize()
             )
         }
     }
 }
 
 @Composable
-private fun SushiSurfaceButtonImplContent(
+private fun RowScope.SushiSurfaceButtonImplContent(
     props: SushiButtonProps,
     isDisabled: Boolean,
     isTapped: Boolean,
     fontColorDisabled: ColorSpec,
     fontColorPressed: ColorSpec,
-    fontColor: ColorSpec
+    fontColor: ColorSpec,
+    modifier: Modifier
 ) {
 
     val appliedFontColor = when {
@@ -146,14 +152,22 @@ private fun SushiSurfaceButtonImplContent(
         size = props.suffixIcon.size ?: defaultIconSize.asIconSizeSpec(),
         color = props.suffixIcon.color.takeIfSpecified() ?: appliedFontColor
     )
-    Column(horizontalAlignment = props.getButtonAlignmentWithDefaults()) {
-        Row {
-            if (prefixIcon != null) {
-                SushiIcon(
-                    props = prefixIcon,
-                    Modifier.padding(end = iconPadding)
-                )
-            }
+
+    val horizontalArrangement = props.getButtonHorizontalArrangementWithDefaults()
+    val verticalAlignment = props.getButtonVerticalAlignmentWithDefaults()
+
+    Row(
+        modifier,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
+    ) {
+        if (prefixIcon != null) {
+            SushiIcon(
+                props = prefixIcon,
+                Modifier.padding(end = iconPadding)
+            )
+        }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             SushiText(
                 SushiTextProps(
                     text = props.text,
@@ -162,20 +176,20 @@ private fun SushiSurfaceButtonImplContent(
                     isMarkDownEnabled = props.isMarkDownEnabled
                 )
             )
-            if (suffixIcon != null) {
-                SushiIcon(
-                    props = suffixIcon,
-                    Modifier.padding(start = iconPadding)
+            if (!props.subText.isNullOrEmpty()) {
+                SushiText(
+                    SushiTextProps(
+                        text = props.subText,
+                        color = appliedFontColor,
+                        type = props.getSubtextTextStyle(textType).asTextTypeSpec()
+                    )
                 )
             }
         }
-        if (!props.subtext.isNullOrEmpty()) {
-            SushiText(
-                SushiTextProps(
-                    text = props.subtext,
-                    color = appliedFontColor,
-                    type = props.getSubtextTextStyle(textType).asTextTypeSpec()
-                )
+        if (suffixIcon != null) {
+            SushiIcon(
+                props = suffixIcon,
+                Modifier.padding(start = iconPadding)
             )
         }
     }

@@ -9,12 +9,6 @@ import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.foundation.SushiUnspecified
 
-// todox: need to impl?
-// subtitle
-// clickActionData
-// actionIds
-// shouldAnimateCheckbox
-// animationData
 @ExperimentalSushiApi
 @Immutable
 data class SushiSwitchProps(

@@ -4,18 +4,24 @@ package com.zomato.sushi.compose.atoms.checkbox
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,7 +51,7 @@ private object Defaults {
     const val isEnabled = true
     val checkBoxSize = 21.dp
     val padding @Composable get() = SushiTheme.dimens.spacing.macro
-    val alignment = Alignment.Top
+    val verticalAlignment = Alignment.Top
     val direction = CheckBoxDirection.Start
 }
 
@@ -56,12 +62,16 @@ fun SushiCheckBox(
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    infoContent: (@Composable () -> Unit)? = null
+    infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Base(modifier) {
+    Base(modifier
+        .height(IntrinsicSize.Max)
+        .width(IntrinsicSize.Max)
+    ) {
         SushiCheckBoxImpl(
             props,
             onCheckedChange,
+            Modifier.fillMaxSize(),
             interactionSource = interactionSource,
             infoContent = infoContent
         )
@@ -74,24 +84,24 @@ private fun SushiCheckBoxImpl(
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    infoContent: (@Composable () -> Unit)? = null
+    infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
 
     val isChecked = props.isChecked ?: Defaults.isChecked
     val isEnabled = props.isEnabled ?: Defaults.isEnabled
 
     Row(
-        modifier
-            .height(IntrinsicSize.Min),
+        modifier,
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val enabledColor = props.color ?: SushiTheme.colors.theme.v500
+        val enabledColor = props.color ?: SushiTheme.colors.theme.v600
         val disabledColor = SushiTheme.colors.grey.v500
         val padding = props.boxPadding ?: Defaults.padding
-        val alignment = props.alignment ?: Defaults.alignment
+        val verticalAlignment = props.verticalAlignment ?: Defaults.verticalAlignment
         val scale = when (props.size) {
             SushiCheckboxSize.Mini -> 0.75f
-            SushiCheckboxSize.Default -> 1f
+            SushiCheckboxSize.Default -> 0.90f
             null -> 1f
         }
         val direction = props.direction ?: Defaults.direction
@@ -100,21 +110,16 @@ private fun SushiCheckBoxImpl(
             if (infoContent != null) {
                 infoContent()
             } else {
-                InfoContentImpl(props)
+                InfoContentImpl(props, Modifier.weight(1f, fill = false))
             }
         }
 
-        Box(Modifier.fillMaxHeight()) {
+        CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 0.dp) {
             Checkbox(
                 checked = isChecked,
                 onCheckedChange = null,
                 Modifier
-                    .align(when (alignment) {
-                        Alignment.Top -> Alignment.TopStart
-                        Alignment.CenterVertically -> Alignment.CenterStart
-                        Alignment.Bottom -> Alignment.BottomStart
-                        else -> Alignment.TopStart
-                    })
+                    .align(verticalAlignment)
                     .padding(padding)
                     .clickable(
                         interactionSource = interactionSource,
@@ -132,20 +137,20 @@ private fun SushiCheckBoxImpl(
                     checkedBoxColor = enabledColor.value,
                     checkedBorderColor = enabledColor.value,
                     uncheckedBorderColor = enabledColor.value,
-                    uncheckedBoxColor = SushiTheme.colors.white.value,
+                    uncheckedBoxColor = SushiTheme.colors.surface.primary.value,
                     disabledCheckedBoxColor = disabledColor.value,
                     disabledBorderColor = disabledColor.value,
-                    disabledUncheckedBoxColor = SushiTheme.colors.white.value,
+                    disabledUncheckedBoxColor = SushiTheme.colors.surface.primary.value,
                     disabledUncheckedBorderColor = disabledColor.value
                 ),
                 interactionSource = interactionSource
             )
-        }
-        if (direction == CheckBoxDirection.Start) {
-            if (infoContent != null) {
-                infoContent()
-            } else {
-                InfoContentImpl(props)
+            if (direction == CheckBoxDirection.Start) {
+                if (infoContent != null) {
+                    infoContent()
+                } else {
+                    InfoContentImpl(props, Modifier.weight(1f, fill = false))
+                }
             }
         }
     }
@@ -153,20 +158,19 @@ private fun SushiCheckBoxImpl(
 
 @Composable
 private fun RowScope.InfoContentImpl(
-    props: SushiCheckBoxProps
+    props: SushiCheckBoxProps,
+    modifier: Modifier = Modifier
 ) {
     if (props.text != null || props.subText != null) {
-        val horizontalAlignment = when (props.direction) {
-            CheckBoxDirection.Start -> Alignment.Start
-            CheckBoxDirection.End -> Alignment.End
-            null -> Alignment.Start
-        }
         val defaultTextType = when(props.size) {
             SushiCheckboxSize.Mini -> SushiTextType.Regular100
             SushiCheckboxSize.Default -> SushiTextType.Regular300
             else -> SushiTextType.Regular300
         }
-        Column(horizontalAlignment = horizontalAlignment) {
+        Column(
+            modifier,
+            horizontalAlignment = Alignment.Start
+        ) {
             props.text?.let {
                 SushiText(
                     props = it.copy(
@@ -180,7 +184,7 @@ private fun RowScope.InfoContentImpl(
                     props = it.copy(
                         type = it.type ?: defaultTextType
                     ),
-                    Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
+                    Modifier.padding(top = SushiTheme.dimens.spacing.nano, bottom = SushiTheme.dimens.spacing.mini)
                 )
             }
         }
@@ -229,7 +233,7 @@ fun SushiCheckboxPreview2() {
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     subText = SushiTextProps(text = "SubText"),
                     size = SushiCheckboxSize.Default,
-                    alignment = Alignment.Top,
+                    verticalAlignment = Alignment.Top,
                 ),
                 onCheckedChange = { checked = !checked }
             )
@@ -238,7 +242,7 @@ fun SushiCheckboxPreview2() {
                     isChecked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     size = SushiCheckboxSize.Mini,
-                    alignment = Alignment.Bottom,
+                    verticalAlignment = Alignment.Bottom,
                     isEnabled = false
                 ),
                 onCheckedChange = { checked = !checked }
@@ -291,10 +295,11 @@ fun SushiCheckboxPreview4() {
                     isChecked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     size = SushiCheckboxSize.Default,
-                    alignment = Alignment.Top,
+                    verticalAlignment = Alignment.Top,
                     direction = CheckBoxDirection.End
                 ),
-                onCheckedChange = { checked = !checked }
+                onCheckedChange = { checked = !checked },
+                Modifier.fillMaxWidth()
             )
             SushiCheckBox(
                 SushiCheckBoxProps(
@@ -302,7 +307,7 @@ fun SushiCheckboxPreview4() {
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     subText = SushiTextProps(text = "SubText"),
                     size = SushiCheckboxSize.Mini,
-                    alignment = Alignment.Top,
+                    verticalAlignment = Alignment.Top,
                     isEnabled = false,
                     direction = CheckBoxDirection.End
                 ),

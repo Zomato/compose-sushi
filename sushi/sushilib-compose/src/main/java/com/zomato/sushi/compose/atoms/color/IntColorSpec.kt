@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
 @ExperimentalSushiApi
-data class IntColorSpec(
+internal data class IntColorSpec(
     val colorCode: Long
 ) : ColorSpec {
     private val _color = Color(colorCode)

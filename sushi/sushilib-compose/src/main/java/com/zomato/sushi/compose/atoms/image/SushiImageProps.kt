@@ -12,11 +12,6 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiUnspecified
 
-// todox:
-// border
-// animationData
-// gradient
-// image loader logics: bucketing logic, network based caching logic, etc.
 @ExperimentalSushiApi
 @Immutable
 data class SushiImageProps(

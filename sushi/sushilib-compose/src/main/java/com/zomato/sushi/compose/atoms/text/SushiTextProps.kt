@@ -14,13 +14,6 @@ import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.foundation.SushiUnspecified
 
-// markdown version: always 3 for now
-// isClickable
-// gradientColorData
-// shouldNotAdjustFontSize
-// tailText
-// replacementText
-// gradient support in color, bgcolor
 @ExperimentalSushiApi
 @Immutable
 data class SushiTextProps constructor(

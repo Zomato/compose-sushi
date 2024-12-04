@@ -34,15 +34,8 @@ data class SushiColorData private constructor(
             val alphaF = (alpha.coerceIn(0.0, 1.0)).toFloat() // Convert transparency to 0-255 range
             return when (val colorInfo = colorInfo) {
                 is ColorDataInfo.Token -> {
-                    SushiTheme.colorTokenMapper.invoke(colorInfo.token).value
+                    SushiTheme.colorTokenMapper.invoke(colorInfo.token).value.copy(alpha = alphaF)
                 }
-
-                // todox: remove if not needed anymore
-                // is ZCColorDataInfo.Token -> {
-                //     val context = LocalContext.current
-                //     val colorInt = context.getResolvedColorToken(colorInfo.token)
-                //     Color(colorInt).copy(alpha = alphaF)
-                // }
 
                 is ColorDataInfo.NameTint -> {
                     val baseColor = getColor(colorInfo.colorName, colorInfo.tint)

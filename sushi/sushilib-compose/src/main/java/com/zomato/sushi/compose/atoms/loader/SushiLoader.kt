@@ -8,9 +8,12 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -30,6 +33,7 @@ import kotlin.math.roundToInt
 private object Defaults {
     val innerAngleOffset = 0f
     val animationSpeedMultiplier = 1f
+    val minSize = 50.dp
 }
 
 @Composable
@@ -39,8 +43,9 @@ fun SushiLoader(
 ) {
     Base(
         modifier
-            .size(50.dp)
-            .defaultMinSize(50.dp, 50.dp)
+            .width(IntrinsicSize.Max)
+            .height(IntrinsicSize.Max)
+            .defaultMinSize(Defaults.minSize, Defaults.minSize)
     ) {
         SushiLoaderImpl(
             props,
@@ -70,44 +75,74 @@ private fun SushiLoaderImpl(
             )
         ), label = "rotation"
     )
+    val innerStartAngle = 360f - outerStartAngle - innerAngleOffset
+
     Canvas(modifier) {
-        val actualSize = Math.min(size.width, size.height)
-        val borderStrokeSize = actualSize / 10
-        val outerSize = actualSize - borderStrokeSize
-        val baseOffset = Offset(borderStrokeSize / 2, borderStrokeSize / 2)
-        val innerSize = (outerSize / 1.4).toFloat()
-        val innerStartAngle = 360f - outerStartAngle - innerAngleOffset
+        val drawAreaSize = Math.min(size.width, size.height)
+        val borderStrokeSize = drawAreaSize / 10
+        val outerSize = drawAreaSize - borderStrokeSize / 2 - borderStrokeSize / 2
+        val innerSize = (outerSize * 0.71).toFloat()
+
+        val center = Offset(size.width / 2, size.height / 2)
+
+        val outerArcTopLeft = center - Offset(outerSize / 2, outerSize / 2)
+        val innerArcTopLeft = center - Offset(innerSize / 2, innerSize / 2)
 
         drawArc(
-            color = innerColor,
-            topLeft = Offset(outerSize / 2 - innerSize / 2 + baseOffset.x, outerSize / 2 - innerSize / 2 + baseOffset.y),
-            startAngle = innerStartAngle,
-            sweepAngle = 90f,
-            useCenter = false,
-            style = Stroke(borderStrokeSize, cap = StrokeCap.Round),
-            size = Size(innerSize, innerSize)
-        )
-        drawArc(
             color = outerColor,
-            topLeft = baseOffset,
+            topLeft = outerArcTopLeft,
             startAngle = outerStartAngle,
             sweepAngle = 310f,
             useCenter = false,
             style = Stroke(borderStrokeSize, cap = StrokeCap.Round),
             size = Size(outerSize, outerSize)
         )
+        drawArc(
+            color = innerColor,
+            topLeft = innerArcTopLeft,
+            startAngle = innerStartAngle,
+            sweepAngle = 90f,
+            useCenter = false,
+            style = Stroke(borderStrokeSize, cap = StrokeCap.Round),
+            size = Size(innerSize, innerSize)
+        )
     }
 }
 
 @SushiPreview
 @Composable
-fun SushiLoaderPreview() {
+fun SushiLoaderPreview1() {
+    Preview {
+        SushiLoader(
+            SushiLoaderProps(
+
+            )
+        )
+    }
+}
+
+@SushiPreview
+@Composable
+fun SushiLoaderPreview2() {
     Preview {
         SushiLoader(
             SushiLoaderProps(
 
             ),
             Modifier.size(100.dp)
+        )
+    }
+}
+
+@SushiPreview
+@Composable
+fun SushiLoaderPreview3() {
+    Preview {
+        SushiLoader(
+            SushiLoaderProps(
+
+            ),
+            Modifier.width(100.dp)
         )
     }
 }

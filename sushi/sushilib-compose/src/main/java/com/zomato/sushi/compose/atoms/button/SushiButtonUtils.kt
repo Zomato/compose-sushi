@@ -2,6 +2,7 @@
 
 package com.zomato.sushi.compose.atoms.button
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,14 +19,16 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 internal object SushiButtonDefaults {
     val size = SushiButtonSize.Medium
     val type = SushiButtonType.Solid
-    val alignment = Alignment.CenterHorizontally
+    val horizontalArrangement = Arrangement.Center
+    val verticalAlignment = Alignment.CenterVertically
     val shape = RoundedCornerShape(8.dp)
     const val subTextSizePercentage = 0.75f
 }
 
 internal fun SushiButtonProps.getButtonTypeWithDefaults() = this.type ?: SushiButtonDefaults.type
 internal fun SushiButtonProps.getButtonSizeWithDefaults() = this.size ?: SushiButtonDefaults.size
-internal fun SushiButtonProps.getButtonAlignmentWithDefaults() = this.textAlignment ?: SushiButtonDefaults.alignment
+internal fun SushiButtonProps.getButtonHorizontalArrangementWithDefaults() = this.horizontalArrangement ?: SushiButtonDefaults.horizontalArrangement
+internal fun SushiButtonProps.getButtonVerticalAlignmentWithDefaults() = this.verticalAlignment ?: SushiButtonDefaults.verticalAlignment
 internal fun SushiButtonProps.getButtonShapeWithDefaults() = this.shape ?: SushiButtonDefaults.shape
 
 @Composable
@@ -43,7 +46,7 @@ fun getButtonTextSize(size: SushiButtonSize): TextUnit = when (size) {
 internal fun getButtonTextType(size: SushiButtonSize): TextStyle = when (size) {
     SushiButtonSize.Small -> SushiTheme.typography.regular200
     SushiButtonSize.Medium -> SushiTheme.typography.regular300
-    SushiButtonSize.Large -> SushiTheme.typography.regular500
+    SushiButtonSize.Large -> SushiTheme.typography.regular400
 }
 
 fun getButtonIconSize(size: SushiButtonSize): TextUnit = when (size) {
