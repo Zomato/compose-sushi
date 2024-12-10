@@ -13,15 +13,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -55,7 +52,7 @@ internal fun SushiSurfaceButtonImpl(
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val isTapped = remember { mutableStateOf(false) }
-    val isDisabled = props.isDisabled == true
+    val isDisabled = props.enabled == false
 
     val appliedStrokeColor = when {
         isDisabled -> borderStrokeColorDisabled
@@ -173,7 +170,7 @@ private fun RowScope.SushiSurfaceButtonImplContent(
                     text = props.text,
                     color = appliedFontColor,
                     type = textType.asTextTypeSpec(),
-                    isMarkDownEnabled = props.isMarkDownEnabled
+                    isMarkDownEnabled = props.markdown
                 )
             )
             if (!props.subText.isNullOrEmpty()) {

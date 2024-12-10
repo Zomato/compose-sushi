@@ -25,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
@@ -78,8 +77,8 @@ private fun SushiRadioButtonImpl(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
-    val isSelected = props.isSelected ?: Defaults.isSelected
-    val isEnabled = props.isEnabled ?: Defaults.isEnabled
+    val isSelected = props.selected ?: Defaults.isSelected
+    val isEnabled = props.enabled ?: Defaults.isEnabled
 
     Row(
         modifier,
@@ -179,7 +178,7 @@ fun SushiCheckboxPreview1() {
             }
             SushiRadioButton(
                 SushiRadioButtonProps(
-                    isSelected = firstSelected == true,
+                    selected = firstSelected == true,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends")
                 ),
                 onClick = {
@@ -189,7 +188,7 @@ fun SushiCheckboxPreview1() {
             )
             SushiRadioButton(
                 SushiRadioButtonProps(
-                    isSelected = firstSelected == false,
+                    selected = firstSelected == false,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends")
                 ),
                 onClick = {
@@ -210,7 +209,7 @@ fun SushiCheckboxPreview2() {
             }
             SushiRadioButton(
                 SushiRadioButtonProps(
-                    isSelected = firstSelected == true,
+                    selected = firstSelected == true,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     verticalAlignment = Alignment.Top
                 ),
@@ -220,10 +219,10 @@ fun SushiCheckboxPreview2() {
             )
             SushiRadioButton(
                 SushiRadioButtonProps(
-                    isSelected = firstSelected == false,
+                    selected = firstSelected == false,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     verticalAlignment = Alignment.Top,
-                    isEnabled = false
+                    enabled = false
                 ),
                 onClick = {
                     firstSelected = false
@@ -243,7 +242,7 @@ fun SushiCheckboxPreview3() {
             }
             SushiRadioButton(
                 SushiRadioButtonProps(
-                    isSelected = firstSelected == true,
+                    selected = firstSelected == true,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends"),
                     direction = RadioButtonDirection.End
                 ),
@@ -254,7 +253,7 @@ fun SushiCheckboxPreview3() {
             )
             SushiRadioButton(
                 SushiRadioButtonProps(
-                    isSelected = firstSelected == false,
+                    selected = firstSelected == false,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends"),
                     direction = RadioButtonDirection.End
                 ),
@@ -276,7 +275,7 @@ fun SushiCheckboxPreview4() {
             }
             SushiRadioButton(
                 SushiRadioButtonProps(
-                    isSelected = firstSelected == true,
+                    selected = firstSelected == true,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     subText = SushiTextProps(text = "subText"),
                     verticalAlignment = Alignment.CenterVertically,
@@ -289,11 +288,11 @@ fun SushiCheckboxPreview4() {
             )
             SushiRadioButton(
                 SushiRadioButtonProps(
-                    isSelected = firstSelected == false,
+                    selected = firstSelected == false,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     subText = SushiTextProps(text = "subText"),
                     verticalAlignment = Alignment.Bottom,
-                    isEnabled = false,
+                    enabled = false,
                     direction = RadioButtonDirection.End
                 ),
                 onClick = {

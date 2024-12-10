@@ -13,10 +13,10 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 @Immutable
 data class SushiRadioButtonProps(
     val id: String? = Default.id,
-    val isSelected: Boolean? = Default.isSelected,
+    val selected: Boolean? = Default.selected,
     val text: SushiTextProps? = Default.text,
     val subText: SushiTextProps? = Default.subText,
-    val isEnabled: Boolean? = Default.isEnabled,
+    val enabled: Boolean? = Default.enabled,
     val unselectedColor: ColorSpec = Default.unselectedColor,
     val selectedColor: ColorSpec = Default.selectedColor,
     val padding: Dp? = Default.padding,
@@ -26,10 +26,10 @@ data class SushiRadioButtonProps(
     companion object {
         val Default = SushiRadioButtonProps(
             id = null,
-            isSelected = null,
+            selected = null,
             text = null,
             subText = null,
-            isEnabled = null,
+            enabled = null,
             unselectedColor = SushiUnspecified.asColorSpec(),
             selectedColor = SushiUnspecified.asColorSpec(),
             padding = null,

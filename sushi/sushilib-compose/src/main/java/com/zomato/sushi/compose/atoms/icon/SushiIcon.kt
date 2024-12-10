@@ -14,11 +14,9 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
-import com.zomato.sushi.compose.atoms.internal.scaled
-import com.zomato.sushi.compose.foundation.SushiTextSize050
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.foundation.WasabiFontFamily
+import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.atomClickable
 import com.zomato.sushi.compose.utils.ifNonNull
@@ -55,14 +53,15 @@ private fun SushiIconImpl(
     val context = LocalContext.current
     val baseTextStyle = LocalTextStyle.current
     val color = props.color.takeIfSpecified() ?: SushiTheme.colors.icon.primary
-
+    val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
     val overrideTextStyle = remember(
         context,
         baseTextStyle,
-        size
+        size,
+        fontSizeMultiplier
     ) {
         baseTextStyle.copy(
-            fontSize = size.scaled(context),
+            fontSize = fontSizeMultiplier(size),
             lineHeightStyle = LineHeightStyle(
                 alignment = LineHeightStyle.Alignment.Center,
                 trim = LineHeightStyle.Trim.Both

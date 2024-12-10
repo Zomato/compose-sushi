@@ -11,10 +11,10 @@ import com.zomato.sushi.compose.atoms.text.SushiTextProps
 @Immutable
 data class SushiCheckBoxProps(
     val id: String? = Default.id,
-    val isChecked: Boolean? = Default.isChecked,
+    val checked: Boolean? = Default.checked,
     val text: SushiTextProps? = Default.text,
     val subText: SushiTextProps? = Default.subText,
-    val isEnabled: Boolean? = Default.isEnabled,
+    val enabled: Boolean? = Default.enabled,
     val color: ColorSpec? = Default.color,
     val size: SushiCheckboxSize? = Default.size,
     val boxPadding: Dp? = Default.boxPadding,
@@ -24,10 +24,10 @@ data class SushiCheckBoxProps(
     companion object {
         val Default = SushiCheckBoxProps(
             id = null,
-            isChecked = null,
+            checked = null,
             text = null,
             subText = null,
-            isEnabled = null,
+            enabled = null,
             color = null,
             size = null,
             boxPadding = null,

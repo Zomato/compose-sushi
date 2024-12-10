@@ -49,7 +49,7 @@ private object Defaults {
 @Composable
 fun SushiSwitch(
     props: SushiSwitchProps,
-    onCheckedChange: ((Boolean) -> Unit)?,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable RowScope.() -> Unit)? = null
@@ -71,7 +71,7 @@ fun SushiSwitch(
 @Composable
 private fun SushiSwitchImpl(
     props: SushiSwitchProps,
-    onCheckedChange: ((Boolean) -> Unit)?,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable RowScope.() -> Unit)? = null
@@ -108,9 +108,7 @@ private fun SushiSwitchImpl(
                     indication = null,
                     enabled = isEnabled,
                     role = Role.Checkbox,
-                    onClick = {
-                        onCheckedChange?.invoke(!isChecked)
-                    }
+                    onClick = { onCheckedChange.invoke(!isChecked) }
                 )
                 .size(Defaults.switchSize),
             enabled = isEnabled,

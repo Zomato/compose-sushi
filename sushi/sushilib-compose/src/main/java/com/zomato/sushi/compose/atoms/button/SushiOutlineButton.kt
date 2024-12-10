@@ -59,7 +59,7 @@ fun SushiOutlineButtonPreview1() {
             SushiButtonProps(
                 type = SushiButtonType.Outline,
                 text = "Tsogy",
-                isDisabled = true
+                enabled = false
             ),
             onClick = {}
         )

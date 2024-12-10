@@ -16,13 +16,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -54,7 +51,7 @@ internal fun SushiTextButton(
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val isTapped = remember(props) { mutableStateOf(false) }
-    val isDisabled = props.isDisabled == true
+    val isDisabled = props.enabled == false
 
     val bgColor = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackground
     val bgColorPressed = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackgroundPressed
@@ -163,7 +160,7 @@ private fun RowScope.SushiTextButtonContent(
                     text = props.text,
                     type = textType.asTextTypeSpec(),
                     color = appliedFontColor,
-                    isMarkDownEnabled = props.isMarkDownEnabled
+                    isMarkDownEnabled = props.markdown
                 )
             )
             if (!props.subText.isNullOrEmpty()) {
@@ -193,7 +190,7 @@ fun SushiTextButtonPreview1() {
             SushiButtonProps(
                 type = SushiButtonType.Text,
                 text = "Tsogy",
-                isDisabled = true
+                enabled = false
             ),
             onClick = {}
         )

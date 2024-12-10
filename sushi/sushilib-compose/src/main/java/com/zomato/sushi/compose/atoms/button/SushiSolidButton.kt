@@ -63,7 +63,7 @@ fun SushiSolidButtonPreview1() {
             SushiButtonProps(
                 type = SushiButtonType.Solid,
                 text = "Tsogy",
-                isDisabled = true
+                enabled = false
             ),
             onClick = {}
         )
