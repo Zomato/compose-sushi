@@ -13,6 +13,9 @@ inline fun Dp.toSp() = with(LocalDensity.current) { remember(this@with) { this@t
 inline fun TextUnit.toDp() = with(LocalDensity.current) { remember(this@with) { this@toDp.toDp() } }
 
 @Composable
+inline fun TextUnit.toPx() = with(LocalDensity.current) { remember(this@with) { this@toPx.toPx() } }
+
+@Composable
 inline fun Dp.toPx() = with(LocalDensity.current) { remember(this@with) { this@toPx.toPx() } }
 
 @Composable

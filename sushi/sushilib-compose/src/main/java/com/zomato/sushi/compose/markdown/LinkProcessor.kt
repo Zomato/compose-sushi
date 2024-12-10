@@ -1,6 +1,5 @@
 package com.zomato.sushi.compose.markdown
 
-import android.content.Context
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -32,7 +31,7 @@ class LinkProcessor() : Processor {
         return props.isClickable
     }
 
-    override fun process(context: Context?, src: AnnotatedString): AnnotatedString {
+    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
         val transformationsList = mutableListOf<Transformation>()
         val matcher = getPattern().matcher(src)
 

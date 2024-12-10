@@ -1,14 +1,12 @@
 package com.zomato.sushi.compose.markdown
 
-import android.content.Context
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
-import com.zomato.sushi.compose.atoms.internal.scaled
-import com.zomato.sushi.compose.foundation.SushiFontWeight
 import com.zomato.sushi.compose.foundation.OkraFontFamily
+import com.zomato.sushi.compose.foundation.SushiFontWeight
 import com.zomato.sushi.compose.foundation.SushiTextSize050
 import com.zomato.sushi.compose.foundation.SushiTextSize100
 import com.zomato.sushi.compose.foundation.SushiTextSize200
@@ -45,7 +43,7 @@ class FontWeightProcessor(): Processor {
         return true
     }
 
-    override fun process(context: Context?, src: AnnotatedString): AnnotatedString {
+    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
         val transformationsList = mutableListOf<Transformation>()
         val matcher = getPattern().matcher(src)
 
@@ -69,7 +67,7 @@ class FontWeightProcessor(): Processor {
                         end = matcher.end(),
                         transformedText = text,
                         fontWeight = getFontWeight(fontDataList?.getOrNull(FONT_WEIGHT_INDEX)),
-                        fontSize = getFontSize(fontDataList?.getOrNull(FONT_SIZE_INDEX), context)
+                        fontSize = getFontSize(fontDataList?.getOrNull(FONT_SIZE_INDEX), props)
                     )
                 )
             }
@@ -106,7 +104,7 @@ class FontWeightProcessor(): Processor {
         return sushiFontWeight.fontWeight()
     }
 
-    private fun getFontSize(value: String?, context: Context?): TextUnit {
+    private fun getFontSize(value: String?, props: MarkdownParserProps): TextUnit {
         val sizeInt = runCatching { value?.toInt() }.getOrNull()
         val size = when (sizeInt) {
             50 -> SushiTextSize050
@@ -121,6 +119,6 @@ class FontWeightProcessor(): Processor {
             900 -> SushiTextSize900
             else -> SushiTextSize500
         }
-        return context?.let { size.scaled(context) } ?: size
+        return props.fontSizeMultiplier(size)
     }
 }

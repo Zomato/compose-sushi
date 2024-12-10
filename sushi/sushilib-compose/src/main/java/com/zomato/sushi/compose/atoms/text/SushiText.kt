@@ -44,7 +44,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.em
 import com.zomato.sushi.compose.atoms.color.ColorName
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorVariation
@@ -53,12 +53,12 @@ import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.atoms.internal.scaled
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.markdown.MarkdownParser
+import com.zomato.sushi.compose.markdown.MarkdownParserProps
 import com.zomato.sushi.compose.utils.atomClickable
 import com.zomato.sushi.compose.utils.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
@@ -110,14 +110,12 @@ private fun SushiTextImpl(
     onTextLayout: (TextLayoutResult) -> Unit = {},
     onClick: (() -> Unit)? = null
 ) {
-    val horizontalArrangement = props.horizontalArrangement ?: Arrangement.Center
+    val horizontalArrangement = props.horizontalArrangement ?: Arrangement.Start
     val verticalAlignment = props.verticalAlignment ?: Alignment.CenterVertically
 
     Row(
         modifier
-            .ifNonNull(onClick) {
-                this.atomClickable(onClick = it)
-            },
+            .ifNonNull(onClick) { this.atomClickable(onClick = it) },
         verticalAlignment = verticalAlignment,
         horizontalArrangement = horizontalArrangement
     ) {
@@ -138,28 +136,35 @@ private fun SushiTextImpl(
         val overflowText = props.overflowText
         val prefixSpacing = props.prefixSpacing ?: Defaults.prefixSpacing
         val suffixSpacing = props.suffixSpacing ?: Defaults.suffixSpacing
+        val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
 
         val localCurrentTextStyle = LocalTextStyle.current
         val textStyle = remember(
             context,
             localCurrentTextStyle,
-            typeStyle
+            typeStyle,
+            fontSizeMultiplier
         ) {
             val baseStyle = localCurrentTextStyle.merge(typeStyle)
             baseStyle.copy(
-                fontSize = baseStyle.fontSize.scaled(context),
+                fontSize = fontSizeMultiplier(baseStyle.fontSize),
                 lineHeightStyle = LineHeightStyle(
                     alignment = LineHeightStyle.Alignment.Center,
                     trim = LineHeightStyle.Trim.Both
                 )
             )
         }
+        val markdownParserProps = remember(fontSizeMultiplier) {
+            MarkdownParserProps.default.copy(
+                fontSizeMultiplier = fontSizeMultiplier
+            )
+        }
 
-        val text = remember(context, rawText, isMarkDownEnabled) {
+        val text = remember(rawText, isMarkDownEnabled, markdownParserProps) {
             if (isMarkDownEnabled) {
                 MarkdownParser.default.parse(
-                    context = context,
-                    text = rawText
+                    text = rawText,
+                    props = markdownParserProps
                 )
             } else {
                 AnnotatedString(rawText)
@@ -423,7 +428,7 @@ fun SushiTextPreview1() {
                     ),
                     color = SushiTheme.colors.text.success,
                     maxLines = 3,
-                    letterSpacing = 4.sp,
+                    letterSpacing = 4.em,
                     type = SushiTextType.Regular900
                 )
             )

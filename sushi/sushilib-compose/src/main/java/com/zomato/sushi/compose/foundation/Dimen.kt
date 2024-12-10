@@ -3,16 +3,16 @@ package com.zomato.sushi.compose.foundation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-val SushiTextSize050 = 9.sp
-val SushiTextSize100 = 11.sp
-val SushiTextSize200 = 12.sp
-val SushiTextSize300 = 13.sp
-val SushiTextSize400 = 15.sp
-val SushiTextSize500 = 17.sp
-val SushiTextSize600 = 19.sp
-val SushiTextSize700 = 21.sp
-val SushiTextSize800 = 24.sp
-val SushiTextSize900 = 27.sp
+val SushiTextSize050 = 10.sp
+val SushiTextSize100 = 12.sp
+val SushiTextSize200 = 13.sp
+val SushiTextSize300 = 14.sp
+val SushiTextSize400 = 16.sp
+val SushiTextSize500 = 18.sp
+val SushiTextSize600 = 20.sp
+val SushiTextSize700 = 22.sp
+val SushiTextSize800 = 25.sp
+val SushiTextSize900 = 28.sp
 
 val SushiSpacingFemto = 0.dp
 val SushiSpacingPico = 1.dp

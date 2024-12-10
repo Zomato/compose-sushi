@@ -5,12 +5,10 @@ package com.zomato.sushi.compose.atoms.checkbox
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
@@ -59,7 +56,7 @@ private object Defaults {
 @Composable
 fun SushiCheckBox(
     props: SushiCheckBoxProps,
-    onCheckedChange: ((Boolean) -> Unit)?,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable RowScope.() -> Unit)? = null
@@ -81,14 +78,14 @@ fun SushiCheckBox(
 @Composable
 private fun SushiCheckBoxImpl(
     props: SushiCheckBoxProps,
-    onCheckedChange: ((Boolean) -> Unit)?,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
 
-    val isChecked = props.isChecked ?: Defaults.isChecked
-    val isEnabled = props.isEnabled ?: Defaults.isEnabled
+    val isChecked = props.checked ?: Defaults.isChecked
+    val isEnabled = props.enabled ?: Defaults.isEnabled
 
     Row(
         modifier,
@@ -201,7 +198,7 @@ fun SushiCheckboxPreview1() {
         Column {
             SushiCheckBox(
                 SushiCheckBoxProps(
-                    isChecked = checked,
+                    checked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends"),
                     size = SushiCheckboxSize.Default
                 ),
@@ -209,7 +206,7 @@ fun SushiCheckboxPreview1() {
             )
             SushiCheckBox(
                 SushiCheckBoxProps(
-                    isChecked = checked,
+                    checked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends"),
                     size = SushiCheckboxSize.Mini
                 ),
@@ -229,7 +226,7 @@ fun SushiCheckboxPreview2() {
         Column {
             SushiCheckBox(
                 SushiCheckBoxProps(
-                    isChecked = checked,
+                    checked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     subText = SushiTextProps(text = "SubText"),
                     size = SushiCheckboxSize.Default,
@@ -239,11 +236,11 @@ fun SushiCheckboxPreview2() {
             )
             SushiCheckBox(
                 SushiCheckBoxProps(
-                    isChecked = checked,
+                    checked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     size = SushiCheckboxSize.Mini,
                     verticalAlignment = Alignment.Bottom,
-                    isEnabled = false
+                    enabled = false
                 ),
                 onCheckedChange = { checked = !checked }
             )
@@ -262,7 +259,7 @@ fun SushiCheckboxPreview3() {
         Column(horizontalAlignment = Alignment.End) {
             SushiCheckBox(
                 SushiCheckBoxProps(
-                    isChecked = checked,
+                    checked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends"),
                     size = SushiCheckboxSize.Default,
                     direction = CheckBoxDirection.End
@@ -271,7 +268,7 @@ fun SushiCheckboxPreview3() {
             )
             SushiCheckBox(
                 SushiCheckBoxProps(
-                    isChecked = checked,
+                    checked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends"),
                     size = SushiCheckboxSize.Mini,
                     direction = CheckBoxDirection.End
@@ -292,7 +289,7 @@ fun SushiCheckboxPreview4() {
         Column(horizontalAlignment = Alignment.End) {
             SushiCheckBox(
                 SushiCheckBoxProps(
-                    isChecked = checked,
+                    checked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     size = SushiCheckboxSize.Default,
                     verticalAlignment = Alignment.Top,
@@ -303,12 +300,12 @@ fun SushiCheckboxPreview4() {
             )
             SushiCheckBox(
                 SushiCheckBoxProps(
-                    isChecked = checked,
+                    checked = checked,
                     text = SushiTextProps(text = "I recommend this restaurant to my friends\nI recommend this restaurant to my friends\nI recommend this restaurant to my friends"),
                     subText = SushiTextProps(text = "SubText"),
                     size = SushiCheckboxSize.Mini,
                     verticalAlignment = Alignment.Top,
-                    isEnabled = false,
+                    enabled = false,
                     direction = CheckBoxDirection.End
                 ),
                 onCheckedChange = { checked = !checked }

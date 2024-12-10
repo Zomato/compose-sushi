@@ -7,7 +7,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
-import com.zomato.sushi.compose.foundation.ColorTokenMapper
+import com.zomato.sushi.compose.foundation.SushiColorTokenMapper
 import com.zomato.sushi.compose.foundation.SushiDimension
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.foundation.SushiTypography
@@ -18,7 +18,7 @@ import com.zomato.sushi.compose.foundation.sushiLightColorScheme
 internal fun Preview(
     typography: SushiTypography = SushiTheme.typography,
     dimens: SushiDimension = SushiTheme.dimens,
-    colorTokenMapper: ColorTokenMapper = SushiTheme.colorTokenMapper,
+    colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (isSystemInDarkTheme()) {

@@ -1,6 +1,5 @@
 package com.zomato.sushi.compose.markdown
 
-import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -31,7 +30,7 @@ class ColorProcessor() : Processor {
     }
 
     @OptIn(ExperimentalSushiApi::class)
-    override fun process(context: Context?, src: AnnotatedString): AnnotatedString {
+    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
         val transformationsList = mutableListOf<Transformation>()
         val matcher = getPattern().matcher(src)
 

@@ -25,11 +25,11 @@ data class SushiButtonProps(
     val borderColor: ColorSpec = Default.borderColor,
     val suffixIcon: SushiIconProps? = Default.suffixIcon,
     val prefixIcon: SushiIconProps? = Default.prefixIcon,
-    val isDisabled: Boolean? = Default.isDisabled,
+    val enabled: Boolean? = Default.enabled,
     val horizontalArrangement: Arrangement.Horizontal? = Default.horizontalArrangement,
     val verticalAlignment: Alignment.Vertical? = Default.verticalAlignment,
     val textAlignment: Alignment.Horizontal? = Default.textAlignment,
-    val isMarkDownEnabled: Boolean? = Default.isMarkDownEnabled,
+    val markdown: Boolean? = Default.markdown,
     val shape: Shape? = Default.shape,
     val iconSpacing: Dp? = Default.iconSpacing
 ) {
@@ -48,8 +48,8 @@ data class SushiButtonProps(
             horizontalArrangement = null,
             verticalAlignment = null,
             textAlignment = null,
-            isDisabled = null,
-            isMarkDownEnabled = null,
+            enabled = null,
+            markdown = null,
             shape = null,
             iconSpacing = null
         )

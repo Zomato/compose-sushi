@@ -1,6 +1,5 @@
 package com.zomato.sushi.compose.markdown
 
-import android.content.Context
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -24,7 +23,7 @@ class StrikethroughProcessor() : Processor {
         return true
     }
 
-    override fun process(context: Context?, src: AnnotatedString): AnnotatedString {
+    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
         val transformationsList = mutableListOf<Transformation>()
         val matcher = getPattern().matcher(src)
 

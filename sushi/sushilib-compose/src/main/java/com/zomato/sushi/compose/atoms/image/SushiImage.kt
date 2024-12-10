@@ -4,6 +4,7 @@ package com.zomato.sushi.compose.atoms.image
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
@@ -39,17 +40,23 @@ private object Defaults {
 @Composable
 fun SushiImage(
     props: SushiImageProps,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
 ) {
     Base(modifier) {
-        SushiImageImpl(props)
+        SushiImageImpl(
+            props,
+            Modifier,
+            onClick = onClick
+        )
     }
 }
 
 @Composable
 private fun SushiImageImpl(
     props: SushiImageProps,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
 ) {
     if (props.painter != null) {
         val painter = props.painter
@@ -64,6 +71,7 @@ private fun SushiImageImpl(
             painter,
             contentDescription,
             modifier
+                .ifNonNull(onClick) { this.clickable(onClick = it) }
                 .ifNonNull(props.shape) { this.clip(it) }
                 .ifNonNull(props.height) { this.height(it) }
                 .ifNonNull(props.width) { this.width(it) }
