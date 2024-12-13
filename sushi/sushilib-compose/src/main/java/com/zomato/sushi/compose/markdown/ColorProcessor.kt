@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalSushiApi::class)
+
 package com.zomato.sushi.compose.markdown
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -8,6 +11,8 @@ import com.zomato.sushi.compose.atoms.color.ColorName
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.getColor
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.core.SushiColorToken
 import java.util.regex.Pattern
 
 class ColorProcessor() : Processor {
@@ -16,7 +21,7 @@ class ColorProcessor() : Processor {
         val start: Int,
         val end: Int,
         val transformedText: AnnotatedString,
-        val color: ULong
+        val color: Color
     )
 
     companion object {
@@ -25,17 +30,15 @@ class ColorProcessor() : Processor {
         const val TEXT_GROUP = 4
     }
 
-    override fun isApplicable(props: MarkdownParserProps): Boolean {
-        return true
-    }
+    override val cacheKeys: List<Any> @Composable get() = listOf(SushiTheme.colorTokenMapper)
 
-    @OptIn(ExperimentalSushiApi::class)
-    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
+    @Composable
+    override fun process(props: MarkdownParserProps, src: AnnotatedString, parser: MarkdownParser): AnnotatedString {
         val transformationsList = mutableListOf<Transformation>()
         val matcher = getPattern().matcher(src)
 
         while (matcher.find()) {
-            val color = matcher.group(COLOR_GROUP)
+            val colorString = matcher.group(COLOR_GROUP)
             var textStart = -1
             var textEnd = -1
             runCatching {
@@ -45,39 +48,18 @@ class ColorProcessor() : Processor {
             if (textStart != -1 && textEnd != -1) {
                 val text = src.subSequence(textStart, textEnd)
 
-                var parsedColor: ULong = ColorName.fromColorName(color)
-                    ?.let { getColor(it, ColorVariation.Variation500).value } ?: 0UL
-                if (color?.contains("-") == true) {
-                    val colorObjectString = color.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                    if (colorObjectString.size == 2 && isValidInteger(colorObjectString[1])) {
-                        val name = ColorName.fromColorName(colorObjectString[0])
-                        val tint = ColorVariation.fromInt(colorObjectString[1].toInt())
-                        parsedColor = if (name != null && tint != null) {
-                            getColor(name, tint).value
-                        } else {
-                            0UL
-                        }
+                colorString
+                    ?.let { parseColor(it) }
+                    ?.let { parsedColor ->
+                        transformationsList.add(
+                            Transformation(
+                                start = matcher.start(),
+                                end = matcher.end(),
+                                transformedText = text,
+                                color = parsedColor
+                            )
+                        )
                     }
-                    if (colorObjectString.size == 3 && isValidInteger(colorObjectString[1])) {
-                        val name = ColorName.fromColorName(colorObjectString[0])
-                        val tint = ColorVariation.fromInt(colorObjectString[1].toInt())
-                        val alpha = colorObjectString[2].toFloatOrNull() ?: 1.0f
-                        parsedColor = if (name != null && tint != null) {
-                            getColor(name, tint).copy(alpha = alpha).value
-                        } else {
-                            0UL
-                        }
-                    }
-                }
-
-                transformationsList.add(
-                    Transformation(
-                        start = matcher.start(),
-                        end = matcher.end(),
-                        transformedText = text,
-                        color = parsedColor
-                    )
-                )
             }
         }
 
@@ -88,7 +70,7 @@ class ColorProcessor() : Processor {
                 this.append(src.subSequence(currentStartIdx, it.start))
                 this.append(it.transformedText)
                 this.addStyle(
-                    SpanStyle(color = Color(it.color)),
+                    SpanStyle(color = it.color),
                     this.length - it.transformedText.length, this.length
                 )
                 currentStartIdx = it.end
@@ -101,6 +83,37 @@ class ColorProcessor() : Processor {
 
     private fun getPattern(): Pattern {
         return Pattern.compile(REGEX)
+    }
+
+    @Composable
+    private fun parseColor(color: String): Color? {
+        var parsedColor: Color? = ColorName.fromColorName(color)
+            ?.let { getColor(it, ColorVariation.Variation500) }
+        if (color.contains("-")) {
+            val colorObjectString = color.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (colorObjectString.size == 2 && isValidInteger(colorObjectString[1])) {
+                val name = ColorName.fromColorName(colorObjectString[0])
+                val tint = ColorVariation.fromInt(colorObjectString[1].toInt())
+                parsedColor = if (name != null && tint != null) {
+                    getColor(name, tint)
+                } else {
+                    null
+                }
+            }
+            if (colorObjectString.size == 3 && isValidInteger(colorObjectString[1])) {
+                val name = ColorName.fromColorName(colorObjectString[0])
+                val tint = ColorVariation.fromInt(colorObjectString[1].toInt())
+                val alpha = colorObjectString[2].toFloatOrNull() ?: 1.0f
+                parsedColor = if (name != null && tint != null) {
+                    getColor(name, tint).copy(alpha = alpha)
+                } else {
+                    null
+                }
+            }
+        } else if (color.contains("color.")) {
+            parsedColor = SushiTheme.colorTokenMapper.invoke(SushiColorToken(color)).value
+        }
+        return parsedColor
     }
 
     private fun isValidInteger(integerString: String?): Boolean {

@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.markdown
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -39,11 +40,10 @@ class FontWeightProcessor(): Processor {
         val fontSize: TextUnit
     )
 
-    override fun isApplicable(props: MarkdownParserProps): Boolean {
-        return true
-    }
+    override val cacheKeys: List<Any> @Composable get() = emptyList()
 
-    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
+    @Composable
+    override fun process(props: MarkdownParserProps, src: AnnotatedString, parser: MarkdownParser): AnnotatedString {
         val transformationsList = mutableListOf<Transformation>()
         val matcher = getPattern().matcher(src)
 

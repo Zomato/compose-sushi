@@ -49,6 +49,8 @@ dependencies {
 
     implementation "com.airbnb.android:lottie-compose:$rootConfiguration.lottieVersion"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:$rootConfiguration.kotlinxCollectionsImmutableVersion"
+
     applyZomatoKitsApi('sushi-core')
 
     // Compose
