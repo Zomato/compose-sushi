@@ -13,7 +13,7 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.core.SushiColorToken
 
-typealias SushiColorTokenMapper = @Composable (colorToken: SushiColorToken) -> ColorSpec
+typealias SushiColorTokenMapper = (colorToken: SushiColorToken) -> ColorSpec
 typealias SushiFontSizeMultiplier = (TextUnit) -> TextUnit
 
 fun sushiDimension(
@@ -32,7 +32,7 @@ internal val LocalSushiTypography = staticCompositionLocalOf<SushiTypography> { 
 internal val LocalSushiDimension = staticCompositionLocalOf<SushiDimension> { sushiDimension() }
 internal val LocalSushiFontSizeMultiplier = staticCompositionLocalOf<SushiFontSizeMultiplier> { { it } }
 internal val LocalSushiColorTokenMapper = staticCompositionLocalOf<SushiColorTokenMapper> {
-    @Composable { SushiUnspecified.asColorSpec() }
+    { SushiUnspecified.asColorSpec() }
 }
 
 @ExperimentalSushiApi

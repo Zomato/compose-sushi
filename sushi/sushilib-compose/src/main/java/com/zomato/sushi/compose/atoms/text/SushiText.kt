@@ -160,15 +160,13 @@ private fun SushiTextImpl(
             )
         }
 
-        val text = remember(rawText, isMarkDownEnabled, markdownParserProps) {
-            if (isMarkDownEnabled) {
-                MarkdownParser.default.parse(
-                    text = rawText,
-                    props = markdownParserProps
-                )
-            } else {
-                AnnotatedString(rawText)
-            }
+        val text = if (isMarkDownEnabled) {
+            MarkdownParser.default.parse(
+                text = rawText,
+                props = markdownParserProps
+            )
+        } else {
+            AnnotatedString(rawText)
         }
 
         if (prefix != null) {

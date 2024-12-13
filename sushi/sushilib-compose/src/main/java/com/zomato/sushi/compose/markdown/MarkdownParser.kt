@@ -1,10 +1,21 @@
 package com.zomato.sushi.compose.markdown
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.text.AnnotatedString
 
+// todox: remove
+private data class CacheKey(
+    val text: String,
+    val props: MarkdownParserProps
+)
+
 class MarkdownParser private constructor(
-    private val processors: List<Processor>
+    private val processors: List<Processor>,
+    // todox: remove
+    // private val cache: ConcurrentHashMap<CacheKey, AnnotatedString> = ConcurrentHashMap()
 ) {
+
     companion object {
         val default by lazy {
             MarkdownParser.Builder()
@@ -18,13 +29,22 @@ class MarkdownParser private constructor(
         }
     }
 
+    @Composable
     fun parse(
         text: String,
         props: MarkdownParserProps
     ): AnnotatedString {
-        return processors
-            .filter { it.isApplicable(props) }
-            .fold(AnnotatedString(text), { acc, markdownProcessor ->  markdownProcessor.process(props, acc) })
+        val keys = listOf(text, props) + processors.flatMap { it.cacheKeys }
+        var result: AnnotatedString? = remember(*keys.toTypedArray()) { null/*cache[CacheKey(text, props)]*/ } // todox: remove commented
+
+        if (result == null) {
+            result = processors
+                .fold(AnnotatedString(text), { acc, markdownProcessor ->  markdownProcessor.process(props, acc, this) })
+                // todox: remove commented
+                // .also { cache[CacheKey(text, props)] = it }
+        }
+
+        return result
     }
 
     class Builder {

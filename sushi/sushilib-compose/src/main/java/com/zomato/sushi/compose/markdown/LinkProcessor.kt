@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.markdown
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -27,11 +28,13 @@ class LinkProcessor() : Processor {
         val link: String?
     )
 
-    override fun isApplicable(props: MarkdownParserProps): Boolean {
-        return props.isClickable
-    }
+    override val cacheKeys: List<Any> @Composable get() = emptyList()
 
-    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
+    @Composable
+    override fun process(props: MarkdownParserProps, src: AnnotatedString, parser: MarkdownParser): AnnotatedString {
+        if (!props.isClickable) {
+            return src
+        }
         val transformationsList = mutableListOf<Transformation>()
         val matcher = getPattern().matcher(src)
 
