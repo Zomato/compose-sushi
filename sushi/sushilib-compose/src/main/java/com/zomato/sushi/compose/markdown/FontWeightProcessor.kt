@@ -83,8 +83,7 @@ class FontWeightProcessor(): Processor {
                 this.addStyle(
                     SpanStyle(
                         fontWeight = it.fontWeight,
-                        fontSize = it.fontSize,
-                        fontFamily = OkraFontFamily
+                        fontSize = it.fontSize
                     ),
                     this.length - it.transformedText.length, this.length
                 )

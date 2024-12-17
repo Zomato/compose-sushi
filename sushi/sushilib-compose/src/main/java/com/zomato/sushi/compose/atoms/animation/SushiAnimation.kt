@@ -4,6 +4,11 @@ package com.zomato.sushi.compose.atoms.animation
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -25,6 +30,8 @@ import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
+import com.zomato.sushi.compose.utils.ifNonNull
+import com.zomato.sushi.compose.utils.takeIfSpecified
 
 private object Defaults {
     val playback = SushiAnimationPlayback.AutoPlay()
@@ -70,16 +77,24 @@ private fun SushiAnimationImpl(
 
         val composition: LottieComposition? = when(source) {
             is LottieCompositionSource -> source.composition
-            is LottieContent -> rememberLottieComposition(source).value
+            is LottieResourceSource -> rememberLottieComposition(source).value
         }
 
         if (composition != null) {
-            when (playback) {
-                is SushiAnimationPlayback.AutoPlay -> {
-                    LottieAutoPlay(composition, playback, modifier)
-                }
-                is SushiAnimationPlayback.Progress -> {
-                    LottieWithProgress(composition, playback, modifier)
+            Box(
+                modifier
+                    .ifNonNull(props.height) { this.height(it) }
+                    .ifNonNull(props.width) { this.width(it) }
+                    .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
+                    .ifNonNull(props.bgColor.takeIfSpecified()) { this.background(it.value) }
+            ) {
+                when (playback) {
+                    is SushiAnimationPlayback.AutoPlay -> {
+                        LottieAutoPlay(composition, playback)
+                    }
+                    is SushiAnimationPlayback.Progress -> {
+                        LottieWithProgress(composition, playback)
+                    }
                 }
             }
         }
@@ -121,7 +136,7 @@ private fun LottieWithProgress(
 }
 
 @Composable
-private fun rememberLottieComposition(source: LottieContent): LottieCompositionResult {
+private fun rememberLottieComposition(source: LottieResourceSource): LottieCompositionResult {
     val retrySignal = rememberLottieRetrySignal()
     val compositionSpec = remember(source) { lottieCompositionSpec(source) }
     val compositionResult: LottieCompositionResult = rememberLottieComposition(
@@ -138,13 +153,13 @@ private fun rememberLottieComposition(source: LottieContent): LottieCompositionR
     return compositionResult
 }
 
-private fun lottieCompositionSpec(source: LottieContent): LottieCompositionSpec {
+private fun lottieCompositionSpec(source: LottieResourceSource): LottieCompositionSpec {
     return when (source) {
-        is LottieAsset -> LottieCompositionSpec.Asset(source.assetName)
-        is LottieFile -> LottieCompositionSpec.File(source.filePath)
-        is LottieJson -> LottieCompositionSpec.JsonString(source.jsonString)
-        is LottieResource -> LottieCompositionSpec.RawRes(source.resId)
-        is LottieUrl -> LottieCompositionSpec.Url(source.url)
+        is LottieAssetSource -> LottieCompositionSpec.Asset(source.assetName)
+        is LottieFileSource -> LottieCompositionSpec.File(source.filePath)
+        is LottieJsonSource -> LottieCompositionSpec.JsonString(source.jsonString)
+        is LottieResourceIdSource -> LottieCompositionSpec.RawRes(source.resId)
+        is LottieUrlSource -> LottieCompositionSpec.Url(source.url)
     }
 }
 
@@ -153,7 +168,7 @@ private fun lottieCompositionSpec(source: LottieContent): LottieCompositionSpec 
 fun SushiAnimationPreview1() {
     Preview {
         val props by rememberSushiAnimationProps(
-            source = LottieAsset("collection_lottie.json"),
+            source = LottieAssetSource("collection_lottie.json"),
             playback = SushiAnimationPlayback.AutoPlay(
                 isPlaying = true,
                 restartOnPlay = true,
@@ -212,7 +227,7 @@ fun SushiAnimationPreview3() {
         }
 
         val props by rememberSushiAnimationProps(
-            source = LottieAsset("collection_lottie.json"),
+            source = LottieAssetSource("collection_lottie.json"),
             playback = SushiAnimationPlayback.Progress { progress }
         )
 
