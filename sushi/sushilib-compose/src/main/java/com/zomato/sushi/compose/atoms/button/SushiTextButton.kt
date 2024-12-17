@@ -127,7 +127,7 @@ private fun RowScope.SushiTextButtonContent(
     }
 
     val textType: TextStyle = props.fontType?.typeStyle ?: TextStyle(fontSize = getButtonTextSize(props.getButtonSizeWithDefaults()))
-    val defaultIconSize: TextUnit = getButtonIconSize(props.getButtonSizeWithDefaults()) // todox
+    val defaultIconSize: TextUnit = props.fontType?.typeStyle?.fontSize ?: getButtonIconSize(props.getButtonSizeWithDefaults())
     val iconPadding: Dp = props.iconSpacing ?: getButtonIconPadding(props.getButtonSizeWithDefaults())
 
     val prefixIcon = props.prefixIcon?.copy(

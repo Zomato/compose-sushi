@@ -13,11 +13,11 @@ sealed interface SushiAnimationSource
 
 sealed interface LottieSource : SushiAnimationSource
 
-sealed interface LottieContent : LottieSource
-@JvmInline value class LottieAsset(val assetName: String) : LottieContent
-@JvmInline value class LottieFile(val filePath: String) : LottieContent
-@JvmInline value class LottieJson(val jsonString: String) : LottieContent
-@JvmInline value class LottieResource(@RawRes val resId: Int) : LottieContent
-@JvmInline value class LottieUrl(val url: String) : LottieContent
+sealed interface LottieResourceSource : LottieSource
+@JvmInline value class LottieAssetSource(val assetName: String) : LottieResourceSource
+@JvmInline value class LottieFileSource(val filePath: String) : LottieResourceSource
+@JvmInline value class LottieJsonSource(val jsonString: String) : LottieResourceSource
+@JvmInline value class LottieResourceIdSource(@RawRes val resId: Int) : LottieResourceSource
+@JvmInline value class LottieUrlSource(val url: String) : LottieResourceSource
 
 @JvmInline value class LottieCompositionSource(val composition: LottieComposition?) : LottieSource

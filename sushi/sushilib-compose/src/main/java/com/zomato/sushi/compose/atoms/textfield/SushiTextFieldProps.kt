@@ -3,7 +3,7 @@ package com.zomato.sushi.compose.atoms.textfield
 import androidx.compose.runtime.Immutable
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
-// todox:
+// todox: implement sushi text field
 @ExperimentalSushiApi
 @Immutable
 data class SushiTextFieldProps(
