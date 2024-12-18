@@ -4,6 +4,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 
 /**
+ * @author gupta.anirudh@zomato.com
+ *
  * @param percentage from 0 to 100, 0 means identity, 100 means entirely greyscale
  */
 fun ColorFilter.Companion.grayscale(percentage: Int = 100): ColorFilter {

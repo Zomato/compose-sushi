@@ -8,6 +8,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 private data class ColorSpecTransformer(
     val original: ColorSpec,
     val transform: (Color) -> Color

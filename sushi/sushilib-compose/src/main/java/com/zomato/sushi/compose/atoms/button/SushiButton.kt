@@ -12,6 +12,9 @@ import androidx.compose.ui.Modifier
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Composable
 fun SushiButton(

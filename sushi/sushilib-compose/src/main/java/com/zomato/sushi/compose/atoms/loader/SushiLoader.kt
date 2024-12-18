@@ -36,6 +36,9 @@ private object Defaults {
     val minSize = 50.dp
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 fun SushiLoader(
     props: SushiLoaderProps,

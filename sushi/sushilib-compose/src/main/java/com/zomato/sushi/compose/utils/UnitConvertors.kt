@@ -6,6 +6,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
+
 @Composable
 inline fun Dp.toSp() = with(LocalDensity.current) { remember(this@with) { this@toSp.toSp() } }
 

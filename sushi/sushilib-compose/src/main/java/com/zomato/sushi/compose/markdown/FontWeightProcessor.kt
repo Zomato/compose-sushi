@@ -6,7 +6,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
-import com.zomato.sushi.compose.foundation.OkraFontFamily
 import com.zomato.sushi.compose.foundation.SushiFontWeight
 import com.zomato.sushi.compose.foundation.SushiTextSize050
 import com.zomato.sushi.compose.foundation.SushiTextSize100
@@ -21,6 +20,9 @@ import com.zomato.sushi.compose.foundation.SushiTextSize900
 import com.zomato.sushi.compose.foundation.fontWeight
 import java.util.regex.Pattern
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 class FontWeightProcessor(): Processor {
 
     companion object {

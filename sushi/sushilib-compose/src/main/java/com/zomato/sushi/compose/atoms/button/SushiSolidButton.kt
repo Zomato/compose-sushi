@@ -17,6 +17,9 @@ import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 internal fun SushiSolidButton(
     props: SushiButtonProps,

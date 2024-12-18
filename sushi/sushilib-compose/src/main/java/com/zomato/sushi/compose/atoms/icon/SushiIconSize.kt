@@ -22,6 +22,9 @@ import com.zomato.sushi.compose.foundation.SushiTextSize800
 import com.zomato.sushi.compose.foundation.SushiTextSize900
 import com.zomato.sushi.compose.utils.toSp
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Immutable
 sealed interface IconSizeSpec {
@@ -45,6 +48,9 @@ internal value class DpIconSizeSpec(private val dp: Dp) : IconSizeSpec {
 fun TextUnit.asIconSizeSpec(): IconSizeSpec = TextUnitIconSizeSpec(this)
 fun Dp.asIconSizeSpec(): IconSizeSpec = DpIconSizeSpec(this)
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Immutable
 enum class SushiIconSize: IconSizeSpec {

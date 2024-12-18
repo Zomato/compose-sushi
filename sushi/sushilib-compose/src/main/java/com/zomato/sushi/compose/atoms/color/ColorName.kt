@@ -2,6 +2,9 @@ package com.zomato.sushi.compose.atoms.color
 
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 enum class ColorName(val colorName: String) {
     Black("black"),

@@ -7,6 +7,9 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 sealed interface ColorSpec {
     companion object

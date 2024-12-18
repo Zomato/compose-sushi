@@ -6,6 +6,9 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 fun sushiDarkColorScheme(
     materialColorScheme: ColorScheme = darkColorScheme(),
     themeColorScheme: SushiColorScheme.ThemeColorScheme = SushiColorScheme.ThemeColorScheme(

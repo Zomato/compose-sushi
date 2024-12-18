@@ -60,6 +60,9 @@ import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.roundToInt
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

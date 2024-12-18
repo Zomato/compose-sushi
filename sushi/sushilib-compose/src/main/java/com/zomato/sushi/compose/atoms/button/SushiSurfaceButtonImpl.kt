@@ -35,6 +35,9 @@ import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 internal fun SushiSurfaceButtonImpl(
     props: SushiButtonProps,

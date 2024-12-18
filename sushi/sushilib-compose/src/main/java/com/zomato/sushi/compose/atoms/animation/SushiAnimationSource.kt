@@ -7,6 +7,10 @@ import androidx.compose.runtime.Immutable
 import com.airbnb.lottie.LottieComposition
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
+
 @Immutable
 @ExperimentalSushiApi
 sealed interface SushiAnimationSource

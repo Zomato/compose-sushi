@@ -11,6 +11,10 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
+
 @Composable
 inline fun Modifier.ifTrue(condition: Boolean, crossinline transform: @Composable Modifier.() -> Modifier): Modifier {
     return if (condition) {

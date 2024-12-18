@@ -3,6 +3,10 @@ package com.zomato.sushi.compose.foundation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
+
 val SushiTextSize050 = 10.sp
 val SushiTextSize100 = 12.sp
 val SushiTextSize200 = 13.sp

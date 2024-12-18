@@ -26,6 +26,9 @@ private object Defaults {
     val size = SushiIconSize.Size100
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Composable
 fun SushiIcon(

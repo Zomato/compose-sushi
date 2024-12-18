@@ -1,5 +1,8 @@
 package com.zomato.sushi.compose.atoms.color
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 enum class ColorVariation(val variation: Int) {
     Variation50(50),
     Variation100(100),

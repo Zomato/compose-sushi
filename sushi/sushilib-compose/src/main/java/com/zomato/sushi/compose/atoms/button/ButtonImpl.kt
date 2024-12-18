@@ -26,6 +26,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 /**
+ * @author gupta.anirudh@zomato.com
+ *
  * Similar implementation as Material's Button composable, but with a few differences:
  * - Removed minimum interaction
  * - Removed min width, height

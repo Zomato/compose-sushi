@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 internal fun Base(
     modifier: Modifier,

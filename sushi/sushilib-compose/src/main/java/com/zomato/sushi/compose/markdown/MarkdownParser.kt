@@ -10,6 +10,9 @@ private data class CacheKey(
     val props: MarkdownParserProps
 )
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 class MarkdownParser private constructor(
     private val processors: List<Processor>,
     // todox: remove

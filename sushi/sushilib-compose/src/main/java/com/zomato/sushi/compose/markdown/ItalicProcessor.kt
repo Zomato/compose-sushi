@@ -7,6 +7,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import java.util.regex.Pattern
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 class ItalicProcessor() : Processor {
 
     private data class Transformation(

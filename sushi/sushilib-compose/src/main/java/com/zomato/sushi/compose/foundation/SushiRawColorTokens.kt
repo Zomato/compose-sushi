@@ -3,6 +3,8 @@ package com.zomato.sushi.compose.foundation
 import androidx.compose.ui.graphics.Color
 
 /**
+ * @author gupta.anirudh@zomato.com
+ *
  * Raw color tokens used for defining theme
  * Note: Direct usage of these colors is not recommended.
  */

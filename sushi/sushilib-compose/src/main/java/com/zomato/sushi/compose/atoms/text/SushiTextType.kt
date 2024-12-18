@@ -9,12 +9,18 @@ import androidx.compose.ui.text.TextStyle
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Immutable
 sealed interface TextTypeSpec {
     @get:Composable @Stable val typeStyle: TextStyle
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @JvmInline
 internal value class TextStyleTextType(val textStyle: TextStyle) : TextTypeSpec {
@@ -24,6 +30,9 @@ internal value class TextStyleTextType(val textStyle: TextStyle) : TextTypeSpec 
 
 fun TextStyle.asTextTypeSpec(): TextTypeSpec = TextStyleTextType(this)
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 enum class SushiTextType : TextTypeSpec {
     Light50,
