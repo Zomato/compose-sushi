@@ -36,6 +36,9 @@ private object Defaults {
     val colorFilter: ColorFilter? = null
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Composable
 fun SushiImage(

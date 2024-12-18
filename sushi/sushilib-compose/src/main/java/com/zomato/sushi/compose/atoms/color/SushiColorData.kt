@@ -20,6 +20,9 @@ private sealed class ColorDataInfo private constructor() {
     ) : ColorDataInfo()
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 data class SushiColorData private constructor(
     private val colorInfo: ColorDataInfo,

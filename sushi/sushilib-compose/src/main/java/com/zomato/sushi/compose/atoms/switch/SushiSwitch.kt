@@ -45,6 +45,9 @@ private object Defaults {
     val direction = SwitchDirection.Start
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Composable
 fun SushiSwitch(

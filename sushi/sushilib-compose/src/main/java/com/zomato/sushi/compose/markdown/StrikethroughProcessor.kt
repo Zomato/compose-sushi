@@ -7,6 +7,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import java.util.regex.Pattern
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 class StrikethroughProcessor() : Processor {
 
     private data class Transformation(

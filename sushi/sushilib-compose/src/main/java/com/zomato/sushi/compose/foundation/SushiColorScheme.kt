@@ -5,6 +5,9 @@ import androidx.compose.runtime.Immutable
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Immutable
 data class SushiColorScheme(

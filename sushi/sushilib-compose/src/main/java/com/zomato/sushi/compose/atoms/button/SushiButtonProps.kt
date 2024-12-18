@@ -12,6 +12,9 @@ import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.text.TextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiUnspecified
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Immutable
 data class SushiButtonProps(

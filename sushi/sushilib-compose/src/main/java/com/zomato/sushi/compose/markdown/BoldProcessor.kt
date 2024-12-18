@@ -7,6 +7,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import java.util.regex.Pattern
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 class BoldProcessor() : Processor {
 
     private data class Transformation(

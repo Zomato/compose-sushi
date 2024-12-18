@@ -11,6 +11,8 @@ import androidx.compose.ui.text.withLink
 import java.util.regex.Pattern
 
 /**
+ * @author gupta.anirudh@zomato.com
+ *
  * Links handled by LocalUriHandler.current
  */
 class LinkProcessor() : Processor {

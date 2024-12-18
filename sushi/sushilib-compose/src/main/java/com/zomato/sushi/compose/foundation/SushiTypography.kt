@@ -5,6 +5,9 @@ package com.zomato.sushi.compose.foundation
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 fun sushiTypography(
     materialTypography: Typography = MaterialTypography,
 

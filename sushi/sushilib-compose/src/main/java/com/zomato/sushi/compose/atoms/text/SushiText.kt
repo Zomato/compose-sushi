@@ -76,6 +76,9 @@ private object Defaults {
     val suffixSpacing: Dp @Composable get() = SushiTheme.dimens.spacing.micro
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Composable
 fun SushiText(

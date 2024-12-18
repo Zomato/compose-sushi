@@ -12,6 +12,9 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiUnspecified
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Immutable
 data class SushiImageProps(

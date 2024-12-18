@@ -33,6 +33,9 @@ import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 private object Defaults {
     val playback = SushiAnimationPlayback.AutoPlay()
 }

@@ -14,6 +14,9 @@ import com.zomato.sushi.compose.foundation.SushiTypography
 import com.zomato.sushi.compose.foundation.sushiDarkColorScheme
 import com.zomato.sushi.compose.foundation.sushiLightColorScheme
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 internal fun Preview(
     typography: SushiTypography = SushiTheme.typography,

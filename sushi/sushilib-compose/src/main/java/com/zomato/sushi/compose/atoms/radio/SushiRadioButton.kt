@@ -46,6 +46,9 @@ private object Defaults {
     val direction = RadioButtonDirection.Start
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Composable
 fun SushiRadioButton(

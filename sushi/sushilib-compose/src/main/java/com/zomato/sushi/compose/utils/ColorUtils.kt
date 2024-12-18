@@ -9,6 +9,10 @@ import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.transform
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
+
 fun Color.takeIfSpecified() = this.takeIf { it.isSpecified }
 
 @Composable

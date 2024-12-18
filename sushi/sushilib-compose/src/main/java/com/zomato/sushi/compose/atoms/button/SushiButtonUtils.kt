@@ -16,6 +16,9 @@ import com.zomato.sushi.compose.foundation.SushiTextSize300
 import com.zomato.sushi.compose.foundation.SushiTextSize500
 import com.zomato.sushi.compose.foundation.SushiTheme
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 internal object SushiButtonDefaults {
     val size = SushiButtonSize.Medium
     val type = SushiButtonType.Solid

@@ -7,6 +7,9 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 fun sushiGreenColorScheme(type: SushiColorSchemeType): SushiColorScheme {
     return when (type) {
         SushiColorSchemeType.Light -> sushiGreenLightColorScheme()
@@ -14,6 +17,9 @@ fun sushiGreenColorScheme(type: SushiColorSchemeType): SushiColorScheme {
     }
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 fun sushiGreenDarkColorScheme(
     materialColorScheme: ColorScheme = darkColorScheme()
 ): SushiColorScheme {

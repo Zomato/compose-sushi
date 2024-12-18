@@ -4,6 +4,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 internal object SushiTypographyTokens {
     val Light050: TextStyle = TextStyle(fontSize = SushiTextSize050, fontWeight = SushiFontWeight.Light.fontWeight(), fontFamily = OkraFontFamily, lineHeight = 1.2.em, letterSpacing = 0.00.em)
     val Light100: TextStyle = TextStyle(fontSize = SushiTextSize100, fontWeight = SushiFontWeight.Light.fontWeight(), fontFamily = OkraFontFamily, lineHeight = 1.2.em, letterSpacing = 0.00.em)

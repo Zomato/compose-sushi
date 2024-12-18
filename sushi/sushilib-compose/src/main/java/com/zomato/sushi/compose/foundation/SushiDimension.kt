@@ -3,6 +3,9 @@ package com.zomato.sushi.compose.foundation
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.unit.Dp
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Immutable
 data class SushiDimension(

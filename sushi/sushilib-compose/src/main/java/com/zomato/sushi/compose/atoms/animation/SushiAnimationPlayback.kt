@@ -1,5 +1,8 @@
 package com.zomato.sushi.compose.atoms.animation
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 sealed interface SushiAnimationPlayback {
     data class AutoPlay(
         val isPlaying: Boolean = true,

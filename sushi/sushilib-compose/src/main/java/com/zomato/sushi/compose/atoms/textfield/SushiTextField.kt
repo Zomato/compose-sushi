@@ -13,6 +13,9 @@ private object Defaults {
 
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Composable
 fun SushiTextField(

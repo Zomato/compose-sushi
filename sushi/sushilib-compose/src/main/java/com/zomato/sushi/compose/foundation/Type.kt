@@ -7,6 +7,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import com.zomato.sushi.compose.R
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 val OkraFontFamily = FontFamily(
     Font(R.font.okra_thin, FontWeight(50)),
     Font(R.font.okra_thin, FontWeight.W100),
@@ -24,6 +27,9 @@ val WasabiFontFamily = FontFamily(
     Font(R.font.wasabicons)
 )
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 data class SushiTypography(
     val materialTypography: Typography,

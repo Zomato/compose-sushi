@@ -38,6 +38,9 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 enum class SushiCheckboxSize {
     Mini, Default
@@ -52,6 +55,9 @@ private object Defaults {
     val direction = CheckBoxDirection.Start
 }
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @ExperimentalSushiApi
 @Composable
 fun SushiCheckBox(

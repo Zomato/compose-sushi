@@ -17,6 +17,9 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.core.SushiColorToken
 import java.util.regex.Pattern
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 class ColorProcessor() : Processor {
 
     private data class Transformation(
