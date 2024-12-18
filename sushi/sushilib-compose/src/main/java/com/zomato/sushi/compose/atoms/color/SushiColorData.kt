@@ -38,7 +38,7 @@ data class SushiColorData private constructor(
                 }
 
                 is ColorDataInfo.NameTint -> {
-                    val baseColor = getColor(colorInfo.colorName, colorInfo.tint)
+                    val baseColor = getColor(colorInfo.colorName, colorInfo.tint, SushiTheme.colors).value
                     Color(
                         red = baseColor.red,
                         green = baseColor.green,

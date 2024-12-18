@@ -20,17 +20,17 @@ fun sushiGreenDarkColorScheme(
     return sushiDarkColorScheme(
         materialColorScheme = materialColorScheme,
         themeColorScheme = SushiColorScheme.ThemeColorScheme(
-            v050 = SushiGreen900.asColorSpec(),
-            v100 = SushiGreen800.asColorSpec(),
-            v200 = SushiGreen700.asColorSpec(),
-            v300 = SushiGreen600.asColorSpec(),
-            v400 = SushiGreen500.asColorSpec(),
-            v500 = SushiGreen600.asColorSpec(),
-            v600 = SushiGreen300.asColorSpec(),
-            v700 = SushiGreen200.asColorSpec(),
-            v800 = SushiGreen100.asColorSpec(),
-            v900 = SushiGreen050.asColorSpec(),
-            accentColor = SushiGreen600.asColorSpec()
+            v050 = SushiRawColorTokens.Green900.asColorSpec(),
+            v100 = SushiRawColorTokens.Green800.asColorSpec(),
+            v200 = SushiRawColorTokens.Green700.asColorSpec(),
+            v300 = SushiRawColorTokens.Green600.asColorSpec(),
+            v400 = SushiRawColorTokens.Green500.asColorSpec(),
+            v500 = SushiRawColorTokens.Green600.asColorSpec(),
+            v600 = SushiRawColorTokens.Green300.asColorSpec(),
+            v700 = SushiRawColorTokens.Green200.asColorSpec(),
+            v800 = SushiRawColorTokens.Green100.asColorSpec(),
+            v900 = SushiRawColorTokens.Green050.asColorSpec(),
+            accentColor = SushiRawColorTokens.Green600.asColorSpec()
         )
     )
 }
@@ -41,17 +41,17 @@ fun sushiGreenLightColorScheme(
     return sushiLightColorScheme(
         materialColorScheme = materialColorScheme,
         themeColorScheme = SushiColorScheme.ThemeColorScheme(
-            v050 = SushiGreen050.asColorSpec(),
-            v100 = SushiGreen100.asColorSpec(),
-            v200 = SushiGreen200.asColorSpec(),
-            v300 = SushiGreen300.asColorSpec(),
-            v400 = SushiGreen400.asColorSpec(),
-            v500 = SushiGreen600.asColorSpec(),
-            v600 = SushiGreen600.asColorSpec(),
-            v700 = SushiGreen700.asColorSpec(),
-            v800 = SushiGreen800.asColorSpec(),
-            v900 = SushiGreen900.asColorSpec(),
-            accentColor = SushiGreen600.asColorSpec()
+            v050= SushiRawColorTokens.Green050.asColorSpec(),
+            v100= SushiRawColorTokens.Green100.asColorSpec(),
+            v200= SushiRawColorTokens.Green200.asColorSpec(),
+            v300= SushiRawColorTokens.Green300.asColorSpec(),
+            v400= SushiRawColorTokens.Green400.asColorSpec(),
+            v500= SushiRawColorTokens.Green600.asColorSpec(),
+            v600= SushiRawColorTokens.Green600.asColorSpec(),
+            v700= SushiRawColorTokens.Green700.asColorSpec(),
+            v800= SushiRawColorTokens.Green800.asColorSpec(),
+            v900= SushiRawColorTokens.Green900.asColorSpec(),
+            accentColor= SushiRawColorTokens.Green600.asColorSpec()
         )
     )
 }
