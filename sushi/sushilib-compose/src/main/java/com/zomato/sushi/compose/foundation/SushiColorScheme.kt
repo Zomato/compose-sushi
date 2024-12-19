@@ -3,7 +3,6 @@ package com.zomato.sushi.compose.foundation
 import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Immutable
 import com.zomato.sushi.compose.atoms.color.ColorSpec
-import com.zomato.sushi.compose.atoms.color.asColorSpec
 
 /**
  * @author gupta.anirudh@zomato.com
@@ -14,9 +13,9 @@ data class SushiColorScheme(
     val schemeType: SushiColorSchemeType,
     val material: ColorScheme,
 
-    val black: ColorSpec = SushiRawColorTokens.Black.asColorSpec(),
-    val white: ColorSpec = SushiRawColorTokens.White.asColorSpec(),
-    val transparent: ColorSpec = SushiRawColorTokens.Transparent.asColorSpec(),
+    val black: ColorSpec = Black,
+    val white: ColorSpec = White,
+    val transparent: ColorSpec = Transparent,
 
     val grey: GreyColorScheme = GreyColorScheme(),
     val red: RedColorScheme = RedColorScheme(),
@@ -57,344 +56,344 @@ data class SushiColorScheme(
     // Grey
     @Immutable
     data class GreyColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Grey050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Grey100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Grey200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Grey300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Grey400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Grey500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Grey600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Grey700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Grey800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Grey900.asColorSpec(),
+        val v050: ColorSpec = Grey050,
+        val v100: ColorSpec = Grey100,
+        val v200: ColorSpec = Grey200,
+        val v300: ColorSpec = Grey300,
+        val v400: ColorSpec = Grey400,
+        val v500: ColorSpec = Grey500,
+        val v600: ColorSpec = Grey600,
+        val v700: ColorSpec = Grey700,
+        val v800: ColorSpec = Grey800,
+        val v900: ColorSpec = Grey900,
     )
 
     // Red
     @Immutable
     data class RedColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Red050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Red100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Red200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Red300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Red400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Red500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Red600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Red700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Red800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Red900.asColorSpec(),
+        val v050: ColorSpec = Red050,
+        val v100: ColorSpec = Red100,
+        val v200: ColorSpec = Red200,
+        val v300: ColorSpec = Red300,
+        val v400: ColorSpec = Red400,
+        val v500: ColorSpec = Red500,
+        val v600: ColorSpec = Red600,
+        val v700: ColorSpec = Red700,
+        val v800: ColorSpec = Red800,
+        val v900: ColorSpec = Red900,
     )
 
     // Green
     @Immutable
     data class GreenColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Green050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Green100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Green200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Green300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Green400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Green500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Green600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Green700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Green800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Green900.asColorSpec(),
+        val v050: ColorSpec = Green050,
+        val v100: ColorSpec = Green100,
+        val v200: ColorSpec = Green200,
+        val v300: ColorSpec = Green300,
+        val v400: ColorSpec = Green400,
+        val v500: ColorSpec = Green500,
+        val v600: ColorSpec = Green600,
+        val v700: ColorSpec = Green700,
+        val v800: ColorSpec = Green800,
+        val v900: ColorSpec = Green900,
     )
 
     // Blue
     @Immutable
     data class BlueColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Blue050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Blue100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Blue200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Blue300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Blue400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Blue500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Blue600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Blue700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Blue800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Blue900.asColorSpec(),
+        val v050: ColorSpec = Blue050,
+        val v100: ColorSpec = Blue100,
+        val v200: ColorSpec = Blue200,
+        val v300: ColorSpec = Blue300,
+        val v400: ColorSpec = Blue400,
+        val v500: ColorSpec = Blue500,
+        val v600: ColorSpec = Blue600,
+        val v700: ColorSpec = Blue700,
+        val v800: ColorSpec = Blue800,
+        val v900: ColorSpec = Blue900,
     )
 
     // Yellow
     @Immutable
     data class YellowColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Yellow050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Yellow100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Yellow200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Yellow300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Yellow400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Yellow500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Yellow600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Yellow700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Yellow800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Yellow900.asColorSpec(),
+        val v050: ColorSpec = Yellow050,
+        val v100: ColorSpec = Yellow100,
+        val v200: ColorSpec = Yellow200,
+        val v300: ColorSpec = Yellow300,
+        val v400: ColorSpec = Yellow400,
+        val v500: ColorSpec = Yellow500,
+        val v600: ColorSpec = Yellow600,
+        val v700: ColorSpec = Yellow700,
+        val v800: ColorSpec = Yellow800,
+        val v900: ColorSpec = Yellow900,
     )
 
     // Purple
     @Immutable
     data class PurpleColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Purple050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Purple100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Purple200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Purple300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Purple400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Purple500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Purple600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Purple700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Purple800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Purple900.asColorSpec(),
+        val v050: ColorSpec = Purple050,
+        val v100: ColorSpec = Purple100,
+        val v200: ColorSpec = Purple200,
+        val v300: ColorSpec = Purple300,
+        val v400: ColorSpec = Purple400,
+        val v500: ColorSpec = Purple500,
+        val v600: ColorSpec = Purple600,
+        val v700: ColorSpec = Purple700,
+        val v800: ColorSpec = Purple800,
+        val v900: ColorSpec = Purple900,
     )
 
     // Indigo
     @Immutable
     data class IndigoColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Indigo050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Indigo100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Indigo200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Indigo300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Indigo400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Indigo500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Indigo600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Indigo700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Indigo800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Indigo900.asColorSpec(),
+        val v050: ColorSpec = Indigo050,
+        val v100: ColorSpec = Indigo100,
+        val v200: ColorSpec = Indigo200,
+        val v300: ColorSpec = Indigo300,
+        val v400: ColorSpec = Indigo400,
+        val v500: ColorSpec = Indigo500,
+        val v600: ColorSpec = Indigo600,
+        val v700: ColorSpec = Indigo700,
+        val v800: ColorSpec = Indigo800,
+        val v900: ColorSpec = Indigo900,
     )
 
     // Brown
     @Immutable
     data class BrownColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Brown050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Brown100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Brown200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Brown300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Brown400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Brown500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Brown600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Brown700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Brown800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Brown900.asColorSpec(),
+        val v050: ColorSpec = Brown050,
+        val v100: ColorSpec = Brown100,
+        val v200: ColorSpec = Brown200,
+        val v300: ColorSpec = Brown300,
+        val v400: ColorSpec = Brown400,
+        val v500: ColorSpec = Brown500,
+        val v600: ColorSpec = Brown600,
+        val v700: ColorSpec = Brown700,
+        val v800: ColorSpec = Brown800,
+        val v900: ColorSpec = Brown900,
     )
 
     // Cider
     @Immutable
     data class CiderColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Cider050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Cider100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Cider200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Cider300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Cider400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Cider500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Cider600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Cider700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Cider800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Cider900.asColorSpec(),
+        val v050: ColorSpec = Cider050,
+        val v100: ColorSpec = Cider100,
+        val v200: ColorSpec = Cider200,
+        val v300: ColorSpec = Cider300,
+        val v400: ColorSpec = Cider400,
+        val v500: ColorSpec = Cider500,
+        val v600: ColorSpec = Cider600,
+        val v700: ColorSpec = Cider700,
+        val v800: ColorSpec = Cider800,
+        val v900: ColorSpec = Cider900,
     )
 
     // Teal
     @Immutable
     data class TealColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Teal050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Teal100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Teal200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Teal300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Teal400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Teal500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Teal600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Teal700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Teal800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Teal900.asColorSpec(),
+        val v050: ColorSpec = Teal050,
+        val v100: ColorSpec = Teal100,
+        val v200: ColorSpec = Teal200,
+        val v300: ColorSpec = Teal300,
+        val v400: ColorSpec = Teal400,
+        val v500: ColorSpec = Teal500,
+        val v600: ColorSpec = Teal600,
+        val v700: ColorSpec = Teal700,
+        val v800: ColorSpec = Teal800,
+        val v900: ColorSpec = Teal900,
     )
 
     // Orange
     @Immutable
     data class OrangeColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Orange050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Orange100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Orange200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Orange300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Orange400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Orange500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Orange600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Orange700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Orange800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Orange900.asColorSpec(),
+        val v050: ColorSpec = Orange050,
+        val v100: ColorSpec = Orange100,
+        val v200: ColorSpec = Orange200,
+        val v300: ColorSpec = Orange300,
+        val v400: ColorSpec = Orange400,
+        val v500: ColorSpec = Orange500,
+        val v600: ColorSpec = Orange600,
+        val v700: ColorSpec = Orange700,
+        val v800: ColorSpec = Orange800,
+        val v900: ColorSpec = Orange900,
     )
 
     // Pink
     @Immutable
     data class PinkColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Pink050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Pink100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Pink200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Pink300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Pink400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Pink500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Pink600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Pink700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Pink800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Pink900.asColorSpec(),
+        val v050: ColorSpec = Pink050,
+        val v100: ColorSpec = Pink100,
+        val v200: ColorSpec = Pink200,
+        val v300: ColorSpec = Pink300,
+        val v400: ColorSpec = Pink400,
+        val v500: ColorSpec = Pink500,
+        val v600: ColorSpec = Pink600,
+        val v700: ColorSpec = Pink700,
+        val v800: ColorSpec = Pink800,
+        val v900: ColorSpec = Pink900,
     )
 
     // Lime
     @Immutable
     data class LimeColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Lime050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Lime100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Lime200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Lime300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Lime400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Lime500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Lime600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Lime700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Lime800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Lime900.asColorSpec(),
+        val v050: ColorSpec = Lime050,
+        val v100: ColorSpec = Lime100,
+        val v200: ColorSpec = Lime200,
+        val v300: ColorSpec = Lime300,
+        val v400: ColorSpec = Lime400,
+        val v500: ColorSpec = Lime500,
+        val v600: ColorSpec = Lime600,
+        val v700: ColorSpec = Lime700,
+        val v800: ColorSpec = Lime800,
+        val v900: ColorSpec = Lime900,
     )
 
     // Corn
     @Immutable
     data class CornColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Corn050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Corn100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Corn200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Corn300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Corn400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Corn500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Corn600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Corn700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Corn800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Corn900.asColorSpec(),
+        val v050: ColorSpec = Corn050,
+        val v100: ColorSpec = Corn100,
+        val v200: ColorSpec = Corn200,
+        val v300: ColorSpec = Corn300,
+        val v400: ColorSpec = Corn400,
+        val v500: ColorSpec = Corn500,
+        val v600: ColorSpec = Corn600,
+        val v700: ColorSpec = Corn700,
+        val v800: ColorSpec = Corn800,
+        val v900: ColorSpec = Corn900,
     )
 
     // Avacado
     @Immutable
     data class AvacadoColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Avacado050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Avacado100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Avacado200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Avacado300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Avacado400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Avacado500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Avacado600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Avacado700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Avacado800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Avacado900.asColorSpec(),
+        val v050: ColorSpec = Avacado050,
+        val v100: ColorSpec = Avacado100,
+        val v200: ColorSpec = Avacado200,
+        val v300: ColorSpec = Avacado300,
+        val v400: ColorSpec = Avacado400,
+        val v500: ColorSpec = Avacado500,
+        val v600: ColorSpec = Avacado600,
+        val v700: ColorSpec = Avacado700,
+        val v800: ColorSpec = Avacado800,
+        val v900: ColorSpec = Avacado900,
     )
 
     // Gold
     @Immutable
     data class GoldColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Gold050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Gold100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Gold200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Gold300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Gold400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Gold500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Gold600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Gold700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Gold800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Gold900.asColorSpec(),
+        val v050: ColorSpec = Gold050,
+        val v100: ColorSpec = Gold100,
+        val v200: ColorSpec = Gold200,
+        val v300: ColorSpec = Gold300,
+        val v400: ColorSpec = Gold400,
+        val v500: ColorSpec = Gold500,
+        val v600: ColorSpec = Gold600,
+        val v700: ColorSpec = Gold700,
+        val v800: ColorSpec = Gold800,
+        val v900: ColorSpec = Gold900,
     )
 
     // Onion
     @Immutable
     data class OnionColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Onion050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Onion100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Onion200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Onion300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Onion400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Onion500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Onion600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Onion700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Onion800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Onion900.asColorSpec(),
+        val v050: ColorSpec = Onion050,
+        val v100: ColorSpec = Onion100,
+        val v200: ColorSpec = Onion200,
+        val v300: ColorSpec = Onion300,
+        val v400: ColorSpec = Onion400,
+        val v500: ColorSpec = Onion500,
+        val v600: ColorSpec = Onion600,
+        val v700: ColorSpec = Onion700,
+        val v800: ColorSpec = Onion800,
+        val v900: ColorSpec = Onion900,
     )
 
     // Charcoal
     @Immutable
     data class CharcoalColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Charcoal050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Charcoal100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Charcoal200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Charcoal300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Charcoal400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Charcoal500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Charcoal600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Charcoal700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Charcoal800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Charcoal900.asColorSpec(),
+        val v050: ColorSpec = Charcoal050,
+        val v100: ColorSpec = Charcoal100,
+        val v200: ColorSpec = Charcoal200,
+        val v300: ColorSpec = Charcoal300,
+        val v400: ColorSpec = Charcoal400,
+        val v500: ColorSpec = Charcoal500,
+        val v600: ColorSpec = Charcoal600,
+        val v700: ColorSpec = Charcoal700,
+        val v800: ColorSpec = Charcoal800,
+        val v900: ColorSpec = Charcoal900,
     )
 
     // Honey
     @Immutable
     data class HoneyColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Honey050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Honey100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Honey200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Honey300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Honey400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Honey500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Honey600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Honey700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Honey800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Honey900.asColorSpec(),
+        val v050: ColorSpec = Honey050,
+        val v100: ColorSpec = Honey100,
+        val v200: ColorSpec = Honey200,
+        val v300: ColorSpec = Honey300,
+        val v400: ColorSpec = Honey400,
+        val v500: ColorSpec = Honey500,
+        val v600: ColorSpec = Honey600,
+        val v700: ColorSpec = Honey700,
+        val v800: ColorSpec = Honey800,
+        val v900: ColorSpec = Honey900,
     )
 
     // Tangerine
     @Immutable
     data class TangerineColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Tangerine050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Tangerine100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Tangerine200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Tangerine300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Tangerine400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Tangerine500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Tangerine600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Tangerine700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Tangerine800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Tangerine900.asColorSpec(),
+        val v050: ColorSpec = Tangerine050,
+        val v100: ColorSpec = Tangerine100,
+        val v200: ColorSpec = Tangerine200,
+        val v300: ColorSpec = Tangerine300,
+        val v400: ColorSpec = Tangerine400,
+        val v500: ColorSpec = Tangerine500,
+        val v600: ColorSpec = Tangerine600,
+        val v700: ColorSpec = Tangerine700,
+        val v800: ColorSpec = Tangerine800,
+        val v900: ColorSpec = Tangerine900,
     )
 
     // Slate
     @Immutable
     data class SlateColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Slate050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Slate100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Slate200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Slate300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Slate400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Slate500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Slate600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Slate700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Slate800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Slate900.asColorSpec(),
+        val v050: ColorSpec = Slate050,
+        val v100: ColorSpec = Slate100,
+        val v200: ColorSpec = Slate200,
+        val v300: ColorSpec = Slate300,
+        val v400: ColorSpec = Slate400,
+        val v500: ColorSpec = Slate500,
+        val v600: ColorSpec = Slate600,
+        val v700: ColorSpec = Slate700,
+        val v800: ColorSpec = Slate800,
+        val v900: ColorSpec = Slate900,
     )
 
     // Rating
     @Immutable
     data class RatingColorScheme(
-        val one: ColorSpec = SushiRawColorTokens.Rating1.asColorSpec(),
-        val two: ColorSpec = SushiRawColorTokens.Rating2.asColorSpec(),
-        val three: ColorSpec = SushiRawColorTokens.Rating3.asColorSpec(),
-        val four: ColorSpec = SushiRawColorTokens.Rating4.asColorSpec(),
-        val five: ColorSpec = SushiRawColorTokens.Rating5.asColorSpec(),
-        val unchecked: ColorSpec = SushiRawColorTokens.RatingUnchecked.asColorSpec(),
+        val one: ColorSpec = Rating1,
+        val two: ColorSpec = Rating2,
+        val three: ColorSpec = Rating3,
+        val four: ColorSpec = Rating4,
+        val five: ColorSpec = Rating5,
+        val unchecked: ColorSpec = RatingUnchecked,
     )
 
     // Theme
     @Immutable
     data class ThemeColorScheme(
-        val v050: ColorSpec = SushiRawColorTokens.Red050.asColorSpec(),
-        val v100: ColorSpec = SushiRawColorTokens.Red100.asColorSpec(),
-        val v200: ColorSpec = SushiRawColorTokens.Red200.asColorSpec(),
-        val v300: ColorSpec = SushiRawColorTokens.Red300.asColorSpec(),
-        val v400: ColorSpec = SushiRawColorTokens.Red400.asColorSpec(),
-        val v500: ColorSpec = SushiRawColorTokens.Red500.asColorSpec(),
-        val v600: ColorSpec = SushiRawColorTokens.Red600.asColorSpec(),
-        val v700: ColorSpec = SushiRawColorTokens.Red700.asColorSpec(),
-        val v800: ColorSpec = SushiRawColorTokens.Red800.asColorSpec(),
-        val v900: ColorSpec = SushiRawColorTokens.Red900.asColorSpec(),
+        val v050: ColorSpec = Red050,
+        val v100: ColorSpec = Red100,
+        val v200: ColorSpec = Red200,
+        val v300: ColorSpec = Red300,
+        val v400: ColorSpec = Red400,
+        val v500: ColorSpec = Red500,
+        val v600: ColorSpec = Red600,
+        val v700: ColorSpec = Red700,
+        val v800: ColorSpec = Red800,
+        val v900: ColorSpec = Red900,
 
-        val accentColor: ColorSpec = SushiRawColorTokens.Red600.asColorSpec(),
+        val accentColor: ColorSpec = Red600,
     )
 
     // Text color tokens
