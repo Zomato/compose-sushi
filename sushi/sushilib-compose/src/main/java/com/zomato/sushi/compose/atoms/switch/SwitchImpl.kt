@@ -258,7 +258,7 @@ private val SwitchVelocityThreshold = 125.dp
 
 @Preview
 @Composable
-fun SwitchPreview() {
+private fun SwitchPreview() {
     var checked by remember { mutableStateOf(true) }
     SwitchImpl(checked = checked, onCheckedChange = {checked = it})
 }

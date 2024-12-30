@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.utils
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -8,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
 
@@ -33,6 +35,8 @@ inline fun <T> Modifier.ifNonNull(data: T?, crossinline transform: @Composable M
     }
 }
 
+inline fun Modifier.invisible(isInvisible: Boolean = true) = if (isInvisible) this.then(Modifier.drawWithContent {  }) else this
+
 internal val LocalDebounceEventHandler = staticCompositionLocalOf<DebouncedEventHandler> { DebouncedEventHandler(1000) }
 
 open class DebouncedEventHandler(private val debounceDurationMs: Long) {
@@ -48,6 +52,7 @@ open class DebouncedEventHandler(private val debounceDurationMs: Long) {
     }
 }
 
+@SuppressLint("ComposeModifierComposed")
 fun Modifier.atomClickable(
     enabled: Boolean = true,
     onClickLabel: String? = null,

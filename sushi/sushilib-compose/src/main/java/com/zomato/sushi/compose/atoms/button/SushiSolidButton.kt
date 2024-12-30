@@ -60,7 +60,7 @@ internal fun SushiSolidButton(
 
 @SushiPreview
 @Composable
-fun SushiSolidButtonPreview1() {
+private fun SushiSolidButtonPreview1() {
     Preview {
         SushiButton(
             SushiButtonProps(
@@ -75,7 +75,7 @@ fun SushiSolidButtonPreview1() {
 
 @SushiPreview
 @Composable
-fun SushiSolidButtonPreview2() {
+private fun SushiSolidButtonPreview2() {
     Preview {
         SushiButton(
             SushiButtonProps(
@@ -89,7 +89,7 @@ fun SushiSolidButtonPreview2() {
 
 @SushiPreview
 @Composable
-fun SushiSolidButtonPreview3() {
+private fun SushiSolidButtonPreview3() {
     Preview {
         SushiButton(
             SushiButtonProps(
@@ -104,7 +104,7 @@ fun SushiSolidButtonPreview3() {
 
 @SushiPreview
 @Composable
-fun SushiSolidButtonPreview4() {
+private fun SushiSolidButtonPreview4() {
     Preview {
         SushiButton(
             SushiButtonProps(
@@ -120,7 +120,7 @@ fun SushiSolidButtonPreview4() {
 
 @SushiPreview
 @Composable
-fun SushiSolidButtonPreview5() {
+private fun SushiSolidButtonPreview5() {
     Preview {
         SushiButton(
             SushiButtonProps(
@@ -137,7 +137,7 @@ fun SushiSolidButtonPreview5() {
 
 @SushiPreview
 @Composable
-fun SushiSolidButtonPreview6() {
+private fun SushiSolidButtonPreview6() {
     Preview {
         SushiButton(
             SushiButtonProps(

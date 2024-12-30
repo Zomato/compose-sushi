@@ -173,7 +173,7 @@ private fun RowScope.InfoContentImpl(
 
 @SushiPreview
 @Composable
-fun SushiCheckboxPreview1() {
+private fun SushiCheckboxPreview1() {
     Preview {
         Column {
             var firstSelected by remember {
@@ -204,7 +204,7 @@ fun SushiCheckboxPreview1() {
 
 @SushiPreview
 @Composable
-fun SushiCheckboxPreview2() {
+private fun SushiCheckboxPreview2() {
     Preview {
         Column {
             var firstSelected by remember {
@@ -237,7 +237,7 @@ fun SushiCheckboxPreview2() {
 
 @SushiPreview
 @Composable
-fun SushiCheckboxPreview3() {
+private fun SushiCheckboxPreview3() {
     Preview {
         Column {
             var firstSelected by remember {
@@ -270,7 +270,7 @@ fun SushiCheckboxPreview3() {
 
 @SushiPreview
 @Composable
-fun SushiCheckboxPreview4() {
+private fun SushiCheckboxPreview4() {
     Preview {
         Column {
             var firstSelected by remember {

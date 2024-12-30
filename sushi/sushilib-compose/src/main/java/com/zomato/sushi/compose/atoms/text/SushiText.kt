@@ -253,12 +253,12 @@ private fun ExpandableText(
     textColor: ColorSpec,
     letterSpacing: TextUnit,
     textStyle: TextStyle,
-    textDecoration: TextDecoration? = null,
+    textDecoration: TextDecoration?,
     textAlign: TextAlign?,
     onTextLayout: (TextLayoutResult) -> Unit,
     overflowText: String,
     overflowTextColor: ColorSpec,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Box(modifier) {
         var cutText by remember(text) { mutableStateOf<AnnotatedString?>(null) }
@@ -350,7 +350,7 @@ private fun BaseSushiText(
     softWrap: Boolean,
     minLines: Int,
     onTextLayout: (TextLayoutResult) -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Text(
         text = text,
@@ -389,7 +389,7 @@ private fun RowScope.SuffixIcon(
 
 @Composable
 @SushiPreview
-fun SushiTextPreview1() {
+private fun SushiTextPreview1() {
     Preview {
         Column(Modifier.fillMaxSize().background(SushiTheme.colors.surface.primary.value)) {
             SushiText(

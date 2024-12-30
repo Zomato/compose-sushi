@@ -131,7 +131,7 @@ private fun RowScope.SushiSurfaceButtonImplContent(
     fontColorDisabled: ColorSpec,
     fontColorPressed: ColorSpec,
     fontColor: ColorSpec,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
 
     val appliedFontColor = when {

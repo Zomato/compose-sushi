@@ -114,7 +114,7 @@ private fun SushiLoaderImpl(
 
 @SushiPreview
 @Composable
-fun SushiLoaderPreview1() {
+private fun SushiLoaderPreview1() {
     Preview {
         SushiLoader(
             SushiLoaderProps(
@@ -126,7 +126,7 @@ fun SushiLoaderPreview1() {
 
 @SushiPreview
 @Composable
-fun SushiLoaderPreview2() {
+private fun SushiLoaderPreview2() {
     Preview {
         SushiLoader(
             SushiLoaderProps(
@@ -139,7 +139,7 @@ fun SushiLoaderPreview2() {
 
 @SushiPreview
 @Composable
-fun SushiLoaderPreview3() {
+private fun SushiLoaderPreview3() {
     Preview {
         SushiLoader(
             SushiLoaderProps(

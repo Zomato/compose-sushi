@@ -37,21 +37,5 @@ data class SushiCheckBoxProps(
             verticalAlignment = null,
             direction = null
         )
-
-        // fun fromCheckboxData(data: CheckBoxData, defaults: SushiCheckboxData = Default): SushiCheckboxData {
-        //     return SushiCheckboxData(
-        //         isChecked = data.isChecked ?: defaults.isChecked,
-        //         text = data.text?.let { SushiTextData.fromTextData(it) } ?: defaults.text,
-        //         isEnabled = data.isDisabled?.not() ?: defaults.isEnabled,
-        //         color = data.color?.asSpec() ?: defaults.color,
-        //         size = data.size?.let { getCheckboxSize(data) } ?: defaults.size,
-        //         removeExtraInteractionPadding = defaults.removeExtraInteractionPadding
-        //     )
-        // }
-        //
-        // private fun getCheckboxSize(data: CheckBoxData): SushiCheckboxSize = when (data.size) {
-        //     CheckBoxData.SIZE_MINI -> SushiCheckboxSize.MINI
-        //     else -> SushiCheckboxSize.DEFAULT
-        // }
     }
 }

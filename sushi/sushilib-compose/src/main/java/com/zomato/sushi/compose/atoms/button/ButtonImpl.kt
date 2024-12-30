@@ -64,7 +64,7 @@ internal fun ButtonImpl(
                 LocalTextStyle provides mergedStyle
             ) {
                 Row(
-                    modifier.padding(contentPadding),
+                    Modifier.padding(contentPadding),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                     content = content

@@ -2,6 +2,7 @@
 
 package com.zomato.sushi.compose.internal
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
@@ -38,6 +39,7 @@ internal fun Preview(
     )
 }
 
+@SuppressLint("ComposePreviewNaming")
 @Preview(
     showBackground = true,
     backgroundColor = 0xFFFFFFFF,

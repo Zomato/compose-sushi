@@ -91,7 +91,7 @@ private fun SushiImageImpl(
 
 @SushiPreview
 @Composable
-fun SushiImagePreview1() {
+private fun SushiImagePreview1() {
     Preview {
         Row(Modifier.width(200.dp)) {
             SushiImage(

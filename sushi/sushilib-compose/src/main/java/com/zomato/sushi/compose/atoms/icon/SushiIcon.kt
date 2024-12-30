@@ -86,7 +86,7 @@ private fun SushiIconImpl(
 
 @SushiPreview
 @Composable
-fun SushiIconPreview1() {
+private fun SushiIconPreview1() {
     Preview {
         SushiIcon(
             SushiIconProps(
@@ -100,7 +100,7 @@ fun SushiIconPreview1() {
 
 @SushiPreview
 @Composable
-fun SushiIconPreview2() {
+private fun SushiIconPreview2() {
     Preview {
         SushiIcon(
             SushiIconProps(
@@ -114,7 +114,7 @@ fun SushiIconPreview2() {
 
 @SushiPreview
 @Composable
-fun SushiIconPreview3() {
+private fun SushiIconPreview3() {
     Preview {
         SushiIcon(
             SushiIconProps(
@@ -129,7 +129,7 @@ fun SushiIconPreview3() {
 
 @SushiPreview
 @Composable
-fun SushiIconPreview4() {
+private fun SushiIconPreview4() {
     Preview {
         SushiIcon(
             SushiIconProps(
