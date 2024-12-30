@@ -53,6 +53,8 @@ dependencies {
 
     applyZomatoKitsApi('sushi-core')
 
+    lintChecks "com.slack.lint.compose:compose-lint-checks:${slackComposeLintVersion}"
+
     // Compose
     api platform("androidx.compose:compose-bom:${rootConfiguration.composeBomVersion}")
     api 'androidx.compose.material3:material3'
