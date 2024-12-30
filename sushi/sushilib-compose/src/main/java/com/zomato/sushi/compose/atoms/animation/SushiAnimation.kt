@@ -63,8 +63,7 @@ fun SushiAnimation(
 ) {
     Base(modifier) {
         SushiAnimationImpl(
-            props,
-            modifier = modifier
+            props
         )
     }
 }
@@ -168,7 +167,7 @@ private fun lottieCompositionSpec(source: LottieResourceSource): LottieCompositi
 
 @SushiPreview
 @Composable
-fun SushiAnimationPreview1() {
+private fun SushiAnimationPreview1() {
     Preview {
         val props by rememberSushiAnimationProps(
             source = LottieAssetSource("collection_lottie.json"),
@@ -187,7 +186,7 @@ fun SushiAnimationPreview1() {
 
 @SushiPreview
 @Composable
-fun SushiAnimationPreview2() {
+private fun SushiAnimationPreview2() {
     Preview {
         val lottieAnimatable = rememberLottieAnimatable()
 
@@ -211,7 +210,7 @@ fun SushiAnimationPreview2() {
 
 @SushiPreview
 @Composable
-fun SushiAnimationPreview3() {
+private fun SushiAnimationPreview3() {
     Preview {
         val durationMs = 1650 / 2
         var targetValue by remember { mutableFloatStateOf(0f) }

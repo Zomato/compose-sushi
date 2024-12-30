@@ -2,6 +2,7 @@
 
 package com.zomato.sushi.compose.atoms.switch
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -77,7 +78,7 @@ private fun SushiSwitchImpl(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    infoContent: (@Composable RowScope.() -> Unit)? = null
+    @SuppressLint("SlotReused") infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
 
     val isChecked = props.isChecked ?: Defaults.isChecked
@@ -170,7 +171,7 @@ private fun RowScope.InfoContentImpl(
 
 @SushiPreview
 @Composable
-fun SushiSwitchPreview1() {
+private fun SushiSwitchPreview1() {
     Preview {
         var checked by remember {
             mutableStateOf(false)
@@ -196,7 +197,7 @@ fun SushiSwitchPreview1() {
 
 @SushiPreview
 @Composable
-fun SushiSwitchPreview2() {
+private fun SushiSwitchPreview2() {
     Preview {
         var checked by remember {
             mutableStateOf(false)
@@ -225,7 +226,7 @@ fun SushiSwitchPreview2() {
 
 @SushiPreview
 @Composable
-fun SushiSwitchPreview3() {
+private fun SushiSwitchPreview3() {
     Preview {
         var checked by remember {
             mutableStateOf(false)
@@ -254,7 +255,7 @@ fun SushiSwitchPreview3() {
 
 @SushiPreview
 @Composable
-fun SushiSwitchPreview4() {
+private fun SushiSwitchPreview4() {
     Preview {
         var checked by remember {
             mutableStateOf(false)

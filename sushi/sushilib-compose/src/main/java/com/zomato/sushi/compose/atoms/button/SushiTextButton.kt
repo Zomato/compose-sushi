@@ -187,7 +187,7 @@ private fun RowScope.SushiTextButtonContent(
 
 @SushiPreview
 @Composable
-fun SushiTextButtonPreview1() {
+private fun SushiTextButtonPreview1() {
     Preview {
         SushiButton(
             SushiButtonProps(
@@ -202,7 +202,7 @@ fun SushiTextButtonPreview1() {
 
 @SushiPreview
 @Composable
-fun SushiTextButtonPreview2() {
+private fun SushiTextButtonPreview2() {
     Preview {
         SushiButton(
             SushiButtonProps(
@@ -216,7 +216,7 @@ fun SushiTextButtonPreview2() {
 
 @SushiPreview
 @Composable
-fun SushiTextButtonPreview3() {
+private fun SushiTextButtonPreview3() {
     Preview {
         SushiButton(
             SushiButtonProps(
@@ -235,7 +235,7 @@ fun SushiTextButtonPreview3() {
 
 @SushiPreview
 @Composable
-fun SushiTextButtonPreview4() {
+private fun SushiTextButtonPreview4() {
     Preview {
         SushiButton(
             SushiButtonProps(
@@ -255,7 +255,7 @@ fun SushiTextButtonPreview4() {
 
 @SushiPreview
 @Composable
-fun SushiTextButtonPreview5() {
+private fun SushiTextButtonPreview5() {
     Preview {
         SushiButton(
             SushiButtonProps(

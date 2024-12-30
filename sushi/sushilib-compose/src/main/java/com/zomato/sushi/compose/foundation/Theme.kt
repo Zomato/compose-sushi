@@ -1,7 +1,9 @@
 @file:OptIn(ExperimentalSushiApi::class)
+@file:SuppressLint("ComposeCompositionLocalUsage")
 
 package com.zomato.sushi.compose.foundation
 
+import android.annotation.SuppressLint
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider

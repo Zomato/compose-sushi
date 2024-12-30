@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
  */
 @Composable
 internal fun Base(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
     Box(modifier) {

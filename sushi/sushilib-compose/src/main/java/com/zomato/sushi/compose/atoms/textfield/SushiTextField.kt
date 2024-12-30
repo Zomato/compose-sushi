@@ -37,7 +37,7 @@ private fun SushiTextFieldImpl(
 
 @SushiPreview
 @Composable
-fun SushiTextFieldPreview1() {
+private fun SushiTextFieldPreview1() {
     Preview {
 
     }
