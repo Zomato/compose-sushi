@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionResult
@@ -61,7 +62,9 @@ fun SushiAnimation(
     props: SushiAnimationProps,
     modifier: Modifier = Modifier
 ) {
-    Base(modifier) {
+    Base(modifier
+        .testTag("SushiAnimation")
+    ) {
         SushiAnimationImpl(
             props
         )

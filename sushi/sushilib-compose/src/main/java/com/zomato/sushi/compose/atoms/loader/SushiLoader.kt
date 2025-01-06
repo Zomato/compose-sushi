@@ -21,6 +21,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
@@ -46,6 +47,7 @@ fun SushiLoader(
 ) {
     Base(
         modifier
+            .testTag("SushiLoader")
             .width(IntrinsicSize.Max)
             .height(IntrinsicSize.Max)
             .defaultMinSize(Defaults.minSize, Defaults.minSize)

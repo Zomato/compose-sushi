@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.Base
@@ -69,6 +70,7 @@ fun SushiCheckBox(
     infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
     Base(modifier
+        .testTag("SushiCheckBox")
         .height(IntrinsicSize.Max)
         .width(IntrinsicSize.Max)
     ) {

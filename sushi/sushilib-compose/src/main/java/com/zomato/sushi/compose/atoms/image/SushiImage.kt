@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.R
@@ -46,7 +47,9 @@ fun SushiImage(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
-    Base(modifier) {
+    Base(modifier
+        .testTag("SushiImage")
+    ) {
         SushiImageImpl(
             props,
             Modifier,
