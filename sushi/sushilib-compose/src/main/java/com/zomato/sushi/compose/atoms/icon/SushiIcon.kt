@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.Base
@@ -36,7 +37,9 @@ fun SushiIcon(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
 ) {
-    Base(modifier) {
+    Base(modifier
+        .testTag("SushiIcon")
+    ) {
         SushiIconImpl(
             props,
             Modifier.align(Alignment.Center),

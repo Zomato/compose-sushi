@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import com.zomato.sushi.compose.atoms.internal.Base
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
@@ -25,6 +26,7 @@ fun SushiButton(
 ) {
     Base(
         modifier
+            .testTag("SushiButton")
             .width(IntrinsicSize.Max)
             .height(IntrinsicSize.Max)
     ) {
