@@ -1,16 +1,18 @@
 package com.zomato.sushi.compose.atoms.separator
 
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+enum class Direction {
+    Top, Bottom
+}
 
-@ExperimentalSushiApi
-enum class SushiDividerType {
-    STRAIGHT,
-    DOTTED,
-    PINK,
-    VERTICAL_DOTTED,
-    DASHED,
-    STRAIGHT_THICK,
-    VERTICAL,
-    MENU,
-    DOTTED_SPACED
+sealed interface SushiDividerType {
+    data object Straight : SushiDividerType
+    data object Dotted : SushiDividerType
+    data object Pink : SushiDividerType
+    data object VerticalDotted : SushiDividerType
+    data object Dashed : SushiDividerType
+    data object StraightThick : SushiDividerType
+    data object Vertical : SushiDividerType
+    data object Menu : SushiDividerType
+    data object DottedSpaced : SushiDividerType
+    data class ZigZag(val direction: Direction, val radius: Float? = null, val width: Float? = null, val height: Float? = null) : SushiDividerType
 }

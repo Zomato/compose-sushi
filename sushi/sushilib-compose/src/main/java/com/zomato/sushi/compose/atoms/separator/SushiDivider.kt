@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Path
@@ -59,15 +60,15 @@ private fun SushiDividerImpl(
         if (props.isRightIndented == true || props.isBothIndented == true) 12.dp.toPx() else 0.dp.toPx()
     val color = (props.color?.takeIfSpecified() ?: SushiTheme.colors.grey.v300).value
 
-    when (props.type) {
-        SushiDividerType.STRAIGHT, SushiDividerType.DASHED, SushiDividerType.STRAIGHT_THICK, null -> {
+    when (val type = props.type) {
+        SushiDividerType.Straight, SushiDividerType.Dashed, SushiDividerType.StraightThick, null -> {
             Canvas(modifier) {
                 val canvasWidth = size.width
                 val canvasHeight = size.height
-                val strokeWidth = if (props.type == SushiDividerType.STRAIGHT_THICK) {
+                val strokeWidth = if (props.type == SushiDividerType.StraightThick) {
                     8f.dp.toPx()
                 } else 1f.dp.toPx()
-                val pathEffect = if (props.type == SushiDividerType.DASHED)
+                val pathEffect = if (props.type == SushiDividerType.Dashed)
                     PathEffect.dashPathEffect(
                         intervals = floatArrayOf(3f.dp.toPx(), 2.5f.dp.toPx()), // Length of dash and gap (since rounded we need to compensate gap Length by add it with stroke Width)
                         phase = 0f
@@ -84,7 +85,7 @@ private fun SushiDividerImpl(
             }
         }
 
-        SushiDividerType.DOTTED -> {
+        SushiDividerType.Dotted -> {
             Canvas(modifier) {
                 val canvasWidth = size.width
                 val canvasHeight = size.height
@@ -105,7 +106,7 @@ private fun SushiDividerImpl(
             }
         }
 
-        SushiDividerType.DOTTED_SPACED -> {
+        SushiDividerType.DottedSpaced -> {
             Canvas(modifier) {
                 val canvasWidth = size.width // Canvas width
                 val canvasHeight = size.height // Canvas height
@@ -126,7 +127,7 @@ private fun SushiDividerImpl(
             }
         }
 
-        SushiDividerType.PINK -> {
+        SushiDividerType.Pink -> {
             val pinkColor = SushiTheme.colors.pink.v300.value
             Canvas(modifier) {
                 val canvasWidth = leftPadding + rightPadding + 50f.dp.toPx()
@@ -142,7 +143,7 @@ private fun SushiDividerImpl(
             }
         }
 
-        SushiDividerType.VERTICAL_DOTTED -> {
+        SushiDividerType.VerticalDotted -> {
             Canvas(modifier.fillMaxHeight()) {
                 val canvasWidth = size.width
                 val canvasHeight = size.height
@@ -162,7 +163,7 @@ private fun SushiDividerImpl(
             }
         }
 
-        SushiDividerType.VERTICAL -> {
+        SushiDividerType.Vertical -> {
             Canvas(modifier.fillMaxHeight()) {
                 val canvasWidth = size.width
                 val canvasHeight = size.height
@@ -177,7 +178,7 @@ private fun SushiDividerImpl(
             }
         }
 
-        SushiDividerType.MENU -> {
+        SushiDividerType.Menu -> {
             val leftLength = 12f.dp.toPx()
             val triangleTopX = leftLength + 6f.dp.toPx()
             val lineY = 8f.dp.toPx()
@@ -202,6 +203,86 @@ private fun SushiDividerImpl(
                 )
             }
         }
+
+        is SushiDividerType.ZigZag -> {
+            Canvas(modifier) {
+                val strokeWidth = 3f
+                val width = size.width
+                val radius = type?.radius?.dp?.toPx() ?: 4.dp.toPx()
+                val zigZagWidth = type?.width?.dp?.toPx() ?: 12.dp.toPx()
+                val zigZagHeight = type?.height?.dp?.toPx() ?: 24.dp.toPx()
+                var startX = 0f
+                val path = Path()
+                when (type.direction) {
+                    Direction.Top -> {
+                        val startY = size.height
+                        while (startX < width) {
+                            path.moveTo(startX, startY)
+
+                            val midX = startX + zigZagWidth / 2
+                            val endX = startX + zigZagWidth
+
+                            path.cubicTo(
+                                startX + radius,
+                                startY,
+                                midX - radius,
+                                startY - zigZagHeight,
+                                midX,
+                                startY - zigZagHeight
+                            )
+
+                            path.cubicTo(
+                                midX + radius,
+                                startY - zigZagHeight,
+                                endX - radius,
+                                startY,
+                                endX,
+                                startY
+                            )
+
+                            startX = endX
+                        }
+                    }
+                    Direction.Bottom -> {
+                        val startY = 0f
+                        while (startX < width) {
+                            path.moveTo(startX, startY)
+
+                            val midX = startX + zigZagWidth / 2
+                            val endX = startX + zigZagWidth
+
+                            path.cubicTo(
+                                startX + radius,
+                                startY,
+                                midX - radius,
+                                startY + zigZagHeight,
+                                midX,
+                                startY + zigZagHeight
+                            )
+
+                            path.cubicTo(
+                                midX + radius,
+                                startY + zigZagHeight,
+                                endX - radius,
+                                startY,
+                                endX,
+                                startY
+                            )
+
+                            startX = endX
+                        }
+                    }
+                }
+                drawPath(
+                    path = path,
+                    color = color,
+                    style = Stroke(
+                        width = strokeWidth,
+                        cap = StrokeCap.Round
+                    )
+                )
+            }
+        }
     }
 }
 
@@ -212,14 +293,14 @@ private fun SushiDividerPreview() {
         Column(Modifier.fillMaxSize().background(SushiTheme.colors.surface.primary.value).padding(vertical = 16.dp)) {
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.STRAIGHT,
+                    type = SushiDividerType.Straight,
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500)
                 ),
                 Modifier.fillMaxWidth().padding(vertical = 16.dp)
             )
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.STRAIGHT,
+                    type = SushiDividerType.Straight,
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
                     isLeftIndented = true
                 ),
@@ -227,7 +308,7 @@ private fun SushiDividerPreview() {
             )
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.DOTTED,
+                    type = SushiDividerType.Dotted,
                     color = SushiColorData(ColorName.Blue, ColorVariation.Variation500),
                     isRightIndented = true
                 ),
@@ -235,7 +316,7 @@ private fun SushiDividerPreview() {
             )
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.DASHED,
+                    type = SushiDividerType.Dashed,
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
                     isBothIndented = true
                 ),
@@ -243,7 +324,7 @@ private fun SushiDividerPreview() {
             )
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.STRAIGHT_THICK,
+                    type = SushiDividerType.StraightThick,
                     color = SushiColorData(ColorName.Blue, ColorVariation.Variation500),
                     isRightIndented = true,
                     isLeftIndented = true
@@ -252,21 +333,21 @@ private fun SushiDividerPreview() {
             )
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.DOTTED_SPACED,
+                    type = SushiDividerType.DottedSpaced,
                     color = SushiColorData(ColorName.White, ColorVariation.Variation500)
                 ),
                 Modifier.fillMaxWidth().padding(vertical = 16.dp)
             )
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.VERTICAL,
+                    type = SushiDividerType.Vertical,
                     color = SushiColorData(ColorName.White, ColorVariation.Variation500)
                 ),
                 Modifier.fillMaxWidth().fillMaxHeight(0.1f).padding(vertical = 16.dp)
             )
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.VERTICAL_DOTTED,
+                    type = SushiDividerType.VerticalDotted,
                     color = SushiColorData(ColorName.White, ColorVariation.Variation500),
                     isRightIndented = true
                 ),
@@ -274,18 +355,34 @@ private fun SushiDividerPreview() {
             )
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.PINK,
+                    type = SushiDividerType.Pink,
                     color = SushiColorData(ColorName.White, ColorVariation.Variation500)
                 ),
                 Modifier.fillMaxWidth().padding(vertical = 16.dp)
             )
             SushiDivider(
                 props = SushiDividerProps(
-                    type = SushiDividerType.MENU,
+                    type = SushiDividerType.Menu,
                     color = SushiColorData(ColorName.Yellow, ColorVariation.Variation500),
                     isRightIndented = true
                 ),
                 Modifier.fillMaxWidth().padding(vertical = 16.dp)
+            )
+            SushiDivider(
+                props = SushiDividerProps(
+                    type = SushiDividerType.ZigZag(Direction.Top, 2f, 24f, 12f),
+                    color = SushiColorData(ColorName.Green, ColorVariation.Variation500),
+                    isRightIndented = true
+                ),
+                Modifier.fillMaxWidth().padding(vertical = 28.dp)
+            )
+            SushiDivider(
+                props = SushiDividerProps(
+                    type = SushiDividerType.ZigZag(Direction.Bottom),
+                    color = SushiColorData(ColorName.Orange, ColorVariation.Variation500),
+                    isRightIndented = true
+                ),
+                Modifier.widthIn(150.dp).padding(vertical = 16.dp)
             )
         }
     }

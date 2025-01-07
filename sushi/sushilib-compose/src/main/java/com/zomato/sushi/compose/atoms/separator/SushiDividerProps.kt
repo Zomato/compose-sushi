@@ -17,7 +17,7 @@ data class SushiDividerProps(
 ) {
     companion object {
         val Default = SushiDividerProps(
-            type = SushiDividerType.STRAIGHT,
+            type = SushiDividerType.Straight,
             color = SushiUnspecified.asColorSpec(),
             isLeftIndented = null,
             isRightIndented = null,
