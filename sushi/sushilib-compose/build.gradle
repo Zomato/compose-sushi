@@ -47,7 +47,7 @@ dependencies {
     implementation "io.coil-kt.coil3:coil-compose:$rootConfiguration.coilVersion"
     implementation "io.coil-kt.coil3:coil-network-okhttp:$rootConfiguration.coilVersion"
 
-    implementation "com.airbnb.android:lottie-compose:$rootConfiguration.lottieVersion"
+    api "com.airbnb.android:lottie-compose:$rootConfiguration.lottieVersion"
 
     implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:$rootConfiguration.kotlinxCollectionsImmutableVersion"
 

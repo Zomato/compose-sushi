@@ -44,12 +44,14 @@ internal fun Preview(
     showBackground = true,
     backgroundColor = 0xFFFFFFFF,
     uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL,
-    name = "Light Mode"
+    name = "LightMode",
+    apiLevel = 34
 )
 @Preview(
     showBackground = true,
     backgroundColor = 0xFF17171C,
     uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL,
-    name = "Dark Mode"
+    name = "DarkMode",
+    apiLevel = 34
 )
 internal annotation class SushiPreview
