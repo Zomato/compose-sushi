@@ -2,6 +2,7 @@
 
 package com.zomato.sushi.compose.atoms.radio
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -59,10 +60,11 @@ fun SushiRadioButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Base(modifier
-        .testTag("SushiRadioButton")
-        .height(IntrinsicSize.Max)
-        .width(IntrinsicSize.Max)
+    Base(
+        modifier
+            .testTag("SushiRadioButton")
+            .height(IntrinsicSize.Max)
+            .width(IntrinsicSize.Max)
     ) {
         SushiRadioButtonImpl(
             props,
@@ -80,13 +82,21 @@ private fun SushiRadioButtonImpl(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    infoContent: (@Composable RowScope.() -> Unit)? = null
+    @SuppressLint("SlotReused") infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
     val isSelected = props.selected ?: Defaults.isSelected
     val isEnabled = props.enabled ?: Defaults.isEnabled
 
     Row(
-        modifier,
+        modifier
+            .selectable(
+                selected = isSelected,
+                onClick = onClick,
+                enabled = isEnabled,
+                role = Role.RadioButton,
+                interactionSource = interactionSource,
+                indication = null
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -113,14 +123,11 @@ private fun SushiRadioButtonImpl(
             onClick = null,
             Modifier
                 .align(verticalAlignment)
-                .padding(padding)
-                .selectable(
-                    selected = isSelected,
-                    onClick = onClick,
-                    enabled = isEnabled,
-                    role = Role.RadioButton,
-                    interactionSource = interactionSource,
-                    indication = null
+                .padding(
+                    start = padding.takeIf { direction == RadioButtonDirection.End } ?: 0.dp,
+                    top = padding,
+                    end = padding.takeIf { direction == RadioButtonDirection.Start } ?: 0.dp,
+                    bottom = padding
                 )
                 .size(Defaults.radioButtonSize),
             enabled = isEnabled,

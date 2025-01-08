@@ -97,7 +97,16 @@ private fun SushiCheckBoxImpl(
     val isEnabled = props.enabled ?: Defaults.isEnabled
 
     Row(
-        modifier,
+        modifier
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                enabled = isEnabled,
+                role = Role.Checkbox,
+                onClick = {
+                    onCheckedChange.invoke(!isChecked)
+                }
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -126,15 +135,11 @@ private fun SushiCheckBoxImpl(
                 onCheckedChange = null,
                 Modifier
                     .align(verticalAlignment)
-                    .padding(padding)
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        enabled = isEnabled,
-                        role = Role.Checkbox,
-                        onClick = {
-                            onCheckedChange?.invoke(!isChecked)
-                        }
+                    .padding(
+                        start = padding.takeIf { direction == CheckBoxDirection.End } ?: 0.dp,
+                        top = padding,
+                        end = padding.takeIf { direction == CheckBoxDirection.Start } ?: 0.dp,
+                        bottom = padding
                     )
                     .scale(scale)
                     .size(Defaults.checkBoxSize * scale),
