@@ -95,7 +95,7 @@ fun SushiText(
     ) {
         SushiTextImpl(
             props,
-            Modifier.fillMaxWidth(),
+            Modifier.fillMaxSize(),
             prefix = prefix,
             suffix = suffix,
             onTextLayout = onTextLayout,
