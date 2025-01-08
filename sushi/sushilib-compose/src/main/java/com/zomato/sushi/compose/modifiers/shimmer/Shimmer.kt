@@ -12,17 +12,22 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.input.pointer.PointerEvent
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.PointerInputModifierNode
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.button.SushiButton
@@ -46,7 +51,8 @@ sealed interface SushiShimmerType {
     ) : SushiShimmerType
 
     data class Overlay(
-        val color: Color
+        val color: Color,
+        val shape: Shape
     ) : SushiShimmerType
 }
 
@@ -62,7 +68,7 @@ sealed interface SushiShimmerProgress {
 }
 
 object SushiShimmerDefaults {
-    val type = SushiShimmerType.Overlay(Color.White)
+    val type = SushiShimmerType.Overlay(Color.White, RectangleShape)
     val progress = SushiShimmerProgress.Auto(duration = 1000)
 }
 
@@ -187,13 +193,18 @@ class SushiShimmerModifierNode(
             is SushiShimmerType.Filled -> type.color
             is SushiShimmerType.Overlay -> type.color
         }
-        drawShimmer(currentProgress.value, color, Color.Transparent)
+        val clipShape = when (val type = type) {
+            is SushiShimmerType.Filled -> type.shape
+            is SushiShimmerType.Overlay -> type.shape
+        }
+        drawShimmer(currentProgress.value, color, Color.Transparent, clipShape)
     }
 
     private fun DrawScope.drawShimmer(
         progress: Float, // Progress value between 0f and 1f
         shimmerColor: Color,
         baseColor: Color,
+        clipShape: Shape,
         angleInDegrees: Float = 10f
     ) {
         // Clamp progress between 0f and 1f
@@ -222,8 +233,16 @@ class SushiShimmerModifierNode(
             tileMode = TileMode.Clamp
         )
 
-        // Draw shimmer
-        drawRect(brush = shimmerBrush, size = size)
+        val path = when (val clipOutline = clipShape.createOutline(size, layoutDirection, Density(density))) {
+            is Outline.Rectangle -> Path().apply { addRect(clipOutline.rect) }
+            is Outline.Rounded -> Path().apply { addRoundRect(clipOutline.roundRect) }
+            is Outline.Generic -> clipOutline.path
+        }
+
+        clipPath(path) {
+            // Draw shimmer
+            drawRect(brush = shimmerBrush, size = size)
+        }
     }
 
     private fun ContentDrawScope.drawFilled(props: SushiShimmerType.Filled) {
@@ -265,7 +284,8 @@ private fun ShimmerPreview1() {
             Modifier.shimmer(
                 enabled = true,
                 SushiShimmerType.Overlay(
-                    color = Color.White
+                    color = Color.White,
+                    shape = RoundedCornerShape(8.dp)
                 )
             )
         )
