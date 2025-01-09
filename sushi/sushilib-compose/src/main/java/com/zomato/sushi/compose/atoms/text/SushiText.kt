@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import com.zomato.sushi.compose.atoms.color.ColorName
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorVariation
@@ -89,9 +90,10 @@ fun SushiText(
     onTextLayout: (TextLayoutResult) -> Unit = {},
     onClick: (() -> Unit)? = null
 ) {
-    Base(modifier
-        .width(IntrinsicSize.Max)
-        .height(IntrinsicSize.Max)
+    Base(
+        modifier
+            .width(IntrinsicSize.Max)
+            .height(IntrinsicSize.Max)
     ) {
         SushiTextImpl(
             props,
@@ -140,6 +142,8 @@ private fun SushiTextImpl(
         val prefixSpacing = props.prefixSpacing ?: Defaults.prefixSpacing
         val suffixSpacing = props.suffixSpacing ?: Defaults.suffixSpacing
         val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
+
+        var textLayoutResult: TextLayoutResult? by remember { mutableStateOf(null) }
 
         val localCurrentTextStyle = LocalTextStyle.current
         val textStyle = remember(
@@ -190,12 +194,25 @@ private fun SushiTextImpl(
                 textColor = textColor,
                 letterSpacing = letterSpacing,
                 textStyle = textStyle,
-                textDecoration = textDecoration,
+                textDecoration = null,
                 textAlign = textAlign,
-                onTextLayout = onTextLayout,
+                onTextLayout = {
+                    textLayoutResult = it
+                    onTextLayout(it)
+                },
                 overflowText = overflowText,
                 overflowTextColor = overflowTextColor,
-                Modifier.weight(1f, fill = false)
+                Modifier
+                    .ifNonNull(props.textDecoration) {
+                        this.textDecoration(
+                            textDecoration = it,
+                            textLayoutResult = textLayoutResult,
+                            fontWeight = textStyle.fontWeight,
+                            fontSize = textStyle.fontSize,
+                            defaultColor = textColor
+                        )
+                    }
+                    .weight(1f, fill = false)
             )
         } else {
             BaseSushiText(
@@ -204,13 +221,26 @@ private fun SushiTextImpl(
                 maxLines = maxLines,
                 letterSpacing = letterSpacing,
                 textStyle = textStyle,
-                textDecoration = textDecoration,
+                textDecoration = null,
                 textAlign = textAlign,
                 overflow = overflow,
                 softWrap = softWrap,
                 minLines = minLines,
-                onTextLayout = onTextLayout,
-                Modifier.weight(1f, fill = false)
+                onTextLayout = {
+                    textLayoutResult = it
+                    onTextLayout(it)
+                },
+                Modifier
+                    .ifNonNull(props.textDecoration) {
+                        this.textDecoration(
+                            textDecoration = it,
+                            textLayoutResult = textLayoutResult,
+                            fontWeight = textStyle.fontWeight,
+                            fontSize = textStyle.fontSize,
+                            defaultColor = textColor
+                        )
+                    }
+                    .weight(1f, fill = false)
             )
         }
 
@@ -391,7 +421,53 @@ private fun RowScope.SuffixIcon(
 @SushiPreview
 private fun SushiTextPreview1() {
     Preview {
-        Column(Modifier.fillMaxSize().background(SushiTheme.colors.surface.primary.value)) {
+        Column {
+            SushiText(
+                props = SushiTextProps(
+                    text = "fsdgy",
+                    prefixIcon = SushiIconProps(code = "e926"),
+                    suffixIcon = SushiIconProps(code = "e93f", color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
+                    color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
+                    type = SushiTextType.Regular300,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    textDecoration = SushiTextDecoration.LineThrough()
+                ),
+                Modifier.fillMaxWidth()
+            )
+            SushiText(
+                props = SushiTextProps(
+                    text = "fsdgy",
+                    prefixIcon = SushiIconProps(code = "e926"),
+                    suffixIcon = SushiIconProps(code = "e93f", color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
+                    color = SushiTheme.colors.text.success,
+                    type = SushiTextType.Regular400,
+                    textDecoration = SushiTextDecoration.Underline()
+                )
+            )
+            SushiText(
+                props = SushiTextProps(
+                    text = "a_fsdgy_\n<bold-100|{red-500|fs}>ad**gy**\nfsdgy",
+                    prefixIcon = SushiIconProps(code = "e926"),
+                    suffixIcon = SushiIconProps(code = "e93f", color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
+                    color = SushiTheme.colors.text.success,
+                    maxLines = 2,
+                    letterSpacing = 2.sp,
+                    type = SushiTextType.Regular900,
+                    textDecoration = SushiTextDecoration.Underline()
+                )
+            )
+        }
+    }
+}
+
+@Composable
+@SushiPreview
+private fun SushiTextPreview2() {
+    Preview {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(SushiTheme.colors.surface.primary.value)) {
             SushiText(
                 props = SushiTextProps(
                     text = "fsdgy",
@@ -450,7 +526,8 @@ private fun SushiTextPreview1() {
                     type = SushiTextType.Regular900,
                     overflowText = "Read More",
                     overflowTextColor = SushiTheme.colors.text.success,
-                    verticalAlignment = Alignment.Top
+                    verticalAlignment = Alignment.Top,
+                    textDecoration = SushiTextDecoration.Underline()
                 )
             )
         }

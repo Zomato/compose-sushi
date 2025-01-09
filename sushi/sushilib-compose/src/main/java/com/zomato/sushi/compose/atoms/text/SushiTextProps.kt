@@ -1,18 +1,34 @@
+@file:OptIn(ExperimentalSushiApi::class)
 package com.zomato.sushi.compose.atoms.text
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
+import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiUnspecified
+
+sealed interface SushiTextDecoration {
+    data class Underline(
+        val dotSize: Dp? = null,
+        val gapSize: Dp? = null,
+        val strokeWidth: Dp? = null,
+        val color: ColorSpec? = null
+    ) : SushiTextDecoration
+
+    data class LineThrough(
+        val dotSize: Dp? = null,
+        val gapSize: Dp? = null,
+        val strokeWidth: Dp? = null,
+        val color: ColorSpec? = null
+    ) : SushiTextDecoration
+}
 
 /**
  * @author gupta.anirudh@zomato.com
@@ -28,7 +44,7 @@ data class SushiTextProps constructor(
     val suffixIcon: SushiIconProps? = null,
     val letterSpacing: TextUnit = Default.letterSpacing,
     val isMarkDownEnabled: Boolean? = Default.isMarkDownEnabled,
-    val textDecoration: TextDecoration? = Default.textDecoration,
+    val textDecoration: SushiTextDecoration? = Default.textDecoration,
     val textAlign: TextAlign? = Default.textAlign,
     val overflow: TextOverflow? = Default.overflow,
     val overflowText: String? = Default.overflowText,
