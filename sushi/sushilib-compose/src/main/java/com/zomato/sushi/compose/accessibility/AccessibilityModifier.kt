@@ -8,6 +8,10 @@ import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.semantics.semantics
 
 /**
+ * @author gupta.anirudh@zomato.com
+ */
+
+/**
  * Key for the contentDescription semantics property.
  * If your composable works with E2E or UI tests,
  * you can use this property to set a unique identifier for the composable.

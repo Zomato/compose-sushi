@@ -14,22 +14,6 @@ import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiUnspecified
 
-sealed interface SushiTextDecoration {
-    data class Underline(
-        val dotSize: Dp? = null,
-        val gapSize: Dp? = null,
-        val strokeWidth: Dp? = null,
-        val color: ColorSpec? = null
-    ) : SushiTextDecoration
-
-    data class LineThrough(
-        val dotSize: Dp? = null,
-        val gapSize: Dp? = null,
-        val strokeWidth: Dp? = null,
-        val color: ColorSpec? = null
-    ) : SushiTextDecoration
-}
-
 /**
  * @author gupta.anirudh@zomato.com
  */
@@ -80,4 +64,20 @@ data class SushiTextProps constructor(
             verticalAlignment = null
         )
     }
+}
+
+sealed interface SushiTextDecoration {
+    data class Underline(
+        val dotSize: Dp? = null,
+        val gapSize: Dp? = null,
+        val strokeWidth: Dp? = null,
+        val color: ColorSpec? = null
+    ) : SushiTextDecoration
+
+    data class LineThrough(
+        val dotSize: Dp? = null,
+        val gapSize: Dp? = null,
+        val strokeWidth: Dp? = null,
+        val color: ColorSpec? = null
+    ) : SushiTextDecoration
 }
