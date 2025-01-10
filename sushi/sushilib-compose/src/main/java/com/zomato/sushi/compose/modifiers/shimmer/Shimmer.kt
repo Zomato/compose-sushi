@@ -43,6 +43,9 @@ import kotlinx.coroutines.yield
 import kotlin.math.sqrt
 import kotlin.math.tan
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 sealed interface SushiShimmerType {
     data class Filled(
         val shape: Shape,
