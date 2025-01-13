@@ -93,7 +93,7 @@ private fun SushiIconPreview1() {
     Preview {
         SushiIcon(
             SushiIconProps(
-                code = "e926",
+                code = SushiIconCodes.IconMoon,
                 size = SushiIconSize.Size300
             ),
             Modifier
@@ -107,7 +107,7 @@ private fun SushiIconPreview2() {
     Preview {
         SushiIcon(
             SushiIconProps(
-                code = "e93f",
+                code = SushiIconCodes.IconContactlessDining,
                 color = SushiTheme.colors.red.v500
             ),
             Modifier
@@ -121,7 +121,7 @@ private fun SushiIconPreview3() {
     Preview {
         SushiIcon(
             SushiIconProps(
-                code = "e93f",
+                code = SushiIconCodes.IconContactlessDining,
                 color = SushiTheme.colors.red.v500,
                 size = SushiIconSize.Size900
             ),
@@ -136,7 +136,7 @@ private fun SushiIconPreview4() {
     Preview {
         SushiIcon(
             SushiIconProps(
-                code = "e93f",
+                code = SushiIconCodes.IconContactlessDining,
                 color = SushiTheme.colors.red.v500,
                 size = 100.dp.asIconSizeSpec()
             ),

@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
+import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
@@ -223,8 +224,8 @@ private fun SushiTextButtonPreview3() {
                 type = SushiButtonType.Text,
                 text = "Tsogy",
                 subText = "hehe",
-                prefixIcon = SushiIconProps(code = "edae"),
-                suffixIcon = SushiIconProps(code = "edae"),
+                prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
+                suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Top
             ),
@@ -242,8 +243,8 @@ private fun SushiTextButtonPreview4() {
                 type = SushiButtonType.Text,
                 text = "Tsogy",
                 subText = "hehe",
-                prefixIcon = SushiIconProps(code = "edae"),
-                suffixIcon = SushiIconProps(code = "edae"),
+                prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
+                suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ),

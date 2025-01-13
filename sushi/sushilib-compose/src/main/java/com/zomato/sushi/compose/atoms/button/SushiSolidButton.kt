@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
@@ -127,8 +128,8 @@ private fun SushiSolidButtonPreview5() {
                 type = SushiButtonType.Solid,
                 text = "Large",
                 size = SushiButtonSize.Large,
-                prefixIcon = SushiIconProps(code = "edae"),
-                suffixIcon = SushiIconProps(code = "edae"),
+                prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
+                suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
             ),
             onClick = {}
         )
@@ -144,7 +145,7 @@ private fun SushiSolidButtonPreview6() {
                 type = SushiButtonType.Solid,
                 text = "Large",
                 size = SushiButtonSize.Large,
-                suffixIcon = SushiIconProps(code = "e932"),
+                suffixIcon = SushiIconProps(code = SushiIconCodes.IconNextArrowCircleFill),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ),

@@ -51,6 +51,7 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.SushiColorData
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
+import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.internal.Base
@@ -425,8 +426,8 @@ private fun SushiTextPreview1() {
             SushiText(
                 props = SushiTextProps(
                     text = "fsdgy",
-                    prefixIcon = SushiIconProps(code = "e926"),
-                    suffixIcon = SushiIconProps(code = "e93f", color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
+                    prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
+                    suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
                     type = SushiTextType.Regular300,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -437,8 +438,8 @@ private fun SushiTextPreview1() {
             SushiText(
                 props = SushiTextProps(
                     text = "fsdgy",
-                    prefixIcon = SushiIconProps(code = "e926"),
-                    suffixIcon = SushiIconProps(code = "e93f", color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
+                    prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
+                    suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
                     color = SushiTheme.colors.text.success,
                     type = SushiTextType.Regular400,
                     textDecoration = SushiTextDecoration.Underline()
@@ -447,8 +448,8 @@ private fun SushiTextPreview1() {
             SushiText(
                 props = SushiTextProps(
                     text = "a_fsdgy_\n<bold-100|{red-500|fs}>ad**gy**\nfsdgy",
-                    prefixIcon = SushiIconProps(code = "e926"),
-                    suffixIcon = SushiIconProps(code = "e93f", color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
+                    prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
+                    suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
                     color = SushiTheme.colors.text.success,
                     maxLines = 2,
                     letterSpacing = 2.sp,
@@ -471,9 +472,9 @@ private fun SushiTextPreview2() {
             SushiText(
                 props = SushiTextProps(
                     text = "fsdgy",
-                    prefixIcon = SushiIconProps(code = "e926"),
+                    prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(
-                        code = "e93f",
+                        code = SushiIconCodes.IconContactlessDining,
                         color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)
                     ),
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
@@ -486,9 +487,9 @@ private fun SushiTextPreview2() {
             SushiText(
                 props = SushiTextProps(
                     text = "fsdgy",
-                    prefixIcon = SushiIconProps(code = "e926"),
+                    prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(
-                        code = "e93f",
+                        code = SushiIconCodes.IconContactlessDining,
                         color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)
                     ),
                     color = SushiTheme.colors.text.success,
@@ -498,9 +499,9 @@ private fun SushiTextPreview2() {
             SushiText(
                 props = SushiTextProps(
                     text = "a_fsdgy_\n[<bold-800|{red-500|fs}>ad**gy**google](https://google.com)\nfs~~dg~~y",
-                    prefixIcon = SushiIconProps(code = "e926"),
+                    prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(
-                        code = "e93f",
+                        code = SushiIconCodes.IconContactlessDining,
                         color = SushiTheme.colors.blue.v500
                     ),
                     color = SushiTheme.colors.text.success,
@@ -512,7 +513,7 @@ private fun SushiTextPreview2() {
             SushiText(
                 props = SushiTextProps(
                     text = "Free",
-                    prefixIcon = SushiIconProps(code = "edae"),
+                    prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
                     color = SushiTheme.colors.text.primary,
                     type = SushiTextType.Regular900
                 )
@@ -521,7 +522,7 @@ private fun SushiTextPreview2() {
                 props = SushiTextProps(
                     text = "Lorem Ipsum is simply dummy \ntext of the printing and typesetting industry. Lorem \nIpsum has been the industry's standard dummy text ever since t\nhehe",
                     maxLines = 3,
-                    prefixIcon = SushiIconProps(code = "edae"),
+                    prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
                     color = SushiTheme.colors.text.primary,
                     type = SushiTextType.Regular900,
                     overflowText = "Read More",
