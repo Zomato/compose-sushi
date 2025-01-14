@@ -1,9 +1,11 @@
-@file:OptIn(ExperimentalSushiApi::class)
+@file:OptIn(ExperimentalSushiApi::class, ExperimentalMaterial3Api::class)
 @file:SuppressLint("ComposeCompositionLocalUsage")
 
 package com.zomato.sushi.compose.foundation
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -117,17 +119,18 @@ fun SushiTheme(
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
     content: @Composable () -> Unit
 ) {
-    CompositionLocalProvider(
-        LocalSushiColorScheme provides colorScheme,
-        LocalSushiTypography provides typography,
-        LocalSushiDimension provides dimens,
-        LocalSushiFontSizeMultiplier provides fontSizeMultiplier,
-        LocalSushiColorTokenMapper provides colorTokenMapper
+    MaterialTheme(
+        colorScheme = colorScheme.material,
+        shapes = MaterialTheme.shapes,
+        typography = typography.materialTypography
     ) {
-        MaterialTheme(
-            colorScheme = colorScheme.material,
-            shapes = MaterialTheme.shapes,
-            typography = typography.materialTypography,
+        CompositionLocalProvider(
+            LocalSushiColorScheme provides colorScheme,
+            LocalSushiTypography provides typography,
+            LocalSushiDimension provides dimens,
+            LocalSushiFontSizeMultiplier provides fontSizeMultiplier,
+            LocalSushiColorTokenMapper provides colorTokenMapper,
+            LocalIndication provides noIndication(),
             content = content
         )
     }
