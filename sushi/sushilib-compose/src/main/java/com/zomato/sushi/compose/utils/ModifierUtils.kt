@@ -9,9 +9,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
 /**
  * @author gupta.anirudh@zomato.com
@@ -75,5 +84,39 @@ fun Modifier.atomClickable(
         role = role,
         indication = if (showIndication == true) LocalIndication.current else null,
         interactionSource = remember { MutableInteractionSource() }
+    )
+}
+
+@OptIn(ExperimentalSushiApi::class)
+@Composable
+fun Modifier.dashedBorder(
+    strokeWidth: Dp,
+    color: Color,
+    cornerRadiusDp: Dp,
+    dashOnWidth: Float = 10f,
+    dashOffWidth: Float = 10f
+): Modifier {
+    val density = LocalDensity.current
+    val strokeWidthPx = density.run { strokeWidth.toPx() }
+    val cornerRadiusPx = density.run { cornerRadiusDp.toPx() }
+
+    return this.then(
+        Modifier.drawWithCache {
+            onDrawBehind {
+                val stroke = Stroke(
+                    width = strokeWidthPx,
+                    pathEffect = PathEffect.dashPathEffect(
+                        floatArrayOf(dashOnWidth, dashOffWidth),
+                        0f
+                    )
+                )
+
+                drawRoundRect(
+                    color = color,
+                    style = stroke,
+                    cornerRadius = CornerRadius(cornerRadiusPx)
+                )
+            }
+        }
     )
 }
