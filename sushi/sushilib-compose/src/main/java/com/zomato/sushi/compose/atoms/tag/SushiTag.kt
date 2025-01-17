@@ -67,7 +67,7 @@ private fun SushiTagImpl(
     onClick: (() -> Unit)? = null
 ) {
 
-    val surfaceShape = props.shape ?: getTagShapeForType(props.type, props.size)
+    val surfaceShape = props.shape ?: props.getTagShapeForType()
     Surface(
         modifier = modifier
             .ifNonNull(onClick) {
@@ -81,20 +81,20 @@ private fun SushiTagImpl(
                 this.dashedBorder(
                     color = props.borderColor?.value ?: SushiTheme.colors.border.accentBlueIntense.value,
                     strokeWidth = SushiTheme.dimens.spacing.nano,
-                    cornerRadiusDp = getTagCornerRadiusForType(props.type, props.size)
+                    cornerRadiusDp = props.getTagCornerRadiusForType()
                 )
             },
         color = props.color?.value ?: SushiTheme.colors.theme.accentColor.value,
         shape = surfaceShape,
-        border = getBorderForType(props.type, props.borderColor?.value)
+        border = props.getBorderForType()
     ) {
 
-        val textType = getTagTextType(props.size)
+        val textType = props.getTagTextType()
         val textColor = props.fontColor ?: SushiTheme.colors.theme.accentColor
 
-        val tagPadding = getTagPaddingForSize(props.size, props.type)
+        val tagPadding = props.getTagPaddingForSize()
 
-        val defaultIconSize: TextUnit = getTagIconSize(props.size)
+        val defaultIconSize: TextUnit = props.getTagIconSize()
         val iconPadding: Dp = props.iconSpacing ?: tagPadding.calculateLeftPadding(LayoutDirection.Ltr)
         val prefixIcon = props.prefixIcon?.copy(
             size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
@@ -146,7 +146,7 @@ private fun SushiTagPreview1() {
             text = "recommended",
             size = SushiTagSize.Large,
             type = SushiTagType.Capsule,
-            color = SushiTheme.colors.theme.accentColor,
+            color = SushiTheme.colors.green.v400,
             borderColor = SushiTheme.colors.black
         )
     )
@@ -162,7 +162,7 @@ private fun SushiTagPreview2() {
             text = "recommended",
             size = SushiTagSize.Small,
             type = SushiTagType.CapsuleOutline,
-            color = SushiTheme.colors.theme.accentColor,
+            color = SushiTheme.colors.green.v400,
             borderColor = SushiTheme.colors.black
         )
     )
@@ -178,7 +178,7 @@ private fun SushiTagPreview3() {
             text = "recommended",
             size = SushiTagSize.Large,
             type = SushiTagType.CapsuleDashed,
-            color = SushiTheme.colors.theme.accentColor,
+            color = SushiTheme.colors.green.v400,
             borderColor = SushiTheme.colors.black,
             suffixIcon = SushiIconProps(code = "edae"),
         )
@@ -195,7 +195,7 @@ private fun SushiTagPreview4() {
             text = "recommended",
             size = SushiTagSize.Large,
             type = SushiTagType.RoundedOutline,
-            color = SushiTheme.colors.theme.accentColor,
+            color = SushiTheme.colors.blue.v300,
             borderColor = SushiTheme.colors.black,
             prefixIcon = SushiIconProps(code = "edae"),
             suffixIcon = SushiIconProps(code = "edae"),
@@ -213,7 +213,7 @@ private fun SushiTagPreview5() {
             text = "recommended",
             size = SushiTagSize.Large,
             type = SushiTagType.RoundedDashed,
-            color = SushiTheme.colors.theme.accentColor,
+            color = SushiTheme.colors.blue.v300,
             borderColor = SushiTheme.colors.black,
             prefixIcon = SushiIconProps(code = "edae"),
             suffixIcon = SushiIconProps(code = "edae"),
@@ -231,9 +231,45 @@ private fun SushiTagPreview6() {
             text = "recommended",
             size = SushiTagSize.Medium,
             type = SushiTagType.Rounded,
-            color = SushiTheme.colors.theme.accentColor,
+            color = SushiTheme.colors.blue.v300,
             borderColor = SushiTheme.colors.black,
             prefixIcon = SushiIconProps(code = "edae"),
+        )
+    )
+}
+
+@ExperimentalSushiApi
+@Preview(name = "Nano capsule dashed")
+@Composable
+private fun SushiTagPreview7() {
+    SushiTag(
+        modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
+        props = SushiTagProps(
+            text = "recommended",
+            size = SushiTagSize.Nano,
+            type = SushiTagType.CapsuleDashed,
+            fontColor = SushiTheme.colors.white,
+            color = SushiTheme.colors.green.v900,
+            borderColor = SushiTheme.colors.yellow.v700,
+            suffixIcon = SushiIconProps(code = "edae"),
+        )
+    )
+}
+
+@ExperimentalSushiApi
+@Preview(name = "Tiny capsule dashed")
+@Composable
+private fun SushiTagPreview8() {
+    SushiTag(
+        modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
+        props = SushiTagProps(
+            text = "recommended",
+            size = SushiTagSize.Tiny,
+            type = SushiTagType.CapsuleDashed,
+            fontColor = SushiTheme.colors.white,
+            color = SushiTheme.colors.green.v900,
+            borderColor = SushiTheme.colors.yellow.v700,
+            suffixIcon = SushiIconProps(code = "edae"),
         )
     )
 }
