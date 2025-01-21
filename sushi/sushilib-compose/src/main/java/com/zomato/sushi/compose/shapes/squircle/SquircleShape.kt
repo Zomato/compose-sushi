@@ -16,13 +16,13 @@ import androidx.compose.ui.unit.dp
  **/
 fun SquircleShape(
     percent: Int = 100,
-    cornerSmoothing: Float = SquircleCornerSmoothing.Default
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
 ) = SquircleShape(
     topStartCorner = CornerSize(percent),
     topEndCorner = CornerSize(percent),
     bottomStartCorner = CornerSize(percent),
     bottomEndCorner = CornerSize(percent),
-    cornerSmoothing = cornerSmoothing
+    cornerSmoothing = cornerSmoothing.value
 )
 
 /**
@@ -35,13 +35,13 @@ fun SquircleShape(
  **/
 fun SquircleShape(
     radius: Dp,
-    cornerSmoothing: Float = SquircleCornerSmoothing.Default
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
 ) = SquircleShape(
     topStartCorner = CornerSize(radius),
     topEndCorner = CornerSize(radius),
     bottomStartCorner = CornerSize(radius),
     bottomEndCorner = CornerSize(radius),
-    cornerSmoothing = cornerSmoothing
+    cornerSmoothing = cornerSmoothing.value
 )
 
 /**
@@ -54,13 +54,13 @@ fun SquircleShape(
  **/
 fun SquircleShape(
     radius: Float,
-    cornerSmoothing: Float = SquircleCornerSmoothing.Default
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
 ) = SquircleShape(
     topStartCorner = CornerSize(radius),
     topEndCorner = CornerSize(radius),
     bottomStartCorner = CornerSize(radius),
     bottomEndCorner = CornerSize(radius),
-    cornerSmoothing = cornerSmoothing
+    cornerSmoothing = cornerSmoothing.value
 )
 
 /**
@@ -79,13 +79,13 @@ fun SquircleShape(
     topEnd: Int = 0,
     bottomStart: Int = 0,
     bottomEnd: Int = 0,
-    cornerSmoothing: Float = SquircleCornerSmoothing.Default
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
 ) = SquircleShape(
     topStartCorner = CornerSize(topStart),
     topEndCorner = CornerSize(topEnd),
     bottomStartCorner = CornerSize(bottomStart),
     bottomEndCorner = CornerSize(bottomEnd),
-    cornerSmoothing = cornerSmoothing
+    cornerSmoothing = cornerSmoothing.value
 )
 
 /**
@@ -104,13 +104,13 @@ fun SquircleShape(
     topEnd: Dp = 0.dp,
     bottomStart: Dp = 0.dp,
     bottomEnd: Dp = 0.dp,
-    cornerSmoothing: Float = SquircleCornerSmoothing.Default
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
 ) = SquircleShape(
     topStartCorner = CornerSize(topStart),
     topEndCorner = CornerSize(topEnd),
     bottomStartCorner = CornerSize(bottomStart),
     bottomEndCorner = CornerSize(bottomEnd),
-    cornerSmoothing = cornerSmoothing
+    cornerSmoothing = cornerSmoothing.value
 )
 
 /**
@@ -129,13 +129,13 @@ fun SquircleShape(
     topEnd: Float = 0f,
     bottomStart: Float = 0f,
     bottomEnd: Float = 0f,
-    cornerSmoothing: Float = SquircleCornerSmoothing.Default
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
 ) = SquircleShape(
     topStartCorner = CornerSize(topStart),
     topEndCorner = CornerSize(topEnd),
     bottomStartCorner = CornerSize(bottomStart),
     bottomEndCorner = CornerSize(bottomEnd),
-    cornerSmoothing = cornerSmoothing
+    cornerSmoothing = cornerSmoothing.value
 )
 
 /**

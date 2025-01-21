@@ -24,6 +24,7 @@ private sealed class ColorDataInfo private constructor() {
  * @author gupta.anirudh@zomato.com
  */
 @ExperimentalSushiApi
+@Stable
 data class SushiColorData private constructor(
     private val colorInfo: ColorDataInfo,
     private val alpha: Double = DEFAULT_ALPHA

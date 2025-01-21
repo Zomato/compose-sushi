@@ -34,15 +34,19 @@ class MarkdownParser private constructor(
 
     @Composable
     fun parse(
-        text: String,
+        text: CharSequence,
         props: MarkdownParserProps
     ): AnnotatedString {
         val keys = listOf(text, props) + processors.flatMap { it.cacheKeys }
         var result: AnnotatedString? = remember(*keys.toTypedArray()) { null/*cache[CacheKey(text, props)]*/ } // todox: remove commented
 
         if (result == null) {
+            val initialAnnotatedString = when {
+                text is AnnotatedString -> text
+                else -> AnnotatedString(text.toString())
+            }
             result = processors
-                .fold(AnnotatedString(text), { acc, markdownProcessor ->  markdownProcessor.process(props, acc, this) })
+                .fold(initialAnnotatedString, { acc, markdownProcessor ->  markdownProcessor.process(props, acc, this) })
                 // todox: remove commented
                 // .also { cache[CacheKey(text, props)] = it }
         }

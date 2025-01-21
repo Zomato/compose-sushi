@@ -28,6 +28,7 @@ import com.zomato.sushi.compose.foundation.colorSchemeType
  * have to give away this efficient implementation and fallback to a normal data class.
  */
 @JvmInline
+@Stable
 internal value class ColorSchemeTypeAdaptedColorSpec(
     private val maskedLong: ULong
 ) : ColorSpec {

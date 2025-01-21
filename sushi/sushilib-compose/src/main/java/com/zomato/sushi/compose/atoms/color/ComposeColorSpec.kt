@@ -13,6 +13,7 @@ import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
  */
 @Immutable
 @JvmInline
+@Stable
 internal value class ComposeColorSpec(private val composeColor: Color) : ColorSpec {
     override val value: Color
         @Composable @Stable get() = composeColor

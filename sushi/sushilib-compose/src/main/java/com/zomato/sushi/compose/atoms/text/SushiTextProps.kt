@@ -20,7 +20,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 @ExperimentalSushiApi
 @Immutable
 data class SushiTextProps constructor(
-    val text: String? = Default.text,
+    val text: CharSequence? = Default.text,
     val color: ColorSpec = Default.color,
     val type: TextTypeSpec? = Default.type,
     val maxLines: Int? = Default.maxLines,
