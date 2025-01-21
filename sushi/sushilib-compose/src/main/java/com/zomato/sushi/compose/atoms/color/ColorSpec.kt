@@ -11,6 +11,7 @@ import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
  * @author gupta.anirudh@zomato.com
  */
 @ExperimentalSushiApi
+@Stable
 sealed interface ColorSpec {
     companion object
 

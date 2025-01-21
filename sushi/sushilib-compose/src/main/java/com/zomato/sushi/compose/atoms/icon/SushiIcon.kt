@@ -19,8 +19,8 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.foundation.WasabiFontFamily
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
-import com.zomato.sushi.compose.utils.atomClickable
-import com.zomato.sushi.compose.utils.ifNonNull
+import com.zomato.sushi.compose.modifiers.atomClickable
+import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 private object Defaults {

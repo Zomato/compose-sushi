@@ -11,6 +11,7 @@ import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
  * @author gupta.anirudh@zomato.com
  */
 @ExperimentalSushiApi
+@Stable
 internal data class IntColorSpec(
     val colorCode: Long
 ) : ColorSpec {

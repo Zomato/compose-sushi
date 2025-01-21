@@ -12,6 +12,7 @@ import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
  */
 @ExperimentalSushiApi
 @JvmInline
+@Stable
 internal value class HexColorSpec(
     private val hexCode: String
 ) : ColorSpec {

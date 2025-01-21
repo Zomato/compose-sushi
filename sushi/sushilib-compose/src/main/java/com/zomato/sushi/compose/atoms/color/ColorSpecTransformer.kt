@@ -11,6 +11,7 @@ import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 /**
  * @author gupta.anirudh@zomato.com
  */
+@Stable
 private data class ColorSpecTransformer(
     val original: ColorSpec,
     val transform: (Color) -> Color

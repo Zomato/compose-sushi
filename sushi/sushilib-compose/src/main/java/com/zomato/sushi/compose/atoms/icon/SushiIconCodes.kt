@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.atoms.icon
 
+// Generated file. DO NOT EDIT.
 object SushiIconCodes {
     val IconBookTable = SushiIconCode("e800")
     val IconDelivery = SushiIconCode("e801")

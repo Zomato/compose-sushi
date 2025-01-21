@@ -14,14 +14,11 @@ fun noIndication(): IndicationNodeFactory {
 }
 
 private data object NoIndicationNodeFactory : IndicationNodeFactory {
-    private object NoOpIndicationInstance : DelegatableNode {
-        override val node: Modifier.Node = object : Modifier.Node(), DrawModifierNode {
+    override fun create(interactionSource: InteractionSource): DelegatableNode {
+        return object : Modifier.Node(), DrawModifierNode {
             override fun ContentDrawScope.draw() {
                 drawContent()
             }
         }
-    }
-    override fun create(interactionSource: InteractionSource): DelegatableNode {
-        return NoOpIndicationInstance
     }
 }

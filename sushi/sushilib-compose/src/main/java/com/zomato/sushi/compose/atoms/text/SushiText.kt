@@ -61,8 +61,8 @@ import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.markdown.MarkdownParser
 import com.zomato.sushi.compose.markdown.MarkdownParserProps
-import com.zomato.sushi.compose.utils.atomClickable
-import com.zomato.sushi.compose.utils.ifNonNull
+import com.zomato.sushi.compose.modifiers.atomClickable
+import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 @Immutable
@@ -168,13 +168,19 @@ private fun SushiTextImpl(
             )
         }
 
-        val text = if (isMarkDownEnabled) {
-            MarkdownParser.default.parse(
-                text = rawText,
-                props = markdownParserProps
-            )
-        } else {
-            AnnotatedString(rawText)
+        val text = when {
+            isMarkDownEnabled -> {
+                MarkdownParser.default.parse(
+                    text = rawText,
+                    props = markdownParserProps
+                )
+            }
+            rawText is AnnotatedString -> {
+                rawText
+            }
+            else -> {
+                AnnotatedString(rawText.toString())
+            }
         }
 
         if (prefix != null) {
