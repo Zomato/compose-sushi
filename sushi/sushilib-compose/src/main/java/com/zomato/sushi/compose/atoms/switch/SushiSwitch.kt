@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.switch
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -25,32 +22,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
-import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
-private object Defaults {
-    const val isChecked = false
-    const val isEnabled = true
-    val switchSize = 21.dp
-    val padding @Composable get() = SushiTheme.dimens.spacing.extra
-    val verticalAlignment = Alignment.Top
-    val textType = SushiTextType.Regular300
-    val direction = SwitchDirection.Start
-}
-
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Composable
 fun SushiSwitch(
     props: SushiSwitchProps,
@@ -59,7 +41,7 @@ fun SushiSwitch(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Base(modifier
+    SushiComponentBase(modifier
         .testTag("SushiSwitch")
         .height(IntrinsicSize.Max)
         .width(IntrinsicSize.Max)
@@ -83,17 +65,17 @@ private fun SushiSwitchImpl(
     @SuppressLint("SlotReused") infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
 
-    val isChecked = props.isChecked ?: Defaults.isChecked
-    val isEnabled = props.isEnabled ?: Defaults.isEnabled
+    val isChecked = props.isChecked ?: SushiSwitchDefaults.isChecked
+    val isEnabled = props.isEnabled ?: SushiSwitchDefaults.isEnabled
 
     Row(
         modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val enabledColor = props.color.takeIfSpecified() ?: SushiTheme.colors.theme.v500
-        val padding = props.padding ?: Defaults.padding
-        val verticalAlignment = props.verticalAlignment ?: Defaults.verticalAlignment
-        val direction = props.direction ?: Defaults.direction
+        val padding = props.padding ?: SushiSwitchDefaults.padding
+        val verticalAlignment = props.verticalAlignment ?: SushiSwitchDefaults.verticalAlignment
+        val direction = props.direction ?: SushiSwitchDefaults.direction
 
         if (direction == SwitchDirection.End) {
             if (infoContent != null) {
@@ -116,7 +98,7 @@ private fun SushiSwitchImpl(
                     role = Role.Checkbox,
                     onClick = { onCheckedChange.invoke(!isChecked) }
                 )
-                .size(Defaults.switchSize),
+                .size(SushiSwitchDefaults.switchSize),
             enabled = isEnabled,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = enabledColor.value,
@@ -154,7 +136,7 @@ private fun RowScope.InfoContentImpl(
             props.text?.let {
                 SushiText(
                     props = it.copy(
-                        type = it.type ?: Defaults.textType
+                        type = it.type ?: SushiSwitchDefaults.textType
                     ),
                     Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
                 )
@@ -162,7 +144,7 @@ private fun RowScope.InfoContentImpl(
             props.subText?.let {
                 SushiText(
                     props = it.copy(
-                        type = it.type ?: Defaults.textType
+                        type = it.type ?: SushiSwitchDefaults.textType
                     ),
                     Modifier.padding(top = SushiTheme.dimens.spacing.nano, bottom = SushiTheme.dimens.spacing.mini)
                 )

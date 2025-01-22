@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.internal
 
 import android.annotation.SuppressLint
@@ -7,7 +5,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiColorTokenMapper
 import com.zomato.sushi.compose.foundation.SushiDimension
 import com.zomato.sushi.compose.foundation.SushiTheme

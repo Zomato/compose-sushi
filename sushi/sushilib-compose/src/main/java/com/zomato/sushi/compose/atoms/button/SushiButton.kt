@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.button
 
 import androidx.compose.foundation.layout.Box
@@ -10,13 +8,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Composable
 fun SushiButton(
     props: SushiButtonProps,
@@ -24,7 +20,7 @@ fun SushiButton(
     modifier: Modifier = Modifier,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
-    Base(
+    SushiComponentBase(
         modifier
             .testTag("SushiButton")
             .width(IntrinsicSize.Max)
@@ -46,7 +42,7 @@ private fun SushiButtonImpl(
     modifier: Modifier = Modifier,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
-    val type = props.getButtonTypeWithDefaults()
+    val type = with(SushiButtonDefaults) { props.typeOrDefault }
     Box(modifier) {
         when (type) {
             SushiButtonType.Text -> {

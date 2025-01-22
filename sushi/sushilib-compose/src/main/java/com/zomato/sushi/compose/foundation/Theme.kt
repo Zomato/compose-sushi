@@ -1,11 +1,9 @@
-@file:OptIn(ExperimentalSushiApi::class, ExperimentalMaterial3Api::class)
 @file:SuppressLint("ComposeCompositionLocalUsage")
 
 package com.zomato.sushi.compose.foundation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.LocalIndication
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -45,7 +43,6 @@ internal val LocalSushiColorTokenMapper = staticCompositionLocalOf<SushiColorTok
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 object SushiTheme {
     /**
      * Retrieves the current [SushiColorScheme] at the call site's position in the hierarchy.

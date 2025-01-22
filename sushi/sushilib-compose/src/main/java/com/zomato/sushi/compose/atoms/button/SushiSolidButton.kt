@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.button
 
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -39,7 +36,7 @@ internal fun SushiSolidButton(
     val borderStrokeColorPressed = color
     val borderStrokeColorDisabled = SushiTheme.colors.button.secondaryBorderDisabled
 
-    val minHeight = getButtonMinHeight(props.getButtonSizeWithDefaults())
+    val minHeight = with(SushiButtonDefaults) { getButtonMinHeight(props.sizeOrDefault) }
 
     SushiSurfaceButtonImpl(
         props = props,

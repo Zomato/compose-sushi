@@ -48,7 +48,12 @@ internal fun ButtonImpl(
         val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
         val containerColor = if (enabled) colors.containerColor else colors.disabledContainerColor
         val contentColor = if (enabled) colors.contentColor else colors.disabledContentColor
-        val mergedStyle = LocalTextStyle.current.merge(MaterialTheme.typography.labelLarge)
+
+        val localTextStyle = LocalTextStyle.current
+        val materialLabelLarge = MaterialTheme.typography.labelLarge
+        val mergedStyle = remember(localTextStyle, materialLabelLarge) {
+            localTextStyle.merge(materialLabelLarge)
+        }
         Surface(
             onClick = onClick,
             modifier = modifier.semantics { role = Role.Button },

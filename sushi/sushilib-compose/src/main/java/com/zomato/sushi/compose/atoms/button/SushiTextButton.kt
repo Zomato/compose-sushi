@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.button
 
 import androidx.compose.foundation.background
@@ -30,7 +28,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
@@ -130,9 +127,9 @@ private fun RowScope.SushiTextButtonContent(
         else -> fontColor
     }
 
-    val textType: TextStyle = props.fontType?.typeStyle ?: TextStyle(fontSize = getButtonTextSize(props.getButtonSizeWithDefaults()))
-    val defaultIconSize: TextUnit = props.fontType?.typeStyle?.fontSize ?: getButtonIconSize(props.getButtonSizeWithDefaults())
-    val iconPadding: Dp = props.iconSpacing ?: getButtonIconPadding(props.getButtonSizeWithDefaults())
+    val textType: TextStyle = props.fontType?.typeStyle ?: with(SushiButtonDefaults) { getButtonTextType(props.sizeOrDefault) } // todox: remove:  TextStyle(fontSize = getButtonTextSize(props.getButtonSizeWithDefaults()) ) }
+    val defaultIconSize: TextUnit = props.fontType?.typeStyle?.fontSize ?: with(SushiButtonDefaults) { getButtonIconSize(props.sizeOrDefault) }
+    val iconPadding: Dp = props.iconSpacing ?: with(SushiButtonDefaults) { getButtonIconPadding(props.sizeOrDefault) }
 
     val prefixIcon = props.prefixIcon?.copy(
         size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
@@ -144,8 +141,8 @@ private fun RowScope.SushiTextButtonContent(
         color = props.suffixIcon.color.takeIfSpecified() ?: appliedFontColor
     )
 
-    val horizontalArrangement = props.getButtonHorizontalArrangementWithDefaults()
-    val verticalAlignment = props.getButtonVerticalAlignmentWithDefaults()
+    val horizontalArrangement = with(SushiButtonDefaults) { props.horizontalArrangementOrDefault }
+    val verticalAlignment = with(SushiButtonDefaults) { props.verticalAlignmentOrDefault }
 
     Row(
         modifier,
@@ -172,7 +169,7 @@ private fun RowScope.SushiTextButtonContent(
                     SushiTextProps(
                         text = props.subText,
                         color = appliedFontColor,
-                        type = props.getSubtextTextStyle(textType).asTextTypeSpec()
+                        type = with(SushiButtonDefaults) { getSubtextTextStyle(textType).asTextTypeSpec() }
                     )
                 )
             }

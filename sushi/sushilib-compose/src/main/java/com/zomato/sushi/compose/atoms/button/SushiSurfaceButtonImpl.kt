@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.button
 
 import androidx.compose.foundation.BorderStroke
@@ -31,7 +29,6 @@ import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
@@ -63,10 +60,12 @@ internal fun SushiSurfaceButtonImpl(
         else -> borderStrokeColor
     }
 
-    val contentPadding = when (props.getButtonSizeWithDefaults()) {
-        SushiButtonSize.Small -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.mini)
-        SushiButtonSize.Medium -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
-        SushiButtonSize.Large -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
+    val contentPadding = with(SushiButtonDefaults) {
+        when (props.sizeOrDefault) {
+            SushiButtonSize.Small -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.mini)
+            SushiButtonSize.Medium -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
+            SushiButtonSize.Large -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
+        }
     }
 
     ButtonImpl(
@@ -90,7 +89,7 @@ internal fun SushiSurfaceButtonImpl(
             ),
         enabled = !isDisabled,
         contentPadding = contentPadding,
-        shape = props.getButtonShapeWithDefaults(),
+        shape = with(SushiButtonDefaults) { props.shapeOrDefault },
         colors = ButtonDefaults.buttonColors().copy(
             containerColor = color.value,
             contentColor = if (isTapped.value) fontColorPressed.value else fontColor.value,
@@ -140,9 +139,9 @@ private fun RowScope.SushiSurfaceButtonImplContent(
         else -> fontColor
     }
 
-    val textType = props.fontType?.typeStyle ?: getButtonTextType(props.getButtonSizeWithDefaults())
-    val defaultIconSize: TextUnit = getButtonIconSize(props.getButtonSizeWithDefaults())
-    val iconPadding: Dp = props.iconSpacing ?: getButtonIconPadding(props.getButtonSizeWithDefaults())
+    val textType = props.fontType?.typeStyle ?: with(SushiButtonDefaults) { getButtonTextType(props.sizeOrDefault) }
+    val defaultIconSize: TextUnit = with(SushiButtonDefaults) { getButtonIconSize(props.sizeOrDefault) }
+    val iconPadding: Dp = props.iconSpacing ?: with(SushiButtonDefaults) { getButtonIconPadding(props.sizeOrDefault) }
 
     val prefixIcon = props.prefixIcon?.copy(
         size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
@@ -153,8 +152,8 @@ private fun RowScope.SushiSurfaceButtonImplContent(
         color = props.suffixIcon.color.takeIfSpecified() ?: appliedFontColor
     )
 
-    val horizontalArrangement = props.getButtonHorizontalArrangementWithDefaults()
-    val verticalAlignment = props.getButtonVerticalAlignmentWithDefaults()
+    val horizontalArrangement = with(SushiButtonDefaults) { props.horizontalArrangementOrDefault }
+    val verticalAlignment = with(SushiButtonDefaults) { props.verticalAlignmentOrDefault }
 
     Row(
         modifier,
@@ -181,7 +180,7 @@ private fun RowScope.SushiSurfaceButtonImplContent(
                     SushiTextProps(
                         text = props.subText,
                         color = appliedFontColor,
-                        type = props.getSubtextTextStyle(textType).asTextTypeSpec()
+                        type = with(SushiButtonDefaults) { getSubtextTextStyle(textType).asTextTypeSpec() }
                     )
                 )
             }

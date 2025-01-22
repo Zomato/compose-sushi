@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiUnspecified
@@ -15,7 +14,6 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Immutable
 data class SushiImageProps(
     val painter: Painter? = Default.painter,

@@ -6,7 +6,6 @@ import androidx.compose.ui.unit.Dp
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Immutable
 data class SushiDimension(
     val spacing: Spacing = Spacing(),

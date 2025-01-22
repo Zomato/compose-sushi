@@ -7,7 +7,6 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Immutable
 data class SushiColorScheme(
     val schemeType: SushiColorSchemeType,
