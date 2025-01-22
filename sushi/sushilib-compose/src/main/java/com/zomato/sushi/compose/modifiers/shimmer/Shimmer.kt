@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
 package com.zomato.sushi.compose.modifiers.shimmer
 
 import androidx.compose.animation.core.Animatable
@@ -32,7 +31,6 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.button.SushiButton
 import com.zomato.sushi.compose.atoms.button.SushiButtonProps
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiRawColorTokens
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview

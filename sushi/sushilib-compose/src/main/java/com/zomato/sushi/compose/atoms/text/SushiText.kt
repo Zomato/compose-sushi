@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.text
 
 import androidx.compose.foundation.background
@@ -20,7 +18,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,8 +51,7 @@ import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
-import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -65,23 +61,9 @@ import com.zomato.sushi.compose.modifiers.atomClickable
 import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
-@Immutable
-private object Defaults {
-    val isMarkDownEnabled: Boolean = true
-    val textType: TextTypeSpec = SushiTextType.Regular100
-    val textColor: ColorSpec @Composable get() = SushiTheme.colors.text.default
-    val maxLines: Int = Int.MAX_VALUE
-    val overflow: TextOverflow = TextOverflow.Clip
-    val softWrap: Boolean = true
-    val minLines: Int = 1
-    val prefixSpacing: Dp @Composable get() = SushiTheme.dimens.spacing.micro
-    val suffixSpacing: Dp @Composable get() = SushiTheme.dimens.spacing.micro
-}
-
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Composable
 fun SushiText(
     props: SushiTextProps,
@@ -91,19 +73,21 @@ fun SushiText(
     onTextLayout: (TextLayoutResult) -> Unit = {},
     onClick: (() -> Unit)? = null
 ) {
-    Base(
-        modifier
-            .width(IntrinsicSize.Max)
-            .height(IntrinsicSize.Max)
-    ) {
-        SushiTextImpl(
-            props,
-            Modifier.fillMaxSize(),
-            prefix = prefix,
-            suffix = suffix,
-            onTextLayout = onTextLayout,
-            onClick = onClick
-        )
+    if (props.isValid()) {
+        SushiComponentBase(
+            modifier
+                .width(IntrinsicSize.Max)
+                .height(IntrinsicSize.Max)
+        ) {
+            SushiTextImpl(
+                props,
+                Modifier.fillMaxSize(),
+                prefix = prefix,
+                suffix = suffix,
+                onTextLayout = onTextLayout,
+                onClick = onClick
+            )
+        }
     }
 }
 
@@ -127,21 +111,21 @@ private fun SushiTextImpl(
     ) {
         val context = LocalContext.current
         val rawText = props.text ?: ""
-        val isMarkDownEnabled = props.isMarkDownEnabled ?: Defaults.isMarkDownEnabled
-        val textType = props.type ?: Defaults.textType
-        val textColor = props.color.takeIfSpecified() ?: Defaults.textColor
+        val isMarkDownEnabled = props.isMarkDownEnabled ?: SushiTextDefaults.isMarkDownEnabled
+        val textType = props.type ?: SushiTextDefaults.textType
+        val textColor = props.color.takeIfSpecified() ?: SushiTextDefaults.textColor
         val overflowTextColor = props.overflowTextColor?.takeIfSpecified() ?: textColor
         val letterSpacing = props.letterSpacing
         val typeStyle = textType.typeStyle
-        val maxLines = props.maxLines ?: Defaults.maxLines
+        val maxLines = props.maxLines ?: SushiTextDefaults.maxLines
         val textDecoration = props.textDecoration
         val textAlign = props.textAlign
-        val overflow = props.overflow ?: Defaults.overflow
-        val softWrap = Defaults.softWrap
-        val minLines = Defaults.minLines
+        val overflow = props.overflow ?: SushiTextDefaults.overflow
+        val softWrap = SushiTextDefaults.softWrap
+        val minLines = SushiTextDefaults.minLines
         val overflowText = props.overflowText
-        val prefixSpacing = props.prefixSpacing ?: Defaults.prefixSpacing
-        val suffixSpacing = props.suffixSpacing ?: Defaults.suffixSpacing
+        val prefixSpacing = props.prefixSpacing ?: SushiTextDefaults.prefixSpacing
+        val suffixSpacing = props.suffixSpacing ?: SushiTextDefaults.suffixSpacing
         val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
 
         var textLayoutResult: TextLayoutResult? by remember { mutableStateOf(null) }
@@ -179,7 +163,7 @@ private fun SushiTextImpl(
                 rawText
             }
             else -> {
-                AnnotatedString(rawText.toString())
+                remember(rawText) { AnnotatedString(rawText.toString()) }
             }
         }
 
@@ -336,8 +320,8 @@ private fun ExpandableText(
             textDecoration = textDecoration,
             textAlign = textAlign,
             overflow = TextOverflow.Ellipsis,
-            softWrap = Defaults.softWrap,
-            minLines = Defaults.minLines,
+            softWrap = SushiTextDefaults.softWrap,
+            minLines = SushiTextDefaults.minLines,
             onTextLayout = {
                 onTextLayout(it)
                 textLayoutResultState.value = it
@@ -422,6 +406,10 @@ private fun RowScope.SuffixIcon(
             Modifier.padding(start = spacing)
         )
     }
+}
+
+private fun SushiTextProps.isValid(): Boolean {
+    return !this.text.isNullOrEmpty() || this.prefixIcon != null || this.suffixIcon != null
 }
 
 @Composable

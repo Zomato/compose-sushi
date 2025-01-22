@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.markdown
 
 import androidx.compose.runtime.Composable
@@ -12,7 +10,6 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.getColor
 import com.zomato.sushi.compose.atoms.color.withAlpha
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.core.SushiColorToken
 import java.util.regex.Pattern

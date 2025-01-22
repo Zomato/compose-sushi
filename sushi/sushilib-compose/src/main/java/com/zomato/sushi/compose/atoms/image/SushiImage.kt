@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.image
 
 import androidx.compose.foundation.Image
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -22,39 +19,32 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.R
-import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
-private object Defaults {
-    val alignment: Alignment = Alignment.Center
-    val contentScale: ContentScale = ContentScale.Fit
-    val alpha: Float = 1.0f
-    val colorFilter: ColorFilter? = null
-}
-
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Composable
 fun SushiImage(
     props: SushiImageProps,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
-    Base(modifier
-        .testTag("SushiImage")
-    ) {
-        SushiImageImpl(
-            props,
-            Modifier,
-            onClick = onClick
-        )
+    if (props.painter != null) {
+        SushiComponentBase(modifier
+            .testTag("SushiImage")
+        ) {
+            SushiImageImpl(
+                props,
+                Modifier,
+                onClick = onClick
+            )
+        }
     }
 }
 
@@ -68,10 +58,10 @@ private fun SushiImageImpl(
         val painter = props.painter
         val bgColor = props.bgColor.takeIfSpecified()
         val contentDescription = props.contentDescription
-        val alignment = props.alignment ?: Defaults.alignment
-        val contentScale = props.contentScale ?: Defaults.contentScale
-        val alpha = props.alpha ?: Defaults.alpha
-        val colorFilter = props.colorFilter ?: Defaults.colorFilter
+        val alignment = props.alignment ?: SushiImageDefaults.alignment
+        val contentScale = props.contentScale ?: SushiImageDefaults.contentScale
+        val alpha = props.alpha ?: SushiImageDefaults.alpha
+        val colorFilter = props.colorFilter ?: SushiImageDefaults.colorFilter
 
         Image(
             painter,

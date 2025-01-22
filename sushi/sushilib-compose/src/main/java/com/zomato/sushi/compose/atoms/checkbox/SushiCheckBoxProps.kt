@@ -3,14 +3,12 @@ package com.zomato.sushi.compose.atoms.checkbox
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.Dp
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Immutable
 data class SushiCheckBoxProps(
     val id: String? = Default.id,

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.animation
 
 import androidx.compose.animation.core.animateFloatAsState
@@ -27,8 +25,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieRetrySignal
-import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.ifNonNull
@@ -37,9 +34,6 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 /**
  * @author gupta.anirudh@zomato.com
  */
-private object Defaults {
-    val playback = SushiAnimationPlayback.AutoPlay()
-}
 
 @Composable
 fun rememberSushiAnimationProps(
@@ -56,18 +50,19 @@ fun rememberSushiAnimationProps(
     }
 }
 
-@ExperimentalSushiApi
 @Composable
 fun SushiAnimation(
     props: SushiAnimationProps,
     modifier: Modifier = Modifier
 ) {
-    Base(modifier
-        .testTag("SushiAnimation")
-    ) {
-        SushiAnimationImpl(
-            props
-        )
+    if (props.source != null) {
+        SushiComponentBase(modifier
+            .testTag("SushiAnimation")
+        ) {
+            SushiAnimationImpl(
+                props
+            )
+        }
     }
 }
 
@@ -78,7 +73,7 @@ private fun SushiAnimationImpl(
 ) {
     if (props.source != null) {
         val source = props.source
-        val playback = props.playback ?: Defaults.playback
+        val playback = props.playback ?: SushiAnimationDefaults.playback
 
         val composition: LottieComposition? = when(source) {
             is LottieCompositionSource -> source.composition

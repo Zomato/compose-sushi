@@ -1,18 +1,14 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.text
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.text.TextStyle
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
 
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Immutable
 sealed interface TextTypeSpec {
     @get:Composable @Stable val typeStyle: TextStyle
@@ -21,7 +17,6 @@ sealed interface TextTypeSpec {
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @JvmInline
 internal value class TextStyleTextType(val textStyle: TextStyle) : TextTypeSpec {
     override val typeStyle: TextStyle
@@ -33,7 +28,6 @@ fun TextStyle.asTextTypeSpec(): TextTypeSpec = TextStyleTextType(this)
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 enum class SushiTextType : TextTypeSpec {
     Light50,
     Light100,
