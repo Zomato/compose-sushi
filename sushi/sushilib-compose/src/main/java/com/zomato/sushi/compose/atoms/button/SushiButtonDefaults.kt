@@ -36,13 +36,6 @@ object SushiButtonDefaults {
         fontSize = textStyle.fontSize * SushiButtonDefaults.subTextSizePercentage
     )
 
-    // todox: remove this function
-    public fun getButtonTextSize(size: SushiButtonSize): TextUnit = when (size) {
-        SushiButtonSize.Small -> SushiTextSize200
-        SushiButtonSize.Medium -> SushiTextSize300
-        SushiButtonSize.Large -> SushiTextSize500
-    }
-
     @Composable
     public fun getButtonTextType(size: SushiButtonSize): TextStyle = when (size) {
         SushiButtonSize.Small -> SushiTheme.typography.regular200
