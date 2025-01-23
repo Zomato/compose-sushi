@@ -32,8 +32,8 @@ internal fun SushiSolidButton(
     val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabelPressed
     val fontColorDisabled = SushiTheme.colors.button.primaryLabelDisabled
 
-    val borderStrokeColor = color
-    val borderStrokeColorPressed = color
+    val borderStrokeColor = props.borderColor.takeIfSpecified() ?: color
+    val borderStrokeColorPressed = props.borderColor.takeIfSpecified() ?: color
     val borderStrokeColorDisabled = SushiTheme.colors.button.secondaryBorderDisabled
 
     val minHeight = with(SushiButtonDefaults) { getButtonMinHeight(props.sizeOrDefault) }

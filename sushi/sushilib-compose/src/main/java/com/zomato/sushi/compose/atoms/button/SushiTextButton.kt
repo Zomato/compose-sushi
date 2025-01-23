@@ -7,13 +7,11 @@ import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -24,17 +22,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
-import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
-import com.zomato.sushi.compose.atoms.text.SushiText
-import com.zomato.sushi.compose.atoms.text.SushiTextProps
-import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -121,66 +111,15 @@ private fun RowScope.SushiTextButtonContent(
     val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabelPressed
     val fontColorDisabled = SushiTheme.colors.button.ghostLabelDisabled
 
-    val appliedFontColor = when {
-        isDisabled -> fontColorDisabled
-        isTapped -> fontColorPressed
-        else -> fontColor
-    }
-
-    val textType: TextStyle = props.fontType?.typeStyle ?: with(SushiButtonDefaults) { getButtonTextType(props.sizeOrDefault) } // todox: remove:  TextStyle(fontSize = getButtonTextSize(props.getButtonSizeWithDefaults()) ) }
-    val defaultIconSize: TextUnit = props.fontType?.typeStyle?.fontSize ?: with(SushiButtonDefaults) { getButtonIconSize(props.sizeOrDefault) }
-    val iconPadding: Dp = props.iconSpacing ?: with(SushiButtonDefaults) { getButtonIconPadding(props.sizeOrDefault) }
-
-    val prefixIcon = props.prefixIcon?.copy(
-        size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = props.prefixIcon.color.takeIfSpecified() ?: appliedFontColor
+    SushiButtonContentImpl(
+        props = props,
+        isDisabled = isDisabled,
+        isTapped = isTapped,
+        fontColorDisabled = fontColorDisabled,
+        fontColorPressed = fontColorPressed,
+        fontColor = fontColor,
+        modifier
     )
-
-    val suffixIcon = props.suffixIcon?.copy(
-        size = props.suffixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = props.suffixIcon.color.takeIfSpecified() ?: appliedFontColor
-    )
-
-    val horizontalArrangement = with(SushiButtonDefaults) { props.horizontalArrangementOrDefault }
-    val verticalAlignment = with(SushiButtonDefaults) { props.verticalAlignmentOrDefault }
-
-    Row(
-        modifier,
-        horizontalArrangement = horizontalArrangement,
-        verticalAlignment = verticalAlignment
-    ) {
-        if (prefixIcon != null) {
-            SushiIcon(
-                props = prefixIcon,
-                Modifier.padding(end = iconPadding)
-            )
-        }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            SushiText(
-                SushiTextProps(
-                    text = props.text,
-                    type = textType.asTextTypeSpec(),
-                    color = appliedFontColor,
-                    isMarkDownEnabled = props.markdown
-                )
-            )
-            if (!props.subText.isNullOrEmpty()) {
-                SushiText(
-                    SushiTextProps(
-                        text = props.subText,
-                        color = appliedFontColor,
-                        type = with(SushiButtonDefaults) { getSubtextTextStyle(textType).asTextTypeSpec() }
-                    )
-                )
-            }
-        }
-        if (suffixIcon != null) {
-            SushiIcon(
-                props = suffixIcon,
-                Modifier.padding(start = iconPadding)
-            )
-        }
-    }
 }
 
 @SushiPreview

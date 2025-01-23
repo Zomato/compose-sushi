@@ -167,19 +167,16 @@ private fun SushiTextImpl(
             }
         }
 
-        if (prefix != null) {
-            prefix()
-        } else {
-            PrefixIcon(
-                props = props.prefixIcon,
-                fontSize = textStyle.fontSize,
-                textColor = textColor,
-                spacing = prefixSpacing
-            )
-        }
+        PrefixIcon(
+            props = props.prefixIcon,
+            fontSize = textStyle.fontSize,
+            textColor = textColor,
+            spacing = prefixSpacing,
+            prefix = prefix
+        )
 
         if (!overflowText.isNullOrEmpty()) {
-            ExpandableText(
+            ExpandableBaseSushiText(
                 text = text,
                 maxLines = maxLines,
                 textColor = textColor,
@@ -194,7 +191,7 @@ private fun SushiTextImpl(
                 overflowText = overflowText,
                 overflowTextColor = overflowTextColor,
                 Modifier
-                    .ifNonNull(props.textDecoration) {
+                    .ifNonNull(textDecoration) {
                         this.textDecoration(
                             textDecoration = it,
                             textLayoutResult = textLayoutResult,
@@ -222,7 +219,7 @@ private fun SushiTextImpl(
                     onTextLayout(it)
                 },
                 Modifier
-                    .ifNonNull(props.textDecoration) {
+                    .ifNonNull(textDecoration) {
                         this.textDecoration(
                             textDecoration = it,
                             textLayoutResult = textLayoutResult,
@@ -235,16 +232,13 @@ private fun SushiTextImpl(
             )
         }
 
-        if (suffix != null) {
-            suffix()
-        } else {
-            SuffixIcon(
-                props = props.suffixIcon,
-                fontSize = textStyle.fontSize,
-                textColor = textColor,
-                spacing = suffixSpacing
-            )
-        }
+        SuffixIcon(
+            props = props.suffixIcon,
+            fontSize = textStyle.fontSize,
+            textColor = textColor,
+            spacing = suffixSpacing,
+            suffix = suffix
+        )
     }
 }
 
@@ -253,22 +247,26 @@ private fun RowScope.PrefixIcon(
     props: SushiIconProps?,
     fontSize: TextUnit,
     textColor: ColorSpec,
-    spacing: Dp
+    spacing: Dp,
+    prefix: (@Composable () -> Unit)? = null,
 ) {
-    if (props != null) {
-        val actualIconProps = props.copy(
-            size = props.size ?: fontSize.asIconSizeSpec(),
-            color = props.color.takeIf { it.value.isSpecified } ?: textColor
-        )
-        SushiIcon(
-            props = actualIconProps,
-            Modifier.padding(end = spacing)
-        )
+    when {
+        prefix != null -> prefix()
+        props != null -> {
+            val actualIconProps = props.copy(
+                size = props.size ?: fontSize.asIconSizeSpec(),
+                color = props.color.takeIf { it.value.isSpecified } ?: textColor
+            )
+            SushiIcon(
+                props = actualIconProps,
+                Modifier.padding(end = spacing)
+            )
+        }
     }
 }
 
 @Composable
-private fun ExpandableText(
+private fun ExpandableBaseSushiText(
     text: AnnotatedString,
     maxLines: Int,
     textColor: ColorSpec,
@@ -394,17 +392,21 @@ private fun RowScope.SuffixIcon(
     props: SushiIconProps?,
     fontSize: TextUnit,
     textColor: ColorSpec,
-    spacing: Dp
+    spacing: Dp,
+    suffix: (@Composable () -> Unit)? = null
 ) {
-    if (props != null) {
-        val actualIconProps = props.copy(
-            size = props.size ?: fontSize.asIconSizeSpec(),
-            color = props.color.takeIf { it.value.isSpecified } ?: textColor
-        )
-        SushiIcon(
-            props = actualIconProps,
-            Modifier.padding(start = spacing)
-        )
+    when {
+        suffix != null -> suffix()
+        props != null -> {
+            val actualIconProps = props.copy(
+                size = props.size ?: fontSize.asIconSizeSpec(),
+                color = props.color.takeIf { it.value.isSpecified } ?: textColor
+            )
+            SushiIcon(
+                props = actualIconProps,
+                Modifier.padding(start = spacing)
+            )
+        }
     }
 }
 
