@@ -76,7 +76,7 @@ fun sushiDarkColorScheme(
         accentCiderIntense = SushiRawColorTokens.Cider100.asColorSpec(),
         accentBrown = SushiRawColorTokens.Brown200.asColorSpec(),
         accentBrownIntense = SushiRawColorTokens.Brown100.asColorSpec(),
-        // todox: Fix with actual values, after defaults are merged in View sushi.
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
         light = SushiRawColorTokens.White.asColorSpec(),
         accentPink = SushiRawColorTokens.White.asColorSpec(),
         discover = SushiRawColorTokens.White.asColorSpec(),
@@ -101,7 +101,7 @@ fun sushiDarkColorScheme(
         accentBlue = SushiRawColorTokens.Blue400.asColorSpec(),
         accentPurple = SushiRawColorTokens.Purple400.asColorSpec(),
         accentYellow = SushiRawColorTokens.Yellow300.asColorSpec(),
-        // todox: Fix with actual values, after defaults are merged in View sushi.
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
         light = SushiRawColorTokens.White.asColorSpec(),
         enable = SushiRawColorTokens.White.asColorSpec(),
         accentPink = SushiRawColorTokens.White.asColorSpec(),
@@ -144,7 +144,7 @@ fun sushiDarkColorScheme(
         error = SushiRawColorTokens.Orange800.asColorSpec(),
         offer = SushiRawColorTokens.Blue500.asColorSpec(),
         shimmer = SushiRawColorTokens.Slate700.asColorSpec(),
-        // todox: Fix with actual values, after defaults are merged in View sushi.
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
         backgroundDark = SushiRawColorTokens.White.asColorSpec(),
         default = SushiRawColorTokens.White.asColorSpec(),
         deepened = SushiRawColorTokens.White.asColorSpec(),
@@ -179,7 +179,7 @@ fun sushiDarkColorScheme(
         accentOrangeIntense = SushiRawColorTokens.Orange700.asColorSpec(),
         accentBlue = SushiRawColorTokens.Blue800.asColorSpec(),
         accentBlueIntense = SushiRawColorTokens.Blue700.asColorSpec(),
-        // todox: Fix with actual values, after defaults are merged in View sushi.
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
         dark = SushiRawColorTokens.White.asColorSpec(),
     ),
     crystalColorScheme: SushiColorScheme.CrystalColorScheme = SushiColorScheme.CrystalColorScheme(
@@ -218,26 +218,26 @@ fun sushiDarkColorScheme(
         primaryIcon = SushiRawColorTokens.White.asColorSpec(),
         primaryIconPressed = SushiRawColorTokens.White.asColorSpec(),
         primaryIconDisabled = SushiRawColorTokens.White.asColorSpec(),
-        secondaryBackground = SushiRawColorTokens.Transparent.asColorSpec(), // todox: revert to themeColorScheme.v500,
-        secondaryBackgroundPressed = SushiRawColorTokens.Transparent.asColorSpec(), // todox: revert to themeColorScheme.v200,
+        secondaryBackground = SushiRawColorTokens.Transparent.asColorSpec(), // ctodo: revert to themeColorScheme.v500,
+        secondaryBackgroundPressed = SushiRawColorTokens.Transparent.asColorSpec(), // ctodo: revert to themeColorScheme.v200,
         secondaryLabel = themeColorScheme.v500,
-        secondaryLabelPressed = themeColorScheme.v500, // todox: revert to themeColorScheme.v200 ?,
-        secondaryLabelDisabled = SushiRawColorTokens.Grey400.asColorSpec(), // todox: revert to SushiSlate400.asColorSpec(),
+        secondaryLabelPressed = themeColorScheme.v500, // ctodo: revert to themeColorScheme.v200 ?,
+        secondaryLabelDisabled = SushiRawColorTokens.Grey400.asColorSpec(), // ctodo: revert to SushiSlate400.asColorSpec(),
         secondaryIcon = themeColorScheme.v500,
         secondaryIconPressed = themeColorScheme.v200,
         secondaryIconDisabled = SushiRawColorTokens.Slate600.asColorSpec(),
-        ghostBackground = SushiRawColorTokens.Transparent.asColorSpec(), // todox: Revert to themeColorScheme.v500,
-        ghostBackgroundPressed = SushiRawColorTokens.Transparent.asColorSpec(), // todox: revert to themeColorScheme.v200,
+        ghostBackground = SushiRawColorTokens.Transparent.asColorSpec(), // ctodo: Revert to themeColorScheme.v500,
+        ghostBackgroundPressed = SushiRawColorTokens.Transparent.asColorSpec(), // ctodo: revert to themeColorScheme.v200,
         ghostLabel = themeColorScheme.v500,
-        ghostLabelPressed = themeColorScheme.v700,  // todox: revert to themeColorScheme.v200 ?
-        ghostLabelDisabled = SushiRawColorTokens.Grey400.asColorSpec(), // todox: revert to SushiSlate600.asColorSpec(),
+        ghostLabelPressed = themeColorScheme.v700,  // ctodo: revert to themeColorScheme.v200 ?
+        ghostLabelDisabled = SushiRawColorTokens.Grey400.asColorSpec(), // ctodo: revert to SushiSlate600.asColorSpec(),
         ghostIcon = themeColorScheme.v500,
         ghostIconPressed = themeColorScheme.v200,
         ghostIconDisabled = SushiRawColorTokens.Slate600.asColorSpec(),
         secondaryBorder = themeColorScheme.v500,
-        secondaryBorderPressed = themeColorScheme.v500, // todox: revert to themeColorScheme.v200 ?,
-        secondaryBorderDisabled = SushiRawColorTokens.Grey400.asColorSpec(), // todox: revert to SushiSlate400.asColorSpec(),
-        // todox: Fix with actual values, after defaults are merged in View sushi.
+        secondaryBorderPressed = themeColorScheme.v500, // ctodo: revert to themeColorScheme.v200 ?,
+        secondaryBorderDisabled = SushiRawColorTokens.Grey400.asColorSpec(), // ctodo: revert to SushiSlate400.asColorSpec(),
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
         tertiaryBackground = SushiRawColorTokens.White.asColorSpec(),
         tertiaryBackgroundPressed = SushiRawColorTokens.White.asColorSpec(),
         tertiaryLabel = SushiRawColorTokens.White.asColorSpec(),
@@ -270,12 +270,12 @@ fun sushiDarkColorScheme(
         secondaryBorderDisabled = SushiRawColorTokens.Slate600.asColorSpec(),
     ),
     shimmerColorScheme: SushiColorScheme.ShimmerColorScheme = SushiColorScheme.ShimmerColorScheme(
-        // todox: Fix with actual values, after defaults are merged in View sushi.
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
         start = SushiRawColorTokens.White.asColorSpec(),
         end = SushiRawColorTokens.White.asColorSpec(),
     ),
     sliderColorScheme: SushiColorScheme.SliderColorScheme = SushiColorScheme.SliderColorScheme(
-        // todox: Fix with actual values, after defaults are merged in View sushi.
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
         background = SushiRawColorTokens.White.asColorSpec(),
         backgroundPressed = SushiRawColorTokens.White.asColorSpec(),
         backgroundDisabled = SushiRawColorTokens.White.asColorSpec(),
@@ -288,7 +288,7 @@ fun sushiDarkColorScheme(
         iconDisabled = SushiRawColorTokens.White.asColorSpec(),
     ),
     filterColorScheme: SushiColorScheme.FilterColorScheme = SushiColorScheme.FilterColorScheme(
-        // todox: Fix with actual values, after defaults are merged in View sushi.
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
         backgroundSuccess = SushiRawColorTokens.White.asColorSpec(),
         stroke = SushiRawColorTokens.White.asColorSpec(),
         strokeSuccess = SushiRawColorTokens.White.asColorSpec(),
