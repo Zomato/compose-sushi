@@ -16,33 +16,16 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  */
 @Immutable
 data class SushiImageProps(
-    val painter: Painter? = Default.painter,
-    val bgColor: ColorSpec = Default.bgColor,
-    val aspectRatio: Float? = Default.aspectRatio,
-    val height: Dp? = Default.height,
-    val width: Dp? = Default.width,
-    val shape: Shape? = Default.shape,
-    val contentDescription: String? = Default.contentDescription,
-    val contentScale: ContentScale? = Default.contentScale,
-    val alpha: Float? = Default.alpha,
-    val scaleFactor: Float? = Default.scaleFactor,
-    val alignment: Alignment? = Default.alignment,
-    val colorFilter: ColorFilter? = Default.colorFilter
-) {
-    companion object {
-        val Default = SushiImageProps(
-            painter = null,
-            bgColor = SushiUnspecified.asColorSpec(),
-            aspectRatio = null,
-            height = null,
-            width = null,
-            shape = null,
-            contentDescription = null,
-            contentScale = null,
-            alpha = null,
-            scaleFactor = null,
-            alignment = null,
-            colorFilter = null,
-        )
-    }
-}
+    val painter: Painter? = null,
+    val bgColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val aspectRatio: Float? = null,
+    val height: Dp? = null,
+    val width: Dp? = null,
+    val shape: Shape? = null,
+    val contentDescription: String? = null,
+    val contentScale: ContentScale? = null,
+    val alpha: Float? = null,
+    val scaleFactor: Float? = null,
+    val alignment: Alignment? = null,
+    val colorFilter: ColorFilter? = null,
+)
