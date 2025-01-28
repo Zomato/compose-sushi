@@ -10,18 +10,13 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  */
 @Immutable
 data class SushiIconProps(
-    val code: SushiIconCode? = Default.code,
-    val size: IconSizeSpec? = Default.size,
-    val color: ColorSpec = Default.color
+    val code: SushiIconCode? = null,
+    val size: IconSizeSpec? = null,
+    val color: ColorSpec = SushiUnspecified.asColorSpec()
 ) {
     val parsedIcon: String? = code?.let { parseIcon(it) }
 
     companion object {
-        val Default = SushiIconProps(
-            code = null,
-            size = null,
-            color = SushiUnspecified.asColorSpec()
-        )
 
         fun parseIcon(code: SushiIconCode): String? {
             return code.value.takeIf { it.isNotEmpty() && !it.startsWith("&#x") }

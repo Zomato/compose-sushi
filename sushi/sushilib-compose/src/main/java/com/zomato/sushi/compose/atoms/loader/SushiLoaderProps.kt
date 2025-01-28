@@ -10,17 +10,8 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  */
 @Immutable
 data class SushiLoaderProps(
-    val innerAngleOffset: Float? = Default.innerAngleOffset,
-    val outerColor: ColorSpec = Default.outerColor,
-    val innerColor: ColorSpec = Default.innerColor,
-    val animationSpeedMultiplier: Float? = Default.animationSpeedMultiplier
-) {
-    companion object {
-        val Default = SushiLoaderProps(
-            innerAngleOffset = null,
-            outerColor = SushiUnspecified.asColorSpec(),
-            innerColor = SushiUnspecified.asColorSpec(),
-            animationSpeedMultiplier = null
-        )
-    }
-}
+    val innerAngleOffset: Float? = null,
+    val outerColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val innerColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val animationSpeedMultiplier: Float? = null
+)
