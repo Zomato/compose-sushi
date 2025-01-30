@@ -16,7 +16,7 @@ import com.zomato.sushi.compose.foundation.sushiLightColorScheme
  * @author gupta.anirudh@zomato.com
  */
 @Composable
-internal fun Preview(
+fun SushiPreview(
     typography: SushiTypography = SushiTheme.typography,
     dimens: SushiDimension = SushiTheme.dimens,
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
@@ -51,4 +51,4 @@ internal fun Preview(
     name = "DarkMode",
     apiLevel = 34
 )
-internal annotation class SushiPreview
+annotation class SushiPreview

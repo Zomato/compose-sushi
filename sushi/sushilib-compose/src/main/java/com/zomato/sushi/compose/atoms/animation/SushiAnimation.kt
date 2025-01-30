@@ -26,7 +26,6 @@ import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieRetrySignal
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
@@ -166,7 +165,7 @@ private fun lottieCompositionSpec(source: LottieResourceSource): LottieCompositi
 @SushiPreview
 @Composable
 private fun SushiAnimationPreview1() {
-    Preview {
+    SushiPreview {
         val props by rememberSushiAnimationProps(
             source = LottieAssetSource("collection_lottie.json"),
             playback = SushiAnimationPlayback.AutoPlay(
@@ -185,7 +184,7 @@ private fun SushiAnimationPreview1() {
 @SushiPreview
 @Composable
 private fun SushiAnimationPreview2() {
-    Preview {
+    SushiPreview {
         val lottieAnimatable = rememberLottieAnimatable()
 
         val composition = rememberLottieComposition(LottieCompositionSpec.Asset("collection_lottie.json"))
@@ -209,7 +208,7 @@ private fun SushiAnimationPreview2() {
 @SushiPreview
 @Composable
 private fun SushiAnimationPreview3() {
-    Preview {
+    SushiPreview {
         val durationMs = 1650 / 2
         var targetValue by remember { mutableFloatStateOf(0f) }
 

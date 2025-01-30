@@ -32,9 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
-import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 
 /**
@@ -180,7 +178,7 @@ private fun RowScope.InfoContentImpl(
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview1() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }
@@ -208,7 +206,7 @@ private fun SushiCheckboxPreview1() {
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview2() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }
@@ -240,7 +238,7 @@ private fun SushiCheckboxPreview2() {
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview3() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }
@@ -271,7 +269,7 @@ private fun SushiCheckboxPreview3() {
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview4() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }

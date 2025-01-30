@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
@@ -59,7 +58,7 @@ internal fun SushiSolidButton(
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview1() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
@@ -74,7 +73,7 @@ private fun SushiSolidButtonPreview1() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview2() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
@@ -88,7 +87,7 @@ private fun SushiSolidButtonPreview2() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview3() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
@@ -103,7 +102,7 @@ private fun SushiSolidButtonPreview3() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview4() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
@@ -119,7 +118,7 @@ private fun SushiSolidButtonPreview4() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview5() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
@@ -136,7 +135,7 @@ private fun SushiSolidButtonPreview5() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview6() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,

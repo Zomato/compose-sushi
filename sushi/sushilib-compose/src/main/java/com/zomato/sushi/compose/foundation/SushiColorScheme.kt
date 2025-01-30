@@ -790,6 +790,7 @@ data class SushiColorScheme(
         val accentCider: ColorSpec,
         val accentCiderIntense: ColorSpec,
         val accentPurple: ColorSpec,
+        val accentPink: ColorSpec,
         val accentPurpleIntense: ColorSpec,
         val accentGreen: ColorSpec,
         val accentGreenIntense: ColorSpec,

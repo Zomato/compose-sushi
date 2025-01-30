@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
@@ -54,7 +53,7 @@ internal fun SushiOutlineButton(
 @SushiPreview
 @Composable
 private fun SushiOutlineButtonPreview1() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Outline,
@@ -69,7 +68,7 @@ private fun SushiOutlineButtonPreview1() {
 @SushiPreview
 @Composable
 private fun SushiOutlineButtonPreview2() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Outline,
@@ -83,7 +82,7 @@ private fun SushiOutlineButtonPreview2() {
 @SushiPreview
 @Composable
 private fun SushiOutlineButtonPreview3() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Outline,
@@ -98,7 +97,7 @@ private fun SushiOutlineButtonPreview3() {
 @SushiPreview
 @Composable
 private fun SushiOutlineButtonPreview4() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Outline,
@@ -114,7 +113,7 @@ private fun SushiOutlineButtonPreview4() {
 @SushiPreview
 @Composable
 private fun SushiOutlineButtonPreview5() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Outline,

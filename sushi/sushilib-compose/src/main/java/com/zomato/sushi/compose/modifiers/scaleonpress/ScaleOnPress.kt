@@ -22,7 +22,6 @@ import com.zomato.sushi.compose.atoms.button.SushiButton
 import com.zomato.sushi.compose.atoms.button.SushiButtonProps
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.invisibleIf
 import kotlinx.coroutines.Job
@@ -159,7 +158,7 @@ class SushiScaleOnPressModifierNode(
 @SushiPreview
 @Composable
 private fun ScaleOnPressPreview1() {
-    Preview {
+    SushiPreview {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             val show = remember { mutableStateOf(false) }
             SushiButton(

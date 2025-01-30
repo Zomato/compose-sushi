@@ -173,6 +173,7 @@ fun sushiDarkColorScheme(
         accentCider = SushiRawColorTokens.Cider800.asColorSpec(),
         accentCiderIntense = SushiRawColorTokens.Cider700.asColorSpec(),
         accentPurple = SushiRawColorTokens.Purple800.asColorSpec(),
+        accentPink = SushiRawColorTokens.Pink800.asColorSpec(),
         accentPurpleIntense = SushiRawColorTokens.Purple700.asColorSpec(),
         accentGreen = SushiRawColorTokens.Green800.asColorSpec(),
         accentGreenIntense = SushiRawColorTokens.Green700.asColorSpec(),

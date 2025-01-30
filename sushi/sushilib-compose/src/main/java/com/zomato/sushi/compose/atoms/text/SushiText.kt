@@ -53,7 +53,6 @@ import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.markdown.MarkdownParser
 import com.zomato.sushi.compose.markdown.MarkdownParserProps
@@ -417,7 +416,7 @@ private fun SushiTextProps.isValid(): Boolean {
 @Composable
 @SushiPreview
 private fun SushiTextPreview1() {
-    Preview {
+    SushiPreview {
         Column {
             SushiText(
                 props = SushiTextProps(
@@ -460,7 +459,7 @@ private fun SushiTextPreview1() {
 @Composable
 @SushiPreview
 private fun SushiTextPreview2() {
-    Preview {
+    SushiPreview {
         Column(
             Modifier
                 .fillMaxSize()

@@ -24,7 +24,6 @@ import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirecti
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.TopLeftToBottomRight
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.TopRightToBottomLeft
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.TopToBottom
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -154,7 +153,7 @@ fun SushiGradientColorData.LinearDirection.endOffset(size: Size): Offset = when 
 @SushiPreview
 @Composable
 private fun SushiGradientPreview() {
-    Preview {
+    SushiPreview {
         Column {
             val colors = persistentListOf(Color.Transparent.asColorSpec(), Color.Red.asColorSpec(), Color.Blue.asColorSpec(), Color.Green.asColorSpec())
             val sweepGradientData = SushiGradientColorData(
