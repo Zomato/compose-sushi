@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.R
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
@@ -85,7 +84,7 @@ private fun SushiImageImpl(
 @SushiPreview
 @Composable
 private fun SushiImagePreview1() {
-    Preview {
+    SushiPreview {
         Row(Modifier.width(200.dp)) {
             SushiImage(
                 props = SushiImageProps(

@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
@@ -125,7 +124,7 @@ private fun RowScope.SushiTextButtonContent(
 @SushiPreview
 @Composable
 private fun SushiTextButtonPreview1() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Text,
@@ -140,7 +139,7 @@ private fun SushiTextButtonPreview1() {
 @SushiPreview
 @Composable
 private fun SushiTextButtonPreview2() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Text,
@@ -154,7 +153,7 @@ private fun SushiTextButtonPreview2() {
 @SushiPreview
 @Composable
 private fun SushiTextButtonPreview3() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Text,
@@ -173,7 +172,7 @@ private fun SushiTextButtonPreview3() {
 @SushiPreview
 @Composable
 private fun SushiTextButtonPreview4() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Text,
@@ -193,7 +192,7 @@ private fun SushiTextButtonPreview4() {
 @SushiPreview
 @Composable
 private fun SushiTextButtonPreview5() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Text,

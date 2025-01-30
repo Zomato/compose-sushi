@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.zomato.plugins.publish'
     id 'kotlin-kapt'
+    id 'com.android.compose.screenshot'
 }
 
 def rootConfiguration = rootProject.ext
@@ -29,6 +30,8 @@ applyCompose()
 
 android {
     namespace 'com.zomato.sushi.compose'
+
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17

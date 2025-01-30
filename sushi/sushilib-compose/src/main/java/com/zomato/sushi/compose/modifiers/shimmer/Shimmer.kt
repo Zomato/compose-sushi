@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.button.SushiButton
 import com.zomato.sushi.compose.atoms.button.SushiButtonProps
 import com.zomato.sushi.compose.foundation.SushiRawColorTokens
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
@@ -274,7 +273,7 @@ class SushiShimmerModifierNode(
 @SushiPreview
 @Composable
 private fun ShimmerPreview1() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 text = "Shimmer Overlay"
@@ -296,7 +295,7 @@ private fun ShimmerPreview1() {
 @SushiPreview
 @Composable
 private fun ShimmerPreview2() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 text = "Shimmer Filled"

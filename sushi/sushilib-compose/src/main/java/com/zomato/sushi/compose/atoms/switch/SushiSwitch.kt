@@ -26,7 +26,6 @@ import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
@@ -156,7 +155,7 @@ private fun RowScope.InfoContentImpl(
 @SushiPreview
 @Composable
 private fun SushiSwitchPreview1() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }
@@ -182,7 +181,7 @@ private fun SushiSwitchPreview1() {
 @SushiPreview
 @Composable
 private fun SushiSwitchPreview2() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }
@@ -211,7 +210,7 @@ private fun SushiSwitchPreview2() {
 @SushiPreview
 @Composable
 private fun SushiSwitchPreview3() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }
@@ -240,7 +239,7 @@ private fun SushiSwitchPreview3() {
 @SushiPreview
 @Composable
 private fun SushiSwitchPreview4() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }

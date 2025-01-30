@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.foundation.WasabiFontFamily
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.atomClickable
 import com.zomato.sushi.compose.modifiers.ifNonNull
@@ -84,7 +83,7 @@ private fun SushiIconImpl(
 @SushiPreview
 @Composable
 private fun SushiIconPreview1() {
-    Preview {
+    SushiPreview {
         SushiIcon(
             SushiIconProps(
                 code = SushiIconCodes.IconMoon,
@@ -98,7 +97,7 @@ private fun SushiIconPreview1() {
 @SushiPreview
 @Composable
 private fun SushiIconPreview2() {
-    Preview {
+    SushiPreview {
         SushiIcon(
             SushiIconProps(
                 code = SushiIconCodes.IconContactlessDining,
@@ -112,7 +111,7 @@ private fun SushiIconPreview2() {
 @SushiPreview
 @Composable
 private fun SushiIconPreview3() {
-    Preview {
+    SushiPreview {
         SushiIcon(
             SushiIconProps(
                 code = SushiIconCodes.IconContactlessDining,
@@ -127,7 +126,7 @@ private fun SushiIconPreview3() {
 @SushiPreview
 @Composable
 private fun SushiIconPreview4() {
-    Preview {
+    SushiPreview {
         SushiIcon(
             SushiIconProps(
                 code = SushiIconCodes.IconContactlessDining,

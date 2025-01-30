@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 import kotlin.math.roundToInt
@@ -108,7 +107,7 @@ private fun SushiLoaderImpl(
 @SushiPreview
 @Composable
 private fun SushiLoaderPreview1() {
-    Preview {
+    SushiPreview {
         SushiLoader(
             SushiLoaderProps(
 
@@ -120,7 +119,7 @@ private fun SushiLoaderPreview1() {
 @SushiPreview
 @Composable
 private fun SushiLoaderPreview2() {
-    Preview {
+    SushiPreview {
         SushiLoader(
             SushiLoaderProps(
 
@@ -133,7 +132,7 @@ private fun SushiLoaderPreview2() {
 @SushiPreview
 @Composable
 private fun SushiLoaderPreview3() {
-    Preview {
+    SushiPreview {
         SushiLoader(
             SushiLoaderProps(
 
