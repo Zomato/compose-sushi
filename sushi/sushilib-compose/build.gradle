@@ -54,7 +54,7 @@ dependencies {
 
     api "org.jetbrains.kotlinx:kotlinx-collections-immutable:$rootConfiguration.kotlinxCollectionsImmutableVersion"
 
-    implementation project('sushilib-core')
+    api project(':sushilib-core')
 
     lintChecks "com.slack.lint.compose:compose-lint-checks:${slackComposeLintVersion}"
 
