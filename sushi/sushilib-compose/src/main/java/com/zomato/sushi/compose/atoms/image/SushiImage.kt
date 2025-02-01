@@ -62,14 +62,26 @@ private fun SushiImageImpl(
         val alpha = props.alpha ?: SushiImageDefaults.alpha
         val colorFilter = props.colorFilter ?: SushiImageDefaults.colorFilter
 
+        val height = when {
+            props.height != null -> props.height
+            props.aspectRatio != null && props.width != null -> props.width / props.aspectRatio
+            else -> null
+        }
+
+        val width = when {
+            props.width != null -> props.width
+            props.aspectRatio != null && props.height != null -> props.height * props.aspectRatio
+            else -> null
+        }
+
         Image(
             painter,
             contentDescription,
             modifier
                 .ifNonNull(onClick) { this.clickable(onClick = it) }
                 .ifNonNull(props.shape) { this.clip(it) }
-                .ifNonNull(props.height) { this.height(it) }
-                .ifNonNull(props.width) { this.width(it) }
+                .ifNonNull(height) { this.height(it) }
+                .ifNonNull(width) { this.width(it) }
                 .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
                 .ifNonNull(bgColor) { this.background(it.value) }
                 .ifNonNull(props.scaleFactor) { this.scale(it) },
