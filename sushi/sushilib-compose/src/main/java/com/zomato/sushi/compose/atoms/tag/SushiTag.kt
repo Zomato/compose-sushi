@@ -42,6 +42,7 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 fun SushiTag(
     props: SushiTagProps,
     modifier: Modifier = Modifier,
+    content: @Composable (() -> Unit)? = null,
     onClick: (() -> Unit)? = null
 ) {
     SushiComponentBase(
@@ -52,6 +53,7 @@ fun SushiTag(
         SushiTagImpl(
             props = props,
             modifier = Modifier.fillMaxSize(),
+            content = content,
             onClick = onClick
         )
     }
@@ -61,6 +63,7 @@ fun SushiTag(
 private fun SushiTagImpl(
     props: SushiTagProps,
     modifier: Modifier = Modifier,
+    content: @Composable (() -> Unit)? = null,
     onClick: (() -> Unit)? = null
 ) {
 
@@ -85,50 +88,58 @@ private fun SushiTagImpl(
         shape = surfaceShape,
         border = props.getBorderForType()
     ) {
+        if (content != null) content()
+        else SushiTagDefaultContent(props = props)
+    }
+}
 
-        val textType = props.getTagTextType()
-        val textColor = props.fontColor ?: SushiTheme.colors.theme.accentColor
+@Composable
+private fun SushiTagDefaultContent(
+    props: SushiTagProps,
+    modifier: Modifier = Modifier
+) {
+    val textType = props.getTagTextType()
+    val textColor = props.fontColor ?: SushiTheme.colors.theme.accentColor
 
-        val tagPadding = props.getTagPaddingForSize()
+    val tagPadding = props.getTagPaddingForSize()
 
-        val defaultIconSize: TextUnit = props.getTagIconSize()
-        val iconPadding: Dp = props.iconSpacing ?: tagPadding.calculateLeftPadding(LayoutDirection.Ltr)
-        val prefixIcon = props.prefixIcon?.copy(
-            size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-            color = props.prefixIcon.color.takeIfSpecified() ?: textColor
-        )
-        val suffixIcon = props.suffixIcon?.copy(
-            size = props.suffixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-            color = props.suffixIcon.color.takeIfSpecified() ?: textColor
-        )
+    val defaultIconSize: TextUnit = props.getTagIconSize()
+    val iconPadding: Dp = props.iconSpacing ?: tagPadding.calculateLeftPadding(LayoutDirection.Ltr)
+    val prefixIcon = props.prefixIcon?.copy(
+        size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
+        color = props.prefixIcon.color.takeIfSpecified() ?: textColor
+    )
+    val suffixIcon = props.suffixIcon?.copy(
+        size = props.suffixIcon.size ?: defaultIconSize.asIconSizeSpec(),
+        color = props.suffixIcon.color.takeIfSpecified() ?: textColor
+    )
 
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (prefixIcon != null) {
-                SushiIcon(
-                    props = prefixIcon,
-                    Modifier.padding(start = iconPadding)
-                )
-            }
-            SushiText(
-                modifier = Modifier.weight(1f).padding(tagPadding),
-                props = SushiTextProps(
-                    type = textType.asTextTypeSpec(),
-                    text = props.text.orEmpty(),
-                    color = textColor,
-                    isMarkDownEnabled = props.markdown,
-                    horizontalArrangement = Arrangement.Center
-                )
+    Row(
+        modifier = modifier.fillMaxSize(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (prefixIcon != null) {
+            SushiIcon(
+                props = prefixIcon,
+                Modifier.padding(start = iconPadding)
             )
-            if (suffixIcon != null) {
-                SushiIcon(
-                    props = suffixIcon,
-                    Modifier.padding(end = iconPadding)
-                )
-            }
+        }
+        SushiText(
+            modifier = Modifier.weight(1f).padding(tagPadding),
+            props = SushiTextProps(
+                type = textType.asTextTypeSpec(),
+                text = props.text.orEmpty(),
+                color = textColor,
+                isMarkDownEnabled = props.markdown,
+                horizontalArrangement = Arrangement.Center
+            )
+        )
+        if (suffixIcon != null) {
+            SushiIcon(
+                props = suffixIcon,
+                Modifier.padding(end = iconPadding)
+            )
         }
     }
 }
