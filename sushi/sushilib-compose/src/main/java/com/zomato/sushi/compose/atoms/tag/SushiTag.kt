@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -21,32 +20,31 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
+import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
-import com.zomato.sushi.compose.atoms.internal.Base
+import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
+import com.zomato.sushi.compose.atoms.tag.SushiTagDefaults.typeOrDefault
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.utils.atomClickable
-import com.zomato.sushi.compose.utils.dashedBorder
-import com.zomato.sushi.compose.utils.ifNonNull
-import com.zomato.sushi.compose.utils.ifTrue
+import com.zomato.sushi.compose.modifiers.dashedBorder
+import com.zomato.sushi.compose.modifiers.ifNonNull
+import com.zomato.sushi.compose.modifiers.ifTrue
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
  * Created by Kashish on 13,January,2025
  * Zomato, Gurgaon, India.
  */
-@ExperimentalSushiApi
 @Composable
 fun SushiTag(
     props: SushiTagProps,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
-    Base(
+    SushiComponentBase(
         modifier
             .width(IntrinsicSize.Max)
             .height(IntrinsicSize.Max)
@@ -59,7 +57,6 @@ fun SushiTag(
     }
 }
 
-@ExperimentalSushiApi
 @Composable
 private fun SushiTagImpl(
     props: SushiTagProps,
@@ -77,7 +74,7 @@ private fun SushiTagImpl(
                     interactionSource = remember { MutableInteractionSource() }
                 )
             }
-            .ifTrue(dashedBorderNeededForTag(props.type)) {
+            .ifTrue(dashedBorderNeededForTag(props.typeOrDefault)) {
                 this.dashedBorder(
                     color = props.borderColor?.value ?: SushiTheme.colors.border.accentBlueIntense.value,
                     strokeWidth = SushiTheme.dimens.spacing.nano,
@@ -136,7 +133,6 @@ private fun SushiTagImpl(
     }
 }
 
-@ExperimentalSushiApi
 @Preview(name = "Large capsule")
 @Composable
 private fun SushiTagPreview1() {
@@ -152,7 +148,6 @@ private fun SushiTagPreview1() {
     )
 }
 
-@ExperimentalSushiApi
 @Preview(name = "Small capsule outline")
 @Composable
 private fun SushiTagPreview2() {
@@ -168,7 +163,6 @@ private fun SushiTagPreview2() {
     )
 }
 
-@ExperimentalSushiApi
 @Preview(name = "Large capsule dashed")
 @Composable
 private fun SushiTagPreview3() {
@@ -180,12 +174,11 @@ private fun SushiTagPreview3() {
             type = SushiTagType.CapsuleDashed,
             color = SushiTheme.colors.green.v400,
             borderColor = SushiTheme.colors.black,
-            suffixIcon = SushiIconProps(code = "edae"),
+            suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
     )
 }
 
-@ExperimentalSushiApi
 @Preview(name = "Large Rounded outline")
 @Composable
 private fun SushiTagPreview4() {
@@ -197,13 +190,12 @@ private fun SushiTagPreview4() {
             type = SushiTagType.RoundedOutline,
             color = SushiTheme.colors.blue.v300,
             borderColor = SushiTheme.colors.black,
-            prefixIcon = SushiIconProps(code = "edae"),
-            suffixIcon = SushiIconProps(code = "edae"),
+            prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
+            suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
     )
 }
 
-@ExperimentalSushiApi
 @Preview(name = "Large Rounded dashed")
 @Composable
 private fun SushiTagPreview5() {
@@ -215,13 +207,12 @@ private fun SushiTagPreview5() {
             type = SushiTagType.RoundedDashed,
             color = SushiTheme.colors.blue.v300,
             borderColor = SushiTheme.colors.black,
-            prefixIcon = SushiIconProps(code = "edae"),
-            suffixIcon = SushiIconProps(code = "edae"),
+            prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
+            suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
     )
 }
 
-@ExperimentalSushiApi
 @Preview(name = "Medium Rounded")
 @Composable
 private fun SushiTagPreview6() {
@@ -233,12 +224,11 @@ private fun SushiTagPreview6() {
             type = SushiTagType.Rounded,
             color = SushiTheme.colors.blue.v300,
             borderColor = SushiTheme.colors.black,
-            prefixIcon = SushiIconProps(code = "edae"),
+            prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
     )
 }
 
-@ExperimentalSushiApi
 @Preview(name = "Nano capsule dashed")
 @Composable
 private fun SushiTagPreview7() {
@@ -251,12 +241,11 @@ private fun SushiTagPreview7() {
             fontColor = SushiTheme.colors.white,
             color = SushiTheme.colors.green.v900,
             borderColor = SushiTheme.colors.yellow.v700,
-            suffixIcon = SushiIconProps(code = "edae"),
+            suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
     )
 }
 
-@ExperimentalSushiApi
 @Preview(name = "Tiny capsule dashed")
 @Composable
 private fun SushiTagPreview8() {
@@ -269,7 +258,7 @@ private fun SushiTagPreview8() {
             fontColor = SushiTheme.colors.white,
             color = SushiTheme.colors.green.v900,
             borderColor = SushiTheme.colors.yellow.v700,
-            suffixIcon = SushiIconProps(code = "edae"),
+            suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
     )
 }

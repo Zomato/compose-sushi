@@ -10,7 +10,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.tag.SushiTagDefaults.sizeOrDefault
+import com.zomato.sushi.compose.atoms.tag.SushiTagDefaults.typeOrDefault
 import com.zomato.sushi.compose.foundation.SushiTextSize050
 import com.zomato.sushi.compose.foundation.SushiTextSize100
 import com.zomato.sushi.compose.foundation.SushiTextSize200
@@ -23,9 +24,8 @@ import com.zomato.sushi.compose.foundation.SushiTheme
  * Zomato, Gurgaon, India.
  */
 
-@OptIn(ExperimentalSushiApi::class)
 @Composable
-fun SushiTagProps.getTagTextType(): TextStyle = when (size) {
+fun SushiTagProps.getTagTextType(): TextStyle = when (sizeOrDefault) {
     SushiTagSize.Nano -> SushiTheme.typography.semiBold050
     SushiTagSize.Tiny -> SushiTheme.typography.semiBold100
     SushiTagSize.Small -> SushiTheme.typography.semiBold200
@@ -34,9 +34,8 @@ fun SushiTagProps.getTagTextType(): TextStyle = when (size) {
     SushiTagSize.ExtraLarge -> SushiTheme.typography.semiBold400
 }
 
-@OptIn(ExperimentalSushiApi::class)
 @Composable
-fun SushiTagProps.getTagIconSize(): TextUnit = when (size) {
+fun SushiTagProps.getTagIconSize(): TextUnit = when (sizeOrDefault) {
     SushiTagSize.Nano -> SushiTextSize050
     SushiTagSize.Tiny -> SushiTextSize100
     SushiTagSize.Small -> SushiTextSize200
@@ -45,10 +44,9 @@ fun SushiTagProps.getTagIconSize(): TextUnit = when (size) {
     SushiTagSize.ExtraLarge -> SushiTextSize400
 }
 
-@OptIn(ExperimentalSushiApi::class)
 @Composable
 fun SushiTagProps.getTagPaddingForSize(): PaddingValues {
-    val padding = when (size) {
+    val padding = when (sizeOrDefault) {
         SushiTagSize.ExtraLarge -> PaddingValues(
             vertical = SushiTheme.dimens.spacing.base,
             horizontal = SushiTheme.dimens.spacing.extra
@@ -72,13 +70,11 @@ fun SushiTagProps.getTagPaddingForSize(): PaddingValues {
     else padding
 }
 
-@OptIn(ExperimentalSushiApi::class)
 @Composable
 fun SushiTagProps.getTagShapeForType(): Shape {
     return RoundedCornerShape(getTagCornerRadiusForType())
 }
 
-@OptIn(ExperimentalSushiApi::class)
 @Composable
 fun SushiTagProps.getTagCornerRadiusForType(): Dp {
 
@@ -86,7 +82,7 @@ fun SushiTagProps.getTagCornerRadiusForType(): Dp {
     val roundedRadius = if (size == SushiTagSize.Nano) 4.dp
     else 3.dp
 
-    return when(type) {
+    return when(typeOrDefault) {
         SushiTagType.Rounded -> roundedRadius
         SushiTagType.Capsule -> circularRadius
         SushiTagType.RoundedOutline -> roundedRadius
@@ -97,15 +93,14 @@ fun SushiTagProps.getTagCornerRadiusForType(): Dp {
 
 }
 
-@OptIn(ExperimentalSushiApi::class)
 @Composable
 fun SushiTagProps.getBorderForType(): BorderStroke? {
 
     val outlinesTypes = listOf(SushiTagType.CapsuleOutline, SushiTagType.RoundedOutline)
 
-    return if (type in outlinesTypes) BorderStroke(
+    return if (typeOrDefault in outlinesTypes) BorderStroke(
         width = SushiTheme.dimens.spacing.pico,
-        color = color?.value ?: SushiTheme.colors.theme.accentColor.value
+        color = borderColor?.value ?: SushiTheme.colors.theme.accentColor.value
     )
     else return null
 
