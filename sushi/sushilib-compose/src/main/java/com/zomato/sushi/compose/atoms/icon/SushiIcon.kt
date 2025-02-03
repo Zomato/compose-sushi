@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.icon
 
 import androidx.compose.foundation.layout.size
@@ -13,38 +11,33 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.foundation.WasabiFontFamily
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
-import com.zomato.sushi.compose.utils.atomClickable
-import com.zomato.sushi.compose.utils.ifNonNull
+import com.zomato.sushi.compose.modifiers.atomClickable
+import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
-
-private object Defaults {
-    val size = SushiIconSize.Size100
-}
 
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Composable
 fun SushiIcon(
     props: SushiIconProps,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
 ) {
-    Base(modifier
-        .testTag("SushiIcon")
-    ) {
-        SushiIconImpl(
-            props,
-            Modifier.align(Alignment.Center),
-            onClick = onClick
-        )
+    if (props.parsedIcon != null) {
+        SushiComponentBase(modifier
+            .testTag("SushiIcon")
+        ) {
+            SushiIconImpl(
+                props,
+                Modifier.align(Alignment.Center),
+                onClick = onClick
+            )
+        }
     }
 }
 
@@ -54,8 +47,8 @@ private fun SushiIconImpl(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
-    val size = props.size?.size ?: Defaults.size.size
-    val parsedIcon = props.parsedIcon
+    val size = props.size?.size ?: SushiIconDefaults.size.size
+    val parsedIcon = props.parsedIcon ?: ""
     val context = LocalContext.current
     val baseTextStyle = LocalTextStyle.current
     val color = props.color.takeIfSpecified() ?: SushiTheme.colors.icon.primary
@@ -90,10 +83,10 @@ private fun SushiIconImpl(
 @SushiPreview
 @Composable
 private fun SushiIconPreview1() {
-    Preview {
+    SushiPreview {
         SushiIcon(
             SushiIconProps(
-                code = "e926",
+                code = SushiIconCodes.IconMoon,
                 size = SushiIconSize.Size300
             ),
             Modifier
@@ -104,10 +97,10 @@ private fun SushiIconPreview1() {
 @SushiPreview
 @Composable
 private fun SushiIconPreview2() {
-    Preview {
+    SushiPreview {
         SushiIcon(
             SushiIconProps(
-                code = "e93f",
+                code = SushiIconCodes.IconContactlessDining,
                 color = SushiTheme.colors.red.v500
             ),
             Modifier
@@ -118,10 +111,10 @@ private fun SushiIconPreview2() {
 @SushiPreview
 @Composable
 private fun SushiIconPreview3() {
-    Preview {
+    SushiPreview {
         SushiIcon(
             SushiIconProps(
-                code = "e93f",
+                code = SushiIconCodes.IconContactlessDining,
                 color = SushiTheme.colors.red.v500,
                 size = SushiIconSize.Size900
             ),
@@ -133,10 +126,10 @@ private fun SushiIconPreview3() {
 @SushiPreview
 @Composable
 private fun SushiIconPreview4() {
-    Preview {
+    SushiPreview {
         SushiIcon(
             SushiIconProps(
-                code = "e93f",
+                code = SushiIconCodes.IconContactlessDining,
                 color = SushiTheme.colors.red.v500,
                 size = 100.dp.asIconSizeSpec()
             ),

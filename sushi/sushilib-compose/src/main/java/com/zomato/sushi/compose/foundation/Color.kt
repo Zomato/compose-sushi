@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.foundation
 
 import com.zomato.sushi.compose.atoms.color.ColorSchemeTypeAdaptedColorSpec

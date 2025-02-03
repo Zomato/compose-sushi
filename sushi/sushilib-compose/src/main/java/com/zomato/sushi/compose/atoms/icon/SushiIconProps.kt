@@ -1,7 +1,6 @@
 package com.zomato.sushi.compose.atoms.icon
 
 import androidx.compose.runtime.Immutable
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiUnspecified
@@ -9,22 +8,20 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Immutable
 data class SushiIconProps(
-    val code: String? = Default.code,
-    val size: IconSizeSpec? = Default.size,
-    val color: ColorSpec = Default.color
+    val code: SushiIconCode? = null,
+    val size: IconSizeSpec? = null,
+    val color: ColorSpec = SushiUnspecified.asColorSpec()
 ) {
-    val parsedIcon: String = code?.takeIf { it.isNotEmpty() && !it.startsWith("&#x") }
-        ?.runCatching { Integer.parseInt(this, 16).toChar().toString() }
-        ?.getOrNull() ?: ""
+    val parsedIcon: String? = code?.let { parseIcon(it) }
 
     companion object {
-        val Default = SushiIconProps(
-            code = null,
-            size = null,
-            color = SushiUnspecified.asColorSpec()
-        )
+
+        fun parseIcon(code: SushiIconCode): String? {
+            return code.value.takeIf { it.isNotEmpty() && !it.startsWith("&#x") }
+                ?.runCatching { Integer.parseInt(this, 16).toChar().toString() }
+                ?.getOrNull()
+        }
     }
 }

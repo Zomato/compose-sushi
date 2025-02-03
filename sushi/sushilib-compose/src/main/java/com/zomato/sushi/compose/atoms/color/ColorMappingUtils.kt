@@ -10,13 +10,11 @@ import com.zomato.sushi.compose.atoms.color.ColorVariation.Variation600
 import com.zomato.sushi.compose.atoms.color.ColorVariation.Variation700
 import com.zomato.sushi.compose.atoms.color.ColorVariation.Variation800
 import com.zomato.sushi.compose.atoms.color.ColorVariation.Variation900
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiColorScheme
 
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 internal fun getColor(colorName: ColorName, tint: ColorVariation, colors: SushiColorScheme): ColorSpec {
     return when (colorName) {
         ColorName.Red -> when (tint) {

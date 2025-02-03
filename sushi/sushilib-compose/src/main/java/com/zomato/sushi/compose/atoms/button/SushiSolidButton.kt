@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.button
 
 import androidx.compose.foundation.layout.Arrangement
@@ -10,10 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
@@ -34,11 +31,11 @@ internal fun SushiSolidButton(
     val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabelPressed
     val fontColorDisabled = SushiTheme.colors.button.primaryLabelDisabled
 
-    val borderStrokeColor = color
-    val borderStrokeColorPressed = color
+    val borderStrokeColor = props.borderColor.takeIfSpecified() ?: color
+    val borderStrokeColorPressed = props.borderColor.takeIfSpecified() ?: color
     val borderStrokeColorDisabled = SushiTheme.colors.button.secondaryBorderDisabled
 
-    val minHeight = getButtonMinHeight(props.getButtonSizeWithDefaults())
+    val minHeight = with(SushiButtonDefaults) { getButtonMinHeight(props.sizeOrDefault) }
 
     SushiSurfaceButtonImpl(
         props = props,
@@ -61,7 +58,7 @@ internal fun SushiSolidButton(
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview1() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
@@ -76,7 +73,7 @@ private fun SushiSolidButtonPreview1() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview2() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
@@ -90,7 +87,7 @@ private fun SushiSolidButtonPreview2() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview3() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
@@ -105,7 +102,7 @@ private fun SushiSolidButtonPreview3() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview4() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
@@ -121,14 +118,14 @@ private fun SushiSolidButtonPreview4() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview5() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
                 text = "Large",
                 size = SushiButtonSize.Large,
-                prefixIcon = SushiIconProps(code = "edae"),
-                suffixIcon = SushiIconProps(code = "edae"),
+                prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
+                suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
             ),
             onClick = {}
         )
@@ -138,13 +135,13 @@ private fun SushiSolidButtonPreview5() {
 @SushiPreview
 @Composable
 private fun SushiSolidButtonPreview6() {
-    Preview {
+    SushiPreview {
         SushiButton(
             SushiButtonProps(
                 type = SushiButtonType.Solid,
                 text = "Large",
                 size = SushiButtonSize.Large,
-                suffixIcon = SushiIconProps(code = "e932"),
+                suffixIcon = SushiIconProps(code = SushiIconCodes.IconNextArrowCircleFill),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ),

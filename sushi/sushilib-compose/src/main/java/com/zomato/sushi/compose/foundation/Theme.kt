@@ -1,9 +1,9 @@
-@file:OptIn(ExperimentalSushiApi::class)
 @file:SuppressLint("ComposeCompositionLocalUsage")
 
 package com.zomato.sushi.compose.foundation
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -43,7 +43,6 @@ internal val LocalSushiColorTokenMapper = staticCompositionLocalOf<SushiColorTok
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 object SushiTheme {
     /**
      * Retrieves the current [SushiColorScheme] at the call site's position in the hierarchy.
@@ -117,17 +116,18 @@ fun SushiTheme(
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
     content: @Composable () -> Unit
 ) {
-    CompositionLocalProvider(
-        LocalSushiColorScheme provides colorScheme,
-        LocalSushiTypography provides typography,
-        LocalSushiDimension provides dimens,
-        LocalSushiFontSizeMultiplier provides fontSizeMultiplier,
-        LocalSushiColorTokenMapper provides colorTokenMapper
+    MaterialTheme(
+        colorScheme = colorScheme.material,
+        shapes = MaterialTheme.shapes,
+        typography = typography.materialTypography
     ) {
-        MaterialTheme(
-            colorScheme = colorScheme.material,
-            shapes = MaterialTheme.shapes,
-            typography = typography.materialTypography,
+        CompositionLocalProvider(
+            LocalSushiColorScheme provides colorScheme,
+            LocalSushiTypography provides typography,
+            LocalSushiDimension provides dimens,
+            LocalSushiFontSizeMultiplier provides fontSizeMultiplier,
+            LocalSushiColorTokenMapper provides colorTokenMapper,
+            LocalIndication provides noIndication(),
             content = content
         )
     }

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.checkbox
 
 import android.annotation.SuppressLint
@@ -31,36 +29,15 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
-import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
-enum class SushiCheckboxSize {
-    Mini, Default
-}
-
-private object Defaults {
-    const val isChecked = false
-    const val isEnabled = true
-    val checkBoxSize = 21.dp
-    val padding @Composable get() = SushiTheme.dimens.spacing.macro
-    val verticalAlignment = Alignment.Top
-    val direction = CheckBoxDirection.Start
-}
-
-/**
- * @author gupta.anirudh@zomato.com
- */
-@ExperimentalSushiApi
 @Composable
 fun SushiCheckBox(
     props: SushiCheckBoxProps,
@@ -69,7 +46,7 @@ fun SushiCheckBox(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Base(modifier
+    SushiComponentBase(modifier
         .testTag("SushiCheckBox")
         .height(IntrinsicSize.Max)
         .width(IntrinsicSize.Max)
@@ -93,8 +70,8 @@ private fun SushiCheckBoxImpl(
     @SuppressLint("SlotReused") infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
 
-    val isChecked = props.checked ?: Defaults.isChecked
-    val isEnabled = props.enabled ?: Defaults.isEnabled
+    val isChecked = props.checked ?: SushiCheckBoxDefaults.isChecked
+    val isEnabled = props.enabled ?: SushiCheckBoxDefaults.isEnabled
 
     Row(
         modifier
@@ -112,14 +89,14 @@ private fun SushiCheckBoxImpl(
     ) {
         val enabledColor = props.color ?: SushiTheme.colors.theme.v600
         val disabledColor = SushiTheme.colors.grey.v500
-        val padding = props.boxPadding ?: Defaults.padding
-        val verticalAlignment = props.verticalAlignment ?: Defaults.verticalAlignment
+        val padding = props.boxPadding ?: SushiCheckBoxDefaults.padding
+        val verticalAlignment = props.verticalAlignment ?: SushiCheckBoxDefaults.verticalAlignment
         val scale = when (props.size) {
             SushiCheckboxSize.Mini -> 0.75f
             SushiCheckboxSize.Default -> 0.90f
             null -> 1f
         }
-        val direction = props.direction ?: Defaults.direction
+        val direction = props.direction ?: SushiCheckBoxDefaults.direction
 
         if (direction == CheckBoxDirection.End) {
             if (infoContent != null) {
@@ -142,7 +119,7 @@ private fun SushiCheckBoxImpl(
                         bottom = padding
                     )
                     .scale(scale)
-                    .size(Defaults.checkBoxSize * scale),
+                    .size(SushiCheckBoxDefaults.checkBoxSize * scale),
                 enabled = isEnabled,
                 colors = CheckboxDefaults.colors().copy(
                     checkedBoxColor = enabledColor.value,
@@ -173,11 +150,7 @@ private fun RowScope.InfoContentImpl(
     modifier: Modifier = Modifier
 ) {
     if (props.text != null || props.subText != null) {
-        val defaultTextType = when(props.size) {
-            SushiCheckboxSize.Mini -> SushiTextType.Regular100
-            SushiCheckboxSize.Default -> SushiTextType.Regular300
-            else -> SushiTextType.Regular300
-        }
+        val defaultTextType = with(SushiCheckBoxDefaults) { props.textType }
         Column(
             modifier,
             horizontalAlignment = Alignment.Start
@@ -205,7 +178,7 @@ private fun RowScope.InfoContentImpl(
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview1() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }
@@ -233,7 +206,7 @@ private fun SushiCheckboxPreview1() {
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview2() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }
@@ -265,7 +238,7 @@ private fun SushiCheckboxPreview2() {
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview3() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }
@@ -296,7 +269,7 @@ private fun SushiCheckboxPreview3() {
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview4() {
-    Preview {
+    SushiPreview {
         var checked by remember {
             mutableStateOf(false)
         }

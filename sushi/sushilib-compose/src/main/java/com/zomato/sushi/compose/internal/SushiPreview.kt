@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.internal
 
 import android.annotation.SuppressLint
@@ -7,7 +5,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiColorTokenMapper
 import com.zomato.sushi.compose.foundation.SushiDimension
 import com.zomato.sushi.compose.foundation.SushiTheme
@@ -19,7 +16,7 @@ import com.zomato.sushi.compose.foundation.sushiLightColorScheme
  * @author gupta.anirudh@zomato.com
  */
 @Composable
-internal fun Preview(
+fun SushiPreview(
     typography: SushiTypography = SushiTheme.typography,
     dimens: SushiDimension = SushiTheme.dimens,
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
@@ -54,4 +51,4 @@ internal fun Preview(
     name = "DarkMode",
     apiLevel = 34
 )
-internal annotation class SushiPreview
+annotation class SushiPreview
