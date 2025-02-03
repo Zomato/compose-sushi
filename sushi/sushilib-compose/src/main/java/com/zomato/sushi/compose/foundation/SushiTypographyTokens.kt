@@ -1,8 +1,8 @@
 package com.zomato.sushi.compose.foundation
 
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 
 /**
  * @author gupta.anirudh@zomato.com
@@ -68,4 +68,13 @@ internal object SushiTypographyTokens {
     val ExtraBold700: TextStyle = TextStyle(fontSize = SushiTextSize700, fontWeight = SushiFontWeight.ExtraBold.fontWeight(), fontFamily = OkraFontFamily, lineHeight = 1.2.em, letterSpacing = 0.00.em)
     val ExtraBold800: TextStyle = TextStyle(fontSize = SushiTextSize800, fontWeight = SushiFontWeight.ExtraBold.fontWeight(), fontFamily = OkraFontFamily, lineHeight = 1.2.em, letterSpacing = 0.00.em)
     val ExtraBold900: TextStyle = TextStyle(fontSize = SushiTextSize900, fontWeight = SushiFontWeight.ExtraBold.fontWeight(), fontFamily = OkraFontFamily, lineHeight = 1.2.em, letterSpacing = 0.00.em)
+}
+
+internal fun TextStyle.with(
+    fontFamily: FontFamily
+): TextStyle {
+    return when {
+        this.fontFamily != fontFamily -> this.copy(fontFamily = fontFamily)
+        else -> this
+    }
 }

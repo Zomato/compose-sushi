@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.text
 
 import androidx.compose.runtime.Composable
@@ -17,9 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiRawColorTokens
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.toPx
 
@@ -142,7 +138,7 @@ private fun defaultStrokeWidth(fontWeight: FontWeight?, fontSize: TextUnit): Flo
 @SushiPreview
 @Composable
 private fun MultilineDottedUnderlineSushiTextPreview() {
-    Preview {
+    SushiPreview {
         var layoutResult: TextLayoutResult? by remember { mutableStateOf(null) }
 
         val type = SushiTextType.Bold900

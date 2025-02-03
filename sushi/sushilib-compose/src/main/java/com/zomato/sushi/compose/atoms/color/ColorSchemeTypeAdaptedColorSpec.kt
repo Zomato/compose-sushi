@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.color
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiColorSchemeType
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.foundation.colorSchemeType
@@ -28,6 +25,7 @@ import com.zomato.sushi.compose.foundation.colorSchemeType
  * have to give away this efficient implementation and fallback to a normal data class.
  */
 @JvmInline
+@Stable
 internal value class ColorSchemeTypeAdaptedColorSpec(
     private val maskedLong: ULong
 ) : ColorSpec {

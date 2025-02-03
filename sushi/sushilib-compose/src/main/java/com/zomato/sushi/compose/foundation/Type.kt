@@ -30,7 +30,6 @@ val WasabiFontFamily = FontFamily(
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 data class SushiTypography(
     val materialTypography: Typography,
     val light050: TextStyle,

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.radio
 
 import android.annotation.SuppressLint
@@ -28,30 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.atoms.internal.Base
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
-import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
-
-private object Defaults {
-    const val isSelected = false
-    const val isEnabled = true
-    val radioButtonSize = 21.dp
-    val padding @Composable get() = SushiTheme.dimens.spacing.macro
-    val verticalAlignment = Alignment.Top
-    val textType = SushiTextType.Regular300
-    val direction = RadioButtonDirection.Start
-}
 
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @Composable
 fun SushiRadioButton(
     props: SushiRadioButtonProps,
@@ -60,7 +44,7 @@ fun SushiRadioButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
-    Base(
+    SushiComponentBase(
         modifier
             .testTag("SushiRadioButton")
             .height(IntrinsicSize.Max)
@@ -84,8 +68,8 @@ private fun SushiRadioButtonImpl(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     @SuppressLint("SlotReused") infoContent: (@Composable RowScope.() -> Unit)? = null
 ) {
-    val isSelected = props.selected ?: Defaults.isSelected
-    val isEnabled = props.enabled ?: Defaults.isEnabled
+    val isSelected = props.selected ?: SushiRadioButtonDefaults.isSelected
+    val isEnabled = props.enabled ?: SushiRadioButtonDefaults.isEnabled
 
     Row(
         modifier
@@ -106,9 +90,9 @@ private fun SushiRadioButtonImpl(
         val unselectedColor = props.unselectedColor.takeIfSpecified() ?: SushiTheme.colors.theme.v500
         val unselectedColorDisabled = SushiTheme.colors.grey.v500
 
-        val padding = props.padding ?: Defaults.padding
-        val verticalAlignment = props.verticalAlignment ?: Defaults.verticalAlignment
-        val direction = props.direction ?: Defaults.direction
+        val padding = props.padding ?: SushiRadioButtonDefaults.padding
+        val verticalAlignment = props.verticalAlignment ?: SushiRadioButtonDefaults.verticalAlignment
+        val direction = props.direction ?: SushiRadioButtonDefaults.direction
 
         if (direction == RadioButtonDirection.End) {
             if (infoContent != null) {
@@ -129,7 +113,7 @@ private fun SushiRadioButtonImpl(
                     end = padding.takeIf { direction == RadioButtonDirection.Start } ?: 0.dp,
                     bottom = padding
                 )
-                .size(Defaults.radioButtonSize),
+                .size(SushiRadioButtonDefaults.radioButtonSize),
             enabled = isEnabled,
             colors = RadioButtonDefaults.colors(
                 selectedColor = selectedColor.value,
@@ -163,7 +147,7 @@ private fun RowScope.InfoContentImpl(
             props.text?.let {
                 SushiText(
                     props = it.copy(
-                        type = it.type ?: Defaults.textType
+                        type = it.type ?: SushiRadioButtonDefaults.textType
                     ),
                     Modifier.padding(top = SushiTheme.dimens.spacing.mini, bottom = SushiTheme.dimens.spacing.mini)
                 )
@@ -171,7 +155,7 @@ private fun RowScope.InfoContentImpl(
             props.subText?.let {
                 SushiText(
                     props = it.copy(
-                        type = it.type ?: Defaults.textType
+                        type = it.type ?: SushiRadioButtonDefaults.textType
                     ),
                     Modifier.padding(top = SushiTheme.dimens.spacing.nano, bottom = SushiTheme.dimens.spacing.mini)
                 )
@@ -183,7 +167,7 @@ private fun RowScope.InfoContentImpl(
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview1() {
-    Preview {
+    SushiPreview {
         Column {
             var firstSelected by remember {
                 mutableStateOf(false)
@@ -214,7 +198,7 @@ private fun SushiCheckboxPreview1() {
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview2() {
-    Preview {
+    SushiPreview {
         Column {
             var firstSelected by remember {
                 mutableStateOf(false)
@@ -247,7 +231,7 @@ private fun SushiCheckboxPreview2() {
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview3() {
-    Preview {
+    SushiPreview {
         Column {
             var firstSelected by remember {
                 mutableStateOf(false)
@@ -280,7 +264,7 @@ private fun SushiCheckboxPreview3() {
 @SushiPreview
 @Composable
 private fun SushiCheckboxPreview4() {
-    Preview {
+    SushiPreview {
         Column {
             var firstSelected by remember {
                 mutableStateOf(false)

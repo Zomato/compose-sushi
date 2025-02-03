@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.color
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.core.SushiColorToken
 import com.zomato.sushi.compose.foundation.SushiTheme
 
@@ -23,7 +20,7 @@ private sealed class ColorDataInfo private constructor() {
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
+@Stable
 data class SushiColorData private constructor(
     private val colorInfo: ColorDataInfo,
     private val alpha: Double = DEFAULT_ALPHA

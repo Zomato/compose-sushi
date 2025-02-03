@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.zomato.plugins.publish'
     id 'kotlin-kapt'
+    id 'com.android.compose.screenshot'
 }
 
 def rootConfiguration = rootProject.ext
@@ -30,6 +31,8 @@ applyCompose()
 android {
     namespace 'com.zomato.sushi.compose'
 
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -49,9 +52,9 @@ dependencies {
 
     api "com.airbnb.android:lottie-compose:$rootConfiguration.lottieVersion"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:$rootConfiguration.kotlinxCollectionsImmutableVersion"
+    api "org.jetbrains.kotlinx:kotlinx-collections-immutable:$rootConfiguration.kotlinxCollectionsImmutableVersion"
 
-    applyZomatoKitsApi('sushi-core')
+    api project(':sushilib-core')
 
     lintChecks "com.slack.lint.compose:compose-lint-checks:${slackComposeLintVersion}"
 

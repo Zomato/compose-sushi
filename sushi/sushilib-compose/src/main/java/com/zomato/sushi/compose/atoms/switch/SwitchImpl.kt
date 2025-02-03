@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.switch
 
 import androidx.compose.animation.animateColorAsState
@@ -56,14 +54,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.roundToInt
 
 /**
  * @author gupta.anirudh@zomato.com
  */
-@ExperimentalSushiApi
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun SwitchImpl(

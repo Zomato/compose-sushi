@@ -1,4 +1,4 @@
-package com.zomato.sushi.compose.utils
+package com.zomato.sushi.compose.modifiers
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.LocalIndication
@@ -44,7 +44,7 @@ inline fun <T> Modifier.ifNonNull(data: T?, crossinline transform: @Composable M
     }
 }
 
-inline fun Modifier.invisible(isInvisible: Boolean = true) = if (isInvisible) this.then(Modifier.drawWithContent {  }) else this
+inline fun Modifier.invisibleIf(isInvisible: Boolean) = if (isInvisible) this.then(Modifier.drawWithContent {  }) else this
 
 internal val LocalDebounceEventHandler = staticCompositionLocalOf<DebouncedEventHandler> { DebouncedEventHandler(1000) }
 

@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
  * @author gupta.anirudh@zomato.com
  */
 @Composable
-internal fun Base(
+internal fun SushiComponentBase(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {

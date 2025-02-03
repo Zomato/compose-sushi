@@ -4,19 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.AnnotatedString
 
-// todox: remove
-private data class CacheKey(
-    val text: String,
-    val props: MarkdownParserProps
-)
-
 /**
  * @author gupta.anirudh@zomato.com
  */
 class MarkdownParser private constructor(
-    private val processors: List<Processor>,
-    // todox: remove
-    // private val cache: ConcurrentHashMap<CacheKey, AnnotatedString> = ConcurrentHashMap()
+    private val processors: List<Processor>
 ) {
 
     companion object {
@@ -34,17 +26,21 @@ class MarkdownParser private constructor(
 
     @Composable
     fun parse(
-        text: String,
+        text: CharSequence,
         props: MarkdownParserProps
     ): AnnotatedString {
         val keys = listOf(text, props) + processors.flatMap { it.cacheKeys }
-        var result: AnnotatedString? = remember(*keys.toTypedArray()) { null/*cache[CacheKey(text, props)]*/ } // todox: remove commented
+        var result: AnnotatedString? = remember(*keys.toTypedArray()) { null }
 
         if (result == null) {
+            val initialAnnotatedString = when {
+                text is AnnotatedString -> text
+                else -> AnnotatedString(text.toString())
+            }
             result = processors
-                .fold(AnnotatedString(text), { acc, markdownProcessor ->  markdownProcessor.process(props, acc, this) })
-                // todox: remove commented
-                // .also { cache[CacheKey(text, props)] = it }
+                .fold(initialAnnotatedString, { acc, markdownProcessor ->
+                    kotlin.runCatching { markdownProcessor.process(props, acc, this) }.getOrElse { acc }
+                })
         }
 
         return result
