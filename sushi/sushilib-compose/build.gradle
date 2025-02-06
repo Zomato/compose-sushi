@@ -4,6 +4,7 @@ plugins {
     id 'com.zomato.plugins.publish'
     id 'kotlin-kapt'
     id 'com.android.compose.screenshot'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 def rootConfiguration = rootProject.ext
@@ -36,6 +37,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.13"
     }
     kotlinOptions {
         jvmTarget = '17'
