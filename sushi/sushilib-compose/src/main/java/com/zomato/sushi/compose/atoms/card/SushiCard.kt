@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.atoms.card
 
 import androidx.compose.foundation.BorderStroke
@@ -24,11 +22,9 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
 import com.zomato.sushi.compose.internal.SushiPreview
-import com.zomato.sushi.compose.shapes.TicketShape
+import com.zomato.sushi.compose.shapes.ticket.TicketShape
 import com.zomato.sushi.compose.utils.BorderConfig
 import com.zomato.sushi.compose.utils.DashedBorderConfig
 import com.zomato.sushi.compose.utils.border
@@ -38,8 +34,6 @@ import com.zomato.sushi.compose.utils.toPx
  * Created by Nitin Kumar on 03/01/25.
  * Zomato, Gurgaon, India.
  */
-
-@ExperimentalSushiApi
 @Composable
 fun SushiCard(
     modifier: Modifier = Modifier,
@@ -52,21 +46,20 @@ fun SushiCard(
 ) {
     Card(
         modifier = modifier
-            .border(borderConfig)
-            .testTag("SushiCard"),
+            .testTag("SushiCard")
+            .border(borderConfig),
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = containerColor.value),
         elevation = CardDefaults.cardElevation(defaultElevation = elevation),
-        border = border
-    ) {
-        content()
-    }
+        border = border,
+        content = content
+    )
 }
 
 @SushiPreview
 @Composable
 private fun FilledCardPreview() {
-    Preview {
+    SushiPreview {
         Box(modifier = Modifier.size(300.dp, 300.dp)) {
             SushiCard(
                 shape = RoundedCornerShape(SushiTheme.dimens.spacing.base),
@@ -96,7 +89,7 @@ private fun FilledCardPreview() {
 @SushiPreview
 @Composable
 private fun OutlinedElevatedCardPreview() {
-    Preview {
+    SushiPreview {
         Box(modifier = Modifier.size(300.dp, 300.dp)) {
             SushiCard(
                 shape = RoundedCornerShape(SushiTheme.dimens.spacing.base),
@@ -127,7 +120,7 @@ private fun OutlinedElevatedCardPreview() {
 @SushiPreview
 @Composable
 private fun FilledElevatedCardPreview() {
-    Preview {
+    SushiPreview {
         Box(modifier = Modifier.size(300.dp, 300.dp)) {
             SushiCard(
                 shape = RoundedCornerShape(SushiTheme.dimens.spacing.base),
@@ -157,7 +150,7 @@ private fun FilledElevatedCardPreview() {
 @SushiPreview
 @Composable
 private fun DashedBorderCardPreview() {
-    Preview {
+    SushiPreview {
         Box(modifier = Modifier.size(300.dp, 300.dp)) {
             SushiCard(
                 shape = TicketShape(24.dp.toPx(), 0.6f),
@@ -194,7 +187,7 @@ private fun DashedBorderCardPreview() {
 @SushiPreview
 @Composable
 private fun TicketCardPreview() {
-    Preview {
+    SushiPreview {
         Box(modifier = Modifier.size(300.dp, 300.dp)) {
             SushiCard(
                 containerColor = SushiTheme.colors.green.v200,

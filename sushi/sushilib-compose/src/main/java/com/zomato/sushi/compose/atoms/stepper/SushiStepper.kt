@@ -1,6 +1,4 @@
-@file: OptIn(ExperimentalSushiApi::class)
-
-package com.zomato.sushi.compose.atoms.stepper.normal
+package com.zomato.sushi.compose.atoms.stepper
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
@@ -37,22 +35,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
-import com.zomato.sushi.compose.atoms.stepper.StepperDefaults
-import com.zomato.sushi.compose.atoms.stepper.SushiStepperColorConfig
-import com.zomato.sushi.compose.atoms.stepper.SushiStepperSize
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.atoms.text.transform
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.internal.Preview
+import com.zomato.sushi.compose.foundation.SushiUnspecified
 import com.zomato.sushi.compose.internal.SushiPreview
+import com.zomato.sushi.compose.modifiers.invisibleIf
 import com.zomato.sushi.compose.shapes.squircle.SquircleShape
-import com.zomato.sushi.compose.utils.invisible
+import com.zomato.sushi.compose.utils.takeIfSpecified
 import com.zomato.sushi.compose.utils.toSp
 
 /**
@@ -112,7 +108,7 @@ fun SushiStepper(
             // Minus Icon
             SushiIcon(modifier = Modifier
                 .padding(horizontal = SushiTheme.dimens.spacing.micro)
-                .invisible(currentCount == 0 || !disabledMessage?.text.isNullOrBlank()),
+                .invisibleIf(currentCount == 0 || !disabledMessage?.text.isNullOrBlank()),
                 props = SushiIconProps(
                     code = SushiIconCodes.IconRemove, // icon code for "minus",
                     color = colorConfig.negativeActionButtonColor,
@@ -140,7 +136,7 @@ fun SushiStepper(
             ) {
                 AnimatedContent(
                     targetState = titleText, transitionSpec = {
-                        if ((targetState.toIntOrNull() ?: 0) > (initialState.toIntOrNull() ?: 0)) {
+                        if ((targetState.toString().toIntOrNull() ?: 0) > (initialState.toString().toIntOrNull() ?: 0)) {
                             (slideInVertically { height -> height } + fadeIn()).togetherWith(
                                 slideOutVertically { height -> -height } + fadeOut())
                         } else {
@@ -193,11 +189,11 @@ fun SushiStepper(
                     start = SushiTheme.dimens.spacing.micro,
                     end = SushiTheme.dimens.spacing.micro
                 )
-                .invisible(!disabledMessage?.text.isNullOrBlank())
+                .invisibleIf(!disabledMessage?.text.isNullOrBlank())
                 .align(if (currentCount == 0) Alignment.Top else Alignment.CenterVertically),
                 props = SushiIconProps(
                     code = SushiIconCodes.IconPlus, // icon code for "plus"
-                    color = if (currentCount >= maxCount) colorConfig.maxCountPositiveActionButtonColor
+                    color = if (currentCount >= maxCount) colorConfig.maxCountPositiveActionButtonColor.takeIfSpecified()
                         ?: colorConfig.positiveActionButtonColor else colorConfig.positiveActionButtonColor,
                     size = StepperDefaults.getStepperIconSize(stepperSize)
                 ),
@@ -227,27 +223,15 @@ private fun getStepperTitleText(
     stepperCurrentCount: Int,
     stepperMaxCount: Int,
     disabledMessage: SushiTextProps?
-): String {
-    return remember(
-        stepperText, stepperEnabledState, stepperCurrentCount, stepperMaxCount, disabledMessage
-    ) {
-        when (stepperEnabledState) {
-            true -> {
-                when (stepperCurrentCount) {
-                    0 -> {
-                        "ADD"
-                    }
-
-                    in 1 until stepperMaxCount -> stepperCurrentCount.toString()
-                    else -> StepperDefaults.getDefaultTextForStepper(stepperText)
-                }
-            }
-
-            else -> {
-                disabledMessage?.text
-                    ?: if (stepperCurrentCount == 0) "ADD" else StepperDefaults.getDefaultTextForStepper(stepperText)
-            }
+): CharSequence {
+    return if (stepperEnabledState) {
+        when (stepperCurrentCount) {
+            0 -> "ADD"
+            in 1 until stepperMaxCount -> stepperCurrentCount.toString()
+            else -> StepperDefaults.getDefaultTextForStepper(stepperText)
         }
+    } else {
+        disabledMessage?.text ?: if (stepperCurrentCount == 0) "ADD" else StepperDefaults.getDefaultTextForStepper(stepperText)
     }
 }
 
@@ -306,7 +290,7 @@ private fun rememberDefaultStepperColorConfig(
 @SushiPreview
 @Composable
 private fun StepperLargePreview() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(1000) }
         SushiStepper(
             props = SushiStepperProps(
@@ -320,7 +304,8 @@ private fun StepperLargePreview() {
                     positiveActionButtonColor = SushiTheme.colors.red.v500,
                     negativeActionButtonColor = SushiTheme.colors.red.v500,
                     bgColor = SushiTheme.colors.red.v050,
-                    borderColor = SushiTheme.colors.red.v500
+                    borderColor = SushiTheme.colors.red.v500,
+                    maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
                 ),
                 shape = SquircleShape(SushiTheme.dimens.spacing.base)
             ),
@@ -335,7 +320,7 @@ private fun StepperLargePreview() {
 @SushiPreview
 @Composable
 private fun StepperNormalPreview() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(0) }
         SushiStepper(
             props = SushiStepperProps(
@@ -349,7 +334,8 @@ private fun StepperNormalPreview() {
                     positiveActionButtonColor = SushiTheme.colors.white,
                     negativeActionButtonColor = SushiTheme.colors.white,
                     bgColor = SushiTheme.colors.stepper.primaryBackground,
-                    borderColor = SushiTheme.colors.red.v500
+                    borderColor = SushiTheme.colors.red.v500,
+                    maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
                 ),
                 shape = SquircleShape(SushiTheme.dimens.spacing.base)
             ),
@@ -364,7 +350,7 @@ private fun StepperNormalPreview() {
 @SushiPreview
 @Composable
 private fun StepperNormalPreview2() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(3) }
         SushiStepper(
             props = SushiStepperProps(
@@ -386,7 +372,7 @@ private fun StepperNormalPreview2() {
 @SushiPreview
 @Composable
 private fun StepperNormalPreview3() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(3) }
         SushiStepper(
             props = SushiStepperProps(
@@ -408,7 +394,7 @@ private fun StepperNormalPreview3() {
 @SushiPreview
 @Composable
 private fun StepperNormalPreview4() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(0) }
         SushiStepper(
             props = SushiStepperProps(
@@ -422,7 +408,8 @@ private fun StepperNormalPreview4() {
                     positiveActionButtonColor = SushiTheme.colors.red.v500,
                     negativeActionButtonColor = SushiTheme.colors.red.v500,
                     bgColor = SushiTheme.colors.red.v050,
-                    borderColor = SushiTheme.colors.red.v500
+                    borderColor = SushiTheme.colors.red.v500,
+                    maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
                 ),
                 shape = SquircleShape(SushiTheme.dimens.spacing.base)
             ),
@@ -437,7 +424,7 @@ private fun StepperNormalPreview4() {
 @SushiPreview
 @Composable
 private fun StepperMediumPreview() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(0) }
         SushiStepper(
             props = SushiStepperProps(
@@ -451,7 +438,8 @@ private fun StepperMediumPreview() {
                     positiveActionButtonColor = SushiTheme.colors.white,
                     negativeActionButtonColor = SushiTheme.colors.white,
                     bgColor = SushiTheme.colors.stepper.primaryBackground,
-                    borderColor = SushiTheme.colors.red.v500
+                    borderColor = SushiTheme.colors.red.v500,
+                    maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
                 ),
                 shape = SquircleShape(SushiTheme.dimens.spacing.base)
             ),
@@ -466,7 +454,7 @@ private fun StepperMediumPreview() {
 @SushiPreview
 @Composable
 private fun StepperSmallV2Preview() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(0) }
         SushiStepper(
             props = SushiStepperProps(
@@ -488,7 +476,7 @@ private fun StepperSmallV2Preview() {
 @SushiPreview
 @Composable
 private fun StepperSmallPreview() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(0) }
         SushiStepper(
             props = SushiStepperProps(
@@ -502,7 +490,8 @@ private fun StepperSmallPreview() {
                     positiveActionButtonColor = SushiTheme.colors.white,
                     negativeActionButtonColor = SushiTheme.colors.white,
                     bgColor = SushiTheme.colors.stepper.primaryBackground,
-                    borderColor = SushiTheme.colors.red.v500
+                    borderColor = SushiTheme.colors.red.v500,
+                    maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
                 ),
                 shape = SquircleShape(SushiTheme.dimens.spacing.base)
             ),
@@ -517,7 +506,7 @@ private fun StepperSmallPreview() {
 @SushiPreview
 @Composable
 private fun StepperSmallPreview2() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(15) }
         SushiStepper(
             props = SushiStepperProps(
@@ -531,7 +520,8 @@ private fun StepperSmallPreview2() {
                     positiveActionButtonColor = SushiTheme.colors.red.v500,
                     negativeActionButtonColor = SushiTheme.colors.red.v500,
                     bgColor = SushiTheme.colors.red.v050,
-                    borderColor = SushiTheme.colors.red.v500
+                    borderColor = SushiTheme.colors.red.v500,
+                    maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
                 ),
                 shape = SquircleShape(SushiTheme.dimens.spacing.base)
             ),
@@ -546,7 +536,7 @@ private fun StepperSmallPreview2() {
 @SushiPreview
 @Composable
 private fun SmallStepperDisabledPreview() {
-    Preview {
+    SushiPreview {
         var count by remember { mutableIntStateOf(0) }
         SushiStepper(
             props = SushiStepperProps(
@@ -568,7 +558,7 @@ private fun SmallStepperDisabledPreview() {
 @SushiPreview
 @Composable
 private fun SmallStepperWithDisabledMessagePreview() {
-    Preview {
+    SushiPreview {
         SushiStepper(
             props = SushiStepperProps(
                 stepperSize = SushiStepperSize.Small,
@@ -587,7 +577,7 @@ private fun SmallStepperWithDisabledMessagePreview() {
 @SushiPreview
 @Composable
 private fun SmallStepperWithDisabledMessageAndCustomWidthHeightPreview() {
-    Preview {
+    SushiPreview {
         SushiStepper(
             modifier = Modifier
                 .width(60.dp)
