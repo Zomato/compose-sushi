@@ -2,22 +2,22 @@ package com.zomato.sushi.compose.atoms.stepper
 
 import androidx.compose.runtime.Composable
 import com.zomato.sushi.compose.atoms.color.ColorSpec
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
+import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.foundation.SushiUnspecified
 
 /**
  * Created by Nitin Kumar on 09/01/25.
  * Zomato, Gurgaon, India.
  */
 
-@OptIn(ExperimentalSushiApi::class)
 data class SushiStepperColorConfig(
     val textColor: ColorSpec,
     val positiveActionButtonColor: ColorSpec,
     val negativeActionButtonColor: ColorSpec,
     val borderColor: ColorSpec,
     val bgColor: ColorSpec,
-    val maxCountPositiveActionButtonColor: ColorSpec? = null
+    val maxCountPositiveActionButtonColor: ColorSpec
 ) {
     companion object {
         @Composable
@@ -27,7 +27,8 @@ data class SushiStepperColorConfig(
                 positiveActionButtonColor = SushiTheme.colors.red.v500,
                 negativeActionButtonColor = SushiTheme.colors.red.v500,
                 borderColor = SushiTheme.colors.red.v500,
-                bgColor = SushiTheme.colors.red.v050
+                bgColor = SushiTheme.colors.red.v050,
+                maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
             )
         }
 
@@ -38,7 +39,8 @@ data class SushiStepperColorConfig(
                 positiveActionButtonColor = SushiTheme.colors.grey.v400,
                 negativeActionButtonColor = SushiTheme.colors.grey.v400,
                 borderColor = SushiTheme.colors.grey.v300,
-                bgColor = SushiTheme.colors.grey.v100
+                bgColor = SushiTheme.colors.grey.v100,
+                maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
             )
         }
 
@@ -49,7 +51,8 @@ data class SushiStepperColorConfig(
                 positiveActionButtonColor = SushiTheme.colors.white,
                 negativeActionButtonColor = SushiTheme.colors.white,
                 borderColor = SushiTheme.colors.stepper.primaryBackground,
-                bgColor = SushiTheme.colors.stepper.primaryBackground
+                bgColor = SushiTheme.colors.stepper.primaryBackground,
+                maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
             )
         }
 
@@ -60,7 +63,8 @@ data class SushiStepperColorConfig(
                 positiveActionButtonColor = SushiTheme.colors.stepper.primaryBackground,
                 negativeActionButtonColor = SushiTheme.colors.stepper.primaryBackground,
                 borderColor = SushiTheme.colors.stepper.primaryBackground,
-                bgColor = SushiTheme.colors.stepper.secondaryBackground
+                bgColor = SushiTheme.colors.stepper.secondaryBackground,
+                maxCountPositiveActionButtonColor = SushiUnspecified.asColorSpec()
             )
         }
     }
