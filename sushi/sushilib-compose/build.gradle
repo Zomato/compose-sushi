@@ -4,6 +4,7 @@ plugins {
     id 'com.zomato.plugins.publish'
     id 'kotlin-kapt'
     id 'com.android.compose.screenshot'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 def rootConfiguration = rootProject.ext
