@@ -4,8 +4,11 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
@@ -20,10 +23,7 @@ import androidx.compose.ui.node.invalidateDraw
 import androidx.compose.ui.unit.IntSize
 import com.zomato.sushi.compose.atoms.button.SushiButton
 import com.zomato.sushi.compose.atoms.button.SushiButtonProps
-import com.zomato.sushi.compose.atoms.text.SushiText
-import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.internal.SushiPreview
-import com.zomato.sushi.compose.modifiers.invisibleIf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -32,38 +32,63 @@ import kotlinx.coroutines.launch
  * @author gupta.anirudh@zomato.com
  */
 
+@Composable
+fun rememberScaleOnPressState(
+    initialIsPressed: Boolean = false
+): MutableState<ScaleOnPressState> {
+    return remember {
+        mutableStateOf(
+            ScaleOnPressState(
+                isCurrentlyPressed = mutableStateOf(initialIsPressed)
+            )
+        )
+    }
+}
+
+data class ScaleOnPressState(
+    val isCurrentlyPressed: MutableState<Boolean>
+)
+
 fun Modifier.scaleOnPress(
-    enabled: Boolean = true,
+    state: ScaleOnPressState,
     delayMs: Long = 0,
 ): Modifier = this.then(
-    SushiScaleOnPressModifierNodeElement(
-        enabled = enabled,
+    SushiScaleOnPressStatefulModifierNodeElement(
+        state = state,
         delayMs = delayMs
     )
 )
 
-data class SushiScaleOnPressModifierNodeElement(
-    val enabled: Boolean,
-    val delayMs: Long
-): ModifierNodeElement<SushiScaleOnPressModifierNode>() {
+fun Modifier.scaleOnPressAnchor(
+    state: ScaleOnPressState
+): Modifier = this.then(
+    SushiScaleOnPressStatefulAnchorModifierNodeElement(
+        state = state
+    )
+)
 
-    override fun create() = SushiScaleOnPressModifierNode(
-        enabled = enabled,
+data class SushiScaleOnPressStatefulModifierNodeElement(
+    val state: ScaleOnPressState,
+    val delayMs: Long
+): ModifierNodeElement<SushiScaleOnPressStatefulModifierNode>() {
+
+    override fun create() = SushiScaleOnPressStatefulModifierNode(
+        state = state,
         delayMs = delayMs
     )
 
-    override fun update(node: SushiScaleOnPressModifierNode) {
+    override fun update(node: SushiScaleOnPressStatefulModifierNode) {
         node.updateNode(
-            enabled = enabled,
+            state = state,
             delayMs = delayMs
         )
     }
 }
 
-class SushiScaleOnPressModifierNode(
-    private var enabled: Boolean,
+class SushiScaleOnPressStatefulModifierNode(
+    private var state: ScaleOnPressState,
     private var delayMs: Long
-) : Modifier.Node(), DrawModifierNode, PointerInputModifierNode {
+) : Modifier.Node(), DrawModifierNode {
 
     private val actualScale = Animatable(1f)
     private var scaleAnimateJob: Job? = null
@@ -76,21 +101,27 @@ class SushiScaleOnPressModifierNode(
 
     init {
         updateNode(
-            enabled = enabled,
+            state = state,
             delayMs = delayMs
         )
     }
 
     fun updateNode(
-        enabled: Boolean,
+        state: ScaleOnPressState,
         delayMs: Long
     ) {
-        this.enabled = enabled
+        this.state = state
         this.delayMs = delayMs
     }
 
     override fun onAttach() {
         super.onAttach()
+        coroutineScope.launch {
+            snapshotFlow { state.isCurrentlyPressed.value }
+                .collect {
+                    isPressed = it
+                }
+        }
     }
 
     private fun animateScale() {
@@ -102,14 +133,18 @@ class SushiScaleOnPressModifierNode(
             scaleAnimateJob?.cancel()
             scaleAnimateJob = coroutineScope.launch {
                 delay(delayMs)
-                actualScale.animateTo(pressedScale, spring())
+                actualScale.animateTo(pressedScale, spring()) {
+                    invalidateDraw()
+                }
             }
         } else {
             scaleAnimateJob?.cancel()
             scaleAnimateJob = coroutineScope.launch {
                 actualScale.animateTo(
                     1f
-                )
+                ) {
+                    invalidateDraw()
+                }
             }
         }
     }
@@ -117,7 +152,6 @@ class SushiScaleOnPressModifierNode(
     override fun ContentDrawScope.draw() {
         pressedScale = 1f - (0.05f * this.size.maxDimension) / this.size.maxDimension
         when {
-            !enabled -> drawContent()
             isPressed -> scale(actualScale.value, actualScale.value, center) {
                 this@draw.drawContent()
             }
@@ -126,10 +160,51 @@ class SushiScaleOnPressModifierNode(
             }
         }
     }
+}
+
+data class SushiScaleOnPressStatefulAnchorModifierNodeElement(
+    val state: ScaleOnPressState
+): ModifierNodeElement<SushiScaleOnPressStatefulAnchorModifierNode>() {
+
+    override fun create() = SushiScaleOnPressStatefulAnchorModifierNode(
+        state = state
+    )
+
+    override fun update(node: SushiScaleOnPressStatefulAnchorModifierNode) {
+        node.updateNode(
+            state = state
+        )
+    }
+}
+
+class SushiScaleOnPressStatefulAnchorModifierNode(
+    private var state: ScaleOnPressState
+) : Modifier.Node(), PointerInputModifierNode {
+
+    private var isPressed: Boolean = state.isCurrentlyPressed.value
+        set(value) {
+            field = value
+            state.isCurrentlyPressed.value = value
+        }
+
+    init {
+        updateNode(
+            state = state
+        )
+    }
+
+    fun updateNode(
+        state: ScaleOnPressState
+    ) {
+        this.state = state
+    }
+
+    override fun onAttach() {
+        super.onAttach()
+    }
 
     override fun onCancelPointerInput() {
         isPressed = false
-        invalidateDraw()
     }
 
     override fun onPointerEvent(pointerEvent: PointerEvent, pass: PointerEventPass, bounds: IntSize) {
@@ -137,22 +212,18 @@ class SushiScaleOnPressModifierNode(
             when (pointerEvent.type) {
                 PointerEventType.Press -> {
                     isPressed = true
-                    invalidateDraw()
                 }
 
                 PointerEventType.Move -> {
                     isPressed = false
-                    invalidateDraw()
                 }
 
                 PointerEventType.Scroll -> {
                     isPressed = false
-                    invalidateDraw()
                 }
 
                 PointerEventType.Release -> {
                     isPressed = false
-                    invalidateDraw()
                 }
             }
         }
@@ -160,7 +231,6 @@ class SushiScaleOnPressModifierNode(
 
     override fun onDetach() {
         isPressed = false
-        invalidateDraw()
     }
 }
 
@@ -169,23 +239,37 @@ class SushiScaleOnPressModifierNode(
 private fun ScaleOnPressPreview1() {
     SushiPreview {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            val show = remember { mutableStateOf(false) }
+            val scaleOnPressState by rememberScaleOnPressState()
             SushiButton(
                 SushiButtonProps(
-                    text = "Scaling Sample"
+                    text = "1st Button will be Scaled"
                 ),
                 onClick = {
-                    show.value = true
+
                 },
                 Modifier
-                    .scaleOnPress(enabled = true)
+                    .scaleOnPress(scaleOnPressState)
             )
-            if (show.value) {
-                SushiText(
-                    SushiTextProps(text = "Click working :)"),
-                    Modifier.invisibleIf(!show.value)
-                )
-            }
+            SushiButton(
+                SushiButtonProps(
+                    text = "2nd Button will be Scaled"
+                ),
+                onClick = {
+
+                },
+                Modifier
+                    .scaleOnPress(scaleOnPressState)
+            )
+            SushiButton(
+                SushiButtonProps(
+                    text = "Anchor Button"
+                ),
+                onClick = {
+
+                },
+                Modifier
+                    .scaleOnPressAnchor(scaleOnPressState)
+            )
         }
     }
 }
