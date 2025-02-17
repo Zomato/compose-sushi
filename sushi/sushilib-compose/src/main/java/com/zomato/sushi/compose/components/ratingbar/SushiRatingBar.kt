@@ -20,10 +20,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.R
+import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.clip.clipStart
@@ -87,8 +89,9 @@ private fun SushiRatingBarImpl(
                     .scaleOnPressAnchor(scaleOnPressState)
             )
             Star(
-                filledPercentage,
-                Modifier
+                filledPercentage = filledPercentage,
+                tintColor = props.tintColor,
+                modifier = Modifier
                     .scaleOnPressAnchor(scaleOnPressState)
                     .scaleOnPress(scaleOnPressState)
                     .clickable {
@@ -112,21 +115,24 @@ private fun SushiRatingBarImpl(
 @Composable
 private fun Star(
     filledPercentage: Float,
+    tintColor: ColorSpec?,
     modifier: Modifier = Modifier
 ) {
     Box(modifier) {
         Image(
             painterResource(R.drawable.sushi_rating_star_outline),
+            colorFilter = tintColor?.value?.let { ColorFilter.tint(it) },
             contentDescription = null,
-            Modifier
+            modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1f)
                 .align(Alignment.Center)
         )
         Image(
             painterResource(R.drawable.sushi_rating_star),
+            colorFilter = tintColor?.value?.let { ColorFilter.tint(it) },
             contentDescription = null,
-            Modifier
+            modifier = Modifier
                 .clipStart(filledPercentage)
                 .fillMaxHeight()
                 .aspectRatio(1f)

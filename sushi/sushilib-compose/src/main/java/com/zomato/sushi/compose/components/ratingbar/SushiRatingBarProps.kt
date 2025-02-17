@@ -1,6 +1,7 @@
 package com.zomato.sushi.compose.components.ratingbar
 
 import androidx.compose.ui.unit.Dp
+import com.zomato.sushi.compose.atoms.color.ColorSpec
 
 /**
  * @author gupta.anirudh@zomato.com
@@ -8,5 +9,6 @@ import androidx.compose.ui.unit.Dp
 data class SushiRatingBarProps(
     val rating: Float? = null,
     val betweenSpacing: Dp? = null,
-    val starCount: Int? = null
+    val starCount: Int? = null,
+    val tintColor: ColorSpec? = null
 )
