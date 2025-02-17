@@ -100,7 +100,7 @@ private fun SushiImagePreview1() {
         Row(Modifier.width(200.dp)) {
             SushiImage(
                 props = SushiImageProps(
-                    painterResource(R.drawable.feedback_rating_star),
+                    painterResource(R.drawable.sushi_rating_star),
                     bgColor = SushiTheme.colors.red.v500,
                     width = 50.dp,
                     // height = 10.dp,
@@ -116,7 +116,7 @@ private fun SushiImagePreview1() {
             )
             SushiImage(
                 props = SushiImageProps(
-                    painterResource(R.drawable.feedback_rating_star),
+                    painterResource(R.drawable.sushi_rating_star),
                     bgColor = SushiTheme.colors.red.v500,
                     width = 50.dp,
                     // height = 10.dp,
