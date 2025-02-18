@@ -1,4 +1,4 @@
-package com.zomato.sushi.compose.atoms.stepper
+package com.zomato.sushi.compose.components.stepper
 
 import androidx.compose.runtime.Composable
 import com.zomato.sushi.compose.atoms.color.ColorSpec
