@@ -1,4 +1,4 @@
-package com.zomato.sushi.compose.atoms.stepper
+package com.zomato.sushi.compose.components.stepper
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
@@ -231,7 +231,9 @@ private fun getStepperTitleText(
             else -> StepperDefaults.getDefaultTextForStepper(stepperText)
         }
     } else {
-        disabledMessage?.text ?: if (stepperCurrentCount == 0) "ADD" else StepperDefaults.getDefaultTextForStepper(stepperText)
+        disabledMessage?.text ?: if (stepperCurrentCount == 0) "ADD" else StepperDefaults.getDefaultTextForStepper(
+            stepperText
+        )
     }
 }
 

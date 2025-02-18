@@ -1,4 +1,4 @@
-package com.zomato.sushi.compose.atoms.stepper
+package com.zomato.sushi.compose.components.stepper
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
