@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import com.zomato.sushi.compose.foundation.SushiColorTokenMapper
 import com.zomato.sushi.compose.foundation.SushiDimension
@@ -27,13 +29,17 @@ fun SushiPreview(
     } else {
         sushiLightColorScheme()
     }
-    SushiTheme(
-        colorScheme = colorScheme,
-        typography = typography,
-        dimens = dimens,
-        colorTokenMapper = colorTokenMapper,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalInspectionMode provides true
+    ) {
+        SushiTheme(
+            colorScheme = colorScheme,
+            typography = typography,
+            dimens = dimens,
+            colorTokenMapper = colorTokenMapper,
+            content = content
+        )
+    }
 }
 
 @SuppressLint("ComposePreviewNaming")
