@@ -14,7 +14,7 @@ object SushiTextDefaults {
     public val prefixSpacing: Dp @Composable get() = SushiTheme.dimens.spacing.micro
     public val suffixSpacing: Dp @Composable get() = SushiTheme.dimens.spacing.micro
 
-    internal val isMarkDownEnabled: Boolean = true
+    internal const val isMarkDown: Boolean = true
     internal val maxLines: Int = Int.MAX_VALUE
     internal val overflow: TextOverflow = TextOverflow.Clip
     internal val softWrap: Boolean = true

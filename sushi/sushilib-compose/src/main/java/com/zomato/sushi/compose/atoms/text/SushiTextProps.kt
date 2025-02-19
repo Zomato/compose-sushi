@@ -24,7 +24,7 @@ data class SushiTextProps(
     val prefixIcon: SushiIconProps? = null,
     val suffixIcon: SushiIconProps? = null,
     val letterSpacing: TextUnit = TextUnit.Unspecified,
-    val isMarkDownEnabled: Boolean? = null,
+    val markdown: Boolean? = null,
     val textDecoration: SushiTextDecoration? = null,
     val textAlign: TextAlign? = null,
     val overflow: TextOverflow? = null,

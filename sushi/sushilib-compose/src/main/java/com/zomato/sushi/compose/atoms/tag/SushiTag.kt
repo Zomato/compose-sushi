@@ -131,7 +131,7 @@ private fun SushiTagDefaultContent(
                 type = textType.asTextTypeSpec(),
                 text = props.text.orEmpty(),
                 color = textColor,
-                isMarkDownEnabled = props.markdown,
+                markdown = props.markdown,
                 horizontalArrangement = Arrangement.Center
             )
         )
