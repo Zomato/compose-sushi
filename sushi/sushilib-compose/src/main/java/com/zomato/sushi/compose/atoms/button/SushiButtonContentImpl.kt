@@ -69,7 +69,7 @@ internal fun RowScope.SushiButtonContentImpl(
                     text = props.text,
                     color = appliedFontColor,
                     type = textType.asTextTypeSpec(),
-                    isMarkDownEnabled = props.markdown
+                    markdown = props.markdown
                 )
             )
             if (!props.subText.isNullOrEmpty()) {

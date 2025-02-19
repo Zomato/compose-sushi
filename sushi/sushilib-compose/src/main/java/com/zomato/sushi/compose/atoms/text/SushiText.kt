@@ -110,7 +110,7 @@ private fun SushiTextImpl(
     ) {
         val context = LocalContext.current
         val rawText = props.text ?: ""
-        val isMarkDownEnabled = props.isMarkDownEnabled ?: SushiTextDefaults.isMarkDownEnabled
+        val isMarkdown = props.markdown ?: SushiTextDefaults.isMarkDown
         val textType = props.type ?: SushiTextDefaults.textType
         val textColor = props.color.takeIfSpecified() ?: SushiTextDefaults.textColor
         val overflowTextColor = props.overflowTextColor?.takeIfSpecified() ?: textColor
@@ -152,7 +152,7 @@ private fun SushiTextImpl(
         }
 
         val text = when {
-            isMarkDownEnabled -> {
+            isMarkdown -> {
                 MarkdownParser.default.parse(
                     text = rawText,
                     props = markdownParserProps
