@@ -3,8 +3,6 @@ package com.zomato.sushi.compose.atoms.icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.foundation.SushiTextSize050
@@ -46,7 +44,7 @@ fun Dp.asIconSizeSpec(): IconSizeSpec = DpIconSizeSpec(this)
  * @author gupta.anirudh@zomato.com
  */
 @Immutable
-enum class SushiIconSize: IconSizeSpec {
+enum class SushiIconSize : IconSizeSpec {
     Size50,
     Size100,
     Size200,
@@ -57,7 +55,6 @@ enum class SushiIconSize: IconSizeSpec {
     Size700,
     Size800,
     Size900;
-
 
     override val size: TextUnit
         @Composable @Stable get() = when (this) {
