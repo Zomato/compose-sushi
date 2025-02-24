@@ -73,7 +73,8 @@ class ColorProcessor() : Processor {
                 this.append(it.transformedText)
                 this.addStyle(
                     SpanStyle(color = it.color),
-                    this.length - it.transformedText.length, this.length
+                    this.length - it.transformedText.length,
+                    this.length
                 )
                 currentStartIdx = it.end
             }

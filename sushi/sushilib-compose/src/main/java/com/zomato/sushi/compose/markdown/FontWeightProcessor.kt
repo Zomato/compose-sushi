@@ -87,7 +87,8 @@ class FontWeightProcessor(): Processor {
                         fontWeight = it.fontWeight,
                         fontSize = it.fontSize
                     ),
-                    this.length - it.transformedText.length, this.length
+                    this.length - it.transformedText.length,
+                    this.length
                 )
                 currentStartIdx = it.end
             }
