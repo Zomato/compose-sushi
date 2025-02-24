@@ -126,6 +126,7 @@ private fun SushiTextImpl(
         val prefixSpacing = props.prefixSpacing ?: SushiTextDefaults.prefixSpacing
         val suffixSpacing = props.suffixSpacing ?: SushiTextDefaults.suffixSpacing
         val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
+        val textBrush = props.textBrush
 
         var textLayoutResult: TextLayoutResult? by remember { mutableStateOf(null) }
 
@@ -134,7 +135,8 @@ private fun SushiTextImpl(
             context,
             localCurrentTextStyle,
             typeStyle,
-            fontSizeMultiplier
+            fontSizeMultiplier,
+            textBrush
         ) {
             val baseStyle = localCurrentTextStyle.merge(typeStyle)
             baseStyle.copy(
@@ -142,7 +144,8 @@ private fun SushiTextImpl(
                 lineHeightStyle = LineHeightStyle(
                     alignment = LineHeightStyle.Alignment.Center,
                     trim = LineHeightStyle.Trim.Both
-                )
+                ),
+                brush = textBrush
             )
         }
         val markdownParserProps = remember(fontSizeMultiplier) {
