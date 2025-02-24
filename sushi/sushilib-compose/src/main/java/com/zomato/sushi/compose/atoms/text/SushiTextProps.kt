@@ -3,6 +3,7 @@ package com.zomato.sushi.compose.atoms.text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -36,6 +37,7 @@ data class SushiTextProps(
     val suffixSpacing: Dp? = null,
     val horizontalArrangement: Arrangement.Horizontal? = null,
     val verticalAlignment: Alignment.Vertical? = null,
+    val textBrush: Brush? = null
 )
 
 sealed interface SushiTextDecoration {
