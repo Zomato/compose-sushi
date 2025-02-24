@@ -55,7 +55,11 @@ class StrikethroughProcessor() : Processor {
             transformationsList.forEach {
                 this.append(src.subSequence(currentStartIdx, it.start))
                 this.append(it.text)
-                this.addStyle(SpanStyle(textDecoration = TextDecoration.LineThrough), it.start, it.end)
+                this.addStyle(
+                    SpanStyle(textDecoration = TextDecoration.LineThrough),
+                    this.length - it.text.length,
+                    this.length
+                )
                 currentStartIdx = it.end
             }
 
