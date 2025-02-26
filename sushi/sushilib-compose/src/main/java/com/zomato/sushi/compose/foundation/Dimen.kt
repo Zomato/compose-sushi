@@ -19,6 +19,7 @@ val SushiTextSize800 = 25.sp
 val SushiTextSize900 = 28.sp
 
 val SushiSpacingFemto = 0.dp
+val SushiSpacingPointFive = 0.5.dp
 val SushiSpacingPico = 1.dp
 val SushiSpacingNano = 2.dp
 val SushiSpacingMicro = 4.dp
