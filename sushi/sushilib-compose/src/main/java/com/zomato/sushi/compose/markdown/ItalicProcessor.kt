@@ -55,7 +55,11 @@ class ItalicProcessor() : Processor {
             transformationsList.forEach {
                 this.append(src.subSequence(currentStartIdx, it.start))
                 this.append(it.text)
-                this.addStyle(SpanStyle(fontStyle = FontStyle.Italic), it.start, it.end)
+                this.addStyle(
+                    SpanStyle(fontStyle = FontStyle.Italic),
+                    this.length - it.text.length,
+                    this.length
+                )
                 currentStartIdx = it.end
             }
 
