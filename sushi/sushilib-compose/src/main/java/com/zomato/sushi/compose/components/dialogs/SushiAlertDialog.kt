@@ -131,7 +131,7 @@ fun SushiAlertDialogImpl(
                 when (props.alignment) {
                     SushiAlertDialogProps.ButtonAlignment.Vertical -> {
                         HorizontalDivider(
-                            thickness = SushiTheme.dimens.spacing.pointFive,
+                            thickness = 0.5.dp,
                             color = SushiTheme.colors.border.moderate.value,
                             modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
                         )
@@ -143,7 +143,7 @@ fun SushiAlertDialogImpl(
                             )
                         }
                         HorizontalDivider(
-                            thickness = SushiTheme.dimens.spacing.pointFive,
+                            thickness = 0.5.dp,
                             color = SushiTheme.colors.border.moderate.value,
                             modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
                         )
@@ -155,7 +155,7 @@ fun SushiAlertDialogImpl(
                             )
                         }
                         HorizontalDivider(
-                            thickness = SushiTheme.dimens.spacing.pointFive,
+                            thickness = 0.5.dp,
                             color = SushiTheme.colors.border.moderate.value,
                             modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
                         )
@@ -170,7 +170,7 @@ fun SushiAlertDialogImpl(
                     }
                     SushiAlertDialogProps.ButtonAlignment.Horizontal, null -> {
                         HorizontalDivider(
-                            thickness = SushiTheme.dimens.spacing.pointFive,
+                            thickness = 0.5.dp,
                             color = SushiTheme.colors.border.moderate.value
                         )
                         Row(
@@ -188,7 +188,7 @@ fun SushiAlertDialogImpl(
                                 )
                             }
                             VerticalDivider(
-                                thickness = SushiTheme.dimens.spacing.pointFive,
+                                thickness = 0.5.dp,
                                 color = SushiTheme.colors.border.moderate.value,
                                 modifier = Modifier.fillMaxHeight()
                             )

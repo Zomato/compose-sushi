@@ -14,7 +14,6 @@ data class SushiDimension(
 
     data class Spacing(
         val femto: Dp = SushiSpacingFemto,
-        val pointFive: Dp = SushiSpacingPointFive,
         val pico: Dp = SushiSpacingPico,
         val nano: Dp = SushiSpacingNano,
         val micro: Dp = SushiSpacingMicro,
