@@ -17,9 +17,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.indicators.model.DotGraphic
 import com.zomato.sushi.compose.atoms.indicators.type.BalloonIndicator
 import com.zomato.sushi.compose.atoms.indicators.type.ShiftIndicator
 import com.zomato.sushi.compose.atoms.indicators.type.SpringIndicator
@@ -28,6 +30,7 @@ import com.zomato.sushi.compose.atoms.indicators.type.WormIndicator
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -142,10 +145,18 @@ private fun SushiDotsIndicatorBalloonPreview() {
     val dotCount = 5
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(Unit) {
-        animatedProgress.animateTo(
-            targetValue = (dotCount - 1).toFloat(),
-            animationSpec = infiniteRepeatable(tween(durationMillis = 1000, easing = LinearEasing), repeatMode = RepeatMode.Reverse)
-        )
+        while (true) {
+            delay(300)
+            val newValue = (animatedProgress.value + 1) % dotCount.toFloat()
+            if (newValue == 0f) {
+                animatedProgress.snapTo(newValue)
+            } else {
+                animatedProgress.animateTo(
+                    targetValue = (animatedProgress.value + 1) % dotCount.toFloat(),
+                    animationSpec = tween(durationMillis = 100, easing = LinearEasing)
+                )
+            }
+        }
     }
 
     val currentPage by remember {
@@ -156,7 +167,13 @@ private fun SushiDotsIndicatorBalloonPreview() {
         SushiDotsIndicator(
             dotCount = dotCount,
             dotSpacing = 8.dp,
-            type = SushiIndicatorType.Balloon(),
+            type = SushiIndicatorType.Balloon(
+                dotsGraphic = DotGraphic(
+                    color = SushiTheme.colors.theme.v500.value,
+                    size = 8.dp
+                ),
+                balloonSizeFactor = 2f
+            ),
             currentPage = currentPage,
             currentPageOffsetFraction = {
                 val value = animatedProgress.value
@@ -172,10 +189,18 @@ private fun SushiDotsIndicatorShiftPreview() {
     val dotCount = 5
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(Unit) {
-        animatedProgress.animateTo(
-            targetValue = (dotCount - 1).toFloat(),
-            animationSpec = infiniteRepeatable(tween(durationMillis = 1000, easing = LinearEasing), repeatMode = RepeatMode.Reverse)
-        )
+        while (true) {
+            delay(300)
+            val newValue = (animatedProgress.value + 1) % dotCount.toFloat()
+            if (newValue == 0f) {
+                animatedProgress.snapTo(newValue)
+            } else {
+                animatedProgress.animateTo(
+                    targetValue = (animatedProgress.value + 1) % dotCount.toFloat(),
+                    animationSpec = tween(durationMillis = 100, easing = LinearEasing)
+                )
+            }
+        }
     }
 
     val currentPage by remember {
@@ -186,7 +211,11 @@ private fun SushiDotsIndicatorShiftPreview() {
         SushiDotsIndicator(
             dotCount = dotCount,
             dotSpacing = 8.dp,
-            type = SushiIndicatorType.Shift(),
+            type = SushiIndicatorType.Shift(
+                dotsGraphic = DotGraphic(
+                    color = SushiTheme.colors.theme.v500.value
+                )
+            ),
             currentPage = currentPage,
             currentPageOffsetFraction = {
                 val value = animatedProgress.value
@@ -202,10 +231,18 @@ private fun SushiDotsIndicatorSpringPreview() {
     val dotCount = 5
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(Unit) {
-        animatedProgress.animateTo(
-            targetValue = (dotCount - 1).toFloat(),
-            animationSpec = infiniteRepeatable(tween(durationMillis = 1000, easing = LinearEasing), repeatMode = RepeatMode.Reverse)
-        )
+        while (true) {
+            delay(300)
+            val newValue = (animatedProgress.value + 1) % dotCount.toFloat()
+            if (newValue == 0f) {
+                animatedProgress.snapTo(newValue)
+            } else {
+                animatedProgress.animateTo(
+                    targetValue = (animatedProgress.value + 1) % dotCount.toFloat(),
+                    animationSpec = tween(durationMillis = 100, easing = LinearEasing)
+                )
+            }
+        }
     }
 
     val currentPage by remember {
@@ -216,7 +253,18 @@ private fun SushiDotsIndicatorSpringPreview() {
         SushiDotsIndicator(
             dotCount = dotCount,
             dotSpacing = 8.dp,
-            type = SushiIndicatorType.Shift(),
+            type = SushiIndicatorType.Spring(
+                dotsGraphic = DotGraphic(
+                    16.dp,
+                    borderWidth = 2.dp,
+                    borderColor = SushiTheme.colors.theme.v500.value,
+                    color = Color.Transparent
+                ),
+                selectorDotGraphic = DotGraphic(
+                    14.dp,
+                    color = SushiTheme.colors.theme.v500.value
+                )
+            ),
             currentPage = currentPage,
             currentPageOffsetFraction = {
                 val value = animatedProgress.value
@@ -233,10 +281,18 @@ private fun SushiDotsIndicatorWormPreview() {
     val dotCount = 5
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(Unit) {
-        animatedProgress.animateTo(
-            targetValue = (dotCount - 1).toFloat(),
-            animationSpec = infiniteRepeatable(tween(durationMillis = 1000, easing = LinearEasing), repeatMode = RepeatMode.Reverse)
-        )
+        while (true) {
+            delay(300)
+            val newValue = (animatedProgress.value + 1) % dotCount.toFloat()
+            if (newValue == 0f) {
+                animatedProgress.snapTo(newValue)
+            } else {
+                animatedProgress.animateTo(
+                    targetValue = (animatedProgress.value + 1) % dotCount.toFloat(),
+                    animationSpec = tween(durationMillis = 100, easing = LinearEasing)
+                )
+            }
+        }
     }
 
     val currentPage by remember {
@@ -247,7 +303,18 @@ private fun SushiDotsIndicatorWormPreview() {
         SushiDotsIndicator(
             dotCount = dotCount,
             dotSpacing = 8.dp,
-            type = SushiIndicatorType.Worm(),
+            type = SushiIndicatorType.Worm(
+                dotsGraphic = DotGraphic(
+                    16.dp,
+                    borderWidth = 2.dp,
+                    borderColor = SushiTheme.colors.theme.v500.value,
+                    color = Color.Transparent,
+                ),
+                wormDotGraphic = DotGraphic(
+                    16.dp,
+                    color = SushiTheme.colors.theme.v500.value,
+                )
+            ),
             currentPage = currentPage,
             currentPageOffsetFraction = {
                 val value = animatedProgress.value
