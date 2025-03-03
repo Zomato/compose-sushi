@@ -43,7 +43,7 @@ android {
     }
 }
 
-applyDefaults(version_code, version_name)
+
 
 dependencies {
     // Androidx Core
