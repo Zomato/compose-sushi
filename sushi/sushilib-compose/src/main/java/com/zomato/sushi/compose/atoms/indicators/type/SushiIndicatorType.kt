@@ -19,9 +19,4 @@ sealed interface SushiIndicatorType {
         val dotsGraphic: DotGraphic = DotGraphic(),
         val selectorDotGraphic: DotGraphic = DotGraphic(color = Color.Black),
     ) : SushiIndicatorType
-
-    data class Worm(
-        val dotsGraphic: DotGraphic = DotGraphic(),
-        val wormDotGraphic: DotGraphic = DotGraphic(color = Color.White),
-    ) : SushiIndicatorType
 }

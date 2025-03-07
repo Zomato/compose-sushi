@@ -14,7 +14,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 internal fun ShiftIndicator(
-    globalOffsetProvider: () -> Float,
+    offsetProvider: () -> Float,
     dotCount: Int,
     dotSpacing: Dp,
     onDotClicked: ((Int) -> Unit)?,
@@ -23,27 +23,29 @@ internal fun ShiftIndicator(
     shiftSizeFactor: Float = 3f,
 ) {
     Box(modifier = modifier) {
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(), content = {
-                items(dotCount) { dotIndex ->
-                    val dotWidth by remember(globalOffsetProvider()) {
-                        derivedStateOf { computeDotWidth(dotIndex, globalOffsetProvider(), dotsGraphic, shiftSizeFactor) }
-                    }
-                    val dotModifier by remember(dotWidth) {
-                        mutableStateOf(
-                            Modifier
-                                .width(dotWidth)
-                                .clickable {
-                                    onDotClicked?.invoke(dotIndex)
-                                })
-                    }
-                    Dot(dotsGraphic, dotModifier)
-                }
-            }, horizontalArrangement = Arrangement.spacedBy(
+        Row(
+            Modifier
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.spacedBy(
                 dotSpacing, alignment = Alignment.CenterHorizontally
             ),
-            contentPadding = PaddingValues(start = dotSpacing, end = dotSpacing)
-        )
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            repeat(dotCount) { dotIndex ->
+                val dotWidth by remember(offsetProvider()) {
+                    derivedStateOf { computeDotWidth(dotIndex, offsetProvider(), dotsGraphic, shiftSizeFactor) }
+                }
+                val dotModifier by remember(dotWidth) {
+                    mutableStateOf(
+                        Modifier
+                            .width(dotWidth)
+                            .clickable {
+                                onDotClicked?.invoke(dotIndex)
+                            })
+                }
+                Dot(dotsGraphic, dotModifier)
+            }
+        }
     }
 }
 

@@ -16,7 +16,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 internal fun BalloonIndicator(
-    globalOffsetProvider: () -> Float,
+    offsetProvider: () -> Float,
     dotCount: Int,
     dotSpacing: Dp,
     onDotClicked: ((Int) -> Unit)?,
@@ -25,32 +25,34 @@ internal fun BalloonIndicator(
     balloonSizeFactor: Float = 1.5f,
 ) {
     Box(modifier = modifier) {
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(dotsGraphic.size * balloonSizeFactor),
-            content = {
-                items(dotCount) { dotIndex ->
-                    val dotSize by remember(globalOffsetProvider()) {
-                        derivedStateOf { computeDotWidth(dotIndex, globalOffsetProvider(), dotsGraphic, balloonSizeFactor) }
-                    }
-                    val dotModifier by remember(dotSize) {
-                        mutableStateOf(
-                            Modifier
-                                .scale(dotSize)
-                                .clickable {
-                                    onDotClicked?.invoke(dotIndex)
-                                })
-                    }
-                    Dot(dotsGraphic, dotModifier)
-                }
-            },
+        Row(
+            Modifier
+                .padding(
+                    start = (dotsGraphic.size * (balloonSizeFactor - 1)) / 2,
+                    end = (dotsGraphic.size * (balloonSizeFactor - 1)) / 2
+                )
+                .fillMaxSize()
+                .heightIn(min = dotsGraphic.size * balloonSizeFactor),
             horizontalArrangement = Arrangement.spacedBy(
                 dotSpacing, alignment = Alignment.CenterHorizontally
             ),
-            contentPadding = PaddingValues(start = dotSpacing, end = dotSpacing),
             verticalAlignment = Alignment.CenterVertically
-        )
+        ) {
+            repeat(dotCount) { dotIndex ->
+                val dotSize by remember(offsetProvider()) {
+                    derivedStateOf { computeDotWidth(dotIndex, offsetProvider(), dotsGraphic, balloonSizeFactor) }
+                }
+                val dotModifier by remember(dotSize) {
+                    mutableStateOf(
+                        Modifier
+                            .scale(dotSize)
+                            .clickable {
+                                onDotClicked?.invoke(dotIndex)
+                            })
+                }
+                Dot(dotsGraphic, dotModifier)
+            }
+        }
     }
 }
 
