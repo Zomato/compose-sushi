@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.Dp
 import com.zomato.sushi.compose.atoms.indicators.Dot
 import com.zomato.sushi.compose.atoms.indicators.model.DotGraphic
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 internal fun SpringIndicator(
     offsetProvider: () -> Float,

@@ -30,8 +30,12 @@ import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
+
 @Composable
-fun SushiDotsIndicator(
+fun SushiIndicator(
     dotCount: Int,
     type: SushiIndicatorType,
     pagerState: PagerState,
@@ -39,7 +43,7 @@ fun SushiDotsIndicator(
     dotSpacing: Dp = SushiTheme.dimens.spacing.base
 ) {
     val coroutineScope = rememberCoroutineScope()
-    SushiDotsIndicator(
+    SushiIndicator(
         dotCount = dotCount,
         type = type,
         currentPage = pagerState.currentPage,
@@ -53,7 +57,7 @@ fun SushiDotsIndicator(
 }
 
 @Composable
-fun SushiDotsIndicator(
+fun SushiIndicator(
     dotCount: Int,
     type: SushiIndicatorType,
     currentPage: Int,
@@ -66,7 +70,7 @@ fun SushiDotsIndicator(
         modifier
             .height(IntrinsicSize.Max)
             .width(IntrinsicSize.Max)
-            .testTag("SushiDotsIndicator")
+            .testTag("SushiIndicator")
     ) {
         val currentPageOffset by remember(dotCount, currentPage, currentPageOffsetFraction()) {
             derivedStateOf {
@@ -114,7 +118,7 @@ fun SushiDotsIndicator(
 
 @SushiPreview
 @Composable
-private fun SushiDotsIndicatorBalloonPreview() {
+private fun SushiIndicatorBalloonPreview() {
     val dotCount = 5
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(Unit) {
@@ -137,7 +141,7 @@ private fun SushiDotsIndicatorBalloonPreview() {
     }
 
     SushiPreview {
-        SushiDotsIndicator(
+        SushiIndicator(
             dotCount = dotCount,
             dotSpacing = 8.dp,
             type = SushiIndicatorType.Balloon(
@@ -158,7 +162,7 @@ private fun SushiDotsIndicatorBalloonPreview() {
 
 @SushiPreview
 @Composable
-private fun SushiDotsIndicatorShiftPreview() {
+private fun SushiIndicatorShiftPreview() {
     val dotCount = 5
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(Unit) {
@@ -181,7 +185,7 @@ private fun SushiDotsIndicatorShiftPreview() {
     }
 
     SushiPreview {
-        SushiDotsIndicator(
+        SushiIndicator(
             dotCount = dotCount,
             dotSpacing = 8.dp,
             type = SushiIndicatorType.Shift(
@@ -200,7 +204,7 @@ private fun SushiDotsIndicatorShiftPreview() {
 
 @SushiPreview
 @Composable
-private fun SushiDotsIndicatorSpringPreview() {
+private fun SushiIndicatorSpringPreview() {
     val dotCount = 5
     val animatedProgress = remember { Animatable(0f) }
     LaunchedEffect(Unit) {
@@ -223,7 +227,7 @@ private fun SushiDotsIndicatorSpringPreview() {
     }
 
     SushiPreview {
-        SushiDotsIndicator(
+        SushiIndicator(
             dotCount = dotCount,
             dotSpacing = 8.dp,
             type = SushiIndicatorType.Spring(
