@@ -13,7 +13,7 @@ internal fun SushiComponentBase(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
-    Box(modifier) {
+    Box(modifier, propagateMinConstraints = true) {
         content()
     }
 }
