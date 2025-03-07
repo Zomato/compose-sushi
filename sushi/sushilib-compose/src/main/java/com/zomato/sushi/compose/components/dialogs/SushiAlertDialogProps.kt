@@ -1,12 +1,9 @@
-@file:OptIn(ExperimentalSushiApi::class)
-
 package com.zomato.sushi.compose.components.dialogs
 
 import androidx.compose.runtime.Immutable
 import com.zomato.sushi.compose.atoms.button.SushiButtonProps
 import com.zomato.sushi.compose.atoms.image.SushiImageProps
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
-import com.zomato.sushi.compose.foundation.ExperimentalSushiApi
 
 /**
  * Created by Piyush Maheswari on 07/01/25

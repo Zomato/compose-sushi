@@ -4,6 +4,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.indicators.model.DotGraphic
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 sealed interface SushiIndicatorType {
     data class Balloon(
         val dotsGraphic: DotGraphic = DotGraphic(size = 12.dp),

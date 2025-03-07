@@ -14,6 +14,9 @@ import com.zomato.sushi.compose.atoms.indicators.Dot
 import com.zomato.sushi.compose.atoms.indicators.model.DotGraphic
 import kotlin.math.absoluteValue
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 internal fun BalloonIndicator(
     offsetProvider: () -> Float,

@@ -9,6 +9,9 @@ import androidx.compose.ui.Modifier
 import com.zomato.sushi.compose.atoms.indicators.model.DotGraphic
 import com.zomato.sushi.compose.modifiers.ifNonNull
 
+/**
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 internal fun Dot(
     graphic: DotGraphic,
