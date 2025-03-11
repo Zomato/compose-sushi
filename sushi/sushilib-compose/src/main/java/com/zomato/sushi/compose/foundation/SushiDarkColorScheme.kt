@@ -81,6 +81,7 @@ fun sushiDarkColorScheme(
         light = SushiRawColorTokens.White.asColorSpec(),
         accentPink = SushiRawColorTokens.White.asColorSpec(),
         discover = SushiRawColorTokens.White.asColorSpec(),
+        accentHoney = SushiRawColorTokens.Honey300.asColorSpec(),
     ),
     iconColorScheme: SushiColorScheme.IconColorScheme = SushiColorScheme.IconColorScheme(
         default = SushiRawColorTokens.Slate050.asColorSpec(),
@@ -155,6 +156,18 @@ fun sushiDarkColorScheme(
         accentGrey = SushiRawColorTokens.White.asColorSpec(),
         accentTangerine = SushiRawColorTokens.White.asColorSpec(),
         discover = SushiRawColorTokens.White.asColorSpec(),
+        tertiary = SushiRawColorTokens.Charcoal800.asColorSpec(),
+        quaternary = SushiRawColorTokens.Charcoal700.asColorSpec(),
+        accentBlueOnly = SushiRawColorTokens.Blue900.asColorSpec(),
+        accentBlueInverse = SushiRawColorTokens.Blue100.asColorSpec(),
+        accentGreyInverse = SushiRawColorTokens.Charcoal100.asColorSpec(),
+        accentTangerineIntense = SushiRawColorTokens.Tangerine700.asColorSpec(),
+        accentTangerineInverse = SushiRawColorTokens.Tangerine050.asColorSpec(),
+        accentIndigo = SushiRawColorTokens.Indigo800.asColorSpec(),
+        accentIndigoIntense = SushiRawColorTokens.Indigo700.asColorSpec(),
+        accentIndigoInverse = SushiRawColorTokens.Indigo050.asColorSpec(),
+        darkIntense = SushiRawColorTokens.Black.asColorSpec(),
+        accentTeal = SushiRawColorTokens.Teal900.asColorSpec(),
     ),
     borderColorScheme: SushiColorScheme.BorderColorScheme = SushiColorScheme.BorderColorScheme(
         subtle = SushiRawColorTokens.Slate800.asColorSpec(),
@@ -183,6 +196,8 @@ fun sushiDarkColorScheme(
         accentBlueIntense = SushiRawColorTokens.Blue700.asColorSpec(),
         // ctodo: Fix with actual values, after defaults are merged in View sushi.
         dark = SushiRawColorTokens.White.asColorSpec(),
+        accentHoney = SushiRawColorTokens.Honey300.asColorSpec(),
+        accentWhite = SushiRawColorTokens.White.asColorSpec()
     ),
     crystalColorScheme: SushiColorScheme.CrystalColorScheme = SushiColorScheme.CrystalColorScheme(
         ontime = SushiRawColorTokens.Green800.asColorSpec(),
@@ -300,6 +315,39 @@ fun sushiDarkColorScheme(
         icon = SushiRawColorTokens.White.asColorSpec(),
         iconDisabled = SushiRawColorTokens.White.asColorSpec(),
     ),
+    aeroBarColorScheme: SushiColorScheme.AerobarColorScheme = SushiColorScheme.AerobarColorScheme(
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
+        default = SushiRawColorTokens.Charcoal100.asColorSpec(),
+        success = SushiRawColorTokens.Green300.asColorSpec(),
+        error = SushiRawColorTokens.Tangerine300.asColorSpec(),
+        warning = SushiRawColorTokens.Honey600.asColorSpec(),
+        discover = SushiRawColorTokens.White.asColorSpec(),
+        accentDefault = SushiRawColorTokens.Charcoal900.asColorSpec(),
+        accentSuccess = SushiRawColorTokens.Green800.asColorSpec(),
+        accentWarning = SushiRawColorTokens.Honey800.asColorSpec(),
+        accentError = SushiRawColorTokens.Tangerine800.asColorSpec(),
+        accentDiscover = SushiRawColorTokens.Blue800.asColorSpec(),
+    ),
+    tagColorScheme: SushiColorScheme.TagColorScheme = SushiColorScheme.TagColorScheme(
+        // ctodo: Fix with actual values, after defaults are merged in View sushi.
+        primaryBlack = SushiRawColorTokens.Black.asColorSpec(),
+        primaryGrey = SushiRawColorTokens.Charcoal200.asColorSpec(),
+        primaryGreen = SushiRawColorTokens.Green300.asColorSpec(),
+        primaryPurple = SushiRawColorTokens.Purple300.asColorSpec(),
+        primaryTeal = SushiRawColorTokens.Teal300.asColorSpec(),
+        primaryPink = SushiRawColorTokens.Pink200.asColorSpec(),
+        primaryYellow = SushiRawColorTokens.Honey600.asColorSpec(),
+        primaryOrange = SushiRawColorTokens.Tangerine300.asColorSpec(),
+        primaryBlue = SushiRawColorTokens.Blue300.asColorSpec(),
+        secondaryGrey = SushiRawColorTokens.Charcoal800.asColorSpec(),
+        secondaryGreen = SushiRawColorTokens.Green800.asColorSpec(),
+        secondaryPurple = SushiRawColorTokens.Purple800.asColorSpec(),
+        secondaryTeal = SushiRawColorTokens.Teal800.asColorSpec(),
+        secondaryPink = SushiRawColorTokens.Pink800.asColorSpec(),
+        secondaryYellow = SushiRawColorTokens.Honey900.asColorSpec(),
+        secondaryOrange = SushiRawColorTokens.Orange800.asColorSpec(),
+        secondaryBlue = SushiRawColorTokens.Blue900.asColorSpec(),
+    )
 ): SushiColorScheme =
     SushiColorScheme(
         schemeType = SushiColorSchemeType.Dark,
@@ -339,5 +387,7 @@ fun sushiDarkColorScheme(
         stepper = stepperColorScheme,
         shimmer = shimmerColorScheme,
         slider = sliderColorScheme,
-        filter = filterColorScheme
+        filter = filterColorScheme,
+        aerobar = aeroBarColorScheme,
+        tag = tagColorScheme,
     )
