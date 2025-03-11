@@ -53,6 +53,8 @@ data class SushiColorScheme(
     val shimmer: ShimmerColorScheme,
     val slider: SliderColorScheme,
     val filter: FilterColorScheme,
+    val aerobar: AerobarColorScheme,
+    val tag: TagColorScheme,
 ) {
     // Grey
     @Immutable
@@ -691,6 +693,7 @@ data class SushiColorScheme(
         val light: ColorSpec,
         val accentPink: ColorSpec,
         val discover: ColorSpec,
+        val accentHoney: ColorSpec
     )
 
     // Icon color tokens
@@ -769,6 +772,18 @@ data class SushiColorScheme(
         val accentGrey: ColorSpec,
         val accentTangerine: ColorSpec,
         val discover: ColorSpec,
+        val tertiary: ColorSpec,
+        val quaternary: ColorSpec,
+        val accentBlueOnly: ColorSpec,
+        val accentBlueInverse: ColorSpec,
+        val accentGreyInverse: ColorSpec,
+        val accentTangerineIntense: ColorSpec,
+        val accentTangerineInverse: ColorSpec,
+        val accentIndigo: ColorSpec,
+        val accentIndigoIntense: ColorSpec,
+        val accentIndigoInverse: ColorSpec,
+        val darkIntense: ColorSpec,
+        val accentTeal: ColorSpec,
     )
 
     // Border color tokens
@@ -799,6 +814,8 @@ data class SushiColorScheme(
         val accentBlue: ColorSpec,
         val accentBlueIntense: ColorSpec,
         val dark: ColorSpec,
+        val accentWhite: ColorSpec,
+        val accentHoney: ColorSpec,
     )
 
     // Crystal color tokens
@@ -938,5 +955,40 @@ data class SushiColorScheme(
         val labelDisabled: ColorSpec,
         val icon: ColorSpec,
         val iconDisabled: ColorSpec,
+    )
+
+    @Immutable
+    data class AerobarColorScheme(
+        val default: ColorSpec,
+        val success: ColorSpec,
+        val error: ColorSpec,
+        val warning: ColorSpec,
+        val discover: ColorSpec,
+        val accentDefault: ColorSpec,
+        val accentSuccess: ColorSpec,
+        val accentWarning: ColorSpec,
+        val accentError: ColorSpec,
+        val accentDiscover: ColorSpec,
+    )
+
+    @Immutable
+    data class TagColorScheme(
+        val primaryBlack: ColorSpec,
+        val primaryGrey: ColorSpec,
+        val primaryGreen: ColorSpec,
+        val primaryPurple: ColorSpec,
+        val primaryTeal: ColorSpec,
+        val primaryPink: ColorSpec,
+        val primaryYellow: ColorSpec,
+        val primaryOrange: ColorSpec,
+        val primaryBlue: ColorSpec,
+        val secondaryGrey: ColorSpec,
+        val secondaryGreen: ColorSpec,
+        val secondaryPurple: ColorSpec,
+        val secondaryTeal: ColorSpec,
+        val secondaryPink: ColorSpec,
+        val secondaryYellow: ColorSpec,
+        val secondaryOrange: ColorSpec,
+        val secondaryBlue: ColorSpec,
     )
 }
