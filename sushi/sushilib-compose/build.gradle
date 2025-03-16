@@ -46,11 +46,6 @@ android {
 
 
 dependencies {
-    // Androidx Core
-    implementation "androidx.core:core-ktx:$rootConfiguration.androidxCoreVersion"
-    implementation "io.coil-kt.coil3:coil-compose:$rootConfiguration.coilVersion"
-    implementation "io.coil-kt.coil3:coil-network-okhttp:$rootConfiguration.coilVersion"
-
     api "com.airbnb.android:lottie-compose:$rootConfiguration.lottieVersion"
 
     api "org.jetbrains.kotlinx:kotlinx-collections-immutable:$rootConfiguration.kotlinxCollectionsImmutableVersion"
@@ -67,6 +62,5 @@ dependencies {
     api 'androidx.compose.ui:ui-tooling-preview'
     debugApi 'androidx.compose.ui:ui-tooling'
 
-    implementation "androidx.activity:activity-compose:${rootConfiguration.composeActivityVersion}"
     debugImplementation "com.zomato:thirdeye-release:${rootConfiguration.thirdEyeVersion}"
 }
