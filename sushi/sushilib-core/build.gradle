@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'com.zomato.plugins.publish'
+    id 'kotlin-kapt'
+}
+
+def rootConfiguration = rootProject.ext
+
+import com.zomato.plugins.publish.ArtifactInfo
+import com.zomato.plugins.publish.BuildType
+
+// Maven Publishing Details
+
+def version_info = getVersionInfo(projectDir.absolutePath)
+def version_code = version_info[0].toInteger()
+def version_name = version_info[1]
+
+def artifactData = new ArtifactInfo(monoGroupId, project.name, version_name, monoRepo, false)
+def releaseBuildData = new BuildType('release', null, false)
+def debugBuildData = new BuildType('debug', null, false)
+
+mavenPublishing {
+    artifactInfo = artifactData
+    buildTypes = [ releaseBuildData, debugBuildData ]
+}
+
+android {
+    namespace 'com.zomato.sushi.core'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+
+
+dependencies {
+
+}
