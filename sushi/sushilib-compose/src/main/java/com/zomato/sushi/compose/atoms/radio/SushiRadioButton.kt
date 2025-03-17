@@ -34,6 +34,26 @@ import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
+ * A customizable radio button component for the Sushi design system.
+ *
+ * SushiRadioButton provides a standard radio button implementation with support for:
+ * - Primary and secondary text labels
+ * - Custom positioning (radio button at start or end)
+ * - Vertical alignment control
+ * - Custom colors for selected and unselected states
+ * - Custom content through the infoContent parameter
+ * - Accessibility through semantic properties
+ *
+ * Radio buttons are typically used in groups where only one option can be selected at a time,
+ * though this component doesn't enforce that behavior - it's up to the parent component to
+ * manage the selected state across a group of radio buttons.
+ *
+ * @param props The properties to configure the radio button appearance and behavior
+ * @param onClick Callback invoked when the radio button is clicked
+ * @param modifier The modifier to be applied to the component
+ * @param interactionSource Source of interactions for the radio button
+ * @param infoContent Optional custom content to replace the standard text labels
+ *
  * @author gupta.anirudh@zomato.com
  */
 @Composable

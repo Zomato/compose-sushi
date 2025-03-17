@@ -11,9 +11,13 @@ import androidx.compose.ui.text.withLink
 import java.util.regex.Pattern
 
 /**
- * @author gupta.anirudh@zomato.com
+ * Processor that converts markdown link syntax into clickable links.
  *
- * Links handled by LocalUriHandler.current
+ * This processor recognizes patterns like "[link text](https://example.com)" and transforms
+ * them into clickable links with proper styling. Links are handled by [LocalUriHandler]
+ * when clicked.
+ *
+ * @author gupta.anirudh@zomato.com
  */
 class LinkProcessor() : Processor {
 

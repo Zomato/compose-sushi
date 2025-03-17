@@ -3,10 +3,13 @@ package com.zomato.sushi.compose.foundation
 import androidx.compose.ui.graphics.Color
 
 /**
- * @author gupta.anirudh@zomato.com
+ * Raw color tokens used as the foundation for the Sushi design system's color scheme.
+ * These raw values serve as the foundation for the theme-aware color system.
  *
- * Raw color tokens used for defining theme
- * Note: Direct usage of these colors is not recommended.
+ * Note: Direct usage of these colors is not recommended. Instead, use the theme-aware
+ * color tokens from SushiTheme.colors which automatically adapt to light/dark themes.
+ *
+ * @author gupta.anirudh@zomato.com
  */
 object SushiRawColorTokens {
     val Black = Color(0xFF1C1C1C)

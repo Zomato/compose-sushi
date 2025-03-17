@@ -29,9 +29,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
+ * Creates and remembers a scale-on-press state that can be shared across multiple composables.
+ *
+ * @param initialIsPressed Initial pressed state (default is false)
+ * @return A mutable state holding the ScaleOnPressState
+ *
  * @author gupta.anirudh@zomato.com
  */
-
 @Composable
 fun rememberScaleOnPressState(
     initialIsPressed: Boolean = false
@@ -45,10 +49,25 @@ fun rememberScaleOnPressState(
     }
 }
 
+/**
+ * State holder for coordinated scale-on-press animations.
+ *
+ * @property isCurrentlyPressed Tracks whether the component is currently pressed
+ */
 data class ScaleOnPressState(
     val isCurrentlyPressed: MutableState<Boolean>
 )
 
+/**
+ * Applies a scale-on-press effect to a composable using a shared state.
+ * 
+ * This modifier scales the component when the shared state indicates a press,
+ * allowing multiple components to animate together.
+ *
+ * @param state The shared ScaleOnPressState
+ * @param delayMs Optional delay before the scale animation starts (in milliseconds)
+ * @return A modifier with the scale-on-press behavior
+ */
 fun Modifier.scaleOnPress(
     state: ScaleOnPressState,
     delayMs: Long = 0,
@@ -59,6 +78,16 @@ fun Modifier.scaleOnPress(
     )
 )
 
+/**
+ * Applies a pointer detector that updates the shared scale-on-press state.
+ * 
+ * This modifier doesn't perform any scaling itself but detects press events
+ * and updates the shared state. Components using scaleOnPress() with the same
+ * state will respond to these events.
+ *
+ * @param state The shared ScaleOnPressState to update
+ * @return A modifier that detects presses and updates the state
+ */
 fun Modifier.scaleOnPressAnchor(
     state: ScaleOnPressState
 ): Modifier = this.then(
@@ -67,11 +96,10 @@ fun Modifier.scaleOnPressAnchor(
     )
 )
 
-data class SushiScaleOnPressStatefulModifierNodeElement(
+private data class SushiScaleOnPressStatefulModifierNodeElement(
     val state: ScaleOnPressState,
     val delayMs: Long
 ): ModifierNodeElement<SushiScaleOnPressStatefulModifierNode>() {
-
     override fun create() = SushiScaleOnPressStatefulModifierNode(
         state = state,
         delayMs = delayMs
@@ -85,11 +113,10 @@ data class SushiScaleOnPressStatefulModifierNodeElement(
     }
 }
 
-class SushiScaleOnPressStatefulModifierNode(
+private class SushiScaleOnPressStatefulModifierNode(
     private var state: ScaleOnPressState,
     private var delayMs: Long
 ) : Modifier.Node(), DrawModifierNode {
-
     private val actualScale = Animatable(1f)
     private var scaleAnimateJob: Job? = null
     private var pressedScale: Float = 1f
@@ -162,10 +189,9 @@ class SushiScaleOnPressStatefulModifierNode(
     }
 }
 
-data class SushiScaleOnPressStatefulAnchorModifierNodeElement(
+private data class SushiScaleOnPressStatefulAnchorModifierNodeElement(
     val state: ScaleOnPressState
 ): ModifierNodeElement<SushiScaleOnPressStatefulAnchorModifierNode>() {
-
     override fun create() = SushiScaleOnPressStatefulAnchorModifierNode(
         state = state
     )
@@ -180,7 +206,6 @@ data class SushiScaleOnPressStatefulAnchorModifierNodeElement(
 class SushiScaleOnPressStatefulAnchorModifierNode(
     private var state: ScaleOnPressState
 ) : Modifier.Node(), PointerInputModifierNode {
-
     private var isPressed: Boolean = state.isCurrentlyPressed.value
         set(value) {
             field = value

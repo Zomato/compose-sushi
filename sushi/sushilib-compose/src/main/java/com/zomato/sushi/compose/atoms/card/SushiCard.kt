@@ -31,8 +31,24 @@ import com.zomato.sushi.compose.utils.border
 import com.zomato.sushi.compose.utils.toPx
 
 /**
- * Created by Nitin Kumar on 03/01/25.
- * Zomato, Gurgaon, India.
+ * A customizable card component for the Sushi design system.
+ *
+ * SushiCard provides a surface for displaying related content in a contained unit. It supports:
+ * - Custom shapes including rounded corners and ticket shapes
+ * - Solid and dashed borders
+ * - Elevation control
+ * - Custom background colors
+ * - Content composition through ColumnScope
+ *
+ * @param modifier The modifier to be applied to the card
+ * @param borderConfig Optional configuration for custom borders (e.g., dashed borders)
+ * @param shape The shape of the card (defaults to rounded corners)
+ * @param containerColor The background color of the card
+ * @param border Optional border stroke for the card (for solid borders)
+ * @param elevation The elevation of the card which determines its shadow
+ * @param content The composable content to be displayed inside the card
+ *
+ * @author Nitin Kumar
  */
 @Composable
 fun SushiCard(

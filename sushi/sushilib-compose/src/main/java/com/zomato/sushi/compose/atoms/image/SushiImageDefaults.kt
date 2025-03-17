@@ -5,6 +5,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 
 /**
+ * Provides default values for SushiImage components.
+ * These defaults are used when specific properties are not provided in SushiImageProps.
+ *
  * @author gupta.anirudh@zomato.com
  */
 object SushiImageDefaults {

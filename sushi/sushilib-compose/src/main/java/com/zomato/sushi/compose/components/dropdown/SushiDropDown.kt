@@ -43,6 +43,23 @@ import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.collections.immutable.persistentListOf
 
 /**
+ * A customizable dropdown menu component for the Sushi design system.
+ *
+ * SushiDropDown provides a popup menu that can contain various types of items including
+ * text items, checkboxes, and radio buttons. The dropdown can be anchored to any component
+ * and supports custom content or predefined item types.
+ * 
+ * The component is built on top of Material 3's DropdownMenu with Sushi-specific styling
+ * and integration with the Sushi design system.
+ *
+ * @param props The properties to configure the dropdown's appearance and behavior
+ * @param onDismissRequest Callback that will be called when the user tries to dismiss the dropdown
+ * @param modifier The modifier to be applied to the component
+ * @param scrollState The scroll state to control scrolling behavior within the dropdown
+ * @param onEvent Callback that will be called when an item in the dropdown is interacted with,
+ *                providing the index of the item and the specific event that occurred
+ * @param content Optional custom content to display in the dropdown instead of using the items list
+ *
  * @author gupta.anirudh@zomato.com
  */
 @Composable
@@ -117,6 +134,16 @@ private fun SushiDropDownImpl(
     }
 }
 
+/**
+ * Renders a single dropdown item based on its type (text, checkbox, or radio button).
+ *
+ * This composable handles the rendering of different item types and dispatches the appropriate
+ * events when the user interacts with them.
+ *
+ * @param item The dropdown item to render
+ * @param modifier The modifier to apply to the item
+ * @param onEvent Callback for the item's interaction events
+ */
 @Composable
 fun SushiDropDownItem(
     item: SushiDropDownProps.DropDownItem,

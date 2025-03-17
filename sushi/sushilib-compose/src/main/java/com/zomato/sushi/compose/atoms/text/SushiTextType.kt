@@ -8,6 +8,9 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 
 /**
  * @author gupta.anirudh@zomato.com
+ *
+ * Specification for text typography style.
+ * Provides a way to access the TextStyle to be applied to text.
  */
 @Immutable
 sealed interface TextTypeSpec {
@@ -16,6 +19,8 @@ sealed interface TextTypeSpec {
 
 /**
  * @author gupta.anirudh@zomato.com
+ *
+ * Implementation of TextTypeSpec that directly holds a TextStyle.
  */
 @JvmInline
 internal value class TextStyleTextType(val textStyle: TextStyle) : TextTypeSpec {
@@ -23,10 +28,21 @@ internal value class TextStyleTextType(val textStyle: TextStyle) : TextTypeSpec 
         @Composable @Stable get() = textStyle
 }
 
+/**
+ * Converts a TextStyle to a TextTypeSpec.
+ *
+ * @return A TextTypeSpec wrapping this TextStyle
+ */
 fun TextStyle.asTextTypeSpec(): TextTypeSpec = TextStyleTextType(this)
 
 /**
  * @author gupta.anirudh@zomato.com
+ * Predefined text types with various font weights and sizes.
+ * Each type corresponds to a specific TextStyle in the theme's typography.
+ *
+ * Naming convention: [FontWeight][FontSize]
+ * - FontWeight: Light, Regular, Medium, SemiBold, Bold, ExtraBold
+ * - FontSize: 50 (smallest) to 900 (largest)
  */
 enum class SushiTextType : TextTypeSpec {
     Light50,
@@ -95,6 +111,9 @@ enum class SushiTextType : TextTypeSpec {
     ExtraBold800,
     ExtraBold900;
 
+    /**
+     * The TextStyle corresponding to this text type from the theme's typography.
+     */
     override val typeStyle: TextStyle @Composable @Stable get() = when (this) {
         Light50       -> SushiTheme.typography.light050
         Light100      -> SushiTheme.typography.light100

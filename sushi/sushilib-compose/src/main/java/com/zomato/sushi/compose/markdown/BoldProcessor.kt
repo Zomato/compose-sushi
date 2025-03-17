@@ -8,6 +8,11 @@ import androidx.compose.ui.text.font.FontWeight
 import java.util.regex.Pattern
 
 /**
+ * Processor that applies bold formatting to text surrounded by double asterisks.
+ * 
+ * This processor recognizes text patterns like "**bold text**" and applies
+ * FontWeight.Bold styling to the content between the asterisks.
+ *
  * @author gupta.anirudh@zomato.com
  */
 class BoldProcessor() : Processor {
@@ -20,7 +25,7 @@ class BoldProcessor() : Processor {
 
     companion object {
         private const val REGEX = "\\*\\*(.*?)\\*\\*"
-        const val TEXT_GROUP = 1
+        private const val TEXT_GROUP = 1
     }
 
     override val cacheKeys: List<Any> @Composable get() = emptyList()

@@ -3,10 +3,20 @@ package com.zomato.sushi.compose.atoms.separator
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * Provides default values and utility functions for SushiDivider components.
+ * These defaults are used when specific properties are not provided in SushiDividerProps.
+ */
 object SushiDividerDefaults {
     internal val type = SushiDividerType.Straight
 
-
+    /**
+     * Returns the appropriate height/thickness for a divider based on its type.
+     * Each divider type has a specific default thickness that looks best for that style.
+     *
+     * @param type The type of divider to get the height for
+     * @return The recommended height/thickness for the specified divider type
+     */
     fun getDividerHeight(type: SushiDividerType): Dp {
         return when (type) {
             SushiDividerType.Straight, SushiDividerType.Dashed -> 1f.dp

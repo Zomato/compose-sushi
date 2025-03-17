@@ -6,7 +6,10 @@ import com.zomato.sushi.compose.atoms.icon.SushiIconSize
 import com.zomato.sushi.compose.atoms.text.SushiTextType
 
 /**
- * Created by Nitin Kumar on 09/01/25.
+ * Provides default values and utility functions for SushiStepper components.
+ * These defaults determine the dimensions, text styles, and icon sizes for different stepper sizes.
+ *
+ * Created by Nitin Kumar on 09/01/25
  * Zomato, Gurgaon, India.
  */
 
@@ -25,6 +28,12 @@ object StepperDefaults {
         return stepperDimensions[size] ?: Dimensions(120.dp, 40.dp)
     }
 
+    /**
+     * Gets the appropriate icon size for the specified stepper size.
+     *
+     * @param size The stepper size variant
+     * @return The icon size specification for the stepper
+     */
     fun getStepperIconSize(size: SushiStepperSize): SushiIconSize {
         return when (size) {
             SushiStepperSize.Small -> SushiIconSize.Size100
@@ -35,6 +44,12 @@ object StepperDefaults {
         }
     }
 
+    /**
+     * Gets the appropriate text font type for the specified stepper size.
+     *
+     * @param size The stepper size variant
+     * @return The text type specification for the stepper
+     */
     fun getStepperTextFontType(size: SushiStepperSize): SushiTextType {
         return when (size) {
             SushiStepperSize.Small -> SushiTextType.SemiBold300
@@ -55,5 +70,11 @@ object StepperDefaults {
         }
     }
 
+    /**
+     * Gets the default text to display in a stepper, using the provided text or "ADD" as fallback.
+     *
+     * @param text The text to use if not null
+     * @return The text to display in the stepper
+     */
     fun getDefaultTextForStepper(text: String?): String = text ?: "ADD"
 }

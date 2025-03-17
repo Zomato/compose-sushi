@@ -35,6 +35,23 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 import kotlinx.coroutines.launch
 
 /**
+ * A customizable bottom sheet component for the Sushi design system.
+ *
+ * SushiBottomSheet provides a modal bottom sheet that slides up from the bottom of the screen
+ * to display additional content.
+ * 
+ * The component is built on top of Material 3's ModalBottomSheet with Sushi-specific styling
+ * and integration with the Sushi design system.
+ *
+ * @param props The properties to configure the bottom sheet's appearance
+ * @param onDismissRequest Callback that will be called when the user tries to dismiss the sheet
+ * @param modifier The modifier to be applied to the component
+ * @param sheetState The state of the bottom sheet, controlling its visibility and animating its transitions
+ * @param sheetMaxWidth The maximum width to be used for the bottom sheet
+ * @param dragHandle Optional composable to override the default drag handle at the top of the sheet
+ * @param contentWindowInsets Window insets to be applied to the bottom sheet content
+ * @param content The content to be displayed inside the bottom sheet
+ *
  * @author gupta.anirudh@zomato.com
  */
 @OptIn(ExperimentalMaterial3Api::class)

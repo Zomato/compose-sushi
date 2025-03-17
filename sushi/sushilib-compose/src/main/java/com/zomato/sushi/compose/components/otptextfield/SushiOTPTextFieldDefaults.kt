@@ -29,18 +29,46 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.foundation.SushiTheme
 
 /**
+ * Provides default values and utility functions for SushiOTPTextField components.
+ * These defaults are used when specific properties are not provided directly.
+ *
  * @author gupta.anirudh@zomato.com
  */
-
 object SushiOTPTextFieldDefaults {
+    /**
+     * Default shape for OTP text field items with rounded corners.
+     */
     val otpTextFieldShape: Shape = RoundedCornerShape(8.dp)
+    
+    /**
+     * Default number of digits in an OTP.
+     */
     const val otpLength = 6
+    
+    /**
+     * Default width for each digit field.
+     */
     val itemWidth = 48.dp
+    
+    /**
+     * Default height for each digit field.
+     */
     val itemHeight = 48.dp
+
     private val unfocusedOutlineThickness = 2.dp
     private val focusedOutlineThickness = 2.dp
+    
+    /**
+     * Default spacing between digit fields.
+     */
     val itemSpacing = 8.dp
 
+    /**
+     * Creates a default set of colors for outlined OTP text fields.
+     * Uses colors from the Sushi theme for consistency.
+     *
+     * @return Colors configuration for outlined OTP text fields
+     */
     @Composable
     fun outlinedColors() =
         SushiOTPTextFieldColors(
@@ -61,6 +89,12 @@ object SushiOTPTextFieldDefaults {
             errorOutlineColor = SushiTheme.colors.text.error,
         )
 
+    /**
+     * Creates a default set of colors for filled OTP text fields.
+     * Uses colors from the Sushi theme for consistency.
+     *
+     * @return Colors configuration for filled OTP text fields
+     */
     @Composable
     fun filledColors() =
         SushiOTPTextFieldColors(
@@ -81,6 +115,12 @@ object SushiOTPTextFieldDefaults {
             errorOutlineColor = SushiTheme.colors.transparent,
         )
 
+    /**
+     * Creates a default set of colors for underlined OTP text fields.
+     * Uses colors from the Sushi theme for consistency.
+     *
+     * @return Colors configuration for underlined OTP text fields
+     */
     @Composable
     fun underlinedColors() =
         SushiOTPTextFieldColors(
@@ -101,6 +141,12 @@ object SushiOTPTextFieldDefaults {
             errorOutlineColor = SushiTheme.colors.text.error,
         )
 
+    /**
+     * Determines the appropriate outline thickness based on focus state.
+     *
+     * @param interactionSource Source of interaction to determine focus state
+     * @return The border thickness appropriate for the current focus state
+     */
     @Composable
     fun containerBorderThickness(
         interactionSource: InteractionSource,
@@ -110,6 +156,22 @@ object SushiOTPTextFieldDefaults {
         return if (focused) focusedOutlineThickness else unfocusedOutlineThickness
     }
 
+    /**
+     * Decoration box that wraps the input field with appropriate styling based on the field type.
+     * 
+     * This function handles the visual appearance of each digit field, including container
+     * background, borders, and positioning of the input text.
+     *
+     * @param value The current text value
+     * @param innerTextField The composable function that renders the actual input field
+     * @param visualTransformation Transformation applied to the text (e.g., for masking)
+     * @param interactionSource Source of interaction for the field
+     * @param colors Colors configuration for the field
+     * @param type The visual style of the field (Outlined, Filled, or Underlined)
+     * @param modifier Additional modifiers to apply to the box
+     * @param enabled Whether the field is enabled
+     * @param isError Whether the field is in error state
+     */
     @Composable
     fun DecorationBox(
         value: String,

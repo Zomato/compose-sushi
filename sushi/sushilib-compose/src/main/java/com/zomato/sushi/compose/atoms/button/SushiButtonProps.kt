@@ -13,6 +13,26 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 
 /**
  * @author gupta.anirudh@zomato.com
+ *
+ * Properties for configuring a SushiButton component.
+ *
+ * @property text Primary text to display in the button
+ * @property subText Optional secondary text below the primary text
+ * @property type Button style type (Text, Solid, or Outline)
+ * @property size Button size variant (Small, Medium, or Large)
+ * @property fontColor Color for the button text
+ * @property fontType Typography style for the button text
+ * @property color Background color of the button
+ * @property borderColor Color of the button border (for Outline type)
+ * @property suffixIcon Optional icon to display after the button text
+ * @property prefixIcon Optional icon to display before the button text
+ * @property enabled Whether the button is enabled and can be interacted with
+ * @property horizontalArrangement How to arrange content horizontally in the button
+ * @property verticalAlignment How to align content vertically in the button
+ * @property textAlignment Horizontal alignment of text within the button
+ * @property markdown Whether to interpret text as markdown
+ * @property shape The shape of the button
+ * @property iconSpacing Spacing between icons and text
  */
 @Immutable
 data class SushiButtonProps(

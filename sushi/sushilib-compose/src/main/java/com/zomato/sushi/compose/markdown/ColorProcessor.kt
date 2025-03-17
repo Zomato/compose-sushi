@@ -15,6 +15,18 @@ import com.zomato.sushi.core.SushiColorToken
 import java.util.regex.Pattern
 
 /**
+ * Processor that applies custom text colors using curly brace syntax.
+ *
+ * This processor recognizes patterns like "{red-500|text}" and applies the specified
+ * color to the enclosed text. It integrates with the Sushi design system's color system
+ * to provide access to the full color palette.
+ *
+ * Format: {colorName[-variation[-alpha]]|text} where:
+ * - colorName: color name from SushiColors (e.g., "red", "blue", "green")
+ * - variation: optional variation/shade (e.g., 500, 700) - defaults to 500 if omitted
+ * - alpha: optional alpha value between 0 and 1 - defaults to 1 if omitted
+ * - text: content to be colored
+ *
  * @author gupta.anirudh@zomato.com
  */
 class ColorProcessor() : Processor {
@@ -28,8 +40,8 @@ class ColorProcessor() : Processor {
 
     companion object {
         private const val REGEX = "(\\{)(.+?)(\\|)((.|\\n)+?)(\\})"
-        const val COLOR_GROUP = 2
-        const val TEXT_GROUP = 4
+        private const val COLOR_GROUP = 2
+        private const val TEXT_GROUP = 4
     }
 
     override val cacheKeys: List<Any> @Composable get() = listOf(SushiTheme.colorTokenMapper)

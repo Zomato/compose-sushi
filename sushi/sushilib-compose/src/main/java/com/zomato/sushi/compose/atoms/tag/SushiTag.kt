@@ -35,6 +35,20 @@ import com.zomato.sushi.compose.modifiers.ifTrue
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
+ * A customizable tag component for the Sushi design system.
+ *
+ * SushiTag is a small, compact component typically used to display categories,
+ * attributes, or status information. It supports various visual styles (rounded,
+ * capsule, outlined, dashed), sizes, and optional prefix/suffix icons.
+ * 
+ * Tags can be interactive (clickable) or static, and can contain custom content
+ * or use the standard text and icon layout.
+ *
+ * @param props The properties to configure the tag's appearance and content
+ * @param modifier The modifier to be applied to the component
+ * @param content Optional custom content to replace the default tag layout
+ * @param onClick Optional callback for handling click events on the tag
+ *
  * Created by Kashish on 13,January,2025
  * Zomato, Gurgaon, India.
  */

@@ -28,6 +28,19 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 import kotlin.math.roundToInt
 
 /**
+ * A composable that displays an animated loading indicator with two concentric rotating arcs.
+ *
+ * SushiLoader provides a visually appealing loading animation using two concentric arcs
+ * that rotate at different angles. The component adapts to the available space while
+ * maintaining a minimum size to ensure visibility. The animation, colors, and angular
+ * relationship between arcs can be customized through props.
+ *
+ * The loader automatically scales to fill its container while maintaining proper proportions,
+ * making it suitable for various use cases from small inline loaders to large centered spinners.
+ *
+ * @param props The properties to configure the loader's appearance and behavior
+ * @param modifier The modifier to be applied to the component
+ *
  * @author gupta.anirudh@zomato.com
  */
 @Composable

@@ -52,10 +52,36 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 import com.zomato.sushi.compose.utils.toSp
 
 /**
- * Created by Nitin Kumar on 08/01/25.
+ * A customizable stepper component for the Sushi design system.
+ *
+ * SushiStepper provides an interactive control for incrementing and decrementing values,
+ * typically used for quantity selection. It features increment and decrement buttons,
+ * animated value transitions, and multiple size variants and visual styles.
+ *
+ * The component supports different states including:
+ * - Zero state (initially showing "ADD")
+ * - Count state (showing the current value)
+ * - Maximum count state (limiting increments)
+ * - Disabled state (with optional custom message)
+ *
+ * Features:
+ * - Multiple size variants
+ * - Customizable colors
+ * - Animated transitions between values
+ * - Support for maximum limits
+ * - Disabled state with custom message
+ * - Support for custom shapes
+ *
+ * @param props The properties to configure the stepper's appearance and behavior
+ * @param onIncrement Callback invoked when the increment button is clicked
+ * @param onDecrement Callback invoked when the decrement button is clicked
+ * @param onDisabledClick Callback invoked when the stepper is clicked while disabled
+ * @param onIncrementFail Callback invoked when attempting to increment beyond maxCount
+ * @param modifier The modifier to be applied to the component
+ *
+ * Created by Nitin Kumar on 08/01/25
  * Zomato, Gurgaon, India.
  */
-
 @Composable
 fun SushiStepper(
     props: SushiStepperProps,

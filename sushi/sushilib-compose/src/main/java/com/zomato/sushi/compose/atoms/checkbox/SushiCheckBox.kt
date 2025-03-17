@@ -37,6 +37,22 @@ import com.zomato.sushi.compose.internal.SushiPreview
 
 /**
  * @author gupta.anirudh@zomato.com
+ *
+ * A customizable checkbox component for the Sushi design system.
+ *
+ * SushiCheckBox provides a standard checkbox implementation with support for:
+ * - Different sizes (Mini, Default)
+ * - Primary and secondary text labels
+ * - Custom positioning (checkbox at start or end)
+ * - Vertical alignment control
+ * - Custom content through the infoContent parameter
+ * - Consistent styling with the design system
+ *
+ * @param props The properties to configure the checkbox appearance and behavior
+ * @param onCheckedChange Callback invoked when the checkbox checked state changes
+ * @param modifier The modifier to be applied to the component
+ * @param interactionSource Source of interactions for the checkbox
+ * @param infoContent Optional custom content to replace the standard text labels
  */
 @Composable
 fun SushiCheckBox(

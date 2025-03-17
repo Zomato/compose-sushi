@@ -7,12 +7,38 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 
+/**
+ * Provides default values and utility functions for SushiTextField components.
+ * These defaults are used when specific properties are not provided in SushiTextFieldProps.
+ */
 object SushiTextFieldDefaults {
+    /**
+     * Default shape for text fields with rounded corners.
+     */
     val shape = RoundedCornerShape(12.dp)
+    
+    /**
+     * Default text style for the input text.
+     */
     val textStyle @Composable get() = SushiTheme.typography.regular300.asTextTypeSpec()
+    
+    /**
+     * Default text style for supporting text displayed below the field.
+     */
     val supportTextStyle @Composable get() = SushiTheme.typography.regular100.asTextTypeSpec()
+    
+    /**
+     * Default text style for the label displayed above the field.
+     */
     val labelTextStyle @Composable get() = SushiTheme.typography.regular100.asTextTypeSpec()
 
+    /**
+     * Creates a default set of text field colors for an outlined text field.
+     * These colors are based on the current theme and follow the design system's
+     * color guidelines for text fields in different states.
+     *
+     * @return A SushiTextFieldColors object with all colors defined
+     */
     @Composable
     fun outlinedColors() = SushiTextFieldColors(
         focusedTextColor = SushiTheme.colors.text.primary,

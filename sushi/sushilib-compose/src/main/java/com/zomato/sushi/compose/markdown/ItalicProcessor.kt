@@ -8,6 +8,11 @@ import androidx.compose.ui.text.font.FontStyle
 import java.util.regex.Pattern
 
 /**
+ * Processor that applies italic formatting to text surrounded by underscores.
+ * 
+ * This processor recognizes text patterns like "_italic text_" and applies
+ * FontStyle.Italic styling to the content between the underscores.
+ *
  * @author gupta.anirudh@zomato.com
  */
 class ItalicProcessor() : Processor {
@@ -20,7 +25,7 @@ class ItalicProcessor() : Processor {
 
     companion object {
         private const val REGEX = "_(.*?)_"
-        const val TEXT_GROUP = 1
+        private const val TEXT_GROUP = 1
     }
 
     override val cacheKeys: List<Any> @Composable get() = emptyList()

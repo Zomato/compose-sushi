@@ -8,6 +8,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import java.util.regex.Pattern
 
 /**
+ * Processor that applies strikethrough formatting to text surrounded by double tildes.
+ * 
+ * This processor recognizes text patterns like "~~strikethrough text~~" and applies
+ * TextDecoration.LineThrough styling to the content between the tildes.
+ *
  * @author gupta.anirudh@zomato.com
  */
 class StrikethroughProcessor() : Processor {
@@ -20,7 +25,7 @@ class StrikethroughProcessor() : Processor {
 
     companion object {
         private const val REGEX = "~~(.*?)~~"
-        const val TEXT_GROUP = 1
+        private const val TEXT_GROUP = 1
     }
 
     override val cacheKeys: List<Any> @Composable get() = emptyList()

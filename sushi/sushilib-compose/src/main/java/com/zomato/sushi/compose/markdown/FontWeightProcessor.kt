@@ -21,6 +21,17 @@ import com.zomato.sushi.compose.foundation.fontWeight
 import java.util.regex.Pattern
 
 /**
+ * Processor that applies custom font weight and size to text based on angle bracket syntax.
+ *
+ * This processor recognizes patterns like "<bold-300|text>" and applies the specified
+ * font weight (bold) and size (300) to the enclosed text. It integrates with the Sushi
+ * design system's typography tokens to ensure consistent text styling.
+ *
+ * Format: <weight-size|text> where:
+ * - weight: font weight name (light, regular, medium, semibold, bold, extrabold)
+ * - size: numeric size value (50, 100, 200, etc. up to 900)
+ * - text: content to be styled
+ *
  * @author gupta.anirudh@zomato.com
  */
 class FontWeightProcessor(): Processor {

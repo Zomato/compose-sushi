@@ -41,37 +41,99 @@ import kotlin.math.sqrt
 import kotlin.math.tan
 
 /**
+ * Provides shimmer effect modifiers for Sushi components.
+ * 
+ * Shimmer effects are animated gradient overlays commonly used as loading indicators
+ * or to create visual interest. This implementation supports two main types of shimmer:
+ * overlay (which adds a shimmer on top of content) and filled (which replaces content
+ * with a shimmer placeholder).
+ *
  * @author gupta.anirudh@zomato.com
  */
+
+/**
+ * Defines the type of shimmer effect to apply.
+ */
 sealed interface SushiShimmerType {
+    /**
+     * A shimmer effect that replaces the composable content with a colored shape.
+     * 
+     * This type is useful for creating placeholder shimmer loaders where the content
+     * is hidden and replaced with a shimmer animation on a solid background.
+     *
+     * @property shape The shape to use for the shimmer effect
+     * @property shapeColor The background color of the shape
+     * @property color The color of the shimmer animation
+     */
     data class Filled(
         val shape: Shape,
         val shapeColor: Color,
         val color: Color
     ) : SushiShimmerType
 
+    /**
+     * A shimmer effect that overlays the composable content.
+     * 
+     * This type maintains the original content visibility but applies 
+     * a shimmer animation over it, clipped to the specified shape.
+     *
+     * @property color The color of the shimmer animation
+     * @property shape The shape to clip the shimmer effect to
+     */
     data class Overlay(
         val color: Color,
         val shape: Shape
     ) : SushiShimmerType
 }
 
+/**
+ * Defines how the shimmer animation progresses.
+ */
 sealed interface SushiShimmerProgress {
+    /**
+     * Automatically animates the shimmer effect in a continuous loop.
+     *
+     * @property duration Duration of a full shimmer animation cycle in milliseconds
+     */
     data class Auto(
         val duration: Long  // in ms
     ) : SushiShimmerProgress
 
     /**
-     * Value between 0..1, signifying the progress.
+     * Allows manual control of the shimmer animation progress.
+     * 
+     * This is useful for synchronizing shimmer effects with other animations
+     * or creating custom animation patterns.
+     *
+     * @property valueProvider Function that returns the current progress value (0.0 to 1.0)
      */
     @JvmInline value class Progress(val valueProvider: () -> Float) : SushiShimmerProgress
 }
 
+/**
+ * Default values for shimmer modifiers.
+ */
 object SushiShimmerDefaults {
+    /** Default shimmer type - overlay with white shimmer on a rectangle shape */
     val type = SushiShimmerType.Overlay(Color.White, RectangleShape)
+    
+    /** Default shimmer progress - automatic animation with 1000ms duration */
     val progress = SushiShimmerProgress.Auto(duration = 1000)
 }
 
+/**
+ * Applies a shimmer effect to a composable.
+ * 
+ * The shimmer effect creates an animated gradient that moves across the composable,
+ * commonly used to indicate loading states. The effect can either overlay the content
+ * or replace it entirely with a placeholder.
+ *
+ * @param enabled Whether the shimmer effect is enabled
+ * @param type The type of shimmer effect to apply (overlay or filled)
+ * @param progress How the shimmer animation should progress (auto or manually controlled)
+ * @param disableInteractions Whether to disable pointer interactions when shimmer is enabled
+ * @return A modifier with the shimmer effect applied
+ */
 fun Modifier.shimmer(
     enabled: Boolean,
     type: SushiShimmerType = SushiShimmerDefaults.type,
@@ -86,7 +148,7 @@ fun Modifier.shimmer(
     )
 )
 
-data class SushiShimmerModifierNodeElement(
+private data class SushiShimmerModifierNodeElement(
     val enabled: Boolean,
     val type: SushiShimmerType,
     val progress: SushiShimmerProgress,
@@ -110,7 +172,7 @@ data class SushiShimmerModifierNodeElement(
     }
 }
 
-class SushiShimmerModifierNode(
+private class SushiShimmerModifierNode(
     private var enabled: Boolean,
     private var type: SushiShimmerType,
     private var progress: SushiShimmerProgress,
@@ -201,7 +263,7 @@ class SushiShimmerModifierNode(
     }
 
     private fun DrawScope.drawShimmer(
-        progress: Float, // Progress value between 0f and 1f
+        progress: Float, 
         shimmerColor: Color,
         baseColor: Color,
         clipShape: Shape,

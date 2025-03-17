@@ -29,9 +29,20 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
 /**
+ * Configuration for creating gradient colors in the Sushi design system.
+ * 
+ * SushiGradientColorData provides a way to define gradient colors with various types
+ * (linear, radial, sweep) and configurations. It can be converted to a Compose Brush
+ * for use with background or other drawing operations.
+ *
+ * @property colors List of colors to use in the gradient
+ * @property shape Optional shape to apply to the gradient
+ * @property strokeColor Optional stroke color for the shape
+ * @property strokeWidth Optional stroke width for the shape
+ * @property type Type of gradient (Linear, Radial, or Sweep) and its configuration
+ *
  * @author gupta.anirudh@zomato.com
  */
-
 @Immutable
 data class SushiGradientColorData(
     val colors: PersistentList<ColorSpec> = persistentListOf(),
@@ -40,6 +51,10 @@ data class SushiGradientColorData(
     val strokeWidth: Dp? = null,
     val type: GradientType? = null
 ) {
+    /**
+     * Defines the direction for linear gradients.
+     * Each direction specifies a start point and end point for the gradient.
+     */
     enum class LinearDirection {
         TopToBottom,
         TopRightToBottomLeft,
@@ -51,7 +66,17 @@ data class SushiGradientColorData(
         TopLeftToBottomRight
     }
 
+    /**
+     * Defines the types of gradients supported by SushiGradientColorData.
+     */
     sealed interface GradientType {
+        /**
+         * Linear gradient configuration.
+         *
+         * @property direction The direction of the gradient
+         * @property size Optional size to calculate gradient endpoints
+         * @property tileMode How the gradient should repeat
+         */
         @Immutable
         data class Linear(
             val direction: LinearDirection? = null,
@@ -59,6 +84,13 @@ data class SushiGradientColorData(
             val tileMode: TileMode? = null
         ) : GradientType
 
+        /**
+         * Radial gradient configuration.
+         *
+         * @property center Center point of the gradient
+         * @property radius Radius of the gradient
+         * @property tileMode How the gradient should repeat
+         */
         @Immutable
         data class Radial(
             val center: Offset? = null,
@@ -66,6 +98,11 @@ data class SushiGradientColorData(
             val tileMode: TileMode? = null
         ) : GradientType
 
+        /**
+         * Sweep gradient (also known as angular or conical gradient) configuration.
+         *
+         * @property center Center point of the gradient
+         */
         @Immutable
         data class Sweep(
             val center: Offset? = null
@@ -73,10 +110,23 @@ data class SushiGradientColorData(
     }
 }
 
+/**
+ * A Size with infinite dimensions, used as a default for gradient calculations.
+ */
 private val Size.Companion.Infinite: Size get() = Size(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
 
+/**
+ * Default direction for linear gradients.
+ */
 val defaultLinearDirection: SushiGradientColorData.LinearDirection = SushiGradientColorData.LinearDirection.LeftToRight
 
+/**
+ * Converts a SushiGradientColorData to a Compose Brush that can be used for drawing.
+ *
+ * @param defaultTileMode The default tile mode to use if not specified in the gradient type
+ * @param defaultGradientType The default gradient type to use if not specified in the SushiGradientColorData
+ * @return A Compose Brush representing the gradient
+ */
 @Composable
 fun SushiGradientColorData.toBrush(
     defaultTileMode: TileMode = TileMode.Clamp,
@@ -128,6 +178,12 @@ fun SushiGradientColorData.toBrush(
     }
 }
 
+/**
+ * Calculates the start offset for a linear gradient based on the direction and size.
+ *
+ * @param size The size to use for calculating coordinates
+ * @return The start offset for the gradient
+ */
 fun SushiGradientColorData.LinearDirection.startOffset(size: Size): Offset = when (this) {
     TopToBottom -> Offset(size.width / 2, 0f)
     TopRightToBottomLeft -> Offset(size.width, 0f)
@@ -139,6 +195,12 @@ fun SushiGradientColorData.LinearDirection.startOffset(size: Size): Offset = whe
     TopLeftToBottomRight -> Offset(0f, 0f)
 }
 
+/**
+ * Calculates the end offset for a linear gradient based on the direction and size.
+ *
+ * @param size The size to use for calculating coordinates
+ * @return The end offset for the gradient
+ */
 fun SushiGradientColorData.LinearDirection.endOffset(size: Size): Offset = when (this) {
     TopToBottom -> Offset(size.width / 2, size.height)
     TopRightToBottomLeft -> Offset(0f, size.height)

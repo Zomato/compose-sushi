@@ -5,6 +5,10 @@ import androidx.compose.material3.darkColorScheme
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 
 /**
+ * Creates a dark-themed color scheme for the Sushi design system.
+ *
+ * The function is designed to be used directly or as a base for more specialized theme variants.
+ *
  * @author gupta.anirudh@zomato.com
  */
 fun sushiDarkColorScheme(

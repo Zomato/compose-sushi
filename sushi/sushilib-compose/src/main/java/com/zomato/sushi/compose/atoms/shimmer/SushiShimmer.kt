@@ -38,17 +38,31 @@ import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 
-private object Defaults {
-
-    val bgColor @Composable get() = SushiTheme.colors.surface.shimmer
-    val animationColor @Composable get() = SushiTheme.colors.surface.primary
-
-    const val WIDTH = 500f
-    const val ANGLE_OFFSET = 270f
-    const val ANIMATION_DURATION = 1000
-    const val ANIMATION_DELAY = 50
-}
-
+/**
+ * A composable that displays a shimmer loading effect over placeholder content.
+ * 
+ * SushiShimmer creates a shimmering animation effect typically used to indicate
+ * loading states in UI. It provides a scope that allows creating shimmer effects
+ * over custom shapes and text elements.
+ * 
+ * Usage example:
+ * ```
+ * SushiShimmer(SushiShimmerProps()) {
+ *   Row(Modifier.fillMaxWidth()) {
+ *     // A circular shimmer item
+ *     ShimmerItem(Modifier.size(50.dp).clip(CircleShape))
+ *     
+ *     // A rectangular shimmer item
+ *     ShimmerItem(Modifier.fillMaxWidth().height(20.dp))
+ *   }
+ * }
+ * ```
+ *
+ * @param props The properties to configure the shimmer appearance and behavior
+ * @param modifier The modifier to be applied to the component
+ * @param shimmerContent The content to display with the shimmer effect, using
+ *                      functions provided by the SushiShimmerScope
+ */
 @Composable
 fun SushiShimmer(
     props: SushiShimmerProps,
@@ -71,17 +85,17 @@ fun SushiShimmer(
 
 @SuppressLint("ComposeModifierReused")
 @Composable
-fun SushiShimmerImpl(
+private fun SushiShimmerImpl(
     props: SushiShimmerProps,
     modifier: Modifier = Modifier,
     shimmerContent: (@Composable SushiShimmerScope.() -> Unit)
 ) {
-    val bgColor = props.bgColor?.value ?: Defaults.bgColor.value
-    val animationColor = props.animationColor?.value ?: Defaults.animationColor.value
-    val animationWidth = props.animationWidth?.dp?.value ?: Defaults.WIDTH
-    val angleOffset = props.angleOffset?.dp?.value ?: Defaults.ANGLE_OFFSET
-    val animationDuration = props.animationDuration ?: Defaults.ANIMATION_DURATION
-    val animationDelay = props.animationDelay ?: Defaults.ANIMATION_DELAY
+    val bgColor = props.bgColor?.value ?: SushiShimmerDefaults.bgColor.value
+    val animationColor = props.animationColor?.value ?: SushiShimmerDefaults.animationColor.value
+    val animationWidth = props.animationWidth?.dp?.value ?: SushiShimmerDefaults.WIDTH
+    val angleOffset = props.angleOffset?.dp?.value ?: SushiShimmerDefaults.ANGLE_OFFSET
+    val animationDuration = props.animationDuration ?: SushiShimmerDefaults.ANIMATION_DURATION
+    val animationDelay = props.animationDelay ?: SushiShimmerDefaults.ANIMATION_DELAY
 
     val shimmerColors = listOf(
         bgColor,
@@ -133,14 +147,6 @@ fun SushiShimmerImpl(
     Box(modifier) {
         shimmerScope.shimmerContent()
     }
-}
-
-interface SushiShimmerScope {
-    @Composable
-    fun ShimmerItem(modifier: Modifier)
-
-    @Composable
-    fun ShimmerText(sushiTextProps: SushiTextProps, modifier: Modifier)
 }
 
 @SushiPreview
