@@ -41,9 +41,26 @@ import com.zomato.sushi.compose.internal.SushiPreview
 import kotlin.math.min
 
 /**
+ * A customizable OTP (One-Time Password) input field component for the Sushi design system.
+ * 
+ * SushiOTPTextField provides a series of individual input fields for entering verification
+ * codes, with automatic focus management and styling consistent with the Sushi design system.
+ * This variant uses a filled visual style.
+ *
+ * @param modifier The modifier to be applied to the component
+ * @param state State controlling the OTP value and behavior
+ * @param enabled Whether the input fields are enabled
+ * @param readOnly Whether the input fields are read-only
+ * @param isError Whether to display the component in an error state
+ * @param autoFocus Whether to automatically focus the first input field when displayed
+ * @param textStyle The style to apply to the input text
+ * @param colors Colors configuration for different states of the component
+ * @param visualTransformation Transformation to apply to the input text (e.g., for masking)
+ * @param keyboardType The type of keyboard to show for input
+ * @param onComplete Callback invoked when all fields are filled with digits
+ *
  * @author gupta.anirudh@zomato.com
  */
-
 @Composable
 fun SushiOTPTextField(
     modifier: Modifier = Modifier,
@@ -80,6 +97,14 @@ fun SushiOTPTextField(
 
 }
 
+/**
+ * A variant of SushiOTPTextField with outlined visual style.
+ * 
+ * Each input field is displayed with a border outline rather than a filled background.
+ * All other behavior is identical to the standard SushiOTPTextField.
+ *
+ * @see SushiOTPTextField for parameter descriptions
+ */
 @Composable
 fun SushiOutlinedOTPTextField(
     modifier: Modifier = Modifier,
@@ -115,6 +140,14 @@ fun SushiOutlinedOTPTextField(
     }
 }
 
+/**
+ * A variant of SushiOTPTextField with underlined visual style.
+ * 
+ * Each input field is displayed with only a bottom border line rather than a full outline.
+ * All other behavior is identical to the standard SushiOTPTextField.
+ *
+ * @see SushiOTPTextField for parameter descriptions
+ */
 @Composable
 fun SushiUnderlinedOTPTextField(
     modifier: Modifier = Modifier,
@@ -321,6 +354,15 @@ private fun OTPTextFieldItem(
     )
 }
 
+/**
+ * Creates and remembers an OTP state for the given length.
+ * 
+ * This function provides a convenient way to create an OTP state object with
+ * access to the necessary dependencies for focus management and keyboard control.
+ *
+ * @param length The number of digits in the OTP
+ * @return A new SushiOTPState instance
+ */
 @Composable
 fun rememberOtpState(length: Int): SushiOTPState {
     val focusManager = LocalFocusManager.current

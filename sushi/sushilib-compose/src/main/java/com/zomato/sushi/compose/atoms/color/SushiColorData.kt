@@ -18,6 +18,21 @@ private sealed class ColorDataInfo private constructor() {
 }
 
 /**
+ * A color specification that integrates with the Sushi design system's color management.
+ *
+ * SushiColorData provides a type-safe way to reference and use colors from the design system,
+ * supporting both semantic color tokens and named colors with specific tints. It automatically
+ * adapts to theme changes and ensures consistent color usage throughout the application.
+ *
+ * Colors can be created in two primary ways:
+ * 1. From a SushiColorToken (semantic reference like "primary", "secondary")
+ * 2. From a ColorName and ColorVariation combination (like "Red500" or "Blue300")
+ * 
+ * Both approaches support optional alpha (transparency) values.
+ *
+ * @property colorInfo Internal representation of how the color is defined
+ * @property alpha Transparency value between 0.0 (transparent) and 1.0 (opaque)
+ * 
  * @author gupta.anirudh@zomato.com
  */
 @Stable
@@ -26,7 +41,21 @@ data class SushiColorData private constructor(
     private val alpha: Double = DEFAULT_ALPHA
 ) : ColorSpec {
 
+    /**
+     * Creates a SushiColorData from a color token and optional alpha.
+     * 
+     * @param token The SushiColorToken to use (e.g., primary, secondary)
+     * @param alpha Transparency value between 0.0 (transparent) and 1.0 (opaque)
+     */
     constructor(token: SushiColorToken, alpha: Double = 1.0) : this(ColorDataInfo.Token(token), alpha)
+    
+    /**
+     * Creates a SushiColorData from a color name, tint variation, and optional alpha.
+     * 
+     * @param colorName The name of the color (e.g., Red, Blue, Green)
+     * @param tint The tint/variation of the color (e.g., 100, 500, 900)
+     * @param alpha Transparency value between 0.0 (transparent) and 1.0 (opaque)
+     */
     constructor(colorName: ColorName, tint: ColorVariation = DEFAULT_TINT, alpha: Double = 1.0) : this(ColorDataInfo.NameTint(colorName, tint), alpha)
 
     override val value: Color
@@ -50,7 +79,16 @@ data class SushiColorData private constructor(
         }
 
     companion object {
-
+        /**
+         * Creates a SushiColorData from a color token and optional alpha.
+         * 
+         * This factory method provides a more readable alternative to the constructor
+         * for creating color data from tokens.
+         * 
+         * @param token The SushiColorToken to use (e.g., primary, secondary)
+         * @param alpha Transparency value between 0.0 (transparent) and 1.0 (opaque)
+         * @return A SushiColorData instance using the specified token
+         */
         fun fromToken(
             token: SushiColorToken,
             alpha: Double = DEFAULT_ALPHA
@@ -61,6 +99,17 @@ data class SushiColorData private constructor(
             )
         }
 
+        /**
+         * Creates a SushiColorData from a color name, tint variation, and optional alpha.
+         * 
+         * This factory method provides a more readable alternative to the constructor
+         * for creating color data from named colors.
+         * 
+         * @param colorName The name of the color (e.g., Red, Blue, Green)
+         * @param tint The tint/variation of the color (e.g., 100, 500, 900)
+         * @param alpha Transparency value between 0.0 (transparent) and 1.0 (opaque)
+         * @return A SushiColorData instance using the specified color name and tint
+         */
         fun fromColorName(
             colorName: ColorName,
             tint: ColorVariation = DEFAULT_TINT,

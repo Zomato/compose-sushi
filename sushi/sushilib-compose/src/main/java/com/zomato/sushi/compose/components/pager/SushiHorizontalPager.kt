@@ -18,6 +18,26 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
+ * A horizontal pager component for the Sushi design system.
+ *
+ * Use this component to create horizontal carousels, image galleries, onboarding flows,
+ * or any UI that requires paging through content in a horizontal direction.
+ *
+ * @param state The state object to control and observe the pager's state
+ * @param modifier The modifier to be applied to the pager
+ * @param contentPadding Padding to be applied to the pager content
+ * @param pageSize Strategy defining how pages should be sized
+ * @param beyondViewportPageCount The number of pages to keep loaded beyond the visible viewport
+ * @param pageSpacing Spacing between each page
+ * @param verticalAlignment Vertical alignment of each page within the pager
+ * @param flingBehavior The fling behavior that defines how the pager should handle fling gestures
+ * @param userScrollEnabled Whether user scrolling is enabled
+ * @param reverseLayout Whether the layout should be reversed (right to left instead of left to right)
+ * @param key Optional lambda to provide a unique key for each page, improving performance for dynamic content
+ * @param pageNestedScrollConnection Nested scroll connection to be applied to each page
+ * @param snapPosition Position to which the pages should snap
+ * @param pageContent Content to be displayed for each page
+ *
  * @author gupta.anirudh@zomato.com
  */
 @Composable

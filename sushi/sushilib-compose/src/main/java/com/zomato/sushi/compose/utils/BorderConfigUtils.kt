@@ -12,12 +12,31 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 
 /**
- * Created by Nitin Kumar on 18/01/25.
- * Zomato, Gurgaon, India.
+ * Utility functions and classes for creating and applying custom border styles to composables.
+ *
+ * @author Nitin Kumar (18/01/25)
  */
 
+/**
+ * Base sealed class for different types of border configurations.
+ * 
+ * This class serves as the foundation for a type-safe way to define various border styles.
+ * New border types can be added by extending this sealed class.
+ */
 sealed class BorderConfig
 
+/**
+ * Configuration for a dashed border style.
+ * 
+ * Defines all the visual properties needed to render a dashed border around a composable,
+ * including color, width, dash pattern, and shape.
+ *
+ * @property color The color of the border
+ * @property width The thickness of the border line
+ * @property dashWidth The width of each dash in the pattern
+ * @property dashGap The gap between each dash in the pattern
+ * @property shape The shape to apply the border to (e.g., rectangle, rounded corner)
+ */
 data class DashedBorderConfig(
     val color: Color,
     val width: Dp,
@@ -26,6 +45,16 @@ data class DashedBorderConfig(
     val shape: Shape
 ) : BorderConfig()
 
+/**
+ * Applies a border to a composable based on the provided configuration.
+ * 
+ * This function serves as a dispatcher that routes to the appropriate border implementation
+ * based on the type of BorderConfig provided. This allows for a consistent API while
+ * supporting multiple border styles.
+ *
+ * @param config The border configuration to apply, or null for no border
+ * @return A modifier with the specified border applied, or the original modifier if config is null
+ */
 fun Modifier.border(config: BorderConfig?): Modifier {
     config ?: return this
     return when (config) {
@@ -37,6 +66,16 @@ fun Modifier.border(config: BorderConfig?): Modifier {
     }
 }
 
+/**
+ * Applies a dashed border to a composable with the specified configuration.
+ * 
+ * This function draws a dashed border that follows the outline of the specified shape.
+ * It correctly handles different shape types (rectangle, rounded rectangle, or custom path)
+ * to ensure the border properly follows the shape's edges.
+ *
+ * @param config The dashed border configuration, or null for no border
+ * @return A modifier with the dashed border applied, or the original modifier if config is null
+ */
 fun Modifier.dashedBorder(
     config: DashedBorderConfig? = null
 ): Modifier {
@@ -59,7 +98,7 @@ fun Modifier.dashedBorder(
             size = size, layoutDirection = layoutDirection, density = this
         )
 
-        // Draw the border
+        // Draw the border based on the outline type
         when (outline) {
             is Outline.Rectangle -> {
                 drawRect(

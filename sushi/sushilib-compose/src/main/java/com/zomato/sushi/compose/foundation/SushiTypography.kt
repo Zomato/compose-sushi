@@ -5,6 +5,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 
 /**
+ * Creates a SushiTypography instance with the provided text styles or defaults.
+ * 
+ * This function allows customization of the typography system while providing sensible
+ * defaults for all text styles. It enables consistent typography across the application
+ * with the option to override specific styles as needed.
+ *
+ * @param materialTypography Material3 Typography to be used by Material components
+ * @param fontFamily The font family to apply to all text styles
+ * @param light050 through extraBold900 Text styles for all weight/size combinations
+ * @return A fully configured SushiTypography instance
+ *
  * @author gupta.anirudh@zomato.com
  */
 fun sushiTypography(

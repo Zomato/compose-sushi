@@ -31,9 +31,15 @@ import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
+ * Creates and remembers SushiAnimationProps from the provided source and playback configuration.
+ * This composable function helps maintain state for animation properties.
+ *
+ * @param source The animation source to be displayed
+ * @param playback The playback configuration controlling how the animation plays
+ * @return A State object containing the animation properties
+ *
  * @author gupta.anirudh@zomato.com
  */
-
 @Composable
 fun rememberSushiAnimationProps(
     source: SushiAnimationSource?,
@@ -49,6 +55,15 @@ fun rememberSushiAnimationProps(
     }
 }
 
+/**
+ * A composable component for displaying animations in the Sushi design system.
+ * Supports Lottie animations from various sources with customizable playback behavior.
+ *
+ * @param props The properties to configure the animation appearance and behavior
+ * @param modifier The modifier to be applied to the component
+ *
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 fun SushiAnimation(
     props: SushiAnimationProps,

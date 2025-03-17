@@ -6,6 +6,20 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 
 /**
+ * Comprehensive color scheme for the Sushi design system.
+ *
+ * SushiColorScheme organizes all colors used throughout the design system in a structured
+ * manner, allowing for consistent theming and automatic light/dark mode adaptations.
+ * It includes both base color palettes (reds, greens, blues, etc.) and semantic color
+ * groupings for specific UI elements (text, icons, surfaces, etc.).
+ *
+ * This class serves as the central point of color definition for the entire design system,
+ * ensuring that components maintain visual consistency while adapting to theme changes.
+ * Each color family is organized in its own nested data class, making it easy to navigate
+ * and use.
+ *
+ * @property schemeType Type of color scheme (Light or Dark)
+ * @property material Material3 ColorScheme for integration with standard Material components
  * @author gupta.anirudh@zomato.com
  */
 @Immutable
@@ -399,7 +413,11 @@ data class SushiColorScheme(
         val accentColor: ColorSpec = Red600,
     )
 
-    // Base
+    /**
+     * Raw color bases without theme adaptation.
+     * These colors are direct references to the raw color tokens and don't
+     * change between light and dark themes.
+     */
     @Immutable
     data class BaseColorScheme(
         val grey: GreyColorScheme = GreyColorScheme(

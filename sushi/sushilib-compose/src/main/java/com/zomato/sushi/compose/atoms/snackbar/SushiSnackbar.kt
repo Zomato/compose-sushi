@@ -37,6 +37,18 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 import kotlinx.coroutines.launch
 
 /**
+ * A composable that displays a snackbar message with an optional action.
+ *
+ * SushiSnackbar provides brief feedback about operations through a message at the
+ * bottom of the screen. It can include an action button and customizable styling.
+ * Snackbars are typically used to inform users of a process that an app has performed
+ * or will perform, and provide an opportunity to respond or undo that action.
+ *
+ * @param props The properties to configure the snackbar's appearance and content
+ * @param modifier The modifier to be applied to the component
+ * @param onActionTap Callback invoked when the action button is clicked
+ * @param content Optional custom content to replace the default snackbar layout
+ *
  * @author gupta.anirudh@zomato.com
  */
 

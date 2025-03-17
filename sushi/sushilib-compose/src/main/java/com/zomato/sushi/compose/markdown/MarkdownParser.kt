@@ -5,6 +5,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.text.AnnotatedString
 
 /**
+ * Main parser for transforming markdown text into styled AnnotatedString.
+ * 
+ * MarkdownParser orchestrates a chain of processors to transform plain text with
+ * markdown syntax into richly styled text. It supports a variety of formatting
+ * including bold, italic, colors, and links through its configurable processor pipeline.
+ *
+ * @property processors The list of processors to apply in sequence
+ *
  * @author gupta.anirudh@zomato.com
  */
 class MarkdownParser private constructor(
@@ -12,6 +20,10 @@ class MarkdownParser private constructor(
 ) {
 
     companion object {
+        /**
+         * Default parser instance with standard processors pre-configured.
+         * Includes support for bold, italic, strikethrough, colors, font weights, and links.
+         */
         val default by lazy {
             MarkdownParser.Builder()
                 .processor(BoldProcessor())
@@ -24,6 +36,17 @@ class MarkdownParser private constructor(
         }
     }
 
+    /**
+     * Parses a text string with markdown syntax into an AnnotatedString.
+     * 
+     * This method applies all configured processors in sequence, with memoization
+     * for performance optimization. Each processor transforms the text based on its
+     * specific markdown syntax rules.
+     *
+     * @param text The text containing markdown syntax to parse
+     * @param props Configuration properties for the parser
+     * @return An AnnotatedString with all styles applied
+     */
     @Composable
     fun parse(
         text: CharSequence,
@@ -46,17 +69,37 @@ class MarkdownParser private constructor(
         return result
     }
 
+    /**
+     * Builder for constructing MarkdownParser instances with custom processor configurations.
+     */
     class Builder {
         private var processors: MutableList<Processor> = mutableListOf()
 
+        /**
+         * Adds a single processor to the parser configuration.
+         *
+         * @param processor The processor to add
+         * @return This builder for method chaining
+         */
         fun processor(processor: Processor): Builder = this.apply {
             this.processors.add(processor)
         }
 
+        /**
+         * Adds multiple processors to the parser configuration.
+         *
+         * @param processors The processors to add
+         * @return This builder for method chaining
+         */
         fun processors(vararg processors: Processor): Builder  = this.apply {
             this.processors.addAll(processors.toList())
         }
 
+        /**
+         * Creates a MarkdownParser with the configured processors.
+         *
+         * @return A new MarkdownParser instance
+         */
         fun build(): MarkdownParser {
             return MarkdownParser(
                 processors = processors

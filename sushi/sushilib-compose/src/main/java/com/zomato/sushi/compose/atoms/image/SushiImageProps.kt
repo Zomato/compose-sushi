@@ -12,6 +12,25 @@ import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiUnspecified
 
 /**
+ * Properties for configuring a SushiImage component.
+ *
+ * SushiImageProps encapsulates all the parameters needed to customize the appearance
+ * and behavior of an image in the Sushi design system. It provides extensive control
+ * over size, shape, content scaling, color filters, and more.
+ *
+ * @property painter The painter responsible for drawing the image content
+ * @property bgColor The background color behind the image
+ * @property aspectRatio The width to height ratio to maintain (e.g., 16/9 = 1.78)
+ * @property height The explicit height for the image (optional)
+ * @property width The explicit width for the image (optional)
+ * @property shape The shape to clip the image to (e.g., RoundedCornerShape)
+ * @property contentDescription Accessibility description of the image for screen readers
+ * @property contentScale How the image should be scaled within its bounds (e.g., Fit, Crop)
+ * @property alpha Opacity level from 0.0 (transparent) to 1.0 (opaque)
+ * @property scaleFactor Additional scaling factor applied to the image size
+ * @property alignment How the image should be aligned within its bounds
+ * @property colorFilter Optional filter to apply color transformations to the image
+ *
  * @author gupta.anirudh@zomato.com
  */
 @Immutable

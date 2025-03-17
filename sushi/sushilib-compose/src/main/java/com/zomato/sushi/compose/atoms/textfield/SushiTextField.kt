@@ -28,6 +28,30 @@ import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 
+/**
+ * A customizable text input field component for the Sushi design system.
+ * 
+ * SushiTextField provides a standard text field with support for:
+ * - Labels and placeholder text
+ * - Error states and support text
+ * - Prefix and suffix text/icons
+ * - Custom styling via colors and shapes
+ * - Keyboard options and actions
+ * - Accessibility features
+ *
+ * This component wraps the Material3 OutlinedTextField to maintain consistency
+ * with the design system while leveraging the functionality of the standard component.
+ *
+ * @param props The properties to configure the text field's appearance and behavior
+ * @param onValueChange Callback that provides the updated text when the user edits the field
+ * @param modifier The modifier to be applied to the component
+ * @param interactionSource Optional interaction source that will be used to handle interactions with the text field
+ * @param prefix Optional custom content to display at the start of the text field
+ * @param suffix Optional custom content to display at the end of the text field
+ * @param label Optional custom content to display as the text field label
+ * @param supportingText Optional custom content to display as supporting text below the field
+ * @param placeholder Optional custom content to display when the field is empty
+ */
 @Composable
 fun SushiTextField(
     props: SushiTextFieldProps,

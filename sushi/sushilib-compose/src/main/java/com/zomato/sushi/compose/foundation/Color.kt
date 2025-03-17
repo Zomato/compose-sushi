@@ -5,6 +5,15 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 
 /**
+ * Theme-aware color declarations for the Sushi design system.
+ *
+ * This file defines ColorSpec instances for all the color families in the design system.
+ * Unlike the raw color tokens, these ColorSpec instances automatically adapt to the
+ * current theme (light or dark) through the [ColorSchemeTypeAdaptedColorSpec] implementation.
+ *
+ * In dark mode, these values are typically inverted (e.g., Grey050 in light mode becomes
+ * Grey900 in dark mode) to maintain proper contrast and visual hierarchy.
+ *
  * @author gupta.anirudh@zomato.com
  */
 

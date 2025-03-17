@@ -34,6 +34,26 @@ import com.zomato.sushi.compose.modifiers.scaleonpress.scaleOnPress
 import com.zomato.sushi.compose.modifiers.scaleonpress.scaleOnPressAnchor
 
 /**
+ * A customizable rating bar component for the Sushi design system.
+ *
+ * SushiRatingBar displays a row of stars that can be partially or fully filled to represent
+ * a rating value. Users can interact with the rating bar to select a rating by tapping on
+ * the stars. The component provides visual feedback through scaling animations when pressed.
+ * 
+ * Use this component to collect user ratings or display rating information for items like
+ * restaurants, products, or services.
+ * 
+ * Features:
+ * - Support for fractional ratings (partial stars)
+ * - Customizable number of stars
+ * - Adjustable spacing between stars
+ * - Optional color tinting
+ * - Interactive with press animations
+ *
+ * @param props The properties to configure the rating bar's appearance
+ * @param onRatingChange Callback that provides the updated rating when a user interacts with the component
+ * @param modifier The modifier to be applied to the component
+ *
  * @author gupta.anirudh@zomato.com
  */
 @Composable

@@ -27,6 +27,35 @@ import com.zomato.sushi.compose.internal.SushiPreview
 
 /**
  * @author gupta.anirudh@zomato.com
+ *
+ * A unified media component for the Sushi design system that can display different types of media.
+ *
+ * SushiMedia provides a single interface for displaying various types of visual content,
+ * currently supporting static images and animations. It automatically renders the appropriate
+ * component based on the type of media specified in the properties.
+ *
+ * This abstraction allows for easier transitions between different media types and
+ * provides a consistent API for displaying visual content.
+ *
+ * Usage examples:
+ * ```
+ * // Display an image
+ * SushiMedia(
+ *   props = SushiMediaProps.Image(imageProps),
+ *   modifier = Modifier.size(200.dp)
+ * )
+ * 
+ * // Display an animation
+ * SushiMedia(
+ *   props = SushiMediaProps.Animation(animationProps),
+ *   modifier = Modifier.size(200.dp)
+ * )
+ * ```
+ *
+ * @param props The properties specifying which type of media to render and its configuration
+ * @param modifier The modifier to be applied to the component
+ * 
+ * @author gupta.anirudh@zomato.com
  */
 @Composable
 fun SushiMedia(
@@ -51,7 +80,7 @@ fun SushiMedia(
 
 @SushiPreview
 @Composable
-private fun ZMediaPreview1() {
+private fun SushiMediaPreview1() {
     SushiPreview {
         val animationProps by rememberSushiAnimationProps(
             source = LottieAssetSource("collection_lottie.json"),

@@ -31,6 +31,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
+ * A composable that displays page indicators for carousel or pager components.
+ * 
+ * SushiIndicator integrates with Compose's PagerState to automatically reflect
+ * the current page and animate transitions between pages.
+ *
+ * @param dotCount The total number of pages to display indicators for
+ * @param type The visual style of the indicators (Balloon, Shift, or Spring)
+ * @param pagerState The state of the associated pager component
+ * @param modifier Additional modifiers to apply to the indicator
+ * @param dotSpacing Spacing between adjacent dots
+ *
  * @author gupta.anirudh@zomato.com
  */
 
@@ -56,6 +67,20 @@ fun SushiIndicator(
     )
 }
 
+/**
+ * A composable that displays page indicators with manual control over page state.
+ * 
+ * This version of SushiIndicator accepts direct input for the current page and offset,
+ * which is useful when integrating with custom paging solutions or for animation previews.
+ *
+ * @param dotCount The total number of pages to display indicators for
+ * @param type The visual style of the indicators (Balloon, Shift, or Spring)
+ * @param currentPage The current page index (integer value)
+ * @param currentPageOffsetFraction Provider function for the fractional offset of the current page
+ * @param modifier Additional modifiers to apply to the indicator
+ * @param dotSpacing Spacing between adjacent dots
+ * @param onDotClicked Optional callback for when a dot is clicked
+ */
 @Composable
 fun SushiIndicator(
     dotCount: Int,

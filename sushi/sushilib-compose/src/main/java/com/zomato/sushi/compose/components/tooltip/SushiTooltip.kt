@@ -48,6 +48,23 @@ import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 import kotlinx.coroutines.launch
 
+/**
+ * A wrapper around Material 3's TooltipBox that provides a consistent interface
+ * for tooltip functionality within the Sushi design system.
+ *
+ * This composable handles the positioning and input behavior of tooltips, while
+ * delegating visual appearance to SushiTooltip.
+ *
+ * @param positionProvider Provider that determines tooltip position relative to anchor
+ * @param tooltip Tooltip content to be displayed when triggered
+ * @param state State object that controls when the tooltip is shown or hidden
+ * @param modifier Modifier to be applied to the tooltip container
+ * @param focusable Whether the tooltip can receive focus
+ * @param enableUserInput Whether user interactions can trigger the tooltip
+ * @param content The anchor content that the tooltip will be attached to
+ *
+ * @author gupta.anirudh@zomato.com
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SushiTooltipBox(
@@ -76,6 +93,22 @@ private val TooltipMinHeight = 24.dp
 private val SpacingBetweenTooltipAndAnchor = 4.dp
 private val ContainerElevation = 3.dp
 
+/**
+ * A composable that displays a tooltip with customizable content, caret (pointer),
+ * and styling based on the Sushi design system.
+ *
+ * The tooltip can contain text, prefix/suffix images, and supports a caret that
+ * points to the anchor element. The tooltip's position is automatically adjusted
+ * based on available screen space.
+ *
+ * This component must be used within a TooltipScope, typically provided by SushiTooltipBox.
+ *
+ * @param props The properties to configure the tooltip appearance and content
+ * @param modifier The modifier to be applied to the tooltip
+ * @param content Optional custom content to display inside the tooltip instead of the default
+ *
+ * @author gupta.anirudh@zomato.com
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TooltipScope.SushiTooltip(

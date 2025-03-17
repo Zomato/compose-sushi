@@ -62,6 +62,25 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
  * @author gupta.anirudh@zomato.com
+ *
+ * A customizable text component that supports various styling options, decorations, prefix/suffix icons,
+ * and expandable text functionality.
+ *
+ * Features:
+ * - Text styling with different typography styles
+ * - Optional prefix and suffix icons or custom composables
+ * - Text decorations like underline and strikethrough
+ * - Support for markdown formatting
+ * - Expandable text with "read more" functionality
+ * - Text alignment and arrangement customization
+ *
+ * @param props The properties to configure the text appearance and behavior
+ * @param modifier The modifier to be applied to the component
+ * @param prefix An optional composable to display before the text
+ * @param suffix An optional composable to display after the text
+ * @param onTextLayout Callback that provides the text layout information
+ * @param onClick Optional callback to handle click events on the text
+ *
  */
 @Composable
 fun SushiText(

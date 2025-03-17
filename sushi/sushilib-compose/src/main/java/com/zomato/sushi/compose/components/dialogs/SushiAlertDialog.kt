@@ -41,6 +41,23 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 
 /**
+ * A customizable alert dialog component for the Sushi design system.
+ *
+ * SushiAlertDialog provides a modal dialog for displaying important information
+ * or requesting user decisions. It supports an optional header image, title, subtitle,
+ * custom content, and up to three action buttons.
+ * 
+ * The dialog can be configured with different button layouts (vertical or horizontal)
+ * and dismissal behaviors.
+ *
+ * @param props The properties to configure the dialog's appearance and behavior
+ * @param onDismissRequest Callback that will be called when the user tries to dismiss the dialog
+ * @param modifier The modifier to be applied to the component
+ * @param onPositiveButtonClick Optional callback for when the positive button is clicked
+ * @param onNegativeButtonClick Optional callback for when the negative button is clicked
+ * @param onNeutralButtonClick Optional callback for when the neutral button is clicked
+ * @param content The custom content to be displayed in the body of the dialog
+ *
  * Created by Piyush Maheswari on 07/01/25
  * Zomato, Gurgaon, India.
  **/
@@ -75,7 +92,7 @@ fun SushiAlertDialog(
 }
 
 @Composable
-fun SushiAlertDialogImpl(
+private fun SushiAlertDialogImpl(
     props: SushiAlertDialogProps,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,

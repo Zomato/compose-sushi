@@ -30,6 +30,24 @@ import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
+ * A customizable toggle switch component for the Sushi design system.
+ *
+ * SushiSwitch provides a standard switch component with support for:
+ * - Primary and secondary text labels
+ * - Custom positioning (switch at start or end)
+ * - Vertical alignment control
+ * - Customizable colors
+ * - Custom content through the infoContent parameter
+ * - Accessibility through semantic properties
+ *
+ * Switches are typically used to toggle between two states (on/off) for a single option.
+ *
+ * @param props The properties to configure the switch appearance and behavior
+ * @param onCheckedChange Callback invoked when the switch state changes
+ * @param modifier The modifier to be applied to the component
+ * @param interactionSource Source of interactions for the switch
+ * @param infoContent Optional custom content to replace the standard text labels
+ *
  * @author gupta.anirudh@zomato.com
  */
 @Composable

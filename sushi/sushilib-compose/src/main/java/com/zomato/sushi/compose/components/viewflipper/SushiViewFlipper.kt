@@ -46,6 +46,27 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
 
+/**
+ * A composable that automatically cycles through multiple content items with animated transitions.
+ * 
+ * SushiViewFlipper provides a way to display a sequence of items in the same space, automatically
+ * transitioning between them with customizable animation. This is useful for displaying
+ * rotating promotions, suggestions, or other content that should cycle through multiple options.
+ *
+ * Features:
+ * - Configurable flip interval and animation duration
+ * - Support for different animation directions (top-to-bottom or bottom-to-top)
+ * - Play/pause control
+ * - Callback on item transitions
+ * 
+ * @param props The properties to configure the view flipper behavior
+ * @param modifier The modifier to be applied to the flipper container
+ * @param onFlip Optional callback that is invoked when the flipper transitions to a new item,
+ *               providing the index of the new item
+ * @param item Content builder that provides the composable for the given index
+ *
+ * @author gupta.anirudh@zomato.com
+ */
 @Composable
 fun SushiViewFlipper(
     props: SushiViewFlipperProps,
@@ -101,7 +122,7 @@ private fun SushiViewFlipperImpl(
             }
         }
     }
-    // Update the count every second
+    // Update the count every interval
     LaunchedEffect(
         props.flipInterval,
         props.isPlaying,

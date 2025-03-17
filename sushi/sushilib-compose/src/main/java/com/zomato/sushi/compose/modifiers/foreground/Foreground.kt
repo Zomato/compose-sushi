@@ -21,9 +21,19 @@ import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.LayoutDirection
 
 /**
+ * Applies a brush foreground to the composable.
+ * 
+ * This function adds a layer with the specified brush (gradient) on top of the composable,
+ * clipped to the given shape. The foreground is drawn after the content, allowing for
+ * effects like gradients overlaid on images or text.
+ *
+ * @param brush The brush to be used for the foreground
+ * @param shape The shape to clip the foreground to (defaults to rectangle)
+ * @param alpha The opacity of the foreground (0.0 to 1.0)
+ * @return A modifier with the foreground applied
+ *
  * @author gupta.anirudh@zomato.com
  */
-
 @Stable
 fun Modifier.foreground(
     brush: Brush,
@@ -44,6 +54,16 @@ fun Modifier.foreground(
     )
 )
 
+/**
+ * Applies a solid color foreground to the composable.
+ * 
+ * This function adds a layer with the specified color on top of the composable,
+ * clipped to the given shape. The foreground is drawn after the content.
+ *
+ * @param color The color to be used for the foreground
+ * @param shape The shape to clip the foreground to (defaults to rectangle)
+ * @return A modifier with the foreground applied
+ */
 @Stable
 fun Modifier.foreground(
     color: Color,

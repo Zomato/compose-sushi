@@ -26,6 +26,21 @@ import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
+ * A composable component that displays images in the Sushi design system.
+ *
+ * SushiImage provides a consistent way to display images with various customization options
+ * like shapes, sizing, scaling, filters, and more. It supports both fixed dimensions and
+ * aspect ratio-based sizing, as well as click interactions.
+ * 
+ * The component intelligently handles different combinations of width, height, and aspect ratio:
+ * - If width and height are provided, both are applied
+ * - If width and aspect ratio are provided, height is calculated automatically
+ * - If height and aspect ratio are provided, width is calculated automatically
+ *
+ * @param props The properties that define the image appearance and behavior
+ * @param modifier The modifier to be applied to the component
+ * @param onClick Optional callback for handling click events on the image
+ *
  * @author gupta.anirudh@zomato.com
  */
 @Composable

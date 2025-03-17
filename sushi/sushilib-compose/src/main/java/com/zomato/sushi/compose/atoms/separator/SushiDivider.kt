@@ -29,6 +29,17 @@ import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
 import com.zomato.sushi.compose.utils.toPx
 
+/**
+ * A composable that displays a divider with various customizable styles.
+ * 
+ * SushiDivider provides visual separation between content sections using different
+ * line styles such as solid, dotted, dashed, and decorative patterns like zigzags.
+ * It supports both horizontal and vertical orientations as well as customizable colors
+ * and thicknesses.
+ *
+ * @param props The properties to configure the divider's appearance
+ * @param modifier The modifier to be applied to the component
+ */
 @Composable
 fun SushiDivider(
     props: SushiDividerProps,

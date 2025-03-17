@@ -20,6 +20,15 @@ import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
+ * A composable component that displays an icon from the Sushi design system.
+ *
+ * SushiIcon renders icons from the Wasabi icon font based on the provided properties.
+ * It supports customization of size, color, and click interactions.
+ *
+ * @param props The properties to configure the icon appearance
+ * @param modifier The modifier to be applied to the icon
+ * @param onClick Optional callback to handle click events on the icon
+ *
  * @author gupta.anirudh@zomato.com
  */
 @Composable

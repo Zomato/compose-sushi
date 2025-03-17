@@ -6,6 +6,59 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 
+/**
+ * Defines the complete set of colors used by a SushiTextField in various states.
+ * 
+ * This class provides fine-grained control over all the color aspects of a text field,
+ * including different colors for focused/unfocused states, disabled state, and error state.
+ * Each color is defined as a ColorSpec to integrate with the Sushi design system.
+ *
+ * @property focusedTextColor Color of the input text when the field has focus
+ * @property unfocusedTextColor Color of the input text when the field doesn't have focus
+ * @property disabledTextColor Color of the input text when the field is disabled
+ * @property errorTextColor Color of the input text when the field is in an error state
+ * @property focusedContainerColor Background color of the field when it has focus
+ * @property unfocusedContainerColor Background color of the field when it doesn't have focus
+ * @property disabledContainerColor Background color of the field when it's disabled
+ * @property errorContainerColor Background color of the field when it's in an error state
+ * @property cursorColor Color of the text cursor
+ * @property errorCursorColor Color of the text cursor when in error state
+ * @property textSelectionColors Colors for text selection (background and handles)
+ * @property focusedIndicatorColor Color of the bottom indicator when the field has focus
+ * @property unfocusedIndicatorColor Color of the bottom indicator when the field doesn't have focus
+ * @property disabledIndicatorColor Color of the bottom indicator when the field is disabled
+ * @property errorIndicatorColor Color of the bottom indicator when the field is in an error state
+ * @property focusedLeadingIconColor Color of the leading icon when the field has focus
+ * @property unfocusedLeadingIconColor Color of the leading icon when the field doesn't have focus
+ * @property disabledLeadingIconColor Color of the leading icon when the field is disabled
+ * @property errorLeadingIconColor Color of the leading icon when the field is in an error state
+ * @property focusedTrailingIconColor Color of the trailing icon when the field has focus
+ * @property unfocusedTrailingIconColor Color of the trailing icon when the field doesn't have focus
+ * @property disabledTrailingIconColor Color of the trailing icon when the field is disabled
+ * @property errorTrailingIconColor Color of the trailing icon when the field is in an error state
+ * @property focusedLabelColor Color of the label text when the field has focus
+ * @property unfocusedLabelColor Color of the label text when the field doesn't have focus
+ * @property disabledLabelColor Color of the label text when the field is disabled
+ * @property errorLabelColor Color of the label text when the field is in an error state
+ * @property focusedPlaceholderColor Color of the placeholder text when the field has focus
+ * @property unfocusedPlaceholderColor Color of the placeholder text when the field doesn't have focus
+ * @property disabledPlaceholderColor Color of the placeholder text when the field is disabled
+ * @property errorPlaceholderColor Color of the placeholder text when the field is in an error state
+ * @property focusedSupportingTextColor Color of the supporting text when the field has focus
+ * @property unfocusedSupportingTextColor Color of the supporting text when the field doesn't have focus
+ * @property disabledSupportingTextColor Color of the supporting text when the field is disabled
+ * @property errorSupportingTextColor Color of the supporting text when the field is in an error state
+ * @property focusedPrefixColor Color of the prefix text/icon when the field has focus
+ * @property unfocusedPrefixColor Color of the prefix text/icon when the field doesn't have focus
+ * @property disabledPrefixColor Color of the prefix text/icon when the field is disabled
+ * @property errorPrefixColor Color of the prefix text/icon when the field is in an error state
+ * @property focusedSuffixColor Color of the suffix text/icon when the field has focus
+ * @property unfocusedSuffixColor Color of the suffix text/icon when the field doesn't have focus
+ * @property disabledSuffixColor Color of the suffix text/icon when the field is disabled
+ * @property errorSuffixColor Color of the suffix text/icon when the field is in an error state
+ * 
+ * @author gupta.anirudh@zomato.com
+ */
 @Immutable
 data class SushiTextFieldColors(
     val focusedTextColor: ColorSpec,
@@ -52,6 +105,13 @@ data class SushiTextFieldColors(
     val disabledSuffixColor: ColorSpec,
     val errorSuffixColor: ColorSpec,
 ) {
+    /**
+     * Converts this SushiTextFieldColors to the Material3 TextFieldColors format.
+     * This allows the SushiTextField to use the Material3 TextField implementation
+     * while maintaining the Sushi design system's color scheme.
+     *
+     * @return Material3 TextFieldColors with the equivalent color values
+     */
     @Composable
     fun toTextFieldColors(): TextFieldColors {
         return TextFieldColors(

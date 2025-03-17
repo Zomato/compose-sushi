@@ -5,6 +5,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.em
 
 /**
+ * Defines the standard text style tokens used throughout the Sushi design system.
+ *
+ * This object contains predefined TextStyle constants that combine font size, weight,
+ * family, line height, and letter spacing to create a comprehensive typography system.
+ * The styles follow a consistent naming convention of [FontWeight][FontSize].
+ *
  * @author gupta.anirudh@zomato.com
  */
 internal object SushiTypographyTokens {
