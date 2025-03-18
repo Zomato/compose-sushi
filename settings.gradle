@@ -1,0 +1,59 @@
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+        // todox: remove?
+        maven {
+            url "https://maven.pkg.github.com/Zomato/*"
+            credentials {
+                username = "Zomato"
+                password = System.getenv("READ_ARTIFACTS_TOKEN")
+            }
+        }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // todox: remove?
+        maven {
+            url "https://maven.pkg.github.com/Zomato/*"
+            credentials {
+                username = "Zomato"
+                password = System.getenv("READ_ARTIFACTS_TOKEN")
+            }
+        }
+    }
+}
+
+def includeKits(String... kits) {
+    for (String kit : kits) {
+        def kitPath = "$kit/$kit"
+        def kitName = kit
+        if (kit.contains('/')) {
+            kitPath = kit
+            def splitData = kit.split('/')
+            kitName = splitData[splitData.length - 1]
+        }
+        include ":$kitName"
+        project(":$kitName").projectDir = new File(settingsDir, kitPath)
+
+    }
+}
+
+rootProject.name = "Sushi Compose"
+include ':app'
+
+includeKits(
+    'sushi/sushilib-core',
+    'sushi/sushilib-compose',
+)
