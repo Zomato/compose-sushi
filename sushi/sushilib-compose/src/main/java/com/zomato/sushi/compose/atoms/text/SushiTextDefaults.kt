@@ -33,28 +33,9 @@ object SushiTextDefaults {
      */
     public val suffixSpacing: Dp @Composable get() = SushiTheme.dimens.spacing.micro
 
-    /**
-     * Whether to interpret text as markdown by default.
-     */
     internal const val isMarkDown: Boolean = true
-    
-    /**
-     * Default maximum number of lines.
-     */
     internal val maxLines: Int = Int.MAX_VALUE
-    
-    /**
-     * Default text overflow handling.
-     */
     internal val overflow: TextOverflow = TextOverflow.Clip
-    
-    /**
-     * Whether text should wrap to the next line by default.
-     */
     internal val softWrap: Boolean = true
-    
-    /**
-     * Default minimum number of lines.
-     */
     internal val minLines: Int = 1
 }

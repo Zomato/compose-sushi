@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
  */
 data class DotGraphic constructor(
     val size: Dp = 16.dp,
-    val color: Color = Color.White,
+    val color: Color = Color.Unspecified,
     val shape: Shape = CircleShape,
     val borderWidth: Dp? = null,
     val borderColor: Color = Color.White,

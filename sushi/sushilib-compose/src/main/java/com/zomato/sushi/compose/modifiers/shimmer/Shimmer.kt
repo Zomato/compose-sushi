@@ -34,6 +34,7 @@ import com.zomato.sushi.compose.atoms.button.SushiButtonProps
 import com.zomato.sushi.compose.foundation.SushiRawColorTokens
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.yield
@@ -227,10 +228,9 @@ private class SushiShimmerModifierNode(
                 }
                 is SushiShimmerProgress.Progress -> {
                     while (isActive) {
-                        while (isActive) {
-                            currentProgress.snapTo(progress.valueProvider.invoke())
-                            yield() // Yield to avoid blocking other operations
-                        }
+                        currentProgress.snapTo(progress.valueProvider.invoke())
+                        yield()
+                        delay(1)    // Small delay to avoid blocking other operations
                     }
                 }
             }

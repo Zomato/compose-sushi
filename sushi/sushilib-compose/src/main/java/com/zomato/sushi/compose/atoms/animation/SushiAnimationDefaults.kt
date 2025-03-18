@@ -7,9 +7,5 @@ package com.zomato.sushi.compose.atoms.animation
  * @author gupta.anirudh@zomato.com
  */
 object SushiAnimationDefaults {
-    /**
-     * Default playback configuration for animations.
-     * Uses AutoPlay with default settings.
-     */
     internal val playback = SushiAnimationPlayback.AutoPlay()
 }

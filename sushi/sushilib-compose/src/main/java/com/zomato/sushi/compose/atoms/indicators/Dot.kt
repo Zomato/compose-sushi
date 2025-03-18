@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.zomato.sushi.compose.atoms.indicators.model.DotGraphic
+import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.modifiers.ifNonNull
+import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
  * @author gupta.anirudh@zomato.com
@@ -20,7 +22,7 @@ internal fun Dot(
     Box(
         modifier = modifier
             .background(
-                color = graphic.color,
+                color = graphic.color.takeIfSpecified() ?: SushiTheme.colors.theme.v500.value,
                 shape = graphic.shape,
             )
             .size(graphic.size)
