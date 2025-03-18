@@ -17,7 +17,6 @@ import com.zomato.sushi.core.SushiColorToken
 
 /**
  * Function type that maps color tokens to ColorSpec values
- * Defines how color tokens are mapped to ColorSpec values and how font sizes are scaled.
  *
  * @author gupta.anirudh@zomato.com
  */

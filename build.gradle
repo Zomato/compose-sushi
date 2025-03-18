@@ -1,0 +1,46 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.publish) apply false
+    alias(libs.plugins.compose.screenshot) apply false
+}
+
+ext {
+    monoGroupId = 'com.zomato.kits'
+    monoRepo = 'android-mono-repo'
+    lottieVersion = '6.6.2'
+    kotlinxCollectionsImmutableVersion = '0.3.8'
+    slackComposeLintVersion = '1.4.2'
+    composeBomVersion = '2024.11.00'
+    thirdEyeVersion = '0.1.5'
+
+    ext.getVersionInfo = { projectDirPath ->
+        if (projectDirPath == null) {
+            projectDirPath = projectDir.absolutePath
+        }
+        def packageRoot = rootDir.relativePath(new File(projectDirPath)).split("/").first()
+        def props = new Properties()
+        file("$packageRoot/version.properties").withInputStream { props.load(it) }
+
+        def versionCodeResolved = props.get("VERSION_CODE")
+        def versionNameResolved = props.get("VERSION_NAME")
+        if (project.hasProperty('VersionName')) {
+            versionNameResolved = project.property('VersionName')
+        }
+        return [versionCodeResolved, versionNameResolved]
+    }
+}
+
+subprojects {
+    beforeEvaluate {
+        ext.applyCompose = { ->
+            android {
+                buildFeatures {
+                    compose true
+                }
+            }
+        }
+    }
+}

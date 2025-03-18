@@ -159,24 +159,24 @@ private fun SushiAlertDialogImpl(
                                 Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
                             )
                         }
-                        HorizontalDivider(
-                            thickness = 0.5.dp,
-                            color = SushiTheme.colors.border.moderate.value,
-                            modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
-                        )
                         if (props.negativeButton != null) {
+                            HorizontalDivider(
+                                thickness = 0.5.dp,
+                                color = SushiTheme.colors.border.moderate.value,
+                                modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
+                            )
                             SushiButton(
                                 props = props.negativeButton,
                                 onClick = onNegativeButtonClick ?: {},
                                 Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
                             )
                         }
-                        HorizontalDivider(
-                            thickness = 0.5.dp,
-                            color = SushiTheme.colors.border.moderate.value,
-                            modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
-                        )
                         if (props.neutralButton != null) {
+                            HorizontalDivider(
+                                thickness = 0.5.dp,
+                                color = SushiTheme.colors.border.moderate.value,
+                                modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
+                            )
                             SushiButton(
                                 props = props.neutralButton,
                                 onClick = onNeutralButtonClick ?: {},
@@ -194,26 +194,29 @@ private fun SushiAlertDialogImpl(
                             Modifier
                                 .height(IntrinsicSize.Max)
                                 .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
-
+                            horizontalArrangement = Arrangement.Center
                         ) {
                             if (props.positiveButton != null) {
                                 SushiButton(
                                     props = props.positiveButton,
                                     onClick = onPositiveButtonClick ?: {},
-                                    modifier = Modifier.padding(vertical = SushiTheme.dimens.spacing.base)
+                                    modifier = Modifier
+                                        .padding(vertical = SushiTheme.dimens.spacing.base)
+                                        .weight(1f)
                                 )
                             }
-                            VerticalDivider(
-                                thickness = 0.5.dp,
-                                color = SushiTheme.colors.border.moderate.value,
-                                modifier = Modifier.fillMaxHeight()
-                            )
                             if (props.negativeButton != null) {
+                                VerticalDivider(
+                                    thickness = 0.5.dp,
+                                    color = SushiTheme.colors.border.moderate.value,
+                                    modifier = Modifier.fillMaxHeight()
+                                )
                                 SushiButton(
                                     props = props.negativeButton,
                                     onClick = onNegativeButtonClick ?: {},
-                                    modifier = Modifier.padding(vertical = SushiTheme.dimens.spacing.base)
+                                    modifier = Modifier
+                                        .padding(vertical = SushiTheme.dimens.spacing.base)
+                                        .weight(1f)
                                 )
                             }
                         }

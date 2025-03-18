@@ -113,7 +113,7 @@ private fun SushiTagDefaultContent(
     modifier: Modifier = Modifier
 ) {
     val textType = props.getTagTextType()
-    val textColor = props.fontColor ?: SushiTheme.colors.theme.accentColor
+    val textColor = props.fontColor ?: SushiTheme.colors.button.primaryLabel
 
     val tagPadding = props.getTagPaddingForSize()
 

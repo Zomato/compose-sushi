@@ -28,6 +28,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/**
+ * Modifier that provides a scale animation when the component is pressed.
+ * 
+ * This creates an interactive visual feedback by slightly reducing the size of
+ * the component when pressed, then returning to normal size when released.
+ *
+ * @author gupta.anirudh@zomato.com
+ */
 
 /**
  * Applies a scale-on-press effect to a composable.
@@ -63,7 +71,10 @@ fun Modifier.scaleOnPress(
     )
 )
 
-private data class SushiScaleOnPressModifierNodeElement(
+/**
+ * Internal implementation details for the scale-on-press modifier.
+ */
+data class SushiScaleOnPressModifierNodeElement(
     val enabled: Boolean,
     val delayMs: Long
 ): ModifierNodeElement<SushiScaleOnPressModifierNode>() {
@@ -81,7 +92,11 @@ private data class SushiScaleOnPressModifierNodeElement(
     }
 }
 
-private class SushiScaleOnPressModifierNode(
+/**
+ * Node implementation for the scale-on-press modifier that handles
+ * the animation and pointer input logic.
+ */
+class SushiScaleOnPressModifierNode(
     private var enabled: Boolean,
     private var delayMs: Long
 ) : Modifier.Node(), DrawModifierNode, PointerInputModifierNode {

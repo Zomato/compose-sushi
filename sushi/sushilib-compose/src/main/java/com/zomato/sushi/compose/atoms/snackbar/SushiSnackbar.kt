@@ -104,7 +104,7 @@ private fun SushiSnackbarImpl(
             content()
         } else {
             SushiSnackbarContent(
-                message = message,
+                message = message.copy(color = message.color.takeIfSpecified() ?: contentColor),
                 action = action,
                 onActionTap = onActionTap
             )
