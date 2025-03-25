@@ -6,39 +6,54 @@ plugins {
 }
 
 android {
-    namespace 'com.zomato.sushi.compose.sample'
-    compileSdk 35
+    namespace = "com.zomato.sushi.compose.sample"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId "com.zomato.sushi.compose.sample"
-        minSdk 24
-        targetSdk 35
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.zomato.sushi.compose.sample"
+        minSdk = 24
+        targetSdk = 35
+        versionCode = 1
+        versionName = "0.0.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        create("release") {
+            val keystoreFile = rootProject.file("app/keystore.jks")
+            if (keystoreFile.exists()) {
+                storeFile = keystoreFile
+                storePassword = System.getenv("SIGNING_STORE_PASSWORD") ?: findProperty("SIGNING_STORE_PASSWORD") as String? ?: ""
+                keyAlias = System.getenv("SIGNING_KEY_ALIAS") ?: findProperty("SIGNING_KEY_ALIAS") as String? ?: ""
+                keyPassword = System.getenv("SIGNING_KEY_PASSWORD") ?: findProperty("SIGNING_KEY_PASSWORD") as String? ?: ""
+            }
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = "11"
     }
     buildFeatures {
-        compose true
+        compose = true
     }
 }
 
 dependencies {
-
     implementation(project(":sushilib-compose"))
 
     implementation(libs.androidx.core.ktx)
