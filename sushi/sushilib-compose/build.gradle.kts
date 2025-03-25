@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.publish)
     alias(libs.plugins.compose.screenshot)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.dokka)
 }
 
 // Maven Publishing Details

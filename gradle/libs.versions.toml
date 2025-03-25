@@ -49,4 +49,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 publish = { id = "com.zomato.plugins.publish", version.ref = "publish" }
 compose-screenshot = { id = "com.android.compose.screenshot", version.ref = "composeScreenshot" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
+kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
