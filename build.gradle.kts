@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.publish) apply false
     alias(libs.plugins.compose.screenshot) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.dokka)
 }
 
 extra.run {
@@ -25,4 +26,8 @@ extra.run {
         }
         listOf(versionCodeResolved, versionNameResolved)
     })
+}
+
+task("generateDocs") {
+    dependsOn("dokkaHtmlMultiModule")
 }
