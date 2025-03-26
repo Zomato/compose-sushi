@@ -53,6 +53,6 @@ rootProject.name = "Sushi Compose"
 include(":app")
 
 includeKits(
-    "sushi/sushilib-core",
-    "sushi/sushilib-compose",
+    "sushi/sushi-core",
+    "sushi/sushi-compose",
 )

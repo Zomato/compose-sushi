@@ -10,8 +10,7 @@ plugins {
 
 // Maven Publishing Details
 @Suppress("UNCHECKED_CAST")
-val getVersionInfoFunc = root`
-Project.extra["getVersionInfo"] as (String?) -> List<String>
+val getVersionInfoFunc = rootProject.extra["getVersionInfo"] as (String?) -> List<String>
 val versionInfo = getVersionInfoFunc(projectDir.absolutePath)
 val versionCode = versionInfo[0].toInt()
 val versionName = versionInfo[1].toString() // Ensure it's a String
