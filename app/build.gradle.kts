@@ -54,7 +54,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":sushilib-compose"))
+    implementation(project(":sushi-compose"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
