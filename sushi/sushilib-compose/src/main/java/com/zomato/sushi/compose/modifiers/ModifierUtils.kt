@@ -67,6 +67,15 @@ inline fun <T> Modifier.ifNonNull(data: T?, crossinline transform: @Composable M
 }
 
 /**
+ * Makes a component invisible (but still taking up space).
+ *
+ * Unlike Modifier.visible() which affects the layout, this only affects rendering.
+ *
+ * @return A modifier that makes the component invisible when the condition is true
+ */
+inline fun Modifier.invisible() = this.invisibleIf(true)
+
+/**
  * Makes a component invisible (but still taking up space) if the condition is true.
  * 
  * Unlike Modifier.visible() which affects the layout, this only affects rendering.
