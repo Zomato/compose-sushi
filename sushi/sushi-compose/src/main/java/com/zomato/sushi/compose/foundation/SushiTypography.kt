@@ -1,0 +1,152 @@
+package com.zomato.sushi.compose.foundation
+
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+
+/**
+ * Creates a SushiTypography instance with the provided text styles or defaults.
+ * 
+ * This function allows customization of the typography system while providing sensible
+ * defaults for all text styles. It enables consistent typography across the application
+ * with the option to override specific styles as needed.
+ *
+ * @param materialTypography Material3 Typography to be used by Material components
+ * @param fontFamily The font family to apply to all text styles
+ * @param light050 through extraBold900 Text styles for all weight/size combinations
+ * @return A fully configured SushiTypography instance
+ *
+ * @author gupta.anirudh@zomato.com
+ */
+fun sushiTypography(
+    materialTypography: Typography = MaterialTypography,
+    fontFamily: FontFamily = OkraFontFamily,
+
+    light050: TextStyle = SushiTypographyTokens.Light050.with(fontFamily = fontFamily),
+    light100: TextStyle = SushiTypographyTokens.Light100.with(fontFamily = fontFamily),
+    light200: TextStyle = SushiTypographyTokens.Light200.with(fontFamily = fontFamily),
+    light300: TextStyle = SushiTypographyTokens.Light300.with(fontFamily = fontFamily),
+    light400: TextStyle = SushiTypographyTokens.Light400.with(fontFamily = fontFamily),
+    light500: TextStyle = SushiTypographyTokens.Light500.with(fontFamily = fontFamily),
+    light600: TextStyle = SushiTypographyTokens.Light600.with(fontFamily = fontFamily),
+    light700: TextStyle = SushiTypographyTokens.Light700.with(fontFamily = fontFamily),
+    light800: TextStyle = SushiTypographyTokens.Light800.with(fontFamily = fontFamily),
+    light900: TextStyle = SushiTypographyTokens.Light900.with(fontFamily = fontFamily),
+
+    regular050: TextStyle = SushiTypographyTokens.Regular050.with(fontFamily = fontFamily),
+    regular100: TextStyle = SushiTypographyTokens.Regular100.with(fontFamily = fontFamily),
+    regular200: TextStyle = SushiTypographyTokens.Regular200.with(fontFamily = fontFamily),
+    regular300: TextStyle = SushiTypographyTokens.Regular300.with(fontFamily = fontFamily),
+    regular400: TextStyle = SushiTypographyTokens.Regular400.with(fontFamily = fontFamily),
+    regular500: TextStyle = SushiTypographyTokens.Regular500.with(fontFamily = fontFamily),
+    regular600: TextStyle = SushiTypographyTokens.Regular600.with(fontFamily = fontFamily),
+    regular700: TextStyle = SushiTypographyTokens.Regular700.with(fontFamily = fontFamily),
+    regular800: TextStyle = SushiTypographyTokens.Regular800.with(fontFamily = fontFamily),
+    regular900: TextStyle = SushiTypographyTokens.Regular900.with(fontFamily = fontFamily),
+
+    medium050: TextStyle = SushiTypographyTokens.Medium050.with(fontFamily = fontFamily),
+    medium100: TextStyle = SushiTypographyTokens.Medium100.with(fontFamily = fontFamily),
+    medium200: TextStyle = SushiTypographyTokens.Medium200.with(fontFamily = fontFamily),
+    medium300: TextStyle = SushiTypographyTokens.Medium300.with(fontFamily = fontFamily),
+    medium400: TextStyle = SushiTypographyTokens.Medium400.with(fontFamily = fontFamily),
+    medium500: TextStyle = SushiTypographyTokens.Medium500.with(fontFamily = fontFamily),
+    medium600: TextStyle = SushiTypographyTokens.Medium600.with(fontFamily = fontFamily),
+    medium700: TextStyle = SushiTypographyTokens.Medium700.with(fontFamily = fontFamily),
+    medium800: TextStyle = SushiTypographyTokens.Medium800.with(fontFamily = fontFamily),
+    medium900: TextStyle = SushiTypographyTokens.Medium900.with(fontFamily = fontFamily),
+
+    semiBold050: TextStyle = SushiTypographyTokens.SemiBold050.with(fontFamily = fontFamily),
+    semiBold100: TextStyle = SushiTypographyTokens.SemiBold100.with(fontFamily = fontFamily),
+    semiBold200: TextStyle = SushiTypographyTokens.SemiBold200.with(fontFamily = fontFamily),
+    semiBold300: TextStyle = SushiTypographyTokens.SemiBold300.with(fontFamily = fontFamily),
+    semiBold400: TextStyle = SushiTypographyTokens.SemiBold400.with(fontFamily = fontFamily),
+    semiBold500: TextStyle = SushiTypographyTokens.SemiBold500.with(fontFamily = fontFamily),
+    semiBold600: TextStyle = SushiTypographyTokens.SemiBold600.with(fontFamily = fontFamily),
+    semiBold700: TextStyle = SushiTypographyTokens.SemiBold700.with(fontFamily = fontFamily),
+    semiBold800: TextStyle = SushiTypographyTokens.SemiBold800.with(fontFamily = fontFamily),
+    semiBold900: TextStyle = SushiTypographyTokens.SemiBold900.with(fontFamily = fontFamily),
+
+    bold050: TextStyle = SushiTypographyTokens.Bold050.with(fontFamily = fontFamily),
+    bold100: TextStyle = SushiTypographyTokens.Bold100.with(fontFamily = fontFamily),
+    bold200: TextStyle = SushiTypographyTokens.Bold200.with(fontFamily = fontFamily),
+    bold300: TextStyle = SushiTypographyTokens.Bold300.with(fontFamily = fontFamily),
+    bold400: TextStyle = SushiTypographyTokens.Bold400.with(fontFamily = fontFamily),
+    bold500: TextStyle = SushiTypographyTokens.Bold500.with(fontFamily = fontFamily),
+    bold600: TextStyle = SushiTypographyTokens.Bold600.with(fontFamily = fontFamily),
+    bold700: TextStyle = SushiTypographyTokens.Bold700.with(fontFamily = fontFamily),
+    bold800: TextStyle = SushiTypographyTokens.Bold800.with(fontFamily = fontFamily),
+    bold900: TextStyle = SushiTypographyTokens.Bold900.with(fontFamily = fontFamily),
+
+    extraBold050: TextStyle = SushiTypographyTokens.ExtraBold050.with(fontFamily = fontFamily),
+    extraBold100: TextStyle = SushiTypographyTokens.ExtraBold100.with(fontFamily = fontFamily),
+    extraBold200: TextStyle = SushiTypographyTokens.ExtraBold200.with(fontFamily = fontFamily),
+    extraBold300: TextStyle = SushiTypographyTokens.ExtraBold300.with(fontFamily = fontFamily),
+    extraBold400: TextStyle = SushiTypographyTokens.ExtraBold400.with(fontFamily = fontFamily),
+    extraBold500: TextStyle = SushiTypographyTokens.ExtraBold500.with(fontFamily = fontFamily),
+    extraBold600: TextStyle = SushiTypographyTokens.ExtraBold600.with(fontFamily = fontFamily),
+    extraBold700: TextStyle = SushiTypographyTokens.ExtraBold700.with(fontFamily = fontFamily),
+    extraBold800: TextStyle = SushiTypographyTokens.ExtraBold800.with(fontFamily = fontFamily),
+    extraBold900: TextStyle = SushiTypographyTokens.ExtraBold900.with(fontFamily = fontFamily)
+): SushiTypography = SushiTypography(
+    materialTypography = materialTypography,
+    light050 = light050,
+    light100 = light100,
+    light200 = light200,
+    light300 = light300,
+    light400 = light400,
+    light500 = light500,
+    light600 = light600,
+    light700 = light700,
+    light800 = light800,
+    light900 = light900,
+    regular050 = regular050,
+    regular100 = regular100,
+    regular200 = regular200,
+    regular300 = regular300,
+    regular400 = regular400,
+    regular500 = regular500,
+    regular600 = regular600,
+    regular700 = regular700,
+    regular800 = regular800,
+    regular900 = regular900,
+    medium050 = medium050,
+    medium100 = medium100,
+    medium200 = medium200,
+    medium300 = medium300,
+    medium400 = medium400,
+    medium500 = medium500,
+    medium600 = medium600,
+    medium700 = medium700,
+    medium800 = medium800,
+    medium900 = medium900,
+    semiBold050 = semiBold050,
+    semiBold100 = semiBold100,
+    semiBold200 = semiBold200,
+    semiBold300 = semiBold300,
+    semiBold400 = semiBold400,
+    semiBold500 = semiBold500,
+    semiBold600 = semiBold600,
+    semiBold700 = semiBold700,
+    semiBold800 = semiBold800,
+    semiBold900 = semiBold900,
+    bold050 = bold050,
+    bold100 = bold100,
+    bold200 = bold200,
+    bold300 = bold300,
+    bold400 = bold400,
+    bold500 = bold500,
+    bold600 = bold600,
+    bold700 = bold700,
+    bold800 = bold800,
+    bold900 = bold900,
+    extraBold050 = extraBold050,
+    extraBold100 = extraBold100,
+    extraBold200 = extraBold200,
+    extraBold300 = extraBold300,
+    extraBold400 = extraBold400,
+    extraBold500 = extraBold500,
+    extraBold600 = extraBold600,
+    extraBold700 = extraBold700,
+    extraBold800 = extraBold800,
+    extraBold900 = extraBold900
+)
