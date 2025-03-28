@@ -1,0 +1,226 @@
+package com.zomato.sushi.compose.shapes.squircle
+
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+
+/**
+ *
+ *  Creates a [SquircleShape] with corner radius percent defined as [Int] value.
+ *
+ *  @param percent The corner radius percent from 0 to 100.
+ *  @param cornerSmoothing (0.55f - rounded corner shape, 1f - fully pronounced squircle).
+ *
+ **/
+fun SquircleShape(
+    percent: Int = 100,
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
+) = SquircleShape(
+    topStartCorner = CornerSize(percent),
+    topEndCorner = CornerSize(percent),
+    bottomStartCorner = CornerSize(percent),
+    bottomEndCorner = CornerSize(percent),
+    cornerSmoothing = cornerSmoothing.value
+)
+
+/**
+ *
+ *  Creates a [SquircleShape] with corner radius defined as [Dp] value.
+ *
+ *  @param radius The corner radius.
+ *  @param cornerSmoothing (0.55f - rounded corner shape, 1f - fully pronounced squircle).
+ *
+ **/
+fun SquircleShape(
+    radius: Dp,
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
+) = SquircleShape(
+    topStartCorner = CornerSize(radius),
+    topEndCorner = CornerSize(radius),
+    bottomStartCorner = CornerSize(radius),
+    bottomEndCorner = CornerSize(radius),
+    cornerSmoothing = cornerSmoothing.value
+)
+
+/**
+ *
+ *  Creates a [SquircleShape] with corner radius in pixels defined as [Float] value.
+ *
+ *  @param radius The corner radius in pixels.
+ *  @param cornerSmoothing (0.55f - rounded corner shape, 1f - fully pronounced squircle).
+ *
+ **/
+fun SquircleShape(
+    radius: Float,
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
+) = SquircleShape(
+    topStartCorner = CornerSize(radius),
+    topEndCorner = CornerSize(radius),
+    bottomStartCorner = CornerSize(radius),
+    bottomEndCorner = CornerSize(radius),
+    cornerSmoothing = cornerSmoothing.value
+)
+
+/**
+ *
+ *  Creates a [SquircleShape] with corners percent defined as [Int] values.
+ *
+ *  @param topStart The top start corner radius percent from 0 to 100.
+ *  @param topEnd The top end corner radius percent from 0 to 100.
+ *  @param bottomStart The bottom start corner radius percent from 0 to 100.
+ *  @param bottomEnd The bottom end corner radius percent from 0 to 100.
+ *  @param cornerSmoothing (0.55f - rounded corner shape, 1f - fully pronounced squircle).
+ *
+ **/
+fun SquircleShape(
+    topStart: Int = 0,
+    topEnd: Int = 0,
+    bottomStart: Int = 0,
+    bottomEnd: Int = 0,
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
+) = SquircleShape(
+    topStartCorner = CornerSize(topStart),
+    topEndCorner = CornerSize(topEnd),
+    bottomStartCorner = CornerSize(bottomStart),
+    bottomEndCorner = CornerSize(bottomEnd),
+    cornerSmoothing = cornerSmoothing.value
+)
+
+/**
+ *
+ *  Creates a [SquircleShape] with corners defined as [Dp] values.
+ *
+ *  @param topStart The top start corner radius.
+ *  @param topEnd The top end corner radius.
+ *  @param bottomStart The bottom start corner radius.
+ *  @param bottomEnd The bottom end corner radius.
+ *  @param cornerSmoothing (0.55f - rounded corner shape, 1f - fully pronounced squircle).
+ *
+ **/
+fun SquircleShape(
+    topStart: Dp = 0.dp,
+    topEnd: Dp = 0.dp,
+    bottomStart: Dp = 0.dp,
+    bottomEnd: Dp = 0.dp,
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
+) = SquircleShape(
+    topStartCorner = CornerSize(topStart),
+    topEndCorner = CornerSize(topEnd),
+    bottomStartCorner = CornerSize(bottomStart),
+    bottomEndCorner = CornerSize(bottomEnd),
+    cornerSmoothing = cornerSmoothing.value
+)
+
+/**
+ *
+ *  Creates a [SquircleShape] with pixel corners defined as [Float] values.
+ *
+ *  @param topStart The top start corner radius in pixels.
+ *  @param topEnd The top end corner radius.
+ *  @param bottomStart The bottom start corner radius.
+ *  @param bottomEnd The bottom end corner radius.
+ *  @param cornerSmoothing (0.55f - rounded corner shape, 1f - fully pronounced squircle).
+ *
+ **/
+fun SquircleShape(
+    topStart: Float = 0f,
+    topEnd: Float = 0f,
+    bottomStart: Float = 0f,
+    bottomEnd: Float = 0f,
+    cornerSmoothing: SquircleCornerSmoothing = SquircleCornerSmoothing.Default
+) = SquircleShape(
+    topStartCorner = CornerSize(topStart),
+    topEndCorner = CornerSize(topEnd),
+    bottomStartCorner = CornerSize(bottomStart),
+    bottomEndCorner = CornerSize(bottomEnd),
+    cornerSmoothing = cornerSmoothing.value
+)
+
+/**
+ *
+ *  Creates a [SquircleBasedShape].
+ *
+ *  @param topStartCorner The top start corner radius defined as [CornerSize].
+ *  @param topEndCorner The top end corner radius defined as [CornerSize].
+ *  @param bottomStartCorner The bottom start corner radius defined as [CornerSize].
+ *  @param bottomEndCorner The bottom end corner radius defined as [CornerSize].
+ *  @param cornerSmoothing (0.55f - rounded corner shape, 1f - fully pronounced squircle).
+ *
+ **/
+class SquircleShape(
+    topStartCorner: CornerSize,
+    topEndCorner: CornerSize,
+    bottomStartCorner: CornerSize,
+    bottomEndCorner: CornerSize,
+    cornerSmoothing: Float
+) : SquircleBasedShape(
+    topStartCorner,
+    topEndCorner,
+    bottomStartCorner,
+    bottomEndCorner,
+    cornerSmoothing
+) {
+
+    override fun copy(
+        topStart: CornerSize,
+        topEnd: CornerSize,
+        bottomEnd: CornerSize,
+        bottomStart: CornerSize
+    ) = SquircleShape(
+        topStartCorner = topStart,
+        topEndCorner = topEnd,
+        bottomStartCorner = bottomStart,
+        bottomEndCorner = bottomEnd,
+        cornerSmoothing = cornerSmoothing
+    )
+
+    override fun createOutline(
+        size: Size,
+        topStart: Float,
+        topEnd: Float,
+        bottomEnd: Float,
+        bottomStart: Float,
+        layoutDirection: LayoutDirection
+    ) = createSquircleShapeOutline(
+        size = size,
+        topStart = topStart,
+        topEnd = topEnd,
+        bottomEnd = bottomEnd,
+        bottomStart = bottomStart,
+        cornerSmoothing = cornerSmoothing,
+        layoutDirection = layoutDirection
+    )
+
+    override fun toString(): String {
+        return "SquircleShape(" +
+            "topStart = $topStart, " +
+            "topEnd = $topEnd, " +
+            "bottomStart = $bottomStart, " +
+            "bottomEnd = $bottomEnd, " +
+            "cornerSmoothing = $cornerSmoothing" +
+            ")"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SquircleShape) return false
+        if (topStart != other.topStart) return false
+        if (topEnd != other.topEnd) return false
+        if (bottomStart != other.bottomStart) return false
+        if (bottomEnd != other.bottomEnd) return false
+        if (cornerSmoothing != other.cornerSmoothing) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = topStart.hashCode()
+        result = 31 * result + topEnd.hashCode()
+        result = 31 * result + bottomStart.hashCode()
+        result = 31 * result + bottomEnd.hashCode()
+        result = 31 * result + cornerSmoothing.hashCode()
+        return result
+    }
+
+}
