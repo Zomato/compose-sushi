@@ -47,3 +47,11 @@ inline fun ColorSpec.takeIfUnspecified(crossinline altColor: () -> Color) = this
         altColor()
     }
 }
+
+inline fun ColorSpec?.takeIfNullOrUnspecified(crossinline altColor: () -> Color) = this?.transform {
+    if (it.isSpecified) {
+        it
+    } else {
+        altColor()
+    }
+} ?: altColor()

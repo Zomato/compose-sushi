@@ -2,7 +2,11 @@ package com.zomato.sushi.compose.atoms.textfield
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -66,12 +70,14 @@ fun SushiTextField(
 ) {
     SushiComponentBase(
         modifier
+            .height(IntrinsicSize.Max)
+            .width(IntrinsicSize.Max)
             .testTag("SushiTextField")
     ) {
         SushiTextFieldImpl(
             props = props,
             onValueChange = onValueChange,
-            modifier = Modifier,
+            modifier = Modifier.fillMaxSize(),
             interactionSource = interactionSource,
             prefix = prefix,
             suffix = suffix,
