@@ -1,11 +1,18 @@
 package com.zomato.sushi.compose.atoms.textfield
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,16 +28,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
+import com.zomato.sushi.compose.atoms.icon.SushiIconSize
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
+import com.zomato.sushi.compose.modifiers.ifNonNull
+import com.zomato.sushi.compose.utils.takeIfSpecified
+import com.zomato.sushi.compose.utils.takeIfUnspecified
 
 /**
  * A customizable text input field component for the Sushi design system.
@@ -67,6 +79,8 @@ fun SushiTextField(
     label: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
+    onPrefixIconClick: (() -> Unit)? = null,
+    onSuffixIconClick: (() -> Unit)? = null,
 ) {
     SushiComponentBase(
         modifier
@@ -84,6 +98,8 @@ fun SushiTextField(
             label = label,
             supportingText = supportingText,
             placeholder = placeholder,
+            onPrefixIconClick = onPrefixIconClick,
+            onSuffixIconClick = onSuffixIconClick
         )
     }
 }
@@ -99,6 +115,8 @@ private fun SushiTextFieldImpl(
     label: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
+    onPrefixIconClick: (() -> Unit)? = null,
+    onSuffixIconClick: (() -> Unit)? = null,
 ) {
     val enabled = props.enabled != false
     val readOnly = props.readOnly == true
@@ -109,47 +127,110 @@ private fun SushiTextFieldImpl(
     val minLines = props.minLines ?: 1
     val shape = props.shape ?: SushiTextFieldDefaults.shape
     val colors = props.colors ?: SushiTextFieldDefaults.outlinedColors()
+    val text = props.text ?: ""
+
+    val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
 
     OutlinedTextField(
-        value = props.text ?: "",
+        value = text,
         onValueChange = { onValueChange(it) },
         modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle.typeStyle,
-        label = label ?: props.label?.let { getLabelTextComposable(it) },
+        label = label ?: props.label?.let {
+            getLabelTextComposable(
+                it,
+                isFocused = isFocused,
+                isError = isError,
+                isDisabled = !enabled,
+                colors = colors,
+            )
+        },
         placeholder = {
             if (placeholder != null) {
                 placeholder()
             } else {
                 PlaceHolder(
                     props.placeholder,
+                    isFocused = isFocused,
+                    isError = isError,
+                    isDisabled = !enabled,
+                    colors = colors,
                     defaultTextStyle = textStyle.typeStyle
                 )
             }
         },
-        // leadingIcon = ,
-        // trailingIcon = ,
         prefix = {
             if (prefix != null) {
                 prefix()
             } else {
                 Prefix(
                     props = props,
-                    defaultPrefixTextStyle = textStyle.typeStyle
+                    defaultPrefixTextStyle = textStyle.typeStyle,
+                    onPrefixIconClick = onPrefixIconClick
                 )
             }
         },
         suffix = {
-            if (suffix != null) {
-                suffix()
-            } else {
-                Suffix(
-                    props = props,
-                    defaultPrefixTextStyle = textStyle.typeStyle
-                )
+            Row {
+                if (text.isNotEmpty()) {
+                    SushiIcon(
+                        SushiIconProps(
+                            SushiIconCodes.IconCrossCircleFill,
+                            color = SushiTheme.colors.grey.v500,
+                            size = SushiIconSize.Size200
+                        ),
+                        Modifier
+                            .clickable { onValueChange("") }
+                            .padding(
+                                start = SushiTheme.dimens.spacing.nano,
+                                end = SushiTheme.dimens.spacing.nano
+                            )
+                    )
+                }
+                if (suffix != null) {
+                    suffix()
+                } else {
+                    Suffix(
+                        props = props,
+                        colors = colors,
+                        defaultPrefixTextStyle = textStyle.typeStyle,
+                        onSuffixIconClick = onSuffixIconClick
+                    )
+                }
             }
         },
+//        trailingIcon = {
+//            Row {
+//                if (text.isNotEmpty()) {
+//                    SushiIcon(
+//                        SushiIconProps(
+//                            SushiIconCodes.IconCrossCircleFill,
+//                            color = SushiTheme.colors.grey.v500,
+//                            size = SushiIconSize.Size200
+//                        ),
+//                        Modifier
+//                            .clickable { onValueChange("") }
+//                            .padding(
+//                                start = SushiTheme.dimens.spacing.nano,
+//                                end = SushiTheme.dimens.spacing.nano
+//                            )
+//                    )
+//                }
+//                if (suffix != null) {
+//                    suffix()
+//                } else {
+//                    Suffix(
+//                        props = props,
+//                        colors = colors,
+//                        defaultPrefixTextStyle = textStyle.typeStyle,
+//                        onSuffixIconClick = onSuffixIconClick
+//                    )
+//                }
+//            }
+//        },
         supportingText = supportingText ?: props.supportText?.let { getSupportTextComposable(it) },
         isError = isError,
         visualTransformation = props.visualTransformation ?: VisualTransformation.None,
@@ -165,12 +246,26 @@ private fun SushiTextFieldImpl(
 }
 
 private fun getLabelTextComposable(
-    label: SushiTextProps
+    label: SushiTextProps,
+    isFocused: Boolean,
+    isError: Boolean,
+    isDisabled: Boolean,
+    colors: SushiTextFieldColors,
 ): @Composable () -> Unit {
     return {
+        val defaultColor = when {
+            isDisabled -> colors.disabledLabelColor
+            isError -> colors.errorLabelColor
+            isFocused -> colors.focusedLabelColor
+            else -> colors.unfocusedLabelColor
+        }.value
+
         val defaultTextStyle = SushiTextFieldDefaults.labelTextStyle
-        val placeholder = remember(label, defaultTextStyle) {
-            label.copy(type = label.type ?: defaultTextStyle)
+        val placeholder = remember(label, defaultTextStyle, defaultColor) {
+            label.copy(
+                type = label.type ?: defaultTextStyle,
+                color = label.color.takeIfUnspecified { defaultColor }
+            )
         }
         SushiText(placeholder)
     }
@@ -179,11 +274,25 @@ private fun getLabelTextComposable(
 @Composable
 private fun PlaceHolder(
     placeholder: SushiTextProps?,
+    isFocused: Boolean,
+    isError: Boolean,
+    isDisabled: Boolean,
+    colors: SushiTextFieldColors,
     defaultTextStyle: TextStyle
 ) {
+    val defaultColor = when {
+        isDisabled -> colors.disabledPlaceholderColor
+        isError -> colors.errorPlaceholderColor
+        isFocused -> colors.focusedPlaceholderColor
+        else -> colors.unfocusedPlaceholderColor
+    }.value
+
     if (placeholder != null) {
-        val placeholder = remember(placeholder, defaultTextStyle) {
-            placeholder.copy(type = placeholder.type ?: defaultTextStyle.asTextTypeSpec())
+        val placeholder = remember(placeholder, defaultTextStyle, defaultColor) {
+            placeholder.copy(
+                type = placeholder.type ?: defaultTextStyle.asTextTypeSpec(),
+                color = placeholder.color.takeIfUnspecified { defaultColor }
+            )
         }
         SushiText(
             placeholder
@@ -194,7 +303,8 @@ private fun PlaceHolder(
 @Composable
 private fun Prefix(
     props: SushiTextFieldProps,
-    defaultPrefixTextStyle: TextStyle
+    defaultPrefixTextStyle: TextStyle,
+    onPrefixIconClick: (() -> Unit)? = null,
 ) {
     Row {
         if (props.prefixText != null) {
@@ -204,7 +314,11 @@ private fun Prefix(
             SushiText(prefixText)
         }
         if (props.prefixIcon != null) {
-            SushiIcon(props.prefixIcon)
+            SushiIcon(
+                props.prefixIcon,
+                Modifier
+                    .ifNonNull(onPrefixIconClick) { this.clickable(onClick = it) }
+            )
         }
     }
 }
@@ -212,9 +326,23 @@ private fun Prefix(
 @Composable
 private fun Suffix(
     props: SushiTextFieldProps,
-    defaultPrefixTextStyle: TextStyle
+    colors: SushiTextFieldColors,
+    defaultPrefixTextStyle: TextStyle,
+    onSuffixIconClick: (() -> Unit)? = null
 ) {
-    Row {
+    Row(
+        Modifier
+            .height(IntrinsicSize.Max)
+    ) {
+        if (props.suffixText != null || props.suffixIcon != null) {
+            Spacer(
+                Modifier
+                    .padding(vertical = 2.dp, horizontal = 4.dp)
+                    .background(colors.unfocusedIndicatorColor.value)
+                    .width(1.dp)
+                    .fillMaxHeight()
+            )
+        }
         if (props.suffixText != null) {
             val suffixText = remember(props.suffixText, defaultPrefixTextStyle) {
                 props.suffixText.copy(type = props.suffixText.type ?: defaultPrefixTextStyle.asTextTypeSpec())
@@ -222,7 +350,11 @@ private fun Suffix(
             SushiText(suffixText)
         }
         if (props.suffixIcon != null) {
-            SushiIcon(props.suffixIcon)
+            SushiIcon(
+                props.suffixIcon,
+                Modifier
+                    .ifNonNull(onSuffixIconClick) { this.clickable(onClick = it) }
+            )
         }
     }
 }

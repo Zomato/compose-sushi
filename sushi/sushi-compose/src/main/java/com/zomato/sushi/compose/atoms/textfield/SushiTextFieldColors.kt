@@ -60,7 +60,7 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
  * @author gupta.anirudh@zomato.com
  */
 @Immutable
-data class SushiTextFieldColors(
+data class SushiTextFieldColors constructor(
     val focusedTextColor: ColorSpec,
     val unfocusedTextColor: ColorSpec,
     val disabledTextColor: ColorSpec,
