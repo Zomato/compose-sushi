@@ -301,7 +301,7 @@ fun DropDownShowcaseScreen(
                             expanded = isExpanded,
                             border = BorderStroke(
                                 width = 2.dp,
-                                color = SushiTheme.colors.theme.v500.value
+                                color = SushiTheme.colors.base.theme.v500.value
                             ),
                             items = items
                         ),

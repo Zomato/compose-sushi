@@ -348,7 +348,7 @@ fun HorizontalPagerShowcaseScreen(
                                             .size(if (selected) 10.dp else 8.dp)
                                             .background(
                                                 if (selected)
-                                                    SushiTheme.colors.theme.v500.value
+                                                    SushiTheme.colors.base.theme.v500.value
                                                 else
                                                     SushiTheme.colors.grey.v400.value,
                                                 CircleShape

@@ -178,7 +178,7 @@ fun IndicatorsShowcaseScreen(
                         type = SushiIndicatorType.Balloon(
                             dotsGraphic = DotGraphic(
                                 size = 16.dp,
-                                color = SushiTheme.colors.theme.v500.value
+                                color = SushiTheme.colors.base.theme.v500.value
                             )
                         ),
                         pagerState = pagerState6,
@@ -197,7 +197,7 @@ fun IndicatorsShowcaseScreen(
                         dotCount = 5,
                         type = SushiIndicatorType.Shift(
                             dotsGraphic = DotGraphic(
-                                color = SushiTheme.colors.theme.v500.value
+                                color = SushiTheme.colors.base.theme.v500.value
                             ),
                             shiftSizeFactor = 5f // Much wider shift effect
                         ),
@@ -217,7 +217,7 @@ fun IndicatorsShowcaseScreen(
                         dotCount = 5,
                         type = SushiIndicatorType.Balloon(
                             dotsGraphic = DotGraphic(
-                                color = SushiTheme.colors.theme.v500.value
+                                color = SushiTheme.colors.base.theme.v500.value
                             ),
                             balloonSizeFactor = 2.5f // Much larger balloon effect
                         ),
@@ -240,7 +240,7 @@ fun IndicatorsShowcaseScreen(
                                 color = SushiTheme.colors.grey.v300.value
                             ),
                             selectorDotGraphic = DotGraphic(
-                                color = SushiTheme.colors.theme.v500.value
+                                color = SushiTheme.colors.base.theme.v500.value
                             )
                         ),
                         pagerState = pagerState9,
@@ -276,13 +276,13 @@ fun IndicatorsShowcaseScreen(
                         type = SushiIndicatorType.Spring(
                             dotsGraphic = DotGraphic(
                                 color = Color.Transparent,
-                                borderColor = SushiTheme.colors.theme.v500.value,
+                                borderColor = SushiTheme.colors.base.theme.v500.value,
                                 borderWidth = 2.dp,
                                 size = 12.dp,
                                 shape = CircleShape
                             ),
                             selectorDotGraphic = DotGraphic(
-                                color = SushiTheme.colors.theme.v500.value,
+                                color = SushiTheme.colors.base.theme.v500.value,
                                 size = 10.dp,
                                 shape = CircleShape
                             )
@@ -304,7 +304,7 @@ fun IndicatorsShowcaseScreen(
                         type = SushiIndicatorType.Balloon(
                             dotsGraphic = DotGraphic(
                                 color = Color.Transparent,
-                                borderColor = SushiTheme.colors.theme.v500.value,
+                                borderColor = SushiTheme.colors.base.theme.v500.value,
                                 borderWidth = 2.dp,
                                 size = 12.dp
                             )
@@ -384,7 +384,7 @@ fun IndicatorsShowcaseScreen(
                                 }
                             },
                             shape = RoundedCornerShape(4.dp),
-                            color = SushiTheme.colors.theme.v500.value
+                            color = SushiTheme.colors.base.theme.v500.value
                         ) {
                             Text(
                                 "Prev",
@@ -401,7 +401,7 @@ fun IndicatorsShowcaseScreen(
                                 }
                             },
                             shape = RoundedCornerShape(4.dp),
-                            color = SushiTheme.colors.theme.v500.value
+                            color = SushiTheme.colors.base.theme.v500.value
                         ) {
                             Text(
                                 "Next",
@@ -491,7 +491,7 @@ fun IndicatorsShowcaseScreen(
                         dotCount = 5,
                         type = SushiIndicatorType.Shift(
                             dotsGraphic = DotGraphic(
-                                color = SushiTheme.colors.theme.v500.value,
+                                color = SushiTheme.colors.base.theme.v500.value,
                                 shape = RoundedCornerShape(2.dp),
                                 size = 8.dp
                             ),
