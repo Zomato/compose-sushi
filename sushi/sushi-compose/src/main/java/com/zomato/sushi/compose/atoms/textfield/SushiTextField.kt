@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -204,7 +205,9 @@ private fun SushiTextFieldImpl(
             )
         },
         suffix = {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 if (showResetButton) {
                     SushiIcon(
                         SushiIconProps(
@@ -215,7 +218,8 @@ private fun SushiTextFieldImpl(
                         Modifier
                             .clickable { onValueChange("") }
                             .padding(
-                                start = SushiTheme.dimens.spacing.nano
+                                start = SushiTheme.dimens.spacing.nano,
+                                end = SushiTheme.dimens.spacing.nano
                             )
                     )
                 }
@@ -472,7 +476,10 @@ private fun getTrailingComposable(
 
         Row(
             Modifier
+                .width(IntrinsicSize.Max)
                 .height(IntrinsicSize.Max)
+                .defaultMinSize(minWidth = 48.dp, minHeight = 48.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Spacer(
                 Modifier
@@ -481,18 +488,23 @@ private fun getTrailingComposable(
                     .width(1.dp)
                     .fillMaxHeight()
             )
-            val trailingIcon = remember(props.trailingIcon) {
-                props.trailingIcon.copy(
-                    size = props.trailingIcon.size ?:SushiIconSize.Size200,
-                    color = props.trailingIcon.color.takeIfUnspecified { defaultColor }
+            Box(
+                Modifier.weight(1f)
+            ) {
+                val trailingIcon = remember(props.trailingIcon) {
+                    props.trailingIcon.copy(
+                        size = props.trailingIcon.size ?:SushiIconSize.Size200,
+                        color = props.trailingIcon.color.takeIfUnspecified { defaultColor }
+                    )
+                }
+                SushiIcon(
+                    trailingIcon,
+                    Modifier
+                        .align(Alignment.Center)
+                        .ifNonNull(onTrailingIconClick) { this.clickable(onClick = it) }
+                        .padding(end = SushiTheme.dimens.spacing.micro)
                 )
             }
-            SushiIcon(
-                trailingIcon,
-                Modifier
-                    .ifNonNull(onTrailingIconClick) { this.clickable(onClick = it) }
-                    .padding(end = SushiTheme.dimens.spacing.micro)
-            )
         }
     }
 }
