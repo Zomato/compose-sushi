@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.compose.screenshot) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.dokka)
+    alias(libs.plugins.vanniktech.publish) apply false
 }
 
 extra.run {

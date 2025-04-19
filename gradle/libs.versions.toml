@@ -8,7 +8,7 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
 composeBom = "2024.11.00"
-publish = "0.0.6"
+publish = "0.0.7"
 composeScreenshot = "0.0.1-alpha09"
 navigationCompose = "2.8.7"
 kotlinxSerializationJson = "1.8.0"
@@ -17,6 +17,7 @@ lottie = "6.6.2"
 kotlinxCollectionsImmutable = "0.3.8"
 slackComposeLint = "1.4.2"
 dokka = "2.0.0"
+vanniktech-publish = "0.31.0-rc2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,3 +51,4 @@ publish = { id = "com.zomato.plugins.publish", version.ref = "publish" }
 compose-screenshot = { id = "com.android.compose.screenshot", version.ref = "composeScreenshot" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+vanniktech-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-publish" }
