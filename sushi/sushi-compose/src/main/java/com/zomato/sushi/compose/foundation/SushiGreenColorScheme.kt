@@ -43,6 +43,21 @@ fun sushiGreenDarkColorScheme(
             v800 = SushiRawColorTokens.Green100.asColorSpec(),
             v900 = SushiRawColorTokens.Green050.asColorSpec(),
             accentColor = SushiRawColorTokens.Green600.asColorSpec()
+        ),
+        baseColorScheme = SushiColorScheme.BaseColorScheme(
+            theme = SushiColorScheme.ThemeColorScheme(
+                v050 = SushiRawColorTokens.Green050.asColorSpec(),
+                v100 = SushiRawColorTokens.Green100.asColorSpec(),
+                v200 = SushiRawColorTokens.Green200.asColorSpec(),
+                v300 = SushiRawColorTokens.Green300.asColorSpec(),
+                v400 = SushiRawColorTokens.Green400.asColorSpec(),
+                v500 = SushiRawColorTokens.Green600.asColorSpec(),
+                v600 = SushiRawColorTokens.Green600.asColorSpec(),
+                v700 = SushiRawColorTokens.Green700.asColorSpec(),
+                v800 = SushiRawColorTokens.Green800.asColorSpec(),
+                v900 = SushiRawColorTokens.Green900.asColorSpec(),
+                accentColor = SushiRawColorTokens.Green600.asColorSpec()
+            )
         )
     )
 }
@@ -64,6 +79,21 @@ fun sushiGreenLightColorScheme(
             v800 = SushiRawColorTokens.Green800.asColorSpec(),
             v900 = SushiRawColorTokens.Green900.asColorSpec(),
             accentColor = SushiRawColorTokens.Green600.asColorSpec()
+        ),
+        baseColorScheme = SushiColorScheme.BaseColorScheme(
+            theme = SushiColorScheme.ThemeColorScheme(
+                v050 = SushiRawColorTokens.Green050.asColorSpec(),
+                v100 = SushiRawColorTokens.Green100.asColorSpec(),
+                v200 = SushiRawColorTokens.Green200.asColorSpec(),
+                v300 = SushiRawColorTokens.Green300.asColorSpec(),
+                v400 = SushiRawColorTokens.Green400.asColorSpec(),
+                v500 = SushiRawColorTokens.Green600.asColorSpec(),
+                v600 = SushiRawColorTokens.Green600.asColorSpec(),
+                v700 = SushiRawColorTokens.Green700.asColorSpec(),
+                v800 = SushiRawColorTokens.Green800.asColorSpec(),
+                v900 = SushiRawColorTokens.Green900.asColorSpec(),
+                accentColor = SushiRawColorTokens.Green600.asColorSpec()
+            )
         )
     )
 }

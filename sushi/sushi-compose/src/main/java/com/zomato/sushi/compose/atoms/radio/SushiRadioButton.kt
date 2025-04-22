@@ -104,10 +104,10 @@ private fun SushiRadioButtonImpl(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val selectedColor = props.selectedColor.takeIfSpecified() ?: SushiTheme.colors.theme.v500
+        val selectedColor = props.selectedColor.takeIfSpecified() ?: SushiTheme.colors.base.theme.v500
         val selectedColorDisabled = SushiTheme.colors.grey.v500
 
-        val unselectedColor = props.unselectedColor.takeIfSpecified() ?: SushiTheme.colors.theme.v500
+        val unselectedColor = props.unselectedColor.takeIfSpecified() ?: SushiTheme.colors.base.theme.v500
         val unselectedColorDisabled = SushiTheme.colors.grey.v500
 
         val padding = props.padding ?: SushiRadioButtonDefaults.padding

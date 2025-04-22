@@ -139,7 +139,8 @@ private fun SushiBottomSheetPreview1() {
             // Screen content
 
             if (showBottomSheet) {
-                ModalBottomSheet(
+                SushiBottomSheet(
+                    SushiBottomSheetProps(),
                     onDismissRequest = {
                         showBottomSheet = false
                     },

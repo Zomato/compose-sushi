@@ -55,7 +55,11 @@ internal fun ButtonImpl(
             localTextStyle.merge(materialLabelLarge)
         }
         Surface(
-            onClick = onClick,
+            onClick = if (enabled) {
+                onClick
+            } else {
+                {}
+            },
             modifier = modifier.semantics { role = Role.Button },
             enabled = enabled,
             shape = shape,

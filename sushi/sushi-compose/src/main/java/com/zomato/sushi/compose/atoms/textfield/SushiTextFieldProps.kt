@@ -26,15 +26,18 @@ import com.zomato.sushi.compose.atoms.text.TextTypeSpec
  * @property keyboardOptions Options controlling the behavior of the software keyboard
  * @property keyboardActions Actions to perform based on keyboard input
  * @property singleLine Whether the text field should be limited to a single line
+ * @param showResetButton Show a reset button to clear the text field's input (default is true)
  * @property maxLines Maximum number of lines to display when not in single line mode
  * @property minLines Minimum number of lines to display
  * @property shape The shape of the text field container
  * @property visualTransformation Optional transformation for displaying the text (e.g., password masking)
  * @property supportText Optional supporting text displayed below the text field
- * @property prefixIcon Optional icon displayed at the start of the text field
- * @property suffixIcon Optional icon displayed at the end of the text field
- * @property prefixText Optional text displayed at the start of the text field
- * @property suffixText Optional text displayed at the end of the text field
+ * @property prefixIcon Optional icon displayed at the start of the text field (visible when the field is not empty, or in focus)
+ * @property leadingIcon Optional icon displayed at the start of the text field (always visible)
+ * @property suffixIcon Optional icon displayed at the end of the text field (visible when the field is not empty, or in focus)
+ * @property trailingIcon Optional icon displayed at the end of the text field (always visible)
+ * @property prefixText Optional text displayed at the start of the text field (visible when the field is not empty, or in focus)
+ * @property suffixText Optional text displayed at the end of the text field (visible when the field is not empty, or in focus)
  * @property colors Color scheme for the text field's various states
  * 
  * @author gupta.anirudh@zomato.com
@@ -52,13 +55,16 @@ data class SushiTextFieldProps(
     val keyboardOptions: KeyboardOptions? = null,
     val keyboardActions: KeyboardActions? = null,
     val singleLine: Boolean? = null,
+    val showResetButton: Boolean? = null,
     val maxLines: Int? = null,
     val minLines: Int? = null,
     val shape: Shape? = null,
     val visualTransformation: VisualTransformation? = null,
     val supportText: SushiTextProps? = null,
     val prefixIcon: SushiIconProps? = null,
+    val leadingIcon: SushiIconProps? = null,
     val suffixIcon: SushiIconProps? = null,
+    val trailingIcon: SushiIconProps? = null,
     val prefixText: SushiTextProps? = null,
     val suffixText: SushiTextProps? = null,
     val colors: SushiTextFieldColors? = null,

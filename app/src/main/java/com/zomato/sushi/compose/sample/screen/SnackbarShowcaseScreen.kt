@@ -274,7 +274,7 @@ fun SnackbarShowcaseScreen(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
-                val theme500 = SushiTheme.colors.theme.v500
+                val theme500 = SushiTheme.colors.base.theme.v500
                 val surfaceSecondary = SushiTheme.colors.surface.secondary
                 SushiButton(
                     props = SushiButtonProps(
