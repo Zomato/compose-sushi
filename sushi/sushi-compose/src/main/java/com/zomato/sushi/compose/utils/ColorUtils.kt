@@ -47,3 +47,20 @@ inline fun ColorSpec.takeIfUnspecified(crossinline altColor: () -> Color) = this
         altColor()
     }
 }
+
+/**
+ * Transforms this ColorSpec by replacing its color value with an alternative if it's unspecified.
+ *
+ * This function is useful for providing fallback colors when a ColorSpec might contain
+ * an unspecified value, ensuring components always have a valid color to work with.
+ *
+ * @param altColor A function that provides the alternative color to use if this ColorSpec is unspecified
+ * @return A new ColorSpec with either the original specified color or the alternative
+ */
+inline fun ColorSpec?.takeIfNullOrUnspecified(crossinline altColor: () -> Color) = this?.transform {
+    if (it.isSpecified) {
+        it
+    } else {
+        altColor()
+    }
+} ?: altColor()
