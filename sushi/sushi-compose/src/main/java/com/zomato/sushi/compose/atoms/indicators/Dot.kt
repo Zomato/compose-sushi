@@ -22,7 +22,7 @@ internal fun Dot(
     Box(
         modifier = modifier
             .background(
-                color = graphic.color.takeIfSpecified() ?: SushiTheme.colors.theme.v500.value,
+                color = graphic.color.takeIfSpecified() ?: SushiTheme.colors.base.theme.v500.value,
                 shape = graphic.shape,
             )
             .size(graphic.size)

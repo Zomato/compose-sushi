@@ -853,12 +853,12 @@ fun TagShowcaseScreen(
                                         text = filter,
                                         type = if (isSelected) SushiTagType.Capsule else SushiTagType.CapsuleOutline,
                                         size = SushiTagSize.Small,
-                                        color = if (isSelected) SushiTheme.colors.theme.v500 else SushiTheme.colors.surface.primary,
-                                        fontColor = if (isSelected) SushiTheme.colors.white else SushiTheme.colors.theme.v500,
-                                        borderColor = SushiTheme.colors.theme.v500,
+                                        color = if (isSelected) SushiTheme.colors.base.theme.v500 else SushiTheme.colors.surface.primary,
+                                        fontColor = if (isSelected) SushiTheme.colors.white else SushiTheme.colors.base.theme.v500,
+                                        borderColor = SushiTheme.colors.base.theme.v500,
                                         prefixIcon = if (isSelected) SushiIconProps(
                                             code = SushiIconCodes.IconCheck,
-                                            color = if (isSelected) SushiTheme.colors.white else SushiTheme.colors.theme.v500
+                                            color = if (isSelected) SushiTheme.colors.white else SushiTheme.colors.base.theme.v500
                                         ) else null
                                     ),
                                     onClick = {

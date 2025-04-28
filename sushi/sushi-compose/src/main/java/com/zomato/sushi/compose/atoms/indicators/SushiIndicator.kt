@@ -171,7 +171,7 @@ private fun SushiIndicatorBalloonPreview() {
             dotSpacing = 8.dp,
             type = SushiIndicatorType.Balloon(
                 dotsGraphic = DotGraphic(
-                    color = SushiTheme.colors.theme.v500.value,
+                    color = SushiTheme.colors.base.theme.v500.value,
                     size = 8.dp
                 ),
                 balloonSizeFactor = 2f
@@ -215,7 +215,7 @@ private fun SushiIndicatorShiftPreview() {
             dotSpacing = 8.dp,
             type = SushiIndicatorType.Shift(
                 dotsGraphic = DotGraphic(
-                    color = SushiTheme.colors.theme.v500.value
+                    color = SushiTheme.colors.base.theme.v500.value
                 )
             ),
             currentPage = currentPage,
@@ -259,12 +259,12 @@ private fun SushiIndicatorSpringPreview() {
                 dotsGraphic = DotGraphic(
                     16.dp,
                     borderWidth = 2.dp,
-                    borderColor = SushiTheme.colors.theme.v500.value,
+                    borderColor = SushiTheme.colors.base.theme.v500.value,
                     color = Color.Transparent
                 ),
                 selectorDotGraphic = DotGraphic(
                     14.dp,
-                    color = SushiTheme.colors.theme.v500.value
+                    color = SushiTheme.colors.base.theme.v500.value
                 )
             ),
             currentPage = currentPage,

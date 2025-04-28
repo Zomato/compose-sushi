@@ -89,7 +89,7 @@ private fun SushiSwitchImpl(
         modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val enabledColor = props.color.takeIfSpecified() ?: SushiTheme.colors.theme.v500
+        val enabledColor = props.color.takeIfSpecified() ?: SushiTheme.colors.base.theme.v500
         val padding = props.padding ?: SushiSwitchDefaults.padding
         val verticalAlignment = props.verticalAlignment ?: SushiSwitchDefaults.verticalAlignment
         val direction = props.direction ?: SushiSwitchDefaults.direction
@@ -119,7 +119,7 @@ private fun SushiSwitchImpl(
             enabled = isEnabled,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = enabledColor.value,
-                checkedTrackColor = SushiTheme.colors.theme.v300.value,
+                checkedTrackColor = SushiTheme.colors.base.theme.v300.value,
                 uncheckedThumbColor = SushiTheme.colors.grey.v200.value,
                 uncheckedTrackColor = SushiTheme.colors.grey.v500.value,
                 disabledCheckedThumbColor = SushiTheme.colors.grey.v400.value,

@@ -89,7 +89,7 @@ private fun SushiSnackbarImpl(
 
     val action = props.actionText?.let {
         it.copy(
-            color = it.color.takeIfSpecified() ?: SushiTheme.colors.theme.v600
+            color = it.color.takeIfSpecified() ?: SushiTheme.colors.base.theme.v600
         )
     }
 
