@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -161,18 +162,20 @@ private fun SushiTextFieldImpl(
                 )
             }
         },
-        prefix = {
-            if (prefix != null) {
-                prefix()
-            } else {
-                Prefix(
-                    props = props,
-                    defaultPrefixTextStyle = textStyle.typeStyle,
-                    onPrefixIconClick = onPrefixIconClick
-                )
-            }
+        leadingIcon = if (prefix != null) {
+            { prefix() }
+        } else {
+            getPrefixComposable(
+                props = props,
+                isFocused = isFocused,
+                isError = isError,
+                isDisabled = !enabled,
+                colors = colors,
+                defaultPrefixTextStyle = textStyle.typeStyle,
+                onPrefixIconClick = onPrefixIconClick
+            )
         },
-        suffix = {
+        trailingIcon = {
             Row {
                 if (text.isNotEmpty()) {
                     SushiIcon(
@@ -194,6 +197,9 @@ private fun SushiTextFieldImpl(
                 } else {
                     Suffix(
                         props = props,
+                        isFocused = isFocused,
+                        isError = isError,
+                        isDisabled = !enabled,
                         colors = colors,
                         defaultPrefixTextStyle = textStyle.typeStyle,
                         onSuffixIconClick = onSuffixIconClick
@@ -201,35 +207,6 @@ private fun SushiTextFieldImpl(
                 }
             }
         },
-//        trailingIcon = {
-//            Row {
-//                if (text.isNotEmpty()) {
-//                    SushiIcon(
-//                        SushiIconProps(
-//                            SushiIconCodes.IconCrossCircleFill,
-//                            color = SushiTheme.colors.grey.v500,
-//                            size = SushiIconSize.Size200
-//                        ),
-//                        Modifier
-//                            .clickable { onValueChange("") }
-//                            .padding(
-//                                start = SushiTheme.dimens.spacing.nano,
-//                                end = SushiTheme.dimens.spacing.nano
-//                            )
-//                    )
-//                }
-//                if (suffix != null) {
-//                    suffix()
-//                } else {
-//                    Suffix(
-//                        props = props,
-//                        colors = colors,
-//                        defaultPrefixTextStyle = textStyle.typeStyle,
-//                        onSuffixIconClick = onSuffixIconClick
-//                    )
-//                }
-//            }
-//        },
         supportingText = supportingText ?: props.supportText?.let { getSupportTextComposable(it) },
         isError = isError,
         visualTransformation = props.visualTransformation ?: VisualTransformation.None,
@@ -300,24 +277,50 @@ private fun PlaceHolder(
 }
 
 @Composable
-private fun Prefix(
+private fun getPrefixComposable(
     props: SushiTextFieldProps,
+    isFocused: Boolean,
+    isError: Boolean,
+    isDisabled: Boolean,
+    colors: SushiTextFieldColors,
     defaultPrefixTextStyle: TextStyle,
     onPrefixIconClick: (() -> Unit)? = null,
-) {
-    Row {
-        if (props.prefixText != null) {
-            val prefixText = remember(props.prefixText, defaultPrefixTextStyle) {
-                props.prefixText.copy(type = props.prefixText.type ?: defaultPrefixTextStyle.asTextTypeSpec())
+): (@Composable () -> Unit)? {
+    if (props.prefixText == null && props.prefixIcon == null) {
+        return null
+    }
+    return {
+        val defaultColor = when {
+            isDisabled -> colors.disabledLeadingIconColor
+            isError -> colors.errorLeadingIconColor
+            isFocused -> colors.focusedLeadingIconColor
+            else -> colors.unfocusedLeadingIconColor
+        }.value
+
+        Row {
+            if (props.prefixText != null) {
+                val prefixText = remember(props.prefixText, defaultPrefixTextStyle, defaultColor) {
+                    props.prefixText.copy(
+                        type = props.prefixText.type ?: defaultPrefixTextStyle.asTextTypeSpec(),
+                        color = props.prefixText.color.takeIfUnspecified { defaultColor }
+                    )
+                }
+                SushiText(prefixText)
             }
-            SushiText(prefixText)
-        }
-        if (props.prefixIcon != null) {
-            SushiIcon(
-                props.prefixIcon,
-                Modifier
-                    .ifNonNull(onPrefixIconClick) { this.clickable(onClick = it) }
-            )
+            if (props.prefixIcon != null) {
+                val prefixIcon = remember(props.prefixIcon) {
+                    props.prefixIcon.copy(
+                        size = props.prefixIcon.size ?: SushiIconSize.Size200,
+                        color = props.prefixIcon.color.takeIfUnspecified { defaultColor }
+                    )
+                }
+                SushiIcon(
+                    prefixIcon,
+                    Modifier
+                        .ifNonNull(onPrefixIconClick) { this.clickable(onClick = it) }
+                        .padding(start = SushiTheme.dimens.spacing.micro)
+                )
+            }
         }
     }
 }
@@ -325,10 +328,20 @@ private fun Prefix(
 @Composable
 private fun Suffix(
     props: SushiTextFieldProps,
+    isFocused: Boolean,
+    isError: Boolean,
+    isDisabled: Boolean,
     colors: SushiTextFieldColors,
     defaultPrefixTextStyle: TextStyle,
     onSuffixIconClick: (() -> Unit)? = null
 ) {
+    val defaultColor = when {
+        isDisabled -> colors.disabledTrailingIconColor
+        isError -> colors.errorTrailingIconColor
+        isFocused -> colors.focusedTrailingIconColor
+        else -> colors.unfocusedTrailingIconColor
+    }.value
+
     Row(
         Modifier
             .height(IntrinsicSize.Max)
@@ -343,16 +356,26 @@ private fun Suffix(
             )
         }
         if (props.suffixText != null) {
-            val suffixText = remember(props.suffixText, defaultPrefixTextStyle) {
-                props.suffixText.copy(type = props.suffixText.type ?: defaultPrefixTextStyle.asTextTypeSpec())
+            val suffixText = remember(props.suffixText, defaultPrefixTextStyle, defaultColor) {
+                props.suffixText.copy(
+                    type = props.suffixText.type ?: defaultPrefixTextStyle.asTextTypeSpec(),
+                    color = props.suffixText.color.takeIfUnspecified { defaultColor }
+                )
             }
             SushiText(suffixText)
         }
         if (props.suffixIcon != null) {
+            val suffixIcon = remember(props.suffixIcon) {
+                props.suffixIcon.copy(
+                    size = props.suffixIcon.size ?:SushiIconSize.Size200,
+                    color = props.suffixIcon.color.takeIfUnspecified { defaultColor }
+                )
+            }
             SushiIcon(
-                props.suffixIcon,
+                suffixIcon,
                 Modifier
                     .ifNonNull(onSuffixIconClick) { this.clickable(onClick = it) }
+                    .padding(end = SushiTheme.dimens.spacing.micro)
             )
         }
     }
@@ -564,4 +587,21 @@ private fun SushiTextFieldPreview8() {
             )
         }
     }
+}
+
+@Composable
+@SushiPreview
+private fun Asdf() {
+    OutlinedTextField(
+        "",
+        onValueChange = {
+
+        },
+        suffix = {
+            Text("S")
+        },
+        trailingIcon = {
+            Text("T")
+        }
+    )
 }
