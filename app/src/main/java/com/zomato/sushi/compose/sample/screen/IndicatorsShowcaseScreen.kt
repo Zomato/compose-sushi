@@ -55,7 +55,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 object IndicatorsShowcaseScreen
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun IndicatorsShowcaseScreen(
     modifier: Modifier = Modifier
@@ -680,7 +679,6 @@ private fun SectionTitle(title: String) {
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun AutoScrollingPager(pagerState: androidx.compose.foundation.pager.PagerState, pageCount: Int = 5) {
     val scope = rememberCoroutineScope()

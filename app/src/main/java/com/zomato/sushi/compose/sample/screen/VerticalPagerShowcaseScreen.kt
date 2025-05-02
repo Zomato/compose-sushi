@@ -62,7 +62,6 @@ import kotlin.math.absoluteValue
 @Serializable
 object VerticalPagerShowcaseScreen
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VerticalPagerShowcaseScreen(
     modifier: Modifier = Modifier

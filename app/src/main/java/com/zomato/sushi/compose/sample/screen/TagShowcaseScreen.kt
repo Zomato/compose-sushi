@@ -57,7 +57,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 object TagShowcaseScreen
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TagShowcaseScreen(
     modifier: Modifier = Modifier

@@ -60,7 +60,6 @@ import kotlin.math.roundToInt
 /**
  * @author gupta.anirudh@zomato.com
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun SwitchImpl(
     checked: Boolean,

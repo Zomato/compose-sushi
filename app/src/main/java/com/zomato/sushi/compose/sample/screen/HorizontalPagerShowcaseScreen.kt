@@ -71,7 +71,6 @@ import kotlin.random.Random
 @Serializable
 object HorizontalPagerShowcaseScreen
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HorizontalPagerShowcaseScreen(
     modifier: Modifier = Modifier

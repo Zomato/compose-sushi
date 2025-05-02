@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import com.zomato.sushi.compose.modifiers.clip.clip
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun <T> CircularReveal(
     targetState: T,
