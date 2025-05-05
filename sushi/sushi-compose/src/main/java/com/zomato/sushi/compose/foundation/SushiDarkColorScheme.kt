@@ -186,6 +186,7 @@ fun sushiDarkColorScheme(
         accentIndigoInverse = SushiRawColorTokens.Indigo050.asColorSpec(),
         darkIntense = SushiRawColorTokens.Black.asColorSpec(),
         accentTeal = SushiRawColorTokens.Teal900.asColorSpec(),
+        backgroundSelection = themeColorScheme.v050,
     ),
     borderColorScheme: SushiColorScheme.BorderColorScheme = SushiColorScheme.BorderColorScheme(
         subtle = SushiRawColorTokens.Slate800.asColorSpec(),
