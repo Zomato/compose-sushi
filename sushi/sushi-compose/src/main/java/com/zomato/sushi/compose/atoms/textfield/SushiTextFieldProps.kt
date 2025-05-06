@@ -4,6 +4,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
@@ -17,6 +18,7 @@ import com.zomato.sushi.compose.atoms.text.TextTypeSpec
  *
  * @property id Optional identifier for the text field
  * @property text Current text value displayed in the field
+ * @property textFieldValue Current text value displayed in the field as a TextFieldValue object
  * @property textStyle Typography style for the input text
  * @property placeholder Text displayed when the field is empty
  * @property enabled Whether the text field is interactive (true) or disabled (false)
@@ -46,6 +48,7 @@ import com.zomato.sushi.compose.atoms.text.TextTypeSpec
 data class SushiTextFieldProps(
     val id: String? = null,
     val text: String? = null,
+    val textFieldValue: TextFieldValue? = null,
     val textStyle: TextTypeSpec? = null,
     val placeholder: SushiTextProps? = null,
     val enabled: Boolean? = null,

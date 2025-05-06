@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,12 +42,11 @@ import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.ifNonNull
-import com.zomato.sushi.compose.utils.takeIfSpecified
 import com.zomato.sushi.compose.utils.takeIfUnspecified
 
 /**
  * A customizable text input field component for the Sushi design system.
- * 
+ *
  * SushiTextField provides a standard text field with support for:
  * - Labels and placeholder text
  * - Error states and support text
@@ -147,121 +145,158 @@ private fun SushiTextFieldImpl(
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
-    OutlinedTextField(
-        value = text,
-        onValueChange = { onValueChange(it) },
-        modifier = modifier,
-        enabled = enabled,
-        readOnly = readOnly,
-        textStyle = textStyle.typeStyle,
-        label = label ?: props.label?.let {
-            getLabelTextComposable(
-                it,
+    val label = label ?: props.label?.let {
+        getLabelTextComposable(
+            it,
+            isFocused = isFocused,
+            isError = isError,
+            isDisabled = !enabled,
+            colors = colors,
+        )
+    }
+    val placeholder = @Composable {
+        if (placeholder != null) {
+            placeholder()
+        } else {
+            PlaceHolder(
+                props.placeholder,
                 isFocused = isFocused,
                 isError = isError,
                 isDisabled = !enabled,
                 colors = colors,
+                defaultTextStyle = textStyle.typeStyle
             )
-        },
-        placeholder = {
-            if (placeholder != null) {
-                placeholder()
-            } else {
-                PlaceHolder(
-                    props.placeholder,
-                    isFocused = isFocused,
-                    isError = isError,
-                    isDisabled = !enabled,
-                    colors = colors,
-                    defaultTextStyle = textStyle.typeStyle
+        }
+    }
+    val prefix = @Composable {
+        if (prefix != null) {
+            prefix()
+        } else {
+            Prefix(
+                props = props,
+                isFocused = isFocused,
+                isError = isError,
+                isDisabled = !enabled,
+                colors = colors,
+                defaultPrefixTextStyle = textStyle.typeStyle,
+                onPrefixIconClick = onPrefixIconClick
+            )
+        }
+    }
+    val leadingIcon = if (leadingIcon != null) {
+        { leadingIcon() }
+    } else {
+        getLeadingComposable(
+            props = props,
+            isFocused = isFocused,
+            isError = isError,
+            isDisabled = !enabled,
+            colors = colors,
+            onLeadingIconClick = onLeadingIconClick
+        )
+    }
+    val suffix = @Composable {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (showResetButton) {
+                SushiIcon(
+                    SushiIconProps(
+                        SushiIconCodes.IconCrossCircleFill,
+                        color = SushiTheme.colors.grey.v500,
+                        size = SushiIconSize.Size200
+                    ),
+                    Modifier
+                        .clickable { onValueChange("") }
+                        .padding(
+                            start = SushiTheme.dimens.spacing.nano,
+                            end = SushiTheme.dimens.spacing.nano
+                        )
                 )
             }
-        },
-        prefix = {
-            if (prefix != null) {
-                prefix()
+            if (suffix != null) {
+                suffix()
             } else {
-                Prefix(
+                Suffix(
                     props = props,
                     isFocused = isFocused,
                     isError = isError,
                     isDisabled = !enabled,
                     colors = colors,
                     defaultPrefixTextStyle = textStyle.typeStyle,
-                    onPrefixIconClick = onPrefixIconClick
+                    onSuffixIconClick = onSuffixIconClick
                 )
             }
-        },
-        leadingIcon = if (leadingIcon != null) {
-            { leadingIcon() }
-        } else {
-            getLeadingComposable(
-                props = props,
-                isFocused = isFocused,
-                isError = isError,
-                isDisabled = !enabled,
-                colors = colors,
-                onLeadingIconClick = onLeadingIconClick
-            )
-        },
-        suffix = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (showResetButton) {
-                    SushiIcon(
-                        SushiIconProps(
-                            SushiIconCodes.IconCrossCircleFill,
-                            color = SushiTheme.colors.grey.v500,
-                            size = SushiIconSize.Size200
-                        ),
-                        Modifier
-                            .clickable { onValueChange("") }
-                            .padding(
-                                start = SushiTheme.dimens.spacing.nano,
-                                end = SushiTheme.dimens.spacing.nano
-                            )
-                    )
-                }
-                if (suffix != null) {
-                    suffix()
-                } else {
-                    Suffix(
-                        props = props,
-                        isFocused = isFocused,
-                        isError = isError,
-                        isDisabled = !enabled,
-                        colors = colors,
-                        defaultPrefixTextStyle = textStyle.typeStyle,
-                        onSuffixIconClick = onSuffixIconClick
-                    )
-                }
-            }
-        },
-        trailingIcon = if (trailingIcon != null) {
-            { trailingIcon() }
-        } else {
-            getTrailingComposable(
-                props = props,
-                isFocused = isFocused,
-                isError = isError,
-                isDisabled = !enabled,
-                colors = colors,
-                onTrailingIconClick = onTrailingIconClick
-            )
-        },
-        supportingText = supportingText ?: props.supportText?.let { getSupportTextComposable(it) },
-        isError = isError,
-        visualTransformation = props.visualTransformation ?: VisualTransformation.None,
-        keyboardOptions = props.keyboardOptions ?: KeyboardOptions.Default,
-        keyboardActions = props.keyboardActions ?: KeyboardActions.Default,
-        singleLine = singleLine,
-        maxLines = maxLines,
-        minLines = minLines,
-        interactionSource = interactionSource,
-        shape = shape,
-        colors = colors.toTextFieldColors()
-    )
+        }
+    }
+    val trailingIcon = if (trailingIcon != null) {
+        { trailingIcon() }
+    } else {
+        getTrailingComposable(
+            props = props,
+            isFocused = isFocused,
+            isError = isError,
+            isDisabled = !enabled,
+            colors = colors,
+            onTrailingIconClick = onTrailingIconClick
+        )
+    }
+    val supportingText = supportingText ?: props.supportText?.let { getSupportTextComposable(it) }
+    val visualTransformation = props.visualTransformation ?: VisualTransformation.None
+    val keyboardOptions = props.keyboardOptions ?: KeyboardOptions.Default
+    val keyboardActions = props.keyboardActions ?: KeyboardActions.Default
+
+    if (props.textFieldValue != null) {
+        OutlinedTextField(
+            value = props.textFieldValue,
+            onValueChange = { onValueChange(it.text) },
+            modifier = modifier,
+            enabled = enabled,
+            readOnly = readOnly,
+            textStyle = textStyle.typeStyle,
+            label = label,
+            placeholder = placeholder,
+            prefix = prefix,
+            leadingIcon = leadingIcon,
+            suffix = suffix,
+            trailingIcon = trailingIcon,
+            supportingText = supportingText,
+            isError = isError,
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            singleLine = singleLine,
+            maxLines = maxLines,
+            minLines = minLines,
+            interactionSource = interactionSource,
+            shape = shape,
+            colors = colors.toTextFieldColors()
+        )
+    } else {
+        OutlinedTextField(
+            value = text,
+            onValueChange = { onValueChange(it) },
+            modifier = modifier,
+            enabled = enabled,
+            readOnly = readOnly,
+            textStyle = textStyle.typeStyle,
+            label = label,
+            placeholder = placeholder,
+            prefix = prefix,
+            leadingIcon = leadingIcon,
+            suffix = suffix,
+            trailingIcon = trailingIcon,
+            supportingText = supportingText,
+            isError = isError,
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            singleLine = singleLine,
+            maxLines = maxLines,
+            minLines = minLines,
+            interactionSource = interactionSource,
+            shape = shape,
+            colors = colors.toTextFieldColors()
+        )
+    }
 }
 
 private fun getLabelTextComposable(
@@ -440,7 +475,7 @@ private fun Suffix(
         if (props.suffixIcon != null) {
             val suffixIcon = remember(props.suffixIcon) {
                 props.suffixIcon.copy(
-                    size = props.suffixIcon.size ?:SushiIconSize.Size200,
+                    size = props.suffixIcon.size ?: SushiIconSize.Size200,
                     color = props.suffixIcon.color.takeIfUnspecified { defaultColor }
                 )
             }
@@ -493,7 +528,7 @@ private fun getTrailingComposable(
             ) {
                 val trailingIcon = remember(props.trailingIcon) {
                     props.trailingIcon.copy(
-                        size = props.trailingIcon.size ?:SushiIconSize.Size200,
+                        size = props.trailingIcon.size ?: SushiIconSize.Size200,
                         color = props.trailingIcon.color.takeIfUnspecified { defaultColor }
                     )
                 }
@@ -735,7 +770,10 @@ private fun SushiTextFieldPreview9() {
                         color = Color.Red.asColorSpec()
                     ),
                     prefixText = SushiTextProps("+91 "),
-                    trailingIcon = SushiIconProps(code = SushiIconCodes.IconContactsDroid, size = SushiIconSize.Size400),
+                    trailingIcon = SushiIconProps(
+                        code = SushiIconCodes.IconContactsDroid,
+                        size = SushiIconSize.Size400
+                    ),
                     label = SushiTextProps("Receiver's Phone"),
                     showResetButton = false
                 ),
