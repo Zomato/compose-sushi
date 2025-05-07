@@ -671,6 +671,19 @@ data class SushiColorScheme(
             v700 = SushiRawColorTokens.Slate700.asColorSpec(),
             v800 = SushiRawColorTokens.Slate800.asColorSpec(),
             v900 = SushiRawColorTokens.Slate900.asColorSpec(),
+        ),
+        val theme: ThemeColorScheme = ThemeColorScheme(
+            v050 = SushiRawColorTokens.Red050.asColorSpec(),
+            v100 = SushiRawColorTokens.Red100.asColorSpec(),
+            v200 = SushiRawColorTokens.Red200.asColorSpec(),
+            v300 = SushiRawColorTokens.Red300.asColorSpec(),
+            v400 = SushiRawColorTokens.Red400.asColorSpec(),
+            v500 = SushiRawColorTokens.Red500.asColorSpec(),
+            v600 = SushiRawColorTokens.Red600.asColorSpec(),
+            v700 = SushiRawColorTokens.Red700.asColorSpec(),
+            v800 = SushiRawColorTokens.Red800.asColorSpec(),
+            v900 = SushiRawColorTokens.Red900.asColorSpec(),
+            accentColor = SushiRawColorTokens.Red600.asColorSpec(),
         )
     )
 
@@ -748,6 +761,7 @@ data class SushiColorScheme(
     data class SurfaceColorScheme(
         val backgroundPrimary: ColorSpec,
         val backgroundSecondary: ColorSpec,
+        val backgroundSelection: ColorSpec,
         val primary: ColorSpec,
         val secondary: ColorSpec,
         val elevated: ColorSpec,

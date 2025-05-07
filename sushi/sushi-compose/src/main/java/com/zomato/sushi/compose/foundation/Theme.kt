@@ -4,6 +4,8 @@ package com.zomato.sushi.compose.foundation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -189,6 +191,10 @@ fun SushiTheme(
         shapes = MaterialTheme.shapes,
         typography = typography.materialTypography
     ) {
+        val textSelectionColors = TextSelectionColors(
+            handleColor = colorScheme.theme.v500.value,
+            backgroundColor = colorScheme.theme.v200.value
+        )
         CompositionLocalProvider(
             LocalSushiColorScheme provides colorScheme,
             LocalSushiTypography provides typography,
@@ -196,6 +202,7 @@ fun SushiTheme(
             LocalSushiFontSizeMultiplier provides fontSizeMultiplier,
             LocalSushiColorTokenMapper provides colorTokenMapper,
             LocalIndication provides noIndication(),
+            LocalTextSelectionColors provides textSelectionColors,
             content = content
         )
     }

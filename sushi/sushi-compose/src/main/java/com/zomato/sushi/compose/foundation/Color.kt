@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.foundation
 
+import androidx.compose.ui.graphics.Color
 import com.zomato.sushi.compose.atoms.color.ColorSchemeTypeAdaptedColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
@@ -21,27 +22,27 @@ val Black = SushiRawColorTokens.Black.asColorSpec()
 val White = SushiRawColorTokens.White.asColorSpec()
 val Transparent = SushiRawColorTokens.Transparent.asColorSpec()
 
-val Grey050: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey050, SushiRawColorTokens.Grey900)
-val Grey100: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey100, SushiRawColorTokens.Grey800)
-val Grey200: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey200, SushiRawColorTokens.Grey700)
-val Grey300: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey300, SushiRawColorTokens.Grey600)
-val Grey400: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey400, SushiRawColorTokens.Grey500)
-val Grey500: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey500, SushiRawColorTokens.Grey400)
-val Grey600: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey600, SushiRawColorTokens.Grey300)
-val Grey700: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey700, SushiRawColorTokens.Grey200)
-val Grey800: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey800, SushiRawColorTokens.Grey100)
-val Grey900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey900, SushiRawColorTokens.Grey050)
+val Grey050: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey050, SushiRawColorTokens.Slate900)
+val Grey100: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey100, SushiRawColorTokens.Slate800)
+val Grey200: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey200, SushiRawColorTokens.Slate700)
+val Grey300: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey300, SushiRawColorTokens.Slate600)
+val Grey400: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey400, SushiRawColorTokens.Slate500)
+val Grey500: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey500, SushiRawColorTokens.Slate400)
+val Grey600: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey600, SushiRawColorTokens.Slate300)
+val Grey700: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey700, SushiRawColorTokens.Slate200)
+val Grey800: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey800, SushiRawColorTokens.Slate100)
+val Grey900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Grey900, SushiRawColorTokens.Slate050)
 
 val Red050: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red050, SushiRawColorTokens.Red900)
 val Red100: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red100, SushiRawColorTokens.Red800)
 val Red200: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red200, SushiRawColorTokens.Red700)
-val Red300: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red300, SushiRawColorTokens.Red600)
+val Red300: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red300, Color(0xFFD04D5A))
 val Red400: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red400, SushiRawColorTokens.Red500)
-val Red500: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red500, SushiRawColorTokens.Red400)
+val Red500: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red500, SushiRawColorTokens.Red500)
 val Red600: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red600, SushiRawColorTokens.Red300)
 val Red700: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red700, SushiRawColorTokens.Red200)
 val Red800: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red800, SushiRawColorTokens.Red100)
-val Red900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red900, SushiRawColorTokens.Red050)
+val Red900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red900, Color(0xFFFFF5F6))
 
 val Green050: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Green050, SushiRawColorTokens.Green900)
 val Green100: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Green100, SushiRawColorTokens.Green800)
@@ -87,7 +88,7 @@ val Purple500: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawCo
 val Purple600: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Purple600, SushiRawColorTokens.Purple300)
 val Purple700: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Purple700, SushiRawColorTokens.Purple200)
 val Purple800: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Purple800, SushiRawColorTokens.Purple100)
-val Purple900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Purple900, SushiRawColorTokens.Purple050)
+val Purple900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Purple900, Color(0xFFFAF8FE))
 
 // Indigo
 val Indigo050: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Indigo050, SushiRawColorTokens.Indigo900)
@@ -114,7 +115,7 @@ val Brown800: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawCol
 val Brown900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Brown900, SushiRawColorTokens.Brown050)
 
 // Cider
-val Cider050: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Cider050, SushiRawColorTokens.Cider900)
+val Cider050: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Cider050, Color(0xFF492E06))
 val Cider100: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Cider100, SushiRawColorTokens.Cider800)
 val Cider200: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Cider200, SushiRawColorTokens.Cider700)
 val Cider300: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Cider300, SushiRawColorTokens.Cider600)

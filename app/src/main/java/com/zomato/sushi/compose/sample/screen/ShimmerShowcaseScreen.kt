@@ -343,7 +343,7 @@ fun ShimmerShowcaseScreen(
                                 props = SushiIconProps(
                                     code = SushiIconCodes.IconLocation,
                                     size = SushiIconSize.Size500,
-                                    color = SushiTheme.colors.theme.v500
+                                    color = SushiTheme.colors.base.theme.v500
                                 )
                             )
 
@@ -465,13 +465,13 @@ fun ShimmerShowcaseScreen(
                             modifier = Modifier
                                 .size(60.dp)
                                 .background(
-                                    SushiTheme.colors.theme.v200.value,
+                                    SushiTheme.colors.base.theme.v200.value,
                                     CircleShape
                                 )
-                                .border(2.dp, SushiTheme.colors.theme.v500.value, CircleShape),
+                                .border(2.dp, SushiTheme.colors.base.theme.v500.value, CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("JD", color = SushiTheme.colors.theme.v700.value)
+                            Text("JD", color = SushiTheme.colors.base.theme.v700.value)
                         }
 
                         // User info

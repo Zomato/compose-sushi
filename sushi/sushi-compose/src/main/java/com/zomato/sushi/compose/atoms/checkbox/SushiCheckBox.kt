@@ -103,7 +103,7 @@ private fun SushiCheckBoxImpl(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val enabledColor = props.color ?: SushiTheme.colors.theme.v600
+        val enabledColor = props.color ?: SushiTheme.colors.base.theme.v600
         val disabledColor = SushiTheme.colors.grey.v500
         val padding = props.boxPadding ?: SushiCheckBoxDefaults.padding
         val verticalAlignment = props.verticalAlignment ?: SushiCheckBoxDefaults.verticalAlignment

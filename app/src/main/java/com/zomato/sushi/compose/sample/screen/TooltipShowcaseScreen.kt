@@ -185,7 +185,7 @@ fun TooltipShowcaseScreen(
                             SushiIcon(
                                 props = SushiIconProps(
                                     code = SushiIconCodes.IconInfo,
-                                    color = SushiTheme.colors.theme.v500
+                                    color = SushiTheme.colors.base.theme.v500
                                 ),
                                 onClick = {
                                     scope.launch {

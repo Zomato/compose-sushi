@@ -23,7 +23,7 @@
 -repackageclasses com.zomato.sushilib-core
 #
 ## Keep the SushiColorToken interface
--keep class com.zomato.sushi.core.SushiColorToken { *; }
+-keep interface com.zomato.sushi.core.SushiColorToken { *; }
 #
 ## Keep the SushiColorToken factory function
 #-keepclassmembers class com.zomato.sushi.core.SushiColorTokenKt {

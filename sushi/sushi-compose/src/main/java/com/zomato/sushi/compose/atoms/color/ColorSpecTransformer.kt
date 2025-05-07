@@ -26,7 +26,7 @@ private data class ColorSpecTransformer(
     override val value: Color
         @Composable @Stable get() {
             val value = original.value
-            return remember(value) { transform(value) }
+            return transform(value)
         }
 }
 
