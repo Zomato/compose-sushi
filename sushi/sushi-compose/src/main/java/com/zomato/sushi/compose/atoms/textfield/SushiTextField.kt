@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.atoms.textfield
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,8 +28,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.asColorSpec
@@ -39,12 +42,291 @@ import com.zomato.sushi.compose.atoms.icon.SushiIconSize
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
+import com.zomato.sushi.compose.atoms.text.TextTypeSpec
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 import com.zomato.sushi.compose.utils.takeIfUnspecified
+
+/**
+ * A customizable text input field component for the Sushi design system.
+ *
+ * SushiTextField provides a standard text field with support for:
+ * - Labels and placeholder text
+ * - Error states and support text
+ * - Prefix and suffix text/icons
+ * - Custom styling via colors and shapes
+ * - Keyboard options and actions
+ * - Accessibility features
+ *
+ * This component wraps the Material3 OutlinedTextField to maintain consistency
+ * with the design system while leveraging the functionality of the standard component.
+ *
+ * @param text Current [TextFieldValue] value displayed in the field
+ * @param onValueChange Callback that provides the updated [TextFieldValue] when the user changes the field
+ * @param modifier The modifier to be applied to the component
+ * @param id Optional identifier for the text field
+ * @param textStyle Typography style for the input text
+ * @param placeholder Text displayed when the field is empty
+ * @param enabled Whether the text field is interactive (true) or disabled (false)
+ * @param readOnly Whether the text field allows user input (false) or is read-only (true)
+ * @param isError Whether to display the text field in an error state
+ * @param label Optional label text displayed above the text field
+ * @param keyboardOptions Options controlling the behavior of the software keyboard
+ * @param keyboardActions Actions to perform based on keyboard input
+ * @param singleLine Whether the text field should be limited to a single line
+ * @param showResetButton Show a reset button to clear the text field's input (default is true)
+ * @param maxLines Maximum number of lines to display when not in single line mode
+ * @param minLines Minimum number of lines to display
+ * @param shape The shape of the text field container
+ * @param visualTransformation Optional transformation for displaying the text (e.g., password masking)
+ * @param supportText Optional supporting text displayed below the text field
+ * @param prefixIcon Optional icon displayed at the start of the text field (visible when the field is not empty, or in focus)
+ * @param leadingIcon Optional icon displayed at the start of the text field (always visible)
+ * @param suffixIcon Optional icon displayed at the end of the text field (visible when the field is not empty, or in focus)
+ * @param trailingIcon Optional icon displayed at the end of the text field (always visible)
+ * @param prefixText Optional text displayed at the start of the text field (visible when the field is not empty, or in focus)
+ * @param suffixText Optional text displayed at the end of the text field (visible when the field is not empty, or in focus)
+ * @param colors Color scheme for the text field's various states
+ * @param interactionSource Optional interaction source that will be used to handle interactions with the text field
+ * @param prefix Optional custom content to display at the start of the text field
+ * @param suffix Optional custom content to display at the end of the text field
+ * @param label Optional custom content to display as the text field label
+ * @param supportingText Optional custom content to display as supporting text below the field
+ * @param placeholder Optional custom content to display when the field is empty
+ */
+@Composable
+fun SushiTextField(
+    text: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
+    id: String? = null,
+    textStyle: TextTypeSpec? = null,
+    placeholder: SushiTextProps? = null,
+    enabled: Boolean? = null,
+    readOnly: Boolean? = null,
+    isError: Boolean? = null,
+    label: SushiTextProps? = null,
+    keyboardOptions: KeyboardOptions? = null,
+    keyboardActions: KeyboardActions? = null,
+    singleLine: Boolean? = null,
+    showResetButton: Boolean? = null,
+    maxLines: Int? = null,
+    minLines: Int? = null,
+    shape: Shape? = null,
+    visualTransformation: VisualTransformation? = null,
+    supportText: SushiTextProps? = null,
+    prefixIcon: SushiIconProps? = null,
+    leadingIcon: SushiIconProps? = null,
+    suffixIcon: SushiIconProps? = null,
+    trailingIcon: SushiIconProps? = null,
+    prefixText: SushiTextProps? = null,
+    suffixText: SushiTextProps? = null,
+    colors: SushiTextFieldColors? = null,
+    interactionSource: MutableInteractionSource? = null,
+    prefixProvider: @Composable (() -> Unit)? = null,
+    leadingIconProvider: @Composable (() -> Unit)? = null,
+    suffixProvider: @Composable (() -> Unit)? = null,
+    trailingIconProvider: @Composable (() -> Unit)? = null,
+    labelProvider: @Composable (() -> Unit)? = null,
+    supportingTextProvider: @Composable (() -> Unit)? = null,
+    placeholderProvider: @Composable (() -> Unit)? = null,
+    onPrefixIconClick: (() -> Unit)? = null,
+    onLeadingIconClick: (() -> Unit)? = null,
+    onSuffixIconClick: (() -> Unit)? = null,
+    onTrailingIconClick: (() -> Unit)? = null,
+) {
+    SushiComponentBase(
+        modifier
+            .height(IntrinsicSize.Max)
+            .width(IntrinsicSize.Max)
+            .testTag("SushiTextField")
+    ) {
+        SushiTextFieldImpl(
+            propsId = id,
+            propsText = null,
+            propsTextFieldValue = text,
+            propsTextStyle = textStyle,
+            propsPlaceholder = placeholder,
+            propsEnabled = enabled,
+            propsReadOnly = readOnly,
+            propsIsError = isError,
+            propsLabel = label,
+            propsKeyboardOptions = keyboardOptions,
+            propsKeyboardActions = keyboardActions,
+            propsSingleLine = singleLine,
+            propsShowResetButton = showResetButton,
+            propsMaxLines = maxLines,
+            propsMinLines = minLines,
+            propsShape = shape,
+            propsVisualTransformation = visualTransformation,
+            propsSupportText = supportText,
+            propsPrefixIcon = prefixIcon,
+            propsLeadingIcon = leadingIcon,
+            propsSuffixIcon = suffixIcon,
+            propsTrailingIcon = trailingIcon,
+            propsPrefixText = prefixText,
+            propsSuffixText = suffixText,
+            propsColors = colors,
+            onValueChange = {},
+            onTextFieldValueChange = onValueChange,
+            modifier = Modifier.fillMaxSize(),
+            interactionSource = interactionSource,
+            prefix = prefixProvider,
+            leadingIcon = leadingIconProvider,
+            suffix = suffixProvider,
+            trailingIcon = trailingIconProvider,
+            label = labelProvider,
+            supportingText = supportingTextProvider,
+            placeholder = placeholderProvider,
+            onPrefixIconClick = onPrefixIconClick,
+            onLeadingIconClick = onLeadingIconClick,
+            onSuffixIconClick = onSuffixIconClick,
+            onTrailingIconClick = onTrailingIconClick
+        )
+    }
+}
+
+/**
+ * A customizable text input field component for the Sushi design system.
+ *
+ * SushiTextField provides a standard text field with support for:
+ * - Labels and placeholder text
+ * - Error states and support text
+ * - Prefix and suffix text/icons
+ * - Custom styling via colors and shapes
+ * - Keyboard options and actions
+ * - Accessibility features
+ *
+ * This component wraps the Material3 OutlinedTextField to maintain consistency
+ * with the design system while leveraging the functionality of the standard component.
+ *
+ * @param text Current text value displayed in the field
+ * @param onValueChange Callback that provides the updated text when the user edits the field
+ * @param modifier The modifier to be applied to the component
+ * @param id Optional identifier for the text field
+ * @param textStyle Typography style for the input text
+ * @param placeholder Text displayed when the field is empty
+ * @param enabled Whether the text field is interactive (true) or disabled (false)
+ * @param readOnly Whether the text field allows user input (false) or is read-only (true)
+ * @param isError Whether to display the text field in an error state
+ * @param label Optional label text displayed above the text field
+ * @param keyboardOptions Options controlling the behavior of the software keyboard
+ * @param keyboardActions Actions to perform based on keyboard input
+ * @param singleLine Whether the text field should be limited to a single line
+ * @param showResetButton Show a reset button to clear the text field's input (default is true)
+ * @param maxLines Maximum number of lines to display when not in single line mode
+ * @param minLines Minimum number of lines to display
+ * @param shape The shape of the text field container
+ * @param visualTransformation Optional transformation for displaying the text (e.g., password masking)
+ * @param supportText Optional supporting text displayed below the text field
+ * @param prefixIcon Optional icon displayed at the start of the text field (visible when the field is not empty, or in focus)
+ * @param leadingIcon Optional icon displayed at the start of the text field (always visible)
+ * @param suffixIcon Optional icon displayed at the end of the text field (visible when the field is not empty, or in focus)
+ * @param trailingIcon Optional icon displayed at the end of the text field (always visible)
+ * @param prefixText Optional text displayed at the start of the text field (visible when the field is not empty, or in focus)
+ * @param suffixText Optional text displayed at the end of the text field (visible when the field is not empty, or in focus)
+ * @param colors Color scheme for the text field's various states
+ * @param interactionSource Optional interaction source that will be used to handle interactions with the text field
+ * @param prefix Optional custom content to display at the start of the text field
+ * @param suffix Optional custom content to display at the end of the text field
+ * @param label Optional custom content to display as the text field label
+ * @param supportingText Optional custom content to display as supporting text below the field
+ * @param placeholder Optional custom content to display when the field is empty
+ */
+@Composable
+fun SushiTextField(
+    text: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    id: String? = null,
+    textStyle: TextTypeSpec? = null,
+    placeholder: SushiTextProps? = null,
+    enabled: Boolean? = null,
+    readOnly: Boolean? = null,
+    isError: Boolean? = null,
+    label: SushiTextProps? = null,
+    keyboardOptions: KeyboardOptions? = null,
+    keyboardActions: KeyboardActions? = null,
+    singleLine: Boolean? = null,
+    showResetButton: Boolean? = null,
+    maxLines: Int? = null,
+    minLines: Int? = null,
+    shape: Shape? = null,
+    visualTransformation: VisualTransformation? = null,
+    supportText: SushiTextProps? = null,
+    prefixIcon: SushiIconProps? = null,
+    leadingIcon: SushiIconProps? = null,
+    suffixIcon: SushiIconProps? = null,
+    trailingIcon: SushiIconProps? = null,
+    prefixText: SushiTextProps? = null,
+    suffixText: SushiTextProps? = null,
+    colors: SushiTextFieldColors? = null,
+    interactionSource: MutableInteractionSource? = null,
+    prefixProvider: @Composable (() -> Unit)? = null,
+    leadingIconProvider: @Composable (() -> Unit)? = null,
+    suffixProvider: @Composable (() -> Unit)? = null,
+    trailingIconProvider: @Composable (() -> Unit)? = null,
+    labelProvider: @Composable (() -> Unit)? = null,
+    supportingTextProvider: @Composable (() -> Unit)? = null,
+    placeholderProvider: @Composable (() -> Unit)? = null,
+    onPrefixIconClick: (() -> Unit)? = null,
+    onLeadingIconClick: (() -> Unit)? = null,
+    onSuffixIconClick: (() -> Unit)? = null,
+    onTrailingIconClick: (() -> Unit)? = null,
+) {
+    SushiComponentBase(
+        modifier
+            .height(IntrinsicSize.Max)
+            .width(IntrinsicSize.Max)
+            .testTag("SushiTextField")
+    ) {
+        SushiTextFieldImpl(
+            propsId = id,
+            propsText = text,
+            propsTextFieldValue = null,
+            propsTextStyle = textStyle,
+            propsPlaceholder = placeholder,
+            propsEnabled = enabled,
+            propsReadOnly = readOnly,
+            propsIsError = isError,
+            propsLabel = label,
+            propsKeyboardOptions = keyboardOptions,
+            propsKeyboardActions = keyboardActions,
+            propsSingleLine = singleLine,
+            propsShowResetButton = showResetButton,
+            propsMaxLines = maxLines,
+            propsMinLines = minLines,
+            propsShape = shape,
+            propsVisualTransformation = visualTransformation,
+            propsSupportText = supportText,
+            propsPrefixIcon = prefixIcon,
+            propsLeadingIcon = leadingIcon,
+            propsSuffixIcon = suffixIcon,
+            propsTrailingIcon = trailingIcon,
+            propsPrefixText = prefixText,
+            propsSuffixText = suffixText,
+            propsColors = colors,
+            onValueChange = onValueChange,
+            onTextFieldValueChange = {},
+            modifier = Modifier.fillMaxSize(),
+            interactionSource = interactionSource,
+            prefix = prefixProvider,
+            leadingIcon = leadingIconProvider,
+            suffix = suffixProvider,
+            trailingIcon = trailingIconProvider,
+            label = labelProvider,
+            supportingText = supportingTextProvider,
+            placeholder = placeholderProvider,
+            onPrefixIconClick = onPrefixIconClick,
+            onLeadingIconClick = onLeadingIconClick,
+            onSuffixIconClick = onSuffixIconClick,
+            onTrailingIconClick = onTrailingIconClick
+        )
+    }
+}
 
 /**
  * A customizable text input field component for the Sushi design system.
@@ -76,13 +358,13 @@ fun SushiTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource? = null,
-    prefix: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    suffix: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    label: @Composable (() -> Unit)? = null,
-    supportingText: @Composable (() -> Unit)? = null,
-    placeholder: @Composable (() -> Unit)? = null,
+    prefixProvider: @Composable (() -> Unit)? = null,
+    leadingIconProvider: @Composable (() -> Unit)? = null,
+    suffixProvider: @Composable (() -> Unit)? = null,
+    trailingIconProvider: @Composable (() -> Unit)? = null,
+    labelProvider: @Composable (() -> Unit)? = null,
+    supportingTextProvider: @Composable (() -> Unit)? = null,
+    placeholderProvider: @Composable (() -> Unit)? = null,
     onPrefixIconClick: (() -> Unit)? = null,
     onLeadingIconClick: (() -> Unit)? = null,
     onSuffixIconClick: (() -> Unit)? = null,
@@ -95,17 +377,42 @@ fun SushiTextField(
             .testTag("SushiTextField")
     ) {
         SushiTextFieldImpl(
-            props = props,
+            propsId = props.id,
+            propsText = props.text,
+            propsTextFieldValue = null,
+            propsTextStyle = props.textStyle,
+            propsPlaceholder = props.placeholder,
+            propsEnabled = props.enabled,
+            propsReadOnly = props.readOnly,
+            propsIsError = props.isError,
+            propsLabel = props.label,
+            propsKeyboardOptions = props.keyboardOptions,
+            propsKeyboardActions = props.keyboardActions,
+            propsSingleLine = props.singleLine,
+            propsShowResetButton = props.showResetButton,
+            propsMaxLines = props.maxLines,
+            propsMinLines = props.minLines,
+            propsShape = props.shape,
+            propsVisualTransformation = props.visualTransformation,
+            propsSupportText = props.supportText,
+            propsPrefixIcon = props.prefixIcon,
+            propsLeadingIcon = props.leadingIcon,
+            propsSuffixIcon = props.suffixIcon,
+            propsTrailingIcon = props.trailingIcon,
+            propsPrefixText = props.prefixText,
+            propsSuffixText = props.suffixText,
+            propsColors = props.colors,
             onValueChange = onValueChange,
+            onTextFieldValueChange = {},
             modifier = Modifier.fillMaxSize(),
             interactionSource = interactionSource,
-            prefix = prefix,
-            leadingIcon = leadingIcon,
-            suffix = suffix,
-            trailingIcon = trailingIcon,
-            label = label,
-            supportingText = supportingText,
-            placeholder = placeholder,
+            prefix = prefixProvider,
+            leadingIcon = leadingIconProvider,
+            suffix = suffixProvider,
+            trailingIcon = trailingIconProvider,
+            label = labelProvider,
+            supportingText = supportingTextProvider,
+            placeholder = placeholderProvider,
             onPrefixIconClick = onPrefixIconClick,
             onLeadingIconClick = onLeadingIconClick,
             onSuffixIconClick = onSuffixIconClick,
@@ -114,10 +421,36 @@ fun SushiTextField(
     }
 }
 
+@SuppressLint("ComposeParameterOrder")
 @Composable
 private fun SushiTextFieldImpl(
-    props: SushiTextFieldProps,
+    propsId: String?,
+    propsText: String?,
+    propsTextFieldValue: TextFieldValue?,
+    propsTextStyle: TextTypeSpec?,
+    propsPlaceholder: SushiTextProps?,
+    propsEnabled: Boolean?,
+    propsReadOnly: Boolean?,
+    propsIsError: Boolean?,
+    propsLabel: SushiTextProps?,
+    propsKeyboardOptions: KeyboardOptions?,
+    propsKeyboardActions: KeyboardActions?,
+    propsSingleLine: Boolean?,
+    propsShowResetButton: Boolean?,
+    propsMaxLines: Int?,
+    propsMinLines: Int?,
+    propsShape: Shape?,
+    propsVisualTransformation: VisualTransformation?,
+    propsSupportText: SushiTextProps?,
+    propsPrefixIcon: SushiIconProps?,
+    propsLeadingIcon: SushiIconProps?,
+    propsSuffixIcon: SushiIconProps?,
+    propsTrailingIcon: SushiIconProps?,
+    propsPrefixText: SushiTextProps?,
+    propsSuffixText: SushiTextProps?,
+    propsColors: SushiTextFieldColors?,
     onValueChange: (String) -> Unit,
+    onTextFieldValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource? = null,
     prefix: @Composable (() -> Unit)? = null,
@@ -132,136 +465,188 @@ private fun SushiTextFieldImpl(
     onSuffixIconClick: (() -> Unit)? = null,
     onTrailingIconClick: (() -> Unit)? = null,
 ) {
-    val enabled = props.enabled != false
-    val readOnly = props.readOnly == true
-    val textStyle = props.textStyle ?: SushiTextFieldDefaults.textStyle
-    val isError = props.isError == true
-    val singleLine = props.singleLine == true
-    val maxLines = props.maxLines ?: if (singleLine) 1 else Int.MAX_VALUE
-    val minLines = props.minLines ?: 1
-    val shape = props.shape ?: SushiTextFieldDefaults.shape
-    val colors = props.colors ?: SushiTextFieldDefaults.outlinedColors()
-    val text = props.text ?: ""
-    val showResetButton = text.isNotEmpty() && props.showResetButton != false && !readOnly
+    val enabled = propsEnabled != false
+    val readOnly = propsReadOnly == true
+    val textStyle = propsTextStyle ?: SushiTextFieldDefaults.textStyle
+    val isError = propsIsError == true
+    val singleLine = propsSingleLine == true
+    val maxLines = propsMaxLines ?: if (singleLine) 1 else Int.MAX_VALUE
+    val minLines = propsMinLines ?: 1
+    val shape = propsShape ?: SushiTextFieldDefaults.shape
+    val colors = propsColors ?: SushiTextFieldDefaults.outlinedColors()
+    val text = propsText ?: ""
+    val textFieldValue = propsTextFieldValue ?: TextFieldValue("")
+    val showResetButton = (text.isNotEmpty() || textFieldValue.text.isNotEmpty()) && propsShowResetButton != false && !readOnly
 
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
-    OutlinedTextField(
-        value = text,
-        onValueChange = { onValueChange(it) },
-        modifier = modifier,
-        enabled = enabled,
-        readOnly = readOnly,
-        textStyle = textStyle.typeStyle,
-        label = label ?: props.label?.let {
-            getLabelTextComposable(
-                it,
+    val resolvedLabel = label ?: propsLabel?.let {
+        getLabelTextComposable(
+            it,
+            isFocused = isFocused,
+            isError = isError,
+            isDisabled = !enabled,
+            colors = colors,
+        )
+    }
+
+    val resolvedPlaceholder: @Composable () -> Unit = {
+        if (placeholder != null) {
+            placeholder()
+        } else {
+            PlaceHolder(
+                propsPlaceholder,
                 isFocused = isFocused,
                 isError = isError,
                 isDisabled = !enabled,
                 colors = colors,
+                defaultTextStyle = textStyle.typeStyle
             )
-        },
-        placeholder = {
-            if (placeholder != null) {
-                placeholder()
-            } else {
-                PlaceHolder(
-                    props.placeholder,
-                    isFocused = isFocused,
-                    isError = isError,
-                    isDisabled = !enabled,
-                    colors = colors,
-                    defaultTextStyle = textStyle.typeStyle
+        }
+    }
+
+    val resolvedPrefix: @Composable () -> Unit = {
+        if (prefix != null) {
+            prefix()
+        } else {
+            Prefix(
+                propsPrefixText = propsPrefixText,
+                propsPrefixIcon = propsPrefixIcon,
+                isFocused = isFocused,
+                isError = isError,
+                isDisabled = !enabled,
+                colors = colors,
+                defaultPrefixTextStyle = textStyle.typeStyle,
+                onPrefixIconClick = onPrefixIconClick
+            )
+        }
+    }
+
+    val resolvedLeadingIcon = if (leadingIcon != null) {
+        { leadingIcon() }
+    } else {
+        getLeadingComposable(
+            propsLeadingIcon = propsLeadingIcon,
+            isFocused = isFocused,
+            isError = isError,
+            isDisabled = !enabled,
+            colors = colors,
+            onLeadingIconClick = onLeadingIconClick
+        )
+    }
+
+    val resolvedSuffix: @Composable () -> Unit = {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (showResetButton) {
+                SushiIcon(
+                    SushiIconProps(
+                        SushiIconCodes.IconCrossCircleFill,
+                        color = SushiTheme.colors.grey.v500,
+                        size = SushiIconSize.Size200
+                    ),
+                    Modifier
+                        .clickable { onValueChange("") }
+                        .padding(
+                            start = SushiTheme.dimens.spacing.nano,
+                            end = SushiTheme.dimens.spacing.nano
+                        )
                 )
             }
-        },
-        prefix = {
-            if (prefix != null) {
-                prefix()
+            if (suffix != null) {
+                suffix()
             } else {
-                Prefix(
-                    props = props,
+                Suffix(
+                    propsSuffixText = propsSuffixText,
+                    propsSuffixIcon = propsSuffixIcon,
                     isFocused = isFocused,
                     isError = isError,
                     isDisabled = !enabled,
                     colors = colors,
                     defaultPrefixTextStyle = textStyle.typeStyle,
-                    onPrefixIconClick = onPrefixIconClick
+                    onSuffixIconClick = onSuffixIconClick
                 )
             }
-        },
-        leadingIcon = if (leadingIcon != null) {
-            { leadingIcon() }
-        } else {
-            getLeadingComposable(
-                props = props,
-                isFocused = isFocused,
-                isError = isError,
-                isDisabled = !enabled,
-                colors = colors,
-                onLeadingIconClick = onLeadingIconClick
-            )
-        },
-        suffix = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (showResetButton) {
-                    SushiIcon(
-                        SushiIconProps(
-                            SushiIconCodes.IconCrossCircleFill,
-                            color = SushiTheme.colors.grey.v500,
-                            size = SushiIconSize.Size200
-                        ),
-                        Modifier
-                            .clickable { onValueChange("") }
-                            .padding(
-                                start = SushiTheme.dimens.spacing.nano,
-                                end = SushiTheme.dimens.spacing.nano
-                            )
-                    )
-                }
-                if (suffix != null) {
-                    suffix()
-                } else {
-                    Suffix(
-                        props = props,
-                        isFocused = isFocused,
-                        isError = isError,
-                        isDisabled = !enabled,
-                        colors = colors,
-                        defaultPrefixTextStyle = textStyle.typeStyle,
-                        onSuffixIconClick = onSuffixIconClick
-                    )
-                }
-            }
-        },
-        trailingIcon = if (trailingIcon != null) {
-            { trailingIcon() }
-        } else {
-            getTrailingComposable(
-                props = props,
-                isFocused = isFocused,
-                isError = isError,
-                isDisabled = !enabled,
-                colors = colors,
-                onTrailingIconClick = onTrailingIconClick
-            )
-        },
-        supportingText = supportingText ?: props.supportText?.let { getSupportTextComposable(it) },
-        isError = isError,
-        visualTransformation = props.visualTransformation ?: VisualTransformation.None,
-        keyboardOptions = props.keyboardOptions ?: KeyboardOptions.Default,
-        keyboardActions = props.keyboardActions ?: KeyboardActions.Default,
-        singleLine = singleLine,
-        maxLines = maxLines,
-        minLines = minLines,
-        interactionSource = interactionSource,
-        shape = shape,
-        colors = colors.toTextFieldColors()
-    )
+        }
+    }
+
+    val resolvedTrailingIcon = if (trailingIcon != null) {
+        { trailingIcon() }
+    } else {
+        getTrailingComposable(
+            propsTrailingIcon = propsTrailingIcon,
+            isFocused = isFocused,
+            isError = isError,
+            isDisabled = !enabled,
+            colors = colors,
+            onTrailingIconClick = onTrailingIconClick
+        )
+    }
+
+    val resolvedSupportingText = supportingText ?: propsSupportText?.let { getSupportTextComposable(it) }
+
+    val resolvedVisualTransformation = propsVisualTransformation ?: VisualTransformation.None
+
+    val resolvedKeyboardOptions = propsKeyboardOptions ?: KeyboardOptions.Default
+    val resolvedKeyboardActions = propsKeyboardActions ?: KeyboardActions.Default
+
+    val resolvedColors = colors.toTextFieldColors()
+
+    if (propsTextFieldValue != null) {
+        OutlinedTextField(
+            value = textFieldValue,
+            onValueChange = { onTextFieldValueChange(it) },
+            modifier = modifier,
+            enabled = enabled,
+            readOnly = readOnly,
+            textStyle = textStyle.typeStyle,
+            label = resolvedLabel,
+            placeholder = resolvedPlaceholder,
+            prefix = resolvedPrefix,
+            leadingIcon = resolvedLeadingIcon,
+            suffix = resolvedSuffix,
+            trailingIcon = resolvedTrailingIcon,
+            supportingText = resolvedSupportingText,
+            isError = isError,
+            visualTransformation = resolvedVisualTransformation,
+            keyboardOptions = resolvedKeyboardOptions,
+            keyboardActions = resolvedKeyboardActions,
+            singleLine = singleLine,
+            maxLines = maxLines,
+            minLines = minLines,
+            interactionSource = interactionSource,
+            shape = shape,
+            colors = resolvedColors
+        )
+    } else {
+        OutlinedTextField(
+            value = text,
+            onValueChange = { onValueChange(it) },
+            modifier = modifier,
+            enabled = enabled,
+            readOnly = readOnly,
+            textStyle = textStyle.typeStyle,
+            label = resolvedLabel,
+            placeholder = resolvedPlaceholder,
+            prefix = resolvedPrefix,
+            leadingIcon = resolvedLeadingIcon,
+            suffix = resolvedSuffix,
+            trailingIcon = resolvedTrailingIcon,
+            supportingText = resolvedSupportingText,
+            isError = isError,
+            visualTransformation = resolvedVisualTransformation,
+            keyboardOptions = resolvedKeyboardOptions,
+            keyboardActions = resolvedKeyboardActions,
+            singleLine = singleLine,
+            maxLines = maxLines,
+            minLines = minLines,
+            interactionSource = interactionSource,
+            shape = shape,
+            colors = resolvedColors
+        )
+    }
 }
 
 private fun getLabelTextComposable(
@@ -321,14 +706,14 @@ private fun PlaceHolder(
 
 @Composable
 private fun getLeadingComposable(
-    props: SushiTextFieldProps,
+    propsLeadingIcon: SushiIconProps?,
     isFocused: Boolean,
     isError: Boolean,
     isDisabled: Boolean,
     colors: SushiTextFieldColors,
     onLeadingIconClick: (() -> Unit)? = null,
 ): (@Composable () -> Unit)? {
-    if (props.leadingIcon == null) {
+    if (propsLeadingIcon == null) {
         return null
     }
     return {
@@ -339,10 +724,10 @@ private fun getLeadingComposable(
             else -> colors.unfocusedLeadingIconColor
         }.value
 
-        val leadingIcon = remember(props.leadingIcon) {
-            props.leadingIcon.copy(
-                size = props.leadingIcon.size ?: SushiIconSize.Size200,
-                color = props.leadingIcon.color.takeIfUnspecified { defaultColor }
+        val leadingIcon = remember(propsLeadingIcon) {
+            propsLeadingIcon.copy(
+                size = propsLeadingIcon.size ?: SushiIconSize.Size200,
+                color = propsLeadingIcon.color.takeIfUnspecified { defaultColor }
             )
         }
         SushiIcon(
@@ -356,7 +741,8 @@ private fun getLeadingComposable(
 
 @Composable
 private fun Prefix(
-    props: SushiTextFieldProps,
+    propsPrefixText: SushiTextProps?,
+    propsPrefixIcon: SushiIconProps?,
     isFocused: Boolean,
     isError: Boolean,
     isDisabled: Boolean,
@@ -372,20 +758,20 @@ private fun Prefix(
     }.value
 
     Row {
-        if (props.prefixText != null) {
-            val prefixText = remember(props.prefixText, defaultPrefixTextStyle, defaultColor) {
-                props.prefixText.copy(
-                    type = props.prefixText.type ?: defaultPrefixTextStyle.asTextTypeSpec(),
-                    color = props.prefixText.color.takeIfUnspecified { defaultColor }
+        if (propsPrefixText != null) {
+            val prefixText = remember(propsPrefixText, defaultPrefixTextStyle, defaultColor) {
+                propsPrefixText.copy(
+                    type = propsPrefixText.type ?: defaultPrefixTextStyle.asTextTypeSpec(),
+                    color = propsPrefixText.color.takeIfUnspecified { defaultColor }
                 )
             }
             SushiText(prefixText)
         }
-        if (props.prefixIcon != null) {
-            val prefixIcon = remember(props.prefixIcon) {
-                props.prefixIcon.copy(
-                    size = props.prefixIcon.size ?: SushiIconSize.Size200,
-                    color = props.prefixIcon.color.takeIfUnspecified { defaultColor }
+        if (propsPrefixIcon != null) {
+            val prefixIcon = remember(propsPrefixIcon) {
+                propsPrefixIcon.copy(
+                    size = propsPrefixIcon.size ?: SushiIconSize.Size200,
+                    color = propsPrefixIcon.color.takeIfUnspecified { defaultColor }
                 )
             }
             SushiIcon(
@@ -398,9 +784,11 @@ private fun Prefix(
     }
 }
 
+@SuppressLint("ComposeParameterOrder")
 @Composable
 private fun Suffix(
-    props: SushiTextFieldProps,
+    propsSuffixText: SushiTextProps? = null,
+    propsSuffixIcon: SushiIconProps? = null,
     isFocused: Boolean,
     isError: Boolean,
     isDisabled: Boolean,
@@ -419,7 +807,7 @@ private fun Suffix(
         Modifier
             .height(IntrinsicSize.Max)
     ) {
-        if (props.suffixText != null || props.suffixIcon != null) {
+        if (propsSuffixText != null || propsSuffixIcon != null) {
             Spacer(
                 Modifier
                     .padding(vertical = 2.dp, horizontal = 4.dp)
@@ -428,20 +816,20 @@ private fun Suffix(
                     .fillMaxHeight()
             )
         }
-        if (props.suffixText != null) {
-            val suffixText = remember(props.suffixText, defaultPrefixTextStyle, defaultColor) {
-                props.suffixText.copy(
-                    type = props.suffixText.type ?: defaultPrefixTextStyle.asTextTypeSpec(),
-                    color = props.suffixText.color.takeIfUnspecified { defaultColor }
+        if (propsSuffixText != null) {
+            val suffixText = remember(propsSuffixText, defaultPrefixTextStyle, defaultColor) {
+                propsSuffixText.copy(
+                    type = propsSuffixText.type ?: defaultPrefixTextStyle.asTextTypeSpec(),
+                    color = propsSuffixText.color.takeIfUnspecified { defaultColor }
                 )
             }
             SushiText(suffixText)
         }
-        if (props.suffixIcon != null) {
-            val suffixIcon = remember(props.suffixIcon) {
-                props.suffixIcon.copy(
-                    size = props.suffixIcon.size ?:SushiIconSize.Size200,
-                    color = props.suffixIcon.color.takeIfUnspecified { defaultColor }
+        if (propsSuffixIcon != null) {
+            val suffixIcon = remember(propsSuffixIcon) {
+                propsSuffixIcon.copy(
+                    size = propsSuffixIcon.size ?:SushiIconSize.Size200,
+                    color = propsSuffixIcon.color.takeIfUnspecified { defaultColor }
                 )
             }
             SushiIcon(
@@ -456,14 +844,14 @@ private fun Suffix(
 
 @Composable
 private fun getTrailingComposable(
-    props: SushiTextFieldProps,
+    propsTrailingIcon: SushiIconProps?,
     isFocused: Boolean,
     isError: Boolean,
     isDisabled: Boolean,
     colors: SushiTextFieldColors,
     onTrailingIconClick: (() -> Unit)? = null
 ): (@Composable () -> Unit)? {
-    if (props.trailingIcon == null) {
+    if (propsTrailingIcon == null) {
         return null
     }
     return {
@@ -491,10 +879,10 @@ private fun getTrailingComposable(
             Box(
                 Modifier.weight(1f)
             ) {
-                val trailingIcon = remember(props.trailingIcon) {
-                    props.trailingIcon.copy(
-                        size = props.trailingIcon.size ?:SushiIconSize.Size200,
-                        color = props.trailingIcon.color.takeIfUnspecified { defaultColor }
+                val trailingIcon = remember(propsTrailingIcon) {
+                    propsTrailingIcon.copy(
+                        size = propsTrailingIcon.size ?:SushiIconSize.Size200,
+                        color = propsTrailingIcon.color.takeIfUnspecified { defaultColor }
                     )
                 }
                 SushiIcon(
@@ -674,7 +1062,7 @@ private fun SushiTextFieldPreview7() {
                     id = "1",
                     text = text
                 ),
-                prefix = {
+                prefixProvider = {
                     SushiText(
                         SushiTextProps(
                             text = "+91",

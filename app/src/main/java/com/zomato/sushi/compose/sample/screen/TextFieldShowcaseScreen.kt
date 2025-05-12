@@ -327,7 +327,7 @@ fun TextFieldShowcaseScreen(
                             )
                         ),
                         onValueChange = { passwordToggle = it },
-                        suffix = {
+                        suffixProvider = {
                             SushiIcon(
                                 props = SushiIconProps(
                                     code = if (passwordVisible)
@@ -721,7 +721,7 @@ fun TextFieldShowcaseScreen(
                             )
                         ),
                         onValueChange = { searchQuery = it },
-                        suffix = if (searchQuery.isNotEmpty()) {
+                        suffixProvider = if (searchQuery.isNotEmpty()) {
                             {
                                 SushiIcon(
                                     props = SushiIconProps(
@@ -911,7 +911,7 @@ fun TextFieldShowcaseScreen(
                                     )
                                 ),
                                 onValueChange = { passwordInput = it },
-                                suffix = {
+                                suffixProvider = {
                                     SushiIcon(
                                         props = SushiIconProps(
                                             code = if (passwordVisible)
