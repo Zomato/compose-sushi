@@ -118,7 +118,7 @@ Sushi UI is built with the following principles in mind:
 ## Contributing
 
 Sushi UI is an open-source project, and contributions are welcome. Please check
-the [GitHub repository](https://github.com/Zomato/sushi-compose) for more information on how to
+the [GitHub repository](https://github.com/Zomato/compose-sushi) for more information on how to
 contribute.
 
 ## Installation

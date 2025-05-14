@@ -1,11 +1,11 @@
 site_name: 'Sushi for Compose UI'
 site_description: "Sushi UI is a comprehensive design system for Jetpack Compose that provides a rich set of customizable components for building beautiful, consistent, and accessible user interfaces."
-site_url: https://zomato.com/sushi-compose
+site_url: https://zomato.com/compose-sushi
 docs_dir: 'docs'
 site_dir: build/site
 
-repo_name: 'Sushi-Compose'
-repo_url: https://github.com/Zomato/sushi-compose
+repo_name: 'Compose-Sushi'
+repo_url: https://github.com/Zomato/compose-sushi
 
 theme:
   name: material
@@ -85,4 +85,4 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 copyright: |
-  <a href="https://github.com/Zomato/sushi-compose"><img  src="sushi.svg"></a>
+  <a href="https://github.com/Zomato/compose-sushi"><img  src="sushi.svg"></a>
