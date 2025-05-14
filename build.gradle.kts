@@ -30,4 +30,11 @@ extra.run {
 
 task("generateDocs") {
     dependsOn("dokkaHtmlMultiModule")
+    doLast {
+        println("Running MkDocs...")
+        exec {
+            commandLine("mkdocs", "build")
+            isIgnoreExitValue = false
+        }
+    }
 }
