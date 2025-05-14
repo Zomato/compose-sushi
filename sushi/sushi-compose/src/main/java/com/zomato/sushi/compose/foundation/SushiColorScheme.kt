@@ -761,6 +761,7 @@ data class SushiColorScheme(
     data class SurfaceColorScheme(
         val backgroundPrimary: ColorSpec,
         val backgroundSecondary: ColorSpec,
+        val backgroundSelection: ColorSpec,
         val primary: ColorSpec,
         val secondary: ColorSpec,
         val elevated: ColorSpec,
