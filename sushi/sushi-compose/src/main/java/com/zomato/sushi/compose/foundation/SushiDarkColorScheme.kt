@@ -156,7 +156,7 @@ fun sushiDarkColorScheme(
         accentBrownIntense = SushiRawColorTokens.Brown900.asColorSpec(),
         accentPink = SushiRawColorTokens.Pink900.asColorSpec(),
         accentPinkIntense = SushiRawColorTokens.Pink900.asColorSpec(),
-        brandOnlylight = SushiRawColorTokens.White.asColorSpec(),
+        brandOnlylight = SushiRawColorTokens.Slate050.asColorSpec(),
         brand = themeColorScheme.v500,
         selection = themeColorScheme.v050,
         success = SushiRawColorTokens.Green500.asColorSpec(),
