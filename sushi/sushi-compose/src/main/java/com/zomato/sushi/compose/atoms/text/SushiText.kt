@@ -118,7 +118,8 @@ private fun SushiTextImpl(
     onTextLayout: (TextLayoutResult) -> Unit = {},
     onClick: (() -> Unit)? = null
 ) {
-    val horizontalArrangement = props.horizontalArrangement ?: Arrangement.Start
+    val textAlign = props.textAlign
+    val horizontalArrangement = props.horizontalArrangement ?: SushiTextDefaults.horizontalArrangementFromAlignment(textAlign)
     val verticalAlignment = props.verticalAlignment ?: Alignment.CenterVertically
 
     Row(
