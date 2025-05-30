@@ -138,7 +138,6 @@ private fun SushiTextImpl(
         val typeStyle = textType.typeStyle
         val maxLines = props.maxLines ?: SushiTextDefaults.maxLines
         val textDecoration = props.textDecoration
-        val textAlign = props.textAlign
         val overflow = props.overflow ?: SushiTextDefaults.overflow
         val softWrap = SushiTextDefaults.softWrap
         val minLines = SushiTextDefaults.minLines
