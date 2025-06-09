@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
@@ -19,6 +20,12 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
     }
 
     val xcf = XCFramework()
@@ -53,8 +60,13 @@ kotlin {
             implementation(libs.kotlinx.collections.immutable)
             implementation(libs.kotlinx.datetime)
             api(project(":sushi-core"))
+            implementation(libs.kotlinx.coroutines.core)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
         }
         nativeMain.dependencies {
+
         }
     }
 }

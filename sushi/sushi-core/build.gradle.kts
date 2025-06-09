@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
@@ -12,6 +13,12 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
     }
 
     val xcf = XCFramework()
@@ -30,22 +37,16 @@ kotlin {
     sourceSets {
 
         androidMain.dependencies {
-//            implementation(compose.preview)
-//            implementation(libs.androidx.activity.compose)
-//            implementation(libs.kotlinx.coroutines.android)
+
         }
         commonMain.dependencies {
-//            api(compose.runtime)
-//            api(compose.foundation)
-//            api(compose.material3)
-//            api(compose.ui)
-//            implementation(compose.components.uiToolingPreview)
-//            implementation(libs.androidx.lifecycle.viewmodel)
-//            implementation(libs.androidx.lifecycle.runtime.compose)
-//            implementation(libs.napier)
-//            api(libs.kotlinx.collections.immutable)
+
+        }
+        wasmJsMain.dependencies {
+
         }
         nativeMain.dependencies {
+
         }
     }
 }
