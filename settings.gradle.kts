@@ -20,7 +20,7 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google {
             mavenContent {
@@ -56,9 +56,11 @@ fun includeKits(vararg kits: String) {
 }
 
 rootProject.name = "ComposeSushi"
-include(":app")
 
 includeKits(
     "sushi/sushi-core",
     "sushi/sushi-compose",
 )
+
+include(":app")
+include(":website")
