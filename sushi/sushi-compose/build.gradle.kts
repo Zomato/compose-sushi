@@ -22,8 +22,15 @@ kotlin {
         }
     }
 
+    jvm("desktop")
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
+        browser()
+        binaries.executable()
+    }
+
+    js(IR) {
         browser()
         binaries.executable()
     }
@@ -49,6 +56,13 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.lottie.compose)
         }
+
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
+        }
+
         commonMain.dependencies {
             api(compose.runtime)
             api(compose.foundation)

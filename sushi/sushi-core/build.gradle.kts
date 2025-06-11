@@ -15,8 +15,15 @@ kotlin {
         }
     }
 
+    jvm("desktop")
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
+        browser()
+        binaries.executable()
+    }
+
+    js(IR) {
         browser()
         binaries.executable()
     }
@@ -39,6 +46,12 @@ kotlin {
         androidMain.dependencies {
 
         }
+
+        val desktopMain by getting {
+            dependencies {
+            }
+        }
+
         commonMain.dependencies {
 
         }
