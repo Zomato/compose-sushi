@@ -36,7 +36,7 @@ class LinkProcessor() : Processor {
     override val cacheKeys: List<Any> @Composable get() = emptyList()
 
     @Composable
-    override fun process(props: MarkdownParserProps, src: AnnotatedString, parser: MarkdownParser): AnnotatedString {
+    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
         if (!props.isClickable) {
             return src
         }
@@ -48,11 +48,12 @@ class LinkProcessor() : Processor {
             val textGroup = matchResult.groups[TEXT_GROUP]
 
             if (textGroup != null) {
+                val transformedText = src.subSequence(textGroup.getTextRange())
                 transformationsList.add(
                     Transformation(
                         start = matchResult.range.first,
                         end = matchResult.range.last + 1,
-                        transformedText = AnnotatedString(textGroup.value),
+                        transformedText = transformedText,
                         link = linkGroup?.value
                     )
                 )

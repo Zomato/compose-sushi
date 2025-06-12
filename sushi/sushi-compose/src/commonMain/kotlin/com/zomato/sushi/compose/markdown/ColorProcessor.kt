@@ -46,7 +46,7 @@ class ColorProcessor() : Processor {
     override val cacheKeys: List<Any> @Composable get() = listOf(SushiTheme.colorTokenMapper)
 
     @Composable
-    override fun process(props: MarkdownParserProps, src: AnnotatedString, parser: MarkdownParser): AnnotatedString {
+    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
         val transformationsList = mutableListOf<Transformation>()
         val matchResults = REGEX.findAll(src)
 
@@ -56,11 +56,12 @@ class ColorProcessor() : Processor {
             val color = colorGroup?.value?.let { parseColor(it) }
 
             if (textGroup != null && color != null) {
+                val transformedText = src.subSequence(textGroup.getTextRange())
                 transformationsList.add(
                     Transformation(
                         start = matchResult.range.first,
                         end = matchResult.range.last + 1,
-                        transformedText = AnnotatedString(textGroup.value),
+                        transformedText = transformedText,
                         color = color
                     )
                 )

@@ -30,7 +30,7 @@ class BoldProcessor() : Processor {
     override val cacheKeys: List<Any> @Composable get() = emptyList()
 
     @Composable
-    override fun process(props: MarkdownParserProps, src: AnnotatedString, parser: MarkdownParser): AnnotatedString {
+    override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
         val transformationsList = mutableListOf<Transformation>()
         val matchResults = REGEX.findAll(src)
 
@@ -38,11 +38,12 @@ class BoldProcessor() : Processor {
             val textGroup = matchResult.groups[TEXT_GROUP]
 
             if (textGroup != null) {
+                val transformedText = src.subSequence(textGroup.getTextRange())
                 transformationsList.add(
                     Transformation(
                         start = matchResult.range.first,
                         end = matchResult.range.last + 1,
-                        text = AnnotatedString(textGroup.value)
+                        text = transformedText
                     )
                 )
             }

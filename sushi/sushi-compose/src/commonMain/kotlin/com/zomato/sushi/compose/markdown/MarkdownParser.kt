@@ -1,8 +1,19 @@
 package com.zomato.sushi.compose.markdown
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.text.SushiText
+import com.zomato.sushi.compose.atoms.text.SushiTextDecoration
+import com.zomato.sushi.compose.atoms.text.SushiTextProps
+import com.zomato.sushi.compose.atoms.text.SushiTextType
+import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.internal.SushiPreview
 
 /**
  * Main parser for transforming markdown text into styled AnnotatedString.
@@ -62,7 +73,7 @@ class MarkdownParser private constructor(
             }
             result = processors
                 .fold(initialAnnotatedString, { acc, markdownProcessor ->
-                    kotlin.runCatching { markdownProcessor.process(props, acc, this) }.getOrElse { acc }
+                    kotlin.runCatching { markdownProcessor.process(props, acc) }.getOrElse { acc }
                 })
         }
 
@@ -103,6 +114,32 @@ class MarkdownParser private constructor(
         fun build(): MarkdownParser {
             return MarkdownParser(
                 processors = processors
+            )
+        }
+    }
+}
+
+@Composable
+@SushiPreview
+private fun MarkdownParserPreview1() {
+    SushiPreview {
+        Column {
+            SushiText(
+                props = SushiTextProps(
+                    text = "normal_italic_<bold-100|{red-500|smallBoldRed}smallBold>normal**bold**normal~~cutthrough~~[<bold-800|{red-500|Go}>ooo**ooo**gle](https://google.com)",
+                    color = SushiTheme.colors.text.success,
+                    type = SushiTextType.Regular900,
+                    textDecoration = SushiTextDecoration.Underline()
+                )
+            )
+            Spacer(Modifier.height(16.dp))
+            SushiText(
+                props = SushiTextProps(
+                    text = "normal\n_italic_\n<bold-100|{red-500|small\nBold\nRed}\nsmall\nBold>\nnormal\n**bold**\nnormal\n~~cutthrough~~\n[<bold-800|{red-500|Go}>ooo**ooo**gle](https://google.com)",
+                    color = SushiTheme.colors.text.success,
+                    type = SushiTextType.Regular900,
+                    textDecoration = SushiTextDecoration.Underline()
+                )
             )
         }
     }

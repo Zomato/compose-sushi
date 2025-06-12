@@ -439,7 +439,7 @@ private fun SushiTextPreview1() {
         Column {
             SushiText(
                 props = SushiTextProps(
-                    text = "fsdgy",
+                    text = "ladyfinger",
                     prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
@@ -451,7 +451,7 @@ private fun SushiTextPreview1() {
             )
             SushiText(
                 props = SushiTextProps(
-                    text = "fsdgy",
+                    text = "ladyfinger",
                     prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
                     color = SushiTheme.colors.text.success,
@@ -461,7 +461,7 @@ private fun SushiTextPreview1() {
             )
             SushiText(
                 props = SushiTextProps(
-                    text = "a_fsdgy_\n<bold-100|{red-500|fs}>ad**gy**\nfsdgy",
+                    text = "normal_italic_<bold-100|{red-500|smallBoldRed}smallBold>normal**bold**normal",
                     prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
                     color = SushiTheme.colors.text.success,
@@ -485,7 +485,7 @@ private fun SushiTextPreview2() {
                 .background(SushiTheme.colors.surface.primary.value)) {
             SushiText(
                 props = SushiTextProps(
-                    text = "fsdgy",
+                    text = "ladyfinger",
                     prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(
                         code = SushiIconCodes.IconContactlessDining,
@@ -500,7 +500,7 @@ private fun SushiTextPreview2() {
             )
             SushiText(
                 props = SushiTextProps(
-                    text = "fsdgy",
+                    text = "ladyfinger",
                     prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(
                         code = SushiIconCodes.IconContactlessDining,
@@ -512,7 +512,7 @@ private fun SushiTextPreview2() {
             )
             SushiText(
                 props = SushiTextProps(
-                    text = "a_fsdgy_\n[<bold-800|{red-500|fs}>ad**gy**google](https://google.com)\nfs~~dg~~y",
+                    text = "normal_italic_\n[<bold-800|{red-500|fs}>Go**ooo**gle](https://google.com)\n~~cut~~",
                     prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(
                         code = SushiIconCodes.IconContactlessDining,

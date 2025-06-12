@@ -32,5 +32,5 @@ interface Processor {
      * @return The processed text with styles applied
      */
     @Composable
-    fun process(props: MarkdownParserProps, src: AnnotatedString, parser: MarkdownParser): AnnotatedString
+    fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString
 }

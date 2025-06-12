@@ -26,7 +26,7 @@ class SushiTextTest {
             Column {
                 SushiText(
                     props = SushiTextProps(
-                        text = "fsdgy",
+                        text = "ladyfinger",
                         prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                         suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
                         color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
@@ -38,7 +38,7 @@ class SushiTextTest {
                 )
                 SushiText(
                     props = SushiTextProps(
-                        text = "fsdgy",
+                        text = "ladyfinger",
                         prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                         suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
                         color = SushiTheme.colors.text.success,
@@ -48,7 +48,7 @@ class SushiTextTest {
                 )
                 SushiText(
                     props = SushiTextProps(
-                        text = "a_fsdgy_\n<bold-100|{red-500|fs}>ad**gy**\nfsdgy",
+                        text = "normal_italic_<bold-100|{red-500|smallBoldRed}smallBold>normal**bold**normal",
                         prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                         suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
                         color = SushiTheme.colors.text.success,
