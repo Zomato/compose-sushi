@@ -9,7 +9,6 @@ iOS, Desktop and Web platforms.
 - **`sushi/sushi-compose`** - Compose implementation of the Sushi design system
 - **`app/`** - Sample Android/iOS application demonstrating the components
 - **`website/`** - WASM/JS web application for the documentation
-- **`docs/`** - Documentation and component previews
 
 ## 📋 Prerequisites
 
@@ -136,18 +135,6 @@ Built files will be available in:
 ./gradlew :sushi-core:test
 ./gradlew :sushi-compose:test
 ./gradlew :app:testDebugUnitTest
-```
-
-## 📚 Documentation
-
-### Generate Documentation
-
-```bash
-# Generate API documentation
-./gradlew dokkaHtmlMultiModule
-
-# Build MkDocs documentation (if available)
-mkdocs build
 ```
 
 ## 🔄 Development Workflow
