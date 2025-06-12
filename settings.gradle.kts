@@ -1,39 +1,31 @@
 pluginManagement {
     repositories {
         google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
             }
         }
         mavenCentral()
         gradlePluginPortal()
-        // todox: remove?
-        maven {
-            url = uri("https://maven.pkg.github.com/Zomato/*")
-            credentials {
-                username = "Zomato"
-                password = System.getenv("READ_ARTIFACTS_TOKEN")
-            }
-        }
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
-        mavenCentral()
-        // todox: remove?
-        maven {
-            url = uri("https://maven.pkg.github.com/Zomato/*")
-            credentials {
-                username = "Zomato"
-                password = System.getenv("READ_ARTIFACTS_TOKEN")
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
             }
         }
+        mavenCentral()
     }
 }
+
+includeBuild("build-logic")
 
 fun includeKits(vararg kits: String) {
     for (kit in kits) {
@@ -49,10 +41,12 @@ fun includeKits(vararg kits: String) {
     }
 }
 
-rootProject.name = "Sushi Compose"
-include(":app")
+rootProject.name = "ComposeSushi"
 
 includeKits(
     "sushi/sushi-core",
     "sushi/sushi-compose",
 )
+
+include(":app")
+include(":website")

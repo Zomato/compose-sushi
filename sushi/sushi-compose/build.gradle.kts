@@ -1,67 +1,117 @@
-import com.zomato.plugins.publish.ArtifactInfo
-import com.zomato.plugins.publish.BuildType
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.publish)
-    alias(libs.plugins.compose.screenshot)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.dokka)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    kotlin("plugin.serialization") version "1.9.0"
+    id("publishing-convention")
 }
 
-// Maven Publishing Details
-@Suppress("UNCHECKED_CAST")
-val getVersionInfoFunc = rootProject.extra["getVersionInfo"] as (String?) -> List<String>
-val versionInfo = getVersionInfoFunc(projectDir.absolutePath)
-val versionCode = versionInfo[0].toInt()
-val versionName = versionInfo[1].toString()
+ext {
+    set("publishingName", "Sushi Compose")
+    set("publishingDescription", "Sushi Design System for Compose Multiplatform")
+}
 
-val monoGroupId = rootProject.extra["monoGroupId"] as String
-val monoRepo = rootProject.extra["monoRepo"] as String
+compose.resources {
+    publicResClass = true
+    generateResClass = always
+}
 
-val artifactData = ArtifactInfo(monoGroupId, project.name, versionName, monoRepo, false)
-val releaseBuildData = BuildType("release", null, false)
-val debugBuildData = BuildType("debug", null, false)
+kotlin {
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
 
-mavenPublishing {
-    artifactInfo = artifactData
-    buildTypes = listOf(releaseBuildData, debugBuildData)
+    jvm("desktop")
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
+
+    val xcf = XCFramework()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "sushi"
+            xcf.add(this)
+            isStatic = true
+        }
+    }
+
+    sourceSets {
+
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(compose.uiTooling)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.lottie.compose)
+        }
+
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
+        }
+
+        commonMain.dependencies {
+            api(compose.runtime)
+            api(compose.foundation)
+            api(compose.material3)
+            api(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.kotlinx.collections.immutable)
+            implementation(libs.kotlinx.datetime)
+            api(project(":sushi-core"))
+            implementation(libs.kotlinx.coroutines.core)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
+        }
+        nativeMain.dependencies {
+
+        }
+    }
 }
 
 android {
     namespace = "com.zomato.sushi.compose"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].apply {
+        res.srcDirs("src/androidMain/res"/*, "src/commonMain/composeResources"*/)
+        resources.srcDirs("src/androidMain/res"/*, "src/commonMain/composeResources"*/)
+    }
 
-    compileSdk = 35
-
-    experimentalProperties["android.experimental.enableScreenshotTest"] = true
+    defaultConfig {
+        minSdk = libs.versions.android.minSdk.get().toInt()
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    api(project(":sushi-core"))
-
-    api(libs.lottie.compose)
-    api(libs.kotlinx.collections.immutable)
-
-    lintChecks(libs.slack.compose.lint)
-
-    // Compose dependencies
-    api(platform(libs.androidx.compose.bom))
-    api(libs.androidx.material3)
-
-    // Android Studio Preview support
-    api(libs.androidx.ui.tooling.preview)
-    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(compose.uiTooling)
+    debugImplementation(compose.preview)
+    lintChecks(libs.slack.lint.checks)
 }

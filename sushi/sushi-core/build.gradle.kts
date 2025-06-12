@@ -1,47 +1,90 @@
-import com.zomato.plugins.publish.ArtifactInfo
-import com.zomato.plugins.publish.BuildType
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.publish)
-    alias(libs.plugins.kotlin.dokka)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidLibrary)
+    kotlin("plugin.serialization") version "1.9.0"
+    id("publishing-convention")
 }
 
-// Maven Publishing Details
-@Suppress("UNCHECKED_CAST")
-val getVersionInfoFunc = rootProject.extra["getVersionInfo"] as (String?) -> List<String>
-val versionInfo = getVersionInfoFunc(projectDir.absolutePath)
-val versionCode = versionInfo[0].toInt()
-val versionName = versionInfo[1].toString() // Ensure it's a String
+ext {
+    set("publishingName", "Sushi Core")
+    set("publishingDescription", "Core utilities and foundations for Sushi Design System")
+}
 
-// Access the properties from root project
-val monoGroupId = rootProject.extra["monoGroupId"] as String
-val monoRepo = rootProject.extra["monoRepo"] as String
+kotlin {
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
 
-val artifactData = ArtifactInfo(monoGroupId, project.name, versionName, monoRepo, false)
-val releaseBuildData = BuildType("release", null, false)
-val debugBuildData = BuildType("debug", null, false)
+    jvm("desktop")
 
-mavenPublishing {
-    artifactInfo = artifactData
-    buildTypes = listOf(releaseBuildData, debugBuildData)
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
+
+    val xcf = XCFramework()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "sushi"
+            xcf.add(this)
+            isStatic = true
+        }
+    }
+
+    sourceSets {
+
+        androidMain.dependencies {
+
+        }
+
+        val desktopMain by getting {
+            dependencies {
+            }
+        }
+
+        commonMain.dependencies {
+
+        }
+        wasmJsMain.dependencies {
+
+        }
+        nativeMain.dependencies {
+
+        }
+    }
 }
 
 android {
     namespace = "com.zomato.sushi.core"
-
-    compileSdk = 35
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+//    sourceSets["main"].apply {
+//        res.srcDirs("src/androidMain/res", "src/commonMain/composeResources")
+//        resources.srcDirs("src/androidMain/res", "src/commonMain/composeResources")
+//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-}
 
-dependencies {
-    
+    defaultConfig {
+        minSdk = libs.versions.android.minSdk.get().toInt()
+    }
 }
