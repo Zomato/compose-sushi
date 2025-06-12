@@ -9,7 +9,7 @@ actual class ToastController{
         message: String,
         duration: ToastDuration
     ) {
-        // todox:
+        // TODO: wasm implementation to be added
     }
 }
 

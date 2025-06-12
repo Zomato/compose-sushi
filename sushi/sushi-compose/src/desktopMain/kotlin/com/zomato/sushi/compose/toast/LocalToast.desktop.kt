@@ -5,8 +5,7 @@ import androidx.compose.runtime.remember
 
 actual class ToastController internal actual constructor() {
     actual fun show(message: String, duration: ToastDuration) {
-        // Desktop implementation - could log to console or show a system notification
-        println("Toast: $message")
+        // TODO: desktop implementation to be added
     }
 }
 

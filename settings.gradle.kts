@@ -9,14 +9,6 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
-        // todox: remove?
-        maven {
-            url = uri("https://maven.pkg.github.com/Zomato/*")
-            credentials {
-                username = "Zomato"
-                password = System.getenv("READ_ARTIFACTS_TOKEN")
-            }
-        }
     }
 }
 dependencyResolutionManagement {
@@ -30,14 +22,6 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        // todox: remove?
-        maven {
-            url = uri("https://maven.pkg.github.com/Zomato/*")
-            credentials {
-                username = "Zomato"
-                password = System.getenv("READ_ARTIFACTS_TOKEN")
-            }
-        }
     }
 }
 

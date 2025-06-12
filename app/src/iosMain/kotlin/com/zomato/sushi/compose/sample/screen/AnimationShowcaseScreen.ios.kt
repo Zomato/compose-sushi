@@ -5,5 +5,5 @@ import androidx.compose.ui.Modifier
 
 @Composable
 internal actual fun CustomProgressAnimation(modifier: Modifier) {
-    // todox
+    // TODO: Add when Animation support is added in iOS
 }

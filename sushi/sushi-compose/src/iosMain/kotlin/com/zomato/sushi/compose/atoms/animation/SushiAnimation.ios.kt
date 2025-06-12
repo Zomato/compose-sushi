@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitView
 import platform.UIKit.UIView
 
-// todox: complete this
+// TODO: ios implementation to be added
 @Composable
 actual fun SushiAnimation(
     props: SushiAnimationProps,

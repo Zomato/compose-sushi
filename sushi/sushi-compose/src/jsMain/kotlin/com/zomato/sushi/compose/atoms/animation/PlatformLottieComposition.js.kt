@@ -1,5 +1,5 @@
 package com.zomato.sushi.compose.atoms.animation
 
 actual class PlatformLottieComposition {
-    // todox: implement
+    // TODO: js implementation to be added
 }

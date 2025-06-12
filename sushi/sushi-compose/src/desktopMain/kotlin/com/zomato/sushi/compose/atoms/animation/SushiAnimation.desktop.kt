@@ -9,5 +9,5 @@ actual fun SushiAnimation(
     props: SushiAnimationProps,
     modifier: Modifier
 ) {
-    // No animation implementation for desktop
+    // TODO: desktop implementation to be added
 }
