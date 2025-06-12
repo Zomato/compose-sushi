@@ -113,4 +113,5 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
     debugImplementation(compose.preview)
+    lintChecks(libs.slack.lint.checks)
 }
