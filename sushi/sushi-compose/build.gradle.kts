@@ -8,6 +8,12 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     kotlin("plugin.serialization") version "1.9.0"
+    id("publishing-convention")
+}
+
+ext {
+    set("publishingName", "Sushi Compose")
+    set("publishingDescription", "Sushi Design System for Compose Multiplatform")
 }
 
 compose.resources {

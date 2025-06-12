@@ -6,6 +6,12 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     kotlin("plugin.serialization") version "1.9.0"
+    id("publishing-convention")
+}
+
+ext {
+    set("publishingName", "Sushi Core")
+    set("publishingDescription", "Core utilities and foundations for Sushi Design System")
 }
 
 kotlin {

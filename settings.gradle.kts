@@ -41,6 +41,8 @@ dependencyResolutionManagement {
     }
 }
 
+includeBuild("build-logic")
+
 fun includeKits(vararg kits: String) {
     for (kit in kits) {
         var kitPath = "$kit/$kit"

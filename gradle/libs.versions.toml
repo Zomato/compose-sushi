@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.3"
+gradleMavenPublishPlugin = "0.32.0"
 kotlin = "2.1.21"
 kotlinxCoroutinesCore = "1.10.2"
 kotlinxDatetime = "0.6.2"
@@ -19,9 +20,11 @@ androidx-activity = "1.10.1"
 androidx-lifecycle = "2.8.4"
 composeMultiplatform = "1.8.0"
 napier = "2.7.1"
+maven-publish = "0.32.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
@@ -47,3 +50,4 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
