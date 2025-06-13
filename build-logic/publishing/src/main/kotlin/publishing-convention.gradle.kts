@@ -19,7 +19,6 @@ publishing {
                 password = System.getenv("READ_ARTIFACTS_TOKEN")
             }
         }
-        mavenLocal()
     }
 }
 
