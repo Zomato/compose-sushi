@@ -56,17 +56,49 @@ kotlin {
 
     sourceSets {
 
+        // Create a source set that includes all targets except Android
+        val nonAndroidMain by creating {
+            dependsOn(commonMain.get())
+        }
+
+        // Create iosMain explicitly
+        val iosMain by creating {
+            dependsOn(commonMain.get())
+            dependsOn(nonAndroidMain)
+        }
+
+        val desktopMain by getting {
+            dependsOn(nonAndroidMain)
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
+        }
+
+        val jsMain by getting {
+            dependsOn(nonAndroidMain)
+        }
+
+        val wasmJsMain by getting {
+            dependsOn(nonAndroidMain)
+        }
+
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
             implementation(libs.lottie.compose)
-        }
-
-        val desktopMain by getting {
-            dependencies {
-                implementation(compose.desktop.currentOs)
-            }
         }
 
         commonMain.dependencies {
@@ -95,10 +127,6 @@ android {
     namespace = "com.zomato.sushi.compose"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].apply {
-        res.srcDirs("src/androidMain/res"/*, "src/commonMain/composeResources"*/)
-        resources.srcDirs("src/androidMain/res"/*, "src/commonMain/composeResources"*/)
-    }
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

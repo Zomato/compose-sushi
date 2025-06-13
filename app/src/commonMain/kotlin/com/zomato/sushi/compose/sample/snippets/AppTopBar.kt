@@ -57,7 +57,25 @@ fun AppTopBar(
                     themeManager.updateColorMode(
                         when (themeManager.colorMode.value) {
                             AppColorMode.Red -> AppColorMode.Green
-                            AppColorMode.Green -> AppColorMode.Red
+                            AppColorMode.Green -> AppColorMode.Grey
+                            AppColorMode.Grey -> AppColorMode.Blue
+                            AppColorMode.Blue -> AppColorMode.Yellow
+                            AppColorMode.Yellow -> AppColorMode.Purple
+                            AppColorMode.Purple -> AppColorMode.Indigo
+                            AppColorMode.Indigo -> AppColorMode.Brown
+                            AppColorMode.Brown -> AppColorMode.Cider
+                            AppColorMode.Cider -> AppColorMode.Teal
+                            AppColorMode.Teal -> AppColorMode.Orange
+                            AppColorMode.Orange -> AppColorMode.Pink
+                            AppColorMode.Pink -> AppColorMode.Lime
+                            AppColorMode.Lime -> AppColorMode.Avacado
+                            AppColorMode.Avacado -> AppColorMode.Gold
+                            AppColorMode.Gold -> AppColorMode.Onion
+                            AppColorMode.Onion -> AppColorMode.Charcoal
+                            AppColorMode.Charcoal -> AppColorMode.Honey
+                            AppColorMode.Honey -> AppColorMode.Tangerine
+                            AppColorMode.Tangerine -> AppColorMode.Slate
+                            AppColorMode.Slate -> AppColorMode.Red
                         }
                     )
                 }

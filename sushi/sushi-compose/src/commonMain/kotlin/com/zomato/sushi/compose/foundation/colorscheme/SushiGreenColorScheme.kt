@@ -1,9 +1,12 @@
-package com.zomato.sushi.compose.foundation
+package com.zomato.sushi.compose.foundation.colorscheme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import com.zomato.sushi.compose.atoms.color.asColorSpec
+import com.zomato.sushi.compose.foundation.SushiColorScheme
+import com.zomato.sushi.compose.foundation.SushiColorSchemeType
+import com.zomato.sushi.compose.foundation.SushiRawColorTokens
 
 /**
  * Creates a light-themed green colored scheme for the Sushi design system.

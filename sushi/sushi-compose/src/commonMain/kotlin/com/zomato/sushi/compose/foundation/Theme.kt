@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
+import com.zomato.sushi.compose.foundation.colorscheme.sushiDefaultLightColorScheme
 import com.zomato.sushi.core.SushiColorToken
 
 /**
@@ -45,18 +46,9 @@ fun sushiDimension(
 )
 
 /**
- * Returns the default color scheme for the Sushi design system.
- * 
- * Currently, the light color scheme is used as the default. This function provides a way to retrieve the default color scheme.
- *
- * @return The default color scheme for the Sushi design system
- */
-fun sushiDefaultColorScheme() = sushiLightColorScheme()
-
-/**
  * Provides the current Sushi color scheme.
  */
-internal val LocalSushiColorScheme = staticCompositionLocalOf<SushiColorScheme> { sushiDefaultColorScheme() }
+internal val LocalSushiColorScheme = staticCompositionLocalOf<SushiColorScheme> { sushiDefaultLightColorScheme() }
 
 /**
  * Provides the current Sushi typography.
