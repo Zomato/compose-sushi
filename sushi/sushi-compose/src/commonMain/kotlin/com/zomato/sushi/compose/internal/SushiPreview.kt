@@ -8,8 +8,8 @@ import com.zomato.sushi.compose.foundation.SushiColorTokenMapper
 import com.zomato.sushi.compose.foundation.SushiDimension
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.foundation.SushiTypography
-import com.zomato.sushi.compose.foundation.sushiDarkColorScheme
-import com.zomato.sushi.compose.foundation.sushiLightColorScheme
+import com.zomato.sushi.compose.foundation.colorscheme.sushiDefaultDarkColorScheme
+import com.zomato.sushi.compose.foundation.colorscheme.sushiDefaultLightColorScheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
@@ -37,9 +37,9 @@ fun SushiPreview(
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (isSystemInDarkTheme()) {
-        sushiDarkColorScheme()
+        sushiDefaultDarkColorScheme()
     } else {
-        sushiLightColorScheme()
+        sushiDefaultLightColorScheme()
     }
     CompositionLocalProvider(
         LocalInspectionMode provides true
