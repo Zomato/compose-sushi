@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.File
+
 pluginManagement {
     repositories {
         google {
@@ -48,5 +51,26 @@ includeKits(
     "sushi/sushi-compose",
 )
 
-include(":app")
-include(":website")
+fun shouldIncludeSampleApps(): Boolean {
+    if (gradle.parent == null) {
+        return true
+    }
+
+    return try {
+        val parentProjectDir = gradle.parent?.startParameter?.projectDir
+        val localPropsFile = File(parentProjectDir, "local.properties")
+
+        val localProps = Properties()
+        if (localPropsFile.exists()) {
+            localPropsFile.inputStream().use { localProps.load(it) }
+        }
+        localProps.getProperty("compositeBuild.includeSampleApps") == "true"
+    } catch (e: Throwable) {
+        false
+    }
+}
+
+if (shouldIncludeSampleApps()) {
+    include(":app")
+    include(":website")
+}
