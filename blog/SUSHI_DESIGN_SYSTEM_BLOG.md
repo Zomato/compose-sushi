@@ -4,27 +4,27 @@
 
 ## Picture This: One Design, Many Worlds 🌏
 
-Imagine this: You’ve just crafted a gorgeous UI for your food app. It looks perfect on your Android phone. But then you open it on your iPad—suddenly, the fonts are off, the buttons are squished, and your beautiful color palette looks like it’s been through a blender. On desktop, your “responsive” layout is… not responding. And on the web? Don’t even ask.
+Imagine this: You’ve just crafted a stunning UI for your app. It looks perfect on Android. But on iPad, the fonts are off, buttons are squished, and your carefully chosen color palette feels completely off. On the desktop, the responsive layout falls apart. On the web? It’s chaos.
 
-Sound familiar? Welcome to the wild world of Compose Multiplatform UI, where your design system needs to be a shape-shifter—elegant on Android, sharp on iOS, pixel-perfect on desktop, and snappy on the web.
+Sounds familiar? Welcome to the complex world of Compose Multiplatform UI, where your design system isn’t a standardized model, it needs to be an adaptive powerhouse, elegant on Android, sharp on iOS, pixel-perfect on desktop, and snappy on the web.
 
-This is the story of how Zomato built Sushi: a design system that’s as flexible as a yoga master, as consistent as your favorite restaurant’s dal makhani, and as fun as a Friday night order-in. 🍛
+This is the story of how Zomato built Sushi: a design system as adaptable and consistent as your favourite dish from your go-to restaurant and as efficient as your food delivery order time. 🍛
 
 ---
 
 ## The Problem: One Design, Infinite Screens 🤹‍♂️
 
-Building a design system for Compose Multiplatform isn’t just about picking pretty colors or making buttons round. It’s about:
+Building a design system for Compose Multiplatform goes beyond choosing color schemes or rounding button corners. It’s about:
 
-- **Device Fragmentation:** Phones, tablets, desktops, foldables, TVs, watches… all with different DPIs, aspect ratios, and input methods.
-- **Platform Quirks:** Android loves Material, iOS loves Cupertino, the web loves… everything and nothing. Your design system needs to feel native everywhere, but still be unmistakably “you.”
-- **Consistency vs. Flexibility:** You want your brand to shine through, but you also want to let teams customize, experiment, and move fast.
-- **Performance:** Animations, gradients, and shadows are great—until your UI lags on a budget phone or a low-powered web browser.
+- **Device Fragmentation:** Phones, tablets, desktops, foldables, TVs and smartwatches, all with varying screen sizes, DPIs, aspect ratios, and input methods.
+- **Platform Quirks:** Android relies on Material Design, iOS follows Cupertino guidelines, and the web adheres to no single standard. A good design system must feel perfect on each platform while still retaining a consistent brand identity.
+- **Consistency vs. Flexibility:** Your design should reflect your brand’s personality, but also allow teams to customize, iterate, and move quickly.
+- **Performance:** Visual flourishes like animations, gradients and shadows are appealing, until they start affecting performance on low-end devices or browsers.
 
-The old ways? They don’t cut it:
+The traditional approaches, simply don’t  cut the modern requirements:
 - **Copy-paste design:** Leads to a Frankenstein’s monster of styles.
 - **Platform-only libraries:** Great for one OS, but a pain everywhere else.
-- **One-size-fits-none:** The “average” device doesn’t exist.
+- **One-size-fits-none:** The “average” device is a myth.
 
 We needed something better. Something delicious. 🍣
 
@@ -36,11 +36,11 @@ What if your design system could:
 - **Look and feel amazing everywhere**—from Android to iOS, desktop to web?
 - **Let you theme, customize, and extend** with just a few lines of code?
 - **Ship with a buffet of ready-to-use components**—all beautiful, all consistent?
-- **Scale from MVP to millions of users** (like we do at Zomato)?
+- **Scale from MVP to millions of users** (like we do at Zomato, and all ETERNAL apps)?
 
-That’s Sushi. It’s not just a design system—it’s a Compose Multiplatform superpower. And today, we’re open-sourcing it for everyone. 🎉
+That’s Sushi, a Compose Multiplatform superpower. And today, we’re open-sourcing it for everyone. 🎉
 
-🌐 [Website: sushi.design](https://sushi.design)  
+🌐 [Website: zomato.github.io/compose-sushi](https://zomato.github.io/compose-sushi)  
 💻 [GitHub: github.com/Zomato/compose-sushi](https://github.com/Zomato/compose-sushi)  
 📲 **Try the demo app directly from the GitHub page!**
 
@@ -49,10 +49,10 @@ That’s Sushi. It’s not just a design system—it’s a Compose Multiplatform
 ## 🥢 Why Sushi?
 
 - **Multiplatform First:** Write once, run everywhere Compose runs (Android, iOS, Desktop, Web, and more).
-- **Production Proven:** Sushi powers Zomato, handling millions of users daily.
-- **Composable & Extensible:** Built on Jetpack Compose idioms, with a focus on flexibility and customizability.
+- **Production Proven:** Sushi powers Zomato, serving millions of users daily (currently being used on Android).
+- **Composable & Extensible:** Built on Jetpack Compose idioms, with a focus on flexibility and customizability at its core.
 - **Beautiful by Default:** Carefully crafted color schemes, typography, and components.
-- **Open Source:** Now available for everyone! 🎉
+- **Open Source:** Open, accessible and available for everyone! 🎉
 
 ---
 
@@ -62,7 +62,7 @@ Add Sushi to your Compose Multiplatform project:
 
 ```kotlin
 dependencies {
-    implementation("com.eternal.kits:sushi-compose")
+    implementation("com.eternal.kits:sushi-compose:<version>")
 }
 ```
 
@@ -72,7 +72,7 @@ dependencies {
 
 ### 🎨 Theming with `SushiTheme`
 
-Sushi provides a powerful theming system, inspired by `MaterialTheme`, but tailored for Sushi's design language. Use `SushiTheme` to wrap your app or screen and provide consistent colors, typography, and dimensions throughout your UI.
+Inspired by MaterialTheme, Sushi provides a powerful theming system tailored for Sushi's design language. Use SushiTheme to wrap your app or screen and provide consistent colors, typography, and dimensions throughout your UI.
 
 ```kotlin
 SushiTheme(
@@ -91,7 +91,7 @@ SushiTheme(
 - `typography`: The font styles and weights
 - `dimens`: Spacing and corner radius system
 - `fontSizeMultiplier`: Function to scale font sizes (for accessibility)
-- `colorTokenMapper`: Advanced mapping for custom color tokens
+- `colorTokenMapper`: Mapping for custom color tokens
 
 Access theme values anywhere in your composables:
 ```kotlin
@@ -104,7 +104,7 @@ val dimens = SushiTheme.dimens
 
 ### 🌈 Color Schemes
 
-Sushi ships with a rich set of color schemes, each with light and dark variants. Some of the built-in schemes include **Red, Pink, Purple, Blue, Teal, Green, Yellow, Orange, Tangerine, Charcoal, Slate, Cider, Gold, Grey, Honey, Indigo, Lime, Onion, Avacado, Brown**
+Sushi offers extensive customisation with diverse color schemes each with light and dark variants. Some of the built-in schemes include **Red, Pink, Purple, Blue, Teal, Green, Yellow, Orange, Tangerine, Charcoal, Slate, Cider, Gold, Grey, Honey, Indigo, Lime, Onion, Avacado, Brown**
 
 Each scheme is defined in `foundation/colorscheme/` and can be used like:
 ```kotlin
@@ -224,10 +224,10 @@ SushiButton(
 
 - **SushiImage:** Display images with Sushi theming and shapes
 - **SushiCheckBox:** Customizable checkbox with Sushi styles
-- **SushiRadioButton:** Radio button with text, icons, and custom alignment
+- **SushiRadioButton:** Radio button with text, icons and custom alignment
 - **SushiSwitch:** Toggle switch with Sushi colors
 - **SushiTag:** Pill-shaped tag for status or categories
-- **SushiTextField:** Text input with labels, error states, and icons
+- **SushiTextField:** Text input with labels, error states and icons
 - **SushiAnimation:** Lottie/animated asset support
 - **SushiLoader:** Loading spinner/indicator
 - **SushiCard:** Card container with elevation and shape
@@ -248,28 +248,11 @@ SushiButton(
 
 ---
 
-## 🛠️ Sushi in Your Project
-
-Add the dependency in your `build.gradle.kts`:
-```kotlin
-dependencies {
-    implementation("com.eternal.kits:sushi-compose")
-}
-```
-
----
-
-## 📲 Try the Demo App!
-
-Curious to see Sushi in action? Check out the [demo app](https://github.com/Zomato/compose-sushi) on GitHub, or visit [sushi.design](https://sushi.design) for interactive examples and documentation.
-
----
-
 ## 🥳 Final Thoughts & Links
 
 We’re excited to share Sushi with the world and can’t wait to see what you build! For more details, docs, and updates:
-- [Website: sushi.design](https://sushi.design)
-- [GitHub: github.com/Zomato/compose-sushi](https://github.com/Zomato/compose-sushi)
+- Website: [zomato.github.io/compose-sushi](https://zomato.github.io/compose-sushi)
+- Github: [github.com/Zomato/compose-sushi](https://github.com/Zomato/compose-sushi)
 
 Feel free to open issues, contribute, or just say hi! 🍣
 
