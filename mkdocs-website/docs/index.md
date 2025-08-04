@@ -5,7 +5,7 @@ hide: -navigation -toc
 # Build better with Sushi
 Sushi is a sleek, modular Compose UI design system powering consistent user experiences across Zomato and its family of brands. Sushi brings you a fresh, reusable UI experience - designed to roll beautifully across Android. Support for iOS, Desktop, Web, and more coming soon.
 
-Note: Currently Sushi is in development stage. APIs are subjected to change.
+Sushi is ready for general use, but the API is considered unstable as we continue to iterate on it.
 
 ## Getting Started
 For introduction and basic setup, click [here](introduction.md).
