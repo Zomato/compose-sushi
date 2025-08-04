@@ -1,6 +1,6 @@
 @font-face {
     font-family: "okra";
-    src: url("../assets/fonts/okra.ttf") format("truetype");
+    src: url("/assets/fonts/okra.ttf") format("truetype");
 }
 :root {
     --md-text-font: "okra";
