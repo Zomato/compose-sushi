@@ -88,7 +88,7 @@ private fun SushiLoaderImpl(
 
     Canvas(modifier) {
         val drawAreaSize = min(size.width, size.height)
-        val borderStrokeSize = drawAreaSize / 10
+        val borderStrokeSize = drawAreaSize / 13
         val outerSize = drawAreaSize - borderStrokeSize / 2 - borderStrokeSize / 2
         val innerSize = (outerSize * 0.71).toFloat()
 
