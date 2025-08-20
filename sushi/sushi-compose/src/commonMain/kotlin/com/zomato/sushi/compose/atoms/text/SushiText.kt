@@ -145,6 +145,9 @@ private fun SushiTextImpl(
         val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
         val textBrush = props.textBrush
 
+        val underlineColor = (textDecoration
+                as? SushiTextDecoration.Underline)?.color?.takeIfSpecified() ?: textColor
+
         var textLayoutResult: TextLayoutResult? by remember { mutableStateOf(null) }
 
         val localCurrentTextStyle = LocalTextStyle.current
@@ -209,6 +212,14 @@ private fun SushiTextImpl(
                 overflowText = overflowText,
                 overflowTextColor = overflowTextColor,
                 Modifier
+                    .let {
+                        textLayoutResult?.let { it1 ->
+                            it.textDashedUnderline(
+                                layoutResult = it1,
+                                color = underlineColor.value
+                            )
+                        } ?: it
+                    }
                     .ifNonNull(textDecoration) {
                         this.textDecoration(
                             textDecoration = it,
@@ -237,6 +248,14 @@ private fun SushiTextImpl(
                     onTextLayout(it)
                 },
                 Modifier
+                    .let {
+                        textLayoutResult?.let { it1 ->
+                            it.textDashedUnderline(
+                                layoutResult = it1,
+                                color = underlineColor.value
+                            )
+                        } ?: it
+                    }
                     .ifNonNull(textDecoration) {
                         this.textDecoration(
                             textDecoration = it,
