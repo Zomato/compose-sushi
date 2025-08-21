@@ -25,6 +25,5 @@ data class SushiLoaderProps(
     val innerAngleOffset: Float? = null,
     val outerColor: ColorSpec = SushiUnspecified.asColorSpec(),
     val innerColor: ColorSpec = SushiUnspecified.asColorSpec(),
-    val animationSpeedMultiplier: Float? = null,
-    val strokeWidth: Dp? = null
+    val animationSpeedMultiplier: Float? = null
 )
