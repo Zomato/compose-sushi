@@ -270,6 +270,9 @@ val Slate700: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawCol
 val Slate800: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Slate800, SushiRawColorTokens.Slate100)
 val Slate900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Slate900, SushiRawColorTokens.Slate050)
 
+// Lemon Colors
+val Lemon500: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon500, SushiRawColorTokens.Lemon500)
+
 // Rating Colors
 val Rating1: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red600, SushiRawColorTokens.Red300)
 val Rating2: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Yellow500, SushiRawColorTokens.Yellow200)
