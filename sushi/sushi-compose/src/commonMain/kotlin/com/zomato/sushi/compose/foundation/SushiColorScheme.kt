@@ -724,7 +724,9 @@ data class SushiColorScheme(
         val light: ColorSpec,
         val accentPink: ColorSpec,
         val discover: ColorSpec,
-        val accentHoney: ColorSpec
+        val accentHoney: ColorSpec,
+        val accentLime: ColorSpec,
+        val accentLimeIntense: ColorSpec
     )
 
     // Icon color tokens
@@ -754,6 +756,7 @@ data class SushiColorScheme(
         val accentPink: ColorSpec,
         val accentTeal: ColorSpec,
         val discover: ColorSpec,
+        val accentLime: ColorSpec
     )
 
     // Surface color tokens
@@ -816,6 +819,8 @@ data class SushiColorScheme(
         val accentIndigoInverse: ColorSpec,
         val darkIntense: ColorSpec,
         val accentTeal: ColorSpec,
+        val accentLime: ColorSpec,
+        val accentLimeIntense: ColorSpec
     )
 
     // Border color tokens
@@ -848,6 +853,8 @@ data class SushiColorScheme(
         val dark: ColorSpec,
         val accentWhite: ColorSpec,
         val accentHoney: ColorSpec,
+        val accentLime: ColorSpec,
+        val accentLimeIntense: ColorSpec
     )
 
     // Crystal color tokens
