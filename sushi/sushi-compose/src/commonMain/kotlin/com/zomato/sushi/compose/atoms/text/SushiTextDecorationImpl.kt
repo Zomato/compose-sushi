@@ -17,6 +17,7 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiRawColorTokens
 import com.zomato.sushi.compose.internal.SushiPreview
+import com.zomato.sushi.compose.markdown.UnderlineAnnotaterProcessor
 import com.zomato.sushi.compose.utils.toPx
 
 @Composable
@@ -87,6 +88,44 @@ private fun Modifier.textUnderline(
                 strokeWidth = strokeWidth,
                 pathEffect = pathEffect
             )
+        }
+    }
+)
+
+internal fun Modifier.textDashedUnderline(
+    layoutResult: TextLayoutResult,
+    dotSize: Float = 4f,
+    gapSize: Float = 4f,
+    strokeWidth: Float = 2f,
+    color: Color = Color.Black
+): Modifier = this.then(
+    Modifier.drawBehind {
+        val pathEffect = PathEffect.dashPathEffect(floatArrayOf(dotSize, gapSize), 0f)
+
+        val annotations = layoutResult.layoutInput.text.getStringAnnotations(
+            UnderlineAnnotaterProcessor.ANNOTATION_TAG, 0, layoutResult.layoutInput.text.length)
+
+        annotations.forEach { ann ->
+            val startLine = layoutResult.getLineForOffset(ann.start)
+            val endLine = layoutResult.getLineForOffset(ann.end)
+
+            for (line in startLine..endLine) {
+                val lineStartOffset = if (line == startLine) ann.start else layoutResult.getLineStart(line)
+                val lineEndOffset = if (line == endLine) ann.end else layoutResult.getLineEnd(line) - 1
+
+                val startBox = layoutResult.getBoundingBox(lineStartOffset)
+                val endBox = layoutResult.getBoundingBox(lineEndOffset)
+
+                val y = startBox.bottom
+
+                drawLine(
+                    color = color,
+                    start = Offset(startBox.left, y),
+                    end = Offset(endBox.right, y),
+                    strokeWidth = strokeWidth,
+                    pathEffect = pathEffect
+                )
+            }
         }
     }
 )

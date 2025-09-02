@@ -70,8 +70,8 @@ private fun SushiLoaderImpl(
 ) {
     val animationSpeedMultiplier = props.animationSpeedMultiplier ?: SushiLoaderDefaults.animationSpeedMultiplier
     val innerAngleOffset = props.innerAngleOffset ?: SushiLoaderDefaults.innerAngleOffset
-    val innerColor = props.innerColor.value.takeIfSpecified() ?: SushiTheme.colors.red.v500.value
-    val outerColor = props.outerColor.value.takeIfSpecified() ?: SushiTheme.colors.red.v500.value
+    val innerColor = props.innerColor.value.takeIfSpecified() ?: SushiTheme.colors.theme.v500.value
+    val outerColor = props.outerColor.value.takeIfSpecified() ?: SushiTheme.colors.theme.v500.value
 
     val infiniteTransition = rememberInfiniteTransition(label = "transition")
     val outerStartAngle by infiniteTransition.animateFloat(
@@ -88,7 +88,7 @@ private fun SushiLoaderImpl(
 
     Canvas(modifier) {
         val drawAreaSize = min(size.width, size.height)
-        val borderStrokeSize = drawAreaSize / 10
+        val borderStrokeSize = drawAreaSize / 13
         val outerSize = drawAreaSize - borderStrokeSize / 2 - borderStrokeSize / 2
         val innerSize = (outerSize * 0.71).toFloat()
 

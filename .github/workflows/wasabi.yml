@@ -1,0 +1,41 @@
+name: Wasabi Icon Update
+
+on:
+  push:
+    paths:
+      - 'dev-tools/wasabi/src/main/resources/config.json'
+      - 'dev-tools/wasabi/src/main/resources/wasabicons.ttf'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-wasabi-icons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: true
+          fetch-depth: 0
+
+      - name: Generate Wasabi Icons Mapping
+        run:  |
+          cd dev-tools/wasabi
+          ./gradlew run
+
+      - name: Update Wasabi Icons
+        run: |
+          cp dev-tools/wasabi/out/SushiIconCodes.kt sushi/sushi-compose/src/commonMain/kotlin/com/zomato/sushi/compose/atoms/icon/SushiIconCodes.kt
+          cp dev-tools/wasabi/src/main/resources/wasabicons.ttf sushi/sushi-compose/src/androidMain/res/font/wasabicons.ttf
+          cp dev-tools/wasabi/src/main/resources/wasabicons.ttf sushi/sushi-compose/src/nonAndroidMain/composeResources/font/wasabicons.ttf
+      - name: Commit and Push
+        run: |
+          git config --global user.name ${{ github.event.pusher.name }}
+          git config --global user.email ${{ github.event.pusher.email }}
+          git add sushi/sushi-compose/src/commonMain/kotlin/com/zomato/sushi/compose/atoms/icon/SushiIconCodes.kt
+          git add sushi/sushi-compose/src/androidMain/res/font/wasabicons.ttf
+          git add sushi/sushi-compose/src/nonAndroidMain/composeResources/font/wasabicons.ttf
+          git commit -m "update: wasabi icons"
+          git push

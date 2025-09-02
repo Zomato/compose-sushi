@@ -4,30 +4,31 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-val props = Properties()
-file("../version.properties").inputStream().use { props.load(it) }
+val versionProps = Properties().apply {
+    file("../version.properties").inputStream().use { load(it) }
+}
 
-val versionCode = props.getProperty("VERSION_CODE")
-val versionName = props.getProperty("VERSION_NAME")
+val localProps = Properties().apply {
+    file("../../local.properties").inputStream().use { load(it) }
+}
+
+val versionName = versionProps.getProperty("VERSION_NAME")
 
 publishing {
     repositories {
-        maven("https://maven.pkg.github.com/Zomato/kmm-core-libs") {
-            name = "Zomato"
-            credentials {
-                username = "Zomato"
-                password = System.getenv("READ_ARTIFACTS_TOKEN")
-            }
-        }
+        mavenLocal()
     }
 }
 
 mavenPublishing {
     coordinates(
-        groupId = "com.zomato.kmm",
+        groupId = "com.eternal.kits",
         artifactId = project.name,
         version = versionName
     )
+
+    publishToMavenCentral(automaticRelease = true)
+    signAllPublications()
 
     pom {
         name.set(project.findProperty("publishingName") as String? ?: "Sushi Compose")
@@ -48,10 +49,15 @@ mavenPublishing {
 
         developers {
             developer {
-                id.set("zomato")
-                name.set("Zomato")
-                url.set("https://github.com/Zomato")
+                id.set("firefinchdev")
+                name.set("Anirudh Gupta")
+                url.set("https://github.com/firefinchdev")
             }
+        }
+        scm {
+            url.set("https://github.com/Zomato/compose-sushi")
+            connection.set("scm:git:git://github.com/Zomato/compose-sushi.git")
+            developerConnection.set("scm:git:ssh://github.com/Zomato/compose-sushi.git")
         }
     }
 }

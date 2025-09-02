@@ -43,6 +43,7 @@ class MarkdownParser private constructor(
                 .processor(ColorProcessor())
                 .processor(FontWeightProcessor())
                 .processor(LinkProcessor())
+                .processor(UnderlineAnnotaterProcessor())
                 .build()
         }
     }
@@ -139,6 +140,13 @@ private fun MarkdownParserPreview1() {
                     color = SushiTheme.colors.text.success,
                     type = SushiTextType.Regular900,
                     textDecoration = SushiTextDecoration.Underline()
+                )
+            )
+            SushiText(
+                props = SushiTextProps(
+                    text = "normal<u>underlined<u>normal",
+                    color = SushiTheme.colors.text.success,
+                    type = SushiTextType.Regular900,
                 )
             )
         }

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./gradlew publishAllPublicationsToMavenLocalRepository
+./gradlew publishAllPublicationsToMavenLocalRepository --no-configuration-cache

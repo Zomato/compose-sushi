@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./gradlew publishAllPublicationsToZomatoRepository
+./gradlew publishAllPublicationsToMavenCentralRepository --no-configuration-cache

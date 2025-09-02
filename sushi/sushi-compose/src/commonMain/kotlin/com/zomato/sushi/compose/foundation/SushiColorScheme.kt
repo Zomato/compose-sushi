@@ -385,6 +385,12 @@ data class SushiColorScheme(
         val v900: ColorSpec = Slate900,
     )
 
+    // Lemon
+    @Immutable
+    data class LemonColorScheme(
+        val v500: ColorSpec = Lemon500,
+    )
+
     // Rating
     @Immutable
     data class RatingColorScheme(
@@ -684,6 +690,9 @@ data class SushiColorScheme(
             v800 = SushiRawColorTokens.Red800.asColorSpec(),
             v900 = SushiRawColorTokens.Red900.asColorSpec(),
             accentColor = SushiRawColorTokens.Red600.asColorSpec(),
+        ),
+        val lemon: LemonColorScheme = LemonColorScheme(
+            v500 = SushiRawColorTokens.Lemon500.asColorSpec()
         )
     )
 

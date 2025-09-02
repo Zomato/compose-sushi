@@ -5,14 +5,12 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.foundation.WasabiFontFamily
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.atomClickable
 import com.zomato.sushi.compose.modifiers.ifNonNull
@@ -42,7 +40,7 @@ fun SushiIcon(
         ) {
             SushiIconImpl(
                 props,
-                Modifier.align(Alignment.Center),
+                Modifier,
                 onClick = onClick
             )
         }
@@ -60,10 +58,12 @@ private fun SushiIconImpl(
     val baseTextStyle = LocalTextStyle.current
     val color = props.color.takeIfSpecified() ?: SushiTheme.colors.icon.primary
     val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
+    val iconFontFamily = LocalSushiIconFontFamily.current
     val overrideTextStyle = remember(
         baseTextStyle,
         size,
-        fontSizeMultiplier
+        fontSizeMultiplier,
+        iconFontFamily
     ) {
         baseTextStyle.copy(
             fontSize = fontSizeMultiplier(size),
@@ -71,7 +71,7 @@ private fun SushiIconImpl(
                 alignment = LineHeightStyle.Alignment.Center,
                 trim = LineHeightStyle.Trim.Both
             ),
-            fontFamily = WasabiFontFamily
+            fontFamily = iconFontFamily
         )
     }
     Text(

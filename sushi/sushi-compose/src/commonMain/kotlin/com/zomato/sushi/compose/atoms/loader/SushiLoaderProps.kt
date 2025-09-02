@@ -1,6 +1,7 @@
 package com.zomato.sushi.compose.atoms.loader
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.unit.Dp
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiUnspecified

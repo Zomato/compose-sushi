@@ -1,0 +1,29 @@
+@font-face {
+    font-family: "okra";
+    src: url("../assets/fonts/okra.ttf") format("truetype");
+}
+:root {
+    --md-text-font: "okra";
+    --md-code-font: "roboto";
+}
+:root  > * {
+    --md-primary-fg-color:        #d52e3f;
+    --md-primary-fg-color--light: #ECB7B7;
+    --md-primary-fg-color--dark:  #90030C;
+    --md-default-fg-color--light: #272727;
+}
+.component-preview {
+    background-color: #F2F4F7;
+}
+.grid-option {
+    border: 0.5px solid rgb(172, 178, 190);
+    border-radius: 20px;
+    background-color: #F2F4F7;
+}
+.md-header__title {
+    margin-left: 0px !important;
+}
+:root  > * {
+    --md-primary-fg-color: #d52e3f;
+    --md-accent-fg-color: #d52e3f;
+}
