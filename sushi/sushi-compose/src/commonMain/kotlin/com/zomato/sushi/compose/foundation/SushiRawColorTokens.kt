@@ -157,16 +157,16 @@ object SushiRawColorTokens {
     val Pink900 = Color(0xFF4E041D)
 
     // Lime
-    val Lime050 = Color(0xFFFCFEEF)
-    val Lime100 = Color(0xFFF4FECD)
-    val Lime200 = Color(0xFFE4F6A6)
-    val Lime300 = Color(0xFFD2EF7F)
-    val Lime400 = Color(0xFFBBD959)
-    val Lime500 = Color(0xFF9FBB3A)
-    val Lime600 = Color(0xFF85A437)
-    val Lime700 = Color(0xFF65842E)
-    val Lime800 = Color(0xFF4A6827)
-    val Lime900 = Color(0xFF304B01)
+    val Lime050 = Color(0xFFF7FEEA)
+    val Lime100 = Color(0xFFEFFADC)
+    val Lime200 = Color(0xFFDFF5BA)
+    val Lime300 = Color(0xFFCCEB96)
+    val Lime400 = Color(0xFFB6E06C)
+    val Lime500 = Color(0xFF97C24E)
+    val Lime600 = Color(0xFF759937)
+    val Lime700 = Color(0xFF5E7A2C)
+    val Lime800 = Color(0xFF3D5224)
+    val Lime900 = Color(0xFF2A331B)
 
     // Corn
     val Corn050 = Color(0xFFFFFCEB)

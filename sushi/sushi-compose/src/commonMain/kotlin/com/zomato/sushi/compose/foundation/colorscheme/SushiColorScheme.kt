@@ -78,6 +78,8 @@ fun sushiLightColorScheme(
         accentPink = SushiRawColorTokens.White.asColorSpec(),
         discover = SushiRawColorTokens.White.asColorSpec(),
         accentHoney = SushiRawColorTokens.Honey600.asColorSpec(),
+        accentLime = SushiRawColorTokens.Lime700.asColorSpec(),
+        accentLimeIntense = SushiRawColorTokens.Lime800.asColorSpec()
     ),
     iconColorScheme: SushiColorScheme.IconColorScheme = SushiColorScheme.IconColorScheme(
         default = SushiRawColorTokens.Black.asColorSpec(),
@@ -105,6 +107,7 @@ fun sushiLightColorScheme(
         accentPink = SushiRawColorTokens.White.asColorSpec(),
         accentTeal = SushiRawColorTokens.White.asColorSpec(),
         discover = SushiRawColorTokens.White.asColorSpec(),
+        accentLime = SushiRawColorTokens.Lime600.asColorSpec()
     ),
     surfaceColorScheme: SushiColorScheme.SurfaceColorScheme = SushiColorScheme.SurfaceColorScheme(
         backgroundPrimary = SushiRawColorTokens.White.asColorSpec(),
@@ -165,6 +168,8 @@ fun sushiLightColorScheme(
         darkIntense = SushiRawColorTokens.Black.asColorSpec(),
         accentTeal = SushiRawColorTokens.Teal100.asColorSpec(),
         backgroundSelection = themeColorScheme.v050,
+        accentLime = SushiRawColorTokens.Lime050.asColorSpec(),
+        accentLimeIntense = SushiRawColorTokens.Lime100.asColorSpec(),
     ),
     borderColorScheme: SushiColorScheme.BorderColorScheme = SushiColorScheme.BorderColorScheme(
         subtle = SushiRawColorTokens.Grey100.asColorSpec(),
@@ -195,6 +200,8 @@ fun sushiLightColorScheme(
         dark = SushiRawColorTokens.White.asColorSpec(),
         accentWhite = SushiRawColorTokens.White.asColorSpec(),
         accentHoney = SushiRawColorTokens.Honey600.asColorSpec(),
+        accentLime = SushiRawColorTokens.Lime200.asColorSpec(),
+        accentLimeIntense = SushiRawColorTokens.Lime300.asColorSpec()
     ),
     crystalColorScheme: SushiColorScheme.CrystalColorScheme = SushiColorScheme.CrystalColorScheme(
         ontime = SushiRawColorTokens.Green600.asColorSpec(),
@@ -457,6 +464,8 @@ fun sushiDarkColorScheme(
         accentPink = SushiRawColorTokens.White.asColorSpec(),
         discover = SushiRawColorTokens.White.asColorSpec(),
         accentHoney = SushiRawColorTokens.Honey700.asColorSpec(),
+        accentLime = SushiRawColorTokens.Lime200.asColorSpec(),
+        accentLimeIntense = SushiRawColorTokens.Lime100.asColorSpec()
     ),
     iconColorScheme: SushiColorScheme.IconColorScheme = SushiColorScheme.IconColorScheme(
         default = SushiRawColorTokens.Slate050.asColorSpec(),
@@ -484,6 +493,7 @@ fun sushiDarkColorScheme(
         accentPink = SushiRawColorTokens.White.asColorSpec(),
         accentTeal = SushiRawColorTokens.White.asColorSpec(),
         discover = SushiRawColorTokens.White.asColorSpec(),
+        accentLime = SushiRawColorTokens.Lime400.asColorSpec()
     ),
     surfaceColorScheme: SushiColorScheme.SurfaceColorScheme = SushiColorScheme.SurfaceColorScheme(
         backgroundPrimary = SushiRawColorTokens.Slate900.asColorSpec(),
@@ -544,6 +554,8 @@ fun sushiDarkColorScheme(
         darkIntense = SushiRawColorTokens.Black.asColorSpec(),
         accentTeal = SushiRawColorTokens.Teal900.asColorSpec(),
         backgroundSelection = themeColorScheme.v050,
+        accentLime = SushiRawColorTokens.Lime900.asColorSpec(),
+        accentLimeIntense = SushiRawColorTokens.Lime900.asColorSpec()
     ),
     borderColorScheme: SushiColorScheme.BorderColorScheme = SushiColorScheme.BorderColorScheme(
         subtle = SushiRawColorTokens.Slate800.asColorSpec(),
@@ -573,7 +585,9 @@ fun sushiDarkColorScheme(
         // ctodo: Fix with actual values, after defaults are merged in View sushi.
         dark = SushiRawColorTokens.White.asColorSpec(),
         accentHoney = SushiRawColorTokens.Honey300.asColorSpec(),
-        accentWhite = SushiRawColorTokens.White.asColorSpec()
+        accentWhite = SushiRawColorTokens.White.asColorSpec(),
+        accentLime = SushiRawColorTokens.Lime800.asColorSpec(),
+        accentLimeIntense =  SushiRawColorTokens.Lime700.asColorSpec()
     ),
     crystalColorScheme: SushiColorScheme.CrystalColorScheme = SushiColorScheme.CrystalColorScheme(
         ontime = SushiRawColorTokens.Green800.asColorSpec(),
