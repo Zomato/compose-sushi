@@ -151,7 +151,7 @@ private fun SushiTextFieldImpl(
     val text = props.text ?: ""
 
     val useTextFieldValue = props.textFieldValue != null
-    val actualText = if (useTextFieldValue) props.textFieldValue.text ?: "" else text
+    val actualText = if (useTextFieldValue) props.textFieldValue.text else text
     val showResetButton = actualText.isNotEmpty() && props.showResetButton != false && !readOnly
 
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
