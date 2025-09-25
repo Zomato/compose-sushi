@@ -77,7 +77,6 @@ import com.zomato.sushi.compose.utils.takeIfUnspecified
 @Composable
 fun SushiTextField(
     props: SushiTextFieldProps,
-    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     onTextFieldValueChange: ((TextFieldValue) -> Unit)? = null,
     interactionSource: MutableInteractionSource? = null,
@@ -101,7 +100,6 @@ fun SushiTextField(
     ) {
         SushiTextFieldImpl(
             props = props,
-            onValueChange = onValueChange,
             onTextFieldValueChange = onTextFieldValueChange,
             modifier = Modifier.fillMaxSize(),
             interactionSource = interactionSource,
@@ -123,7 +121,6 @@ fun SushiTextField(
 @Composable
 private fun SushiTextFieldImpl(
     props: SushiTextFieldProps,
-    onValueChange: (String) -> Unit,
     onTextFieldValueChange: ((TextFieldValue) -> Unit)?,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource? = null,
@@ -148,256 +145,130 @@ private fun SushiTextFieldImpl(
     val minLines = props.minLines ?: 1
     val shape = props.shape ?: SushiTextFieldDefaults.shape
     val colors = props.colors ?: SushiTextFieldDefaults.outlinedColors()
-    val text = props.text ?: ""
+    val textFieldValue = props.textFieldValue ?: TextFieldValue("")
 
     val useTextFieldValue = props.textFieldValue != null
-    val actualText = if (useTextFieldValue) props.textFieldValue.text else text
+    val actualText = if (useTextFieldValue) props.textFieldValue.text else ""
     val showResetButton = actualText.isNotEmpty() && props.showResetButton != false && !readOnly
 
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
-    if (useTextFieldValue) {
-        OutlinedTextField(
-            value = props.textFieldValue,
-            onValueChange = { newValue ->
-                onTextFieldValueChange?.invoke(newValue) ?: onValueChange(newValue.text)
-            },
-            modifier = modifier,
-            enabled = enabled,
-            readOnly = readOnly,
-            textStyle = textStyle.typeStyle,
-            label = label ?: props.label?.let {
-                getLabelTextComposable(
-                    it,
+    OutlinedTextField(
+        value = textFieldValue,
+        onValueChange = { onTextFieldValueChange?.invoke(it) },
+        modifier = modifier,
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = textStyle.typeStyle,
+        label = label ?: props.label?.let {
+            getLabelTextComposable(
+                it,
+                isFocused = isFocused,
+                isError = isError,
+                isDisabled = !enabled,
+                colors = colors,
+            )
+        },
+        placeholder = {
+            if (placeholder != null) {
+                placeholder()
+            } else {
+                PlaceHolder(
+                    props.placeholder,
                     isFocused = isFocused,
                     isError = isError,
                     isDisabled = !enabled,
                     colors = colors,
+                    defaultTextStyle = textStyle.typeStyle
                 )
-            },
-            placeholder = {
-                if (placeholder != null) {
-                    placeholder()
-                } else {
-                    PlaceHolder(
-                        props.placeholder,
-                        isFocused = isFocused,
-                        isError = isError,
-                        isDisabled = !enabled,
-                        colors = colors,
-                        defaultTextStyle = textStyle.typeStyle
+            }
+        },
+        prefix = {
+            if (prefix != null) {
+                prefix()
+            } else {
+                Prefix(
+                    props = props,
+                    isFocused = isFocused,
+                    isError = isError,
+                    isDisabled = !enabled,
+                    colors = colors,
+                    defaultPrefixTextStyle = textStyle.typeStyle,
+                    onPrefixIconClick = onPrefixIconClick
+                )
+            }
+        },
+        leadingIcon = if (leadingIcon != null) {
+            { leadingIcon() }
+        } else {
+            getLeadingComposable(
+                props = props,
+                isFocused = isFocused,
+                isError = isError,
+                isDisabled = !enabled,
+                colors = colors,
+                onLeadingIconClick = onLeadingIconClick
+            )
+        },
+        suffix = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (showResetButton) {
+                    SushiIcon(
+                        SushiIconProps(
+                            SushiIconCodes.IconCrossCircleFill,
+                            color = SushiTheme.colors.grey.v500,
+                            size = SushiIconSize.Size200
+                        ),
+                        Modifier
+                            .clickable { onTextFieldValueChange?.invoke(TextFieldValue("")) }
+                            .padding(
+                                start = SushiTheme.dimens.spacing.nano,
+                                end = SushiTheme.dimens.spacing.nano
+                            )
                     )
                 }
-            },
-            prefix = {
-                if (prefix != null) {
-                    prefix()
+                if (suffix != null) {
+                    suffix()
                 } else {
-                    Prefix(
+                    Suffix(
                         props = props,
                         isFocused = isFocused,
                         isError = isError,
                         isDisabled = !enabled,
                         colors = colors,
                         defaultPrefixTextStyle = textStyle.typeStyle,
-                        onPrefixIconClick = onPrefixIconClick
+                        onSuffixIconClick = onSuffixIconClick
                     )
                 }
-            },
-            leadingIcon = if (leadingIcon != null) {
-                { leadingIcon() }
-            } else {
-                getLeadingComposable(
-                    props = props,
-                    isFocused = isFocused,
-                    isError = isError,
-                    isDisabled = !enabled,
-                    colors = colors,
-                    onLeadingIconClick = onLeadingIconClick
-                )
-            },
-            suffix = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    if (showResetButton) {
-                        SushiIcon(
-                            SushiIconProps(
-                                SushiIconCodes.IconCrossCircleFill,
-                                color = SushiTheme.colors.grey.v500,
-                                size = SushiIconSize.Size200
-                            ),
-                            Modifier
-                                .clickable {
-                                    val emptyValue =
-                                        TextFieldValue(text = "", selection = TextRange.Zero)
-                                    onTextFieldValueChange?.invoke(emptyValue) ?: onValueChange("")
-                                }
-                                .padding(
-                                    start = SushiTheme.dimens.spacing.nano,
-                                    end = SushiTheme.dimens.spacing.nano
-                                )
-                        )
-                    }
-                    if (suffix != null) {
-                        suffix()
-                    } else {
-                        Suffix(
-                            props = props,
-                            isFocused = isFocused,
-                            isError = isError,
-                            isDisabled = !enabled,
-                            colors = colors,
-                            defaultPrefixTextStyle = textStyle.typeStyle,
-                            onSuffixIconClick = onSuffixIconClick
-                        )
-                    }
-                }
-            },
-            trailingIcon = if (trailingIcon != null) {
-                { trailingIcon() }
-            } else {
-                getTrailingComposable(
-                    props = props,
-                    isFocused = isFocused,
-                    isError = isError,
-                    isDisabled = !enabled,
-                    colors = colors,
-                    onTrailingIconClick = onTrailingIconClick
-                )
-            },
-            supportingText = supportingText
-                ?: props.supportText?.let { getSupportTextComposable(it) },
-            isError = isError,
-            visualTransformation = props.visualTransformation ?: VisualTransformation.None,
-            keyboardOptions = props.keyboardOptions ?: KeyboardOptions.Default,
-            keyboardActions = props.keyboardActions ?: KeyboardActions.Default,
-            singleLine = singleLine,
-            maxLines = maxLines,
-            minLines = minLines,
-            interactionSource = interactionSource,
-            shape = shape,
-            colors = colors.toTextFieldColors()
-        )
-    } else {
-        OutlinedTextField(
-            value = text,
-            onValueChange = { onValueChange(it) },
-            modifier = modifier,
-            enabled = enabled,
-            readOnly = readOnly,
-            textStyle = textStyle.typeStyle,
-            label = label ?: props.label?.let {
-                getLabelTextComposable(
-                    it,
-                    isFocused = isFocused,
-                    isError = isError,
-                    isDisabled = !enabled,
-                    colors = colors,
-                )
-            },
-            placeholder = {
-                if (placeholder != null) {
-                    placeholder()
-                } else {
-                    PlaceHolder(
-                        props.placeholder,
-                        isFocused = isFocused,
-                        isError = isError,
-                        isDisabled = !enabled,
-                        colors = colors,
-                        defaultTextStyle = textStyle.typeStyle
-                    )
-                }
-            },
-            prefix = {
-                if (prefix != null) {
-                    prefix()
-                } else {
-                    Prefix(
-                        props = props,
-                        isFocused = isFocused,
-                        isError = isError,
-                        isDisabled = !enabled,
-                        colors = colors,
-                        defaultPrefixTextStyle = textStyle.typeStyle,
-                        onPrefixIconClick = onPrefixIconClick
-                    )
-                }
-            },
-            leadingIcon = if (leadingIcon != null) {
-                { leadingIcon() }
-            } else {
-                getLeadingComposable(
-                    props = props,
-                    isFocused = isFocused,
-                    isError = isError,
-                    isDisabled = !enabled,
-                    colors = colors,
-                    onLeadingIconClick = onLeadingIconClick
-                )
-            },
-            suffix = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    if (showResetButton) {
-                        SushiIcon(
-                            SushiIconProps(
-                                SushiIconCodes.IconCrossCircleFill,
-                                color = SushiTheme.colors.grey.v500,
-                                size = SushiIconSize.Size200
-                            ),
-                            Modifier
-                                .clickable { onValueChange("") }
-                                .padding(
-                                    start = SushiTheme.dimens.spacing.nano,
-                                    end = SushiTheme.dimens.spacing.nano
-                                )
-                        )
-                    }
-                    if (suffix != null) {
-                        suffix()
-                    } else {
-                        Suffix(
-                            props = props,
-                            isFocused = isFocused,
-                            isError = isError,
-                            isDisabled = !enabled,
-                            colors = colors,
-                            defaultPrefixTextStyle = textStyle.typeStyle,
-                            onSuffixIconClick = onSuffixIconClick
-                        )
-                    }
-                }
-            },
-            trailingIcon = if (trailingIcon != null) {
-                { trailingIcon() }
-            } else {
-                getTrailingComposable(
-                    props = props,
-                    isFocused = isFocused,
-                    isError = isError,
-                    isDisabled = !enabled,
-                    colors = colors,
-                    onTrailingIconClick = onTrailingIconClick
-                )
-            },
-            supportingText = supportingText
-                ?: props.supportText?.let { getSupportTextComposable(it) },
-            isError = isError,
-            visualTransformation = props.visualTransformation ?: VisualTransformation.None,
-            keyboardOptions = props.keyboardOptions ?: KeyboardOptions.Default,
-            keyboardActions = props.keyboardActions ?: KeyboardActions.Default,
-            singleLine = singleLine,
-            maxLines = maxLines,
-            minLines = minLines,
-            interactionSource = interactionSource,
-            shape = shape,
-            colors = colors.toTextFieldColors()
-        )
-    }
+            }
+        },
+        trailingIcon = if (trailingIcon != null) {
+            { trailingIcon() }
+        } else {
+            getTrailingComposable(
+                props = props,
+                isFocused = isFocused,
+                isError = isError,
+                isDisabled = !enabled,
+                colors = colors,
+                onTrailingIconClick = onTrailingIconClick
+            )
+        },
+        supportingText = supportingText ?: props.supportText?.let { getSupportTextComposable(it) },
+        isError = isError,
+        visualTransformation = props.visualTransformation ?: VisualTransformation.None,
+        keyboardOptions = props.keyboardOptions ?: KeyboardOptions.Default,
+        keyboardActions = props.keyboardActions ?: KeyboardActions.Default,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        minLines = minLines,
+        interactionSource = interactionSource,
+        shape = shape,
+        colors = colors.toTextFieldColors()
+    )
 }
 
 private fun getLabelTextComposable(
@@ -657,71 +528,24 @@ private fun getSupportTextComposable(
     }
 }
 
-/**
- * Convenience overload for TextFieldValue-based usage
- */
-@Composable
-fun SushiTextField(
-    props: SushiTextFieldProps,
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
-    modifier: Modifier = Modifier,
-    interactionSource: MutableInteractionSource? = null,
-    prefix: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    suffix: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    label: @Composable (() -> Unit)? = null,
-    supportingText: @Composable (() -> Unit)? = null,
-    placeholder: @Composable (() -> Unit)? = null,
-    onPrefixIconClick: (() -> Unit)? = null,
-    onLeadingIconClick: (() -> Unit)? = null,
-    onSuffixIconClick: (() -> Unit)? = null,
-    onTrailingIconClick: (() -> Unit)? = null,
-) {
-    val updatedProps = props.copy(
-        text = value.text,
-        textFieldValue = value
-    )
-
-    SushiTextField(
-        props = updatedProps,
-        onValueChange = { /* String callback not used in this mode */ },
-        onTextFieldValueChange = onValueChange,
-        modifier = modifier,
-        interactionSource = interactionSource,
-        prefix = prefix,
-        leadingIcon = leadingIcon,
-        suffix = suffix,
-        trailingIcon = trailingIcon,
-        label = label,
-        supportingText = supportingText,
-        placeholder = placeholder,
-        onPrefixIconClick = onPrefixIconClick,
-        onLeadingIconClick = onLeadingIconClick,
-        onSuffixIconClick = onSuffixIconClick,
-        onTrailingIconClick = onTrailingIconClick
-    )
-}
-
 @SushiPreview
 @Composable
 private fun SushiTextFieldPreview1() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue(""))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     placeholder = SushiTextProps(text = "Enter text"),
                     label = SushiTextProps(text = "Label")
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 },
             )
         }
@@ -732,19 +556,19 @@ private fun SushiTextFieldPreview1() {
 @Composable
 private fun SushiTextFieldPreview2() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("Hello")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("Hello"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     placeholder = SushiTextProps(text = "Enter text")
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -755,19 +579,19 @@ private fun SushiTextFieldPreview2() {
 @Composable
 private fun SushiTextFieldPreview3() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("9999999999")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("9999999999"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     prefixText = SushiTextProps(text = "+91")
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -778,19 +602,19 @@ private fun SushiTextFieldPreview3() {
 @Composable
 private fun SushiTextFieldPreview4() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("9999999999")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("9999999999"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     prefixIcon = SushiIconProps(SushiIconCodes.IconSafteySheild)
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -801,19 +625,19 @@ private fun SushiTextFieldPreview4() {
 @Composable
 private fun SushiTextFieldPreview5() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("20.99")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("20.99"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     suffixText = SushiTextProps(text = "AED")
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -824,19 +648,19 @@ private fun SushiTextFieldPreview5() {
 @Composable
 private fun SushiTextFieldPreview6() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("20.99")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("20.99"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     suffixIcon = SushiIconProps(code = SushiIconCodes.IconSafteySheild)
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -847,15 +671,15 @@ private fun SushiTextFieldPreview6() {
 @Composable
 private fun SushiTextFieldPreview7() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("9999999999")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("9999999999"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text
+                    textFieldValue = textFieldValue
                 ),
                 prefix = {
                     SushiText(
@@ -865,8 +689,8 @@ private fun SushiTextFieldPreview7() {
                         )
                     )
                 },
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -877,23 +701,23 @@ private fun SushiTextFieldPreview7() {
 @Composable
 private fun SushiTextFieldPreview8() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue(""))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     suffixIcon = SushiIconProps(code = SushiIconCodes.IconSafteySheild),
                     supportText = SushiTextProps(
                         text = "Something went wrong!",
                         color = Color.Red.asColorSpec()
                     )
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -904,15 +728,15 @@ private fun SushiTextFieldPreview8() {
 @SushiPreview
 private fun SushiTextFieldPreview9() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue(""))
         }
 
         Column {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     supportText = SushiTextProps(
                         text = "Something went wrong!",
                         color = Color.Red.asColorSpec()
@@ -922,74 +746,9 @@ private fun SushiTextFieldPreview9() {
                     label = SushiTextProps("Receiver's Phone"),
                     showResetButton = false
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 },
-            )
-        }
-    }
-}
-
-@Composable
-@SushiPreview
-private fun SushiTextFieldWithValuePreview() {
-    SushiPreview {
-        var textFieldValue by remember {
-            mutableStateOf(
-                TextFieldValue(
-                    text = "Hello World",
-                    selection = TextRange(0, 5) // Select "Hello"
-                )
-            )
-        }
-
-        Column {
-
-            SushiTextField(
-                props = SushiTextFieldProps(
-                    id = "textfield_value_example",
-                    supportText = SushiTextProps(
-                        text = "Using TextFieldValue overload for enhanced control",
-                        color = SushiTheme.colors.grey.v600
-                    ),
-                    label = SushiTextProps("Text with Selection Control"),
-                    showResetButton = true
-                ),
-                value = textFieldValue,
-                onValueChange = { newValue ->
-                    textFieldValue = newValue
-                },
-            )
-
-            Spacer(Modifier.height(16.dp))
-
-            // Using the unified approach with TextFieldValue in props
-            var textFieldValue2 by remember {
-                mutableStateOf(
-                    TextFieldValue(
-                        text = "Props with TextFieldValue",
-                        selection = TextRange(0, 5)
-                    )
-                )
-            }
-
-            SushiTextField(
-                props = SushiTextFieldProps(
-                    id = "props_textfieldvalue_example",
-                    textFieldValue = textFieldValue2,
-                    supportText = SushiTextProps(
-                        text = "Using props.textFieldValue for enhanced control",
-                        color = SushiTheme.colors.grey.v600
-                    ),
-                    label = SushiTextProps("Props-based TextFieldValue"),
-                    showResetButton = true
-                ),
-                onValueChange = { newText ->
-                    textFieldValue2 = textFieldValue2.copy(text = newText)
-                },
-                onTextFieldValueChange = { newValue ->
-                    textFieldValue2 = newValue
-                }
             )
         }
     }

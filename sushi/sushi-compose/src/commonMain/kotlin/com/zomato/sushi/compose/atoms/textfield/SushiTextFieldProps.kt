@@ -48,7 +48,7 @@ import com.zomato.sushi.compose.atoms.text.TextTypeSpec
 @Immutable
 data class SushiTextFieldProps(
     val id: String? = null,
-    val text: String? = null,
+    val textFieldValue: TextFieldValue? = null,
     val textStyle: TextTypeSpec? = null,
     val placeholder: SushiTextProps? = null,
     val enabled: Boolean? = null,
@@ -70,6 +70,5 @@ data class SushiTextFieldProps(
     val trailingIcon: SushiIconProps? = null,
     val prefixText: SushiTextProps? = null,
     val suffixText: SushiTextProps? = null,
-    val textFieldValue: TextFieldValue? = null,
     val colors: SushiTextFieldColors? = null,
 )
