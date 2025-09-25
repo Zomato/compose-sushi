@@ -18,7 +18,7 @@ import com.zomato.sushi.compose.atoms.text.TextTypeSpec
  * and edit text. These properties control the appearance and behavior of the text field.
  *
  * @property id Optional identifier for the text field
- * @property text Current text value displayed in the field
+ * @property textFieldValue Current text field value displayed in the field
  * @property textStyle Typography style for the input text
  * @property placeholder Text displayed when the field is empty
  * @property enabled Whether the text field is interactive (true) or disabled (false)

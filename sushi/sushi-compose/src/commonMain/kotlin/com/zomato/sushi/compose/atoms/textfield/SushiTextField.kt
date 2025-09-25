@@ -77,8 +77,8 @@ import com.zomato.sushi.compose.utils.takeIfUnspecified
 @Composable
 fun SushiTextField(
     props: SushiTextFieldProps,
+    onTextFieldValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
-    onTextFieldValueChange: ((TextFieldValue) -> Unit)? = null,
     interactionSource: MutableInteractionSource? = null,
     prefix: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -121,7 +121,7 @@ fun SushiTextField(
 @Composable
 private fun SushiTextFieldImpl(
     props: SushiTextFieldProps,
-    onTextFieldValueChange: ((TextFieldValue) -> Unit)?,
+    onTextFieldValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource? = null,
     prefix: @Composable (() -> Unit)? = null,
@@ -156,7 +156,7 @@ private fun SushiTextFieldImpl(
 
     OutlinedTextField(
         value = textFieldValue,
-        onValueChange = { onTextFieldValueChange?.invoke(it) },
+        onValueChange = { onTextFieldValueChange(it) },
         modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
@@ -223,7 +223,7 @@ private fun SushiTextFieldImpl(
                             size = SushiIconSize.Size200
                         ),
                         Modifier
-                            .clickable { onTextFieldValueChange?.invoke(TextFieldValue("")) }
+                            .clickable { onTextFieldValueChange(TextFieldValue("")) }
                             .padding(
                                 start = SushiTheme.dimens.spacing.nano,
                                 end = SushiTheme.dimens.spacing.nano
