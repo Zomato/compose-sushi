@@ -12,14 +12,15 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
-import kotlinx.datetime.Clock
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /**
  * Collection of utility modifier extensions to enhance composable behavior and appearance.
@@ -99,8 +100,7 @@ internal val LocalDebounceEventHandler = staticCompositionLocalOf<DebouncedEvent
  * @property debounceDurationMs The minimum time in milliseconds between event processing
  */
 open class DebouncedEventHandler(private val debounceDurationMs: Long) {
-    protected var lastEventTimeMs: Long = 0
-        private set
+    private var lastMark = TimeSource.Monotonic.markNow() - debounceDurationMs.milliseconds
 
     /**
      * Processes an event if enough time has passed since the last processed event.
@@ -108,11 +108,11 @@ open class DebouncedEventHandler(private val debounceDurationMs: Long) {
      * @param event The action to execute if the debounce criteria are met
      */
     fun processEvent(event: () -> Unit) {
-        val now = Clock.System.now().toEpochMilliseconds()
-        if (now - lastEventTimeMs >= debounceDurationMs) {
-            event.invoke()
+        val elapsed: Duration = lastMark.elapsedNow()
+        if (elapsed >= debounceDurationMs.milliseconds) {
+            event()
+            lastMark = TimeSource.Monotonic.markNow()
         }
-        lastEventTimeMs = now
     }
 }
 
