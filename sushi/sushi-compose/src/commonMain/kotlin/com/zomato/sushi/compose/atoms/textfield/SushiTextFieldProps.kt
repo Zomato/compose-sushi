@@ -4,6 +4,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
@@ -16,7 +18,7 @@ import com.zomato.sushi.compose.atoms.text.TextTypeSpec
  * and edit text. These properties control the appearance and behavior of the text field.
  *
  * @property id Optional identifier for the text field
- * @property text Current text value displayed in the field
+ * @property textFieldValue Current text field value displayed in the field
  * @property textStyle Typography style for the input text
  * @property placeholder Text displayed when the field is empty
  * @property enabled Whether the text field is interactive (true) or disabled (false)
@@ -38,6 +40,7 @@ import com.zomato.sushi.compose.atoms.text.TextTypeSpec
  * @property trailingIcon Optional icon displayed at the end of the text field (always visible)
  * @property prefixText Optional text displayed at the start of the text field (visible when the field is not empty, or in focus)
  * @property suffixText Optional text displayed at the end of the text field (visible when the field is not empty, or in focus)
+ * @property selection Optional text selection/cursor position. When provided, enables TextFieldValue mode for enhanced text control
  * @property colors Color scheme for the text field's various states
  * 
  * @author gupta.anirudh@zomato.com
@@ -45,7 +48,7 @@ import com.zomato.sushi.compose.atoms.text.TextTypeSpec
 @Immutable
 data class SushiTextFieldProps(
     val id: String? = null,
-    val text: String? = null,
+    val textFieldValue: TextFieldValue? = null,
     val textStyle: TextTypeSpec? = null,
     val placeholder: SushiTextProps? = null,
     val enabled: Boolean? = null,
@@ -69,4 +72,3 @@ data class SushiTextFieldProps(
     val suffixText: SushiTextProps? = null,
     val colors: SushiTextFieldColors? = null,
 )
-

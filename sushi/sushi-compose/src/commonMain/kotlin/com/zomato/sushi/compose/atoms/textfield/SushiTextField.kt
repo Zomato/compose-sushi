@@ -29,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.asColorSpec
@@ -56,12 +58,14 @@ import com.zomato.sushi.compose.utils.takeIfUnspecified
  * - Custom styling via colors and shapes
  * - Keyboard options and actions
  * - Accessibility features
+ * - Enhanced text control with TextRange when selection is specified
  *
  * This component wraps the Material3 OutlinedTextField to maintain consistency
  * with the design system while leveraging the functionality of the standard component.
  *
  * @param props The properties to configure the text field's appearance and behavior
  * @param onValueChange Callback that provides the updated text when the user edits the field
+ * @param onTextFieldValueChange Optional callback for TextFieldValue when selection is used
  * @param modifier The modifier to be applied to the component
  * @param interactionSource Optional interaction source that will be used to handle interactions with the text field
  * @param prefix Optional custom content to display at the start of the text field
@@ -73,7 +77,7 @@ import com.zomato.sushi.compose.utils.takeIfUnspecified
 @Composable
 fun SushiTextField(
     props: SushiTextFieldProps,
-    onValueChange: (String) -> Unit,
+    onTextFieldValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource? = null,
     prefix: @Composable (() -> Unit)? = null,
@@ -96,7 +100,7 @@ fun SushiTextField(
     ) {
         SushiTextFieldImpl(
             props = props,
-            onValueChange = onValueChange,
+            onTextFieldValueChange = onTextFieldValueChange,
             modifier = Modifier.fillMaxSize(),
             interactionSource = interactionSource,
             prefix = prefix,
@@ -117,7 +121,7 @@ fun SushiTextField(
 @Composable
 private fun SushiTextFieldImpl(
     props: SushiTextFieldProps,
-    onValueChange: (String) -> Unit,
+    onTextFieldValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource? = null,
     prefix: @Composable (() -> Unit)? = null,
@@ -141,15 +145,18 @@ private fun SushiTextFieldImpl(
     val minLines = props.minLines ?: 1
     val shape = props.shape ?: SushiTextFieldDefaults.shape
     val colors = props.colors ?: SushiTextFieldDefaults.outlinedColors()
-    val text = props.text ?: ""
-    val showResetButton = text.isNotEmpty() && props.showResetButton != false && !readOnly
+    val textFieldValue = props.textFieldValue ?: TextFieldValue("")
+
+    val useTextFieldValue = props.textFieldValue != null
+    val actualText = if (useTextFieldValue) props.textFieldValue.text else ""
+    val showResetButton = actualText.isNotEmpty() && props.showResetButton != false && !readOnly
 
     val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
     OutlinedTextField(
-        value = text,
-        onValueChange = { onValueChange(it) },
+        value = textFieldValue,
+        onValueChange = { onTextFieldValueChange(it) },
         modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
@@ -216,7 +223,7 @@ private fun SushiTextFieldImpl(
                             size = SushiIconSize.Size200
                         ),
                         Modifier
-                            .clickable { onValueChange("") }
+                            .clickable { onTextFieldValueChange(TextFieldValue("")) }
                             .padding(
                                 start = SushiTheme.dimens.spacing.nano,
                                 end = SushiTheme.dimens.spacing.nano
@@ -525,20 +532,20 @@ private fun getSupportTextComposable(
 @Composable
 private fun SushiTextFieldPreview1() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue(""))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     placeholder = SushiTextProps(text = "Enter text"),
                     label = SushiTextProps(text = "Label")
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 },
             )
         }
@@ -549,19 +556,19 @@ private fun SushiTextFieldPreview1() {
 @Composable
 private fun SushiTextFieldPreview2() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("Hello")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("Hello"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     placeholder = SushiTextProps(text = "Enter text")
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -572,19 +579,19 @@ private fun SushiTextFieldPreview2() {
 @Composable
 private fun SushiTextFieldPreview3() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("9999999999")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("9999999999"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     prefixText = SushiTextProps(text = "+91")
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -595,19 +602,19 @@ private fun SushiTextFieldPreview3() {
 @Composable
 private fun SushiTextFieldPreview4() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("9999999999")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("9999999999"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     prefixIcon = SushiIconProps(SushiIconCodes.IconSafteySheild)
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -618,19 +625,19 @@ private fun SushiTextFieldPreview4() {
 @Composable
 private fun SushiTextFieldPreview5() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("20.99")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("20.99"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     suffixText = SushiTextProps(text = "AED")
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -641,19 +648,19 @@ private fun SushiTextFieldPreview5() {
 @Composable
 private fun SushiTextFieldPreview6() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("20.99")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("20.99"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     suffixIcon = SushiIconProps(code = SushiIconCodes.IconSafteySheild)
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -664,15 +671,15 @@ private fun SushiTextFieldPreview6() {
 @Composable
 private fun SushiTextFieldPreview7() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("9999999999")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue("9999999999"))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text
+                    textFieldValue = textFieldValue
                 ),
                 prefix = {
                     SushiText(
@@ -682,8 +689,8 @@ private fun SushiTextFieldPreview7() {
                         )
                     )
                 },
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -694,23 +701,23 @@ private fun SushiTextFieldPreview7() {
 @Composable
 private fun SushiTextFieldPreview8() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue(""))
         }
 
         Column(horizontalAlignment = Alignment.End) {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     suffixIcon = SushiIconProps(code = SushiIconCodes.IconSafteySheild),
                     supportText = SushiTextProps(
                         text = "Something went wrong!",
                         color = Color.Red.asColorSpec()
                     )
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 }
             )
         }
@@ -721,15 +728,15 @@ private fun SushiTextFieldPreview8() {
 @SushiPreview
 private fun SushiTextFieldPreview9() {
     SushiPreview {
-        var text by remember {
-            mutableStateOf("")
+        var textFieldValue by remember {
+            mutableStateOf(TextFieldValue(""))
         }
 
         Column {
             SushiTextField(
                 props = SushiTextFieldProps(
                     id = "1",
-                    text = text,
+                    textFieldValue = textFieldValue,
                     supportText = SushiTextProps(
                         text = "Something went wrong!",
                         color = Color.Red.asColorSpec()
@@ -739,8 +746,8 @@ private fun SushiTextFieldPreview9() {
                     label = SushiTextProps("Receiver's Phone"),
                     showResetButton = false
                 ),
-                onValueChange = {
-                    text = it
+                onTextFieldValueChange = {
+                    textFieldValue = it
                 },
             )
         }
