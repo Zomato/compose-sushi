@@ -46,6 +46,7 @@ import com.zomato.sushi.compose.atoms.color.ColorName
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.SushiColorData
+import com.zomato.sushi.compose.atoms.color.toBrush
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
@@ -143,7 +144,7 @@ private fun SushiTextImpl(
         val prefixSpacing = props.prefixSpacing ?: SushiTextDefaults.prefixSpacing
         val suffixSpacing = props.suffixSpacing ?: SushiTextDefaults.suffixSpacing
         val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
-        val textBrush = props.textBrush
+        val textBrush = props.textBrush ?: props.textGradient?.toBrush()
 
         val underlineColor = (textDecoration
                 as? SushiTextDecoration.Underline)?.color?.takeIfSpecified() ?: textColor
