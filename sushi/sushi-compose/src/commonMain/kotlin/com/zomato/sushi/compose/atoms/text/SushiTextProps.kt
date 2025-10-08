@@ -9,6 +9,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.color.ColorSpec
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorData
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.foundation.SushiUnspecified
@@ -38,6 +39,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  * @property horizontalArrangement How to arrange content horizontally
  * @property verticalAlignment How to align content vertically
  * @property textBrush Optional brush for creating gradient or other effects on text
+ * @property textGradient Optional sushi gradient color data for creating gradient or other effects on text (takes priority over textBrush)
  *
  */
 @Immutable
@@ -61,7 +63,8 @@ data class SushiTextProps(
     val suffixSpacing: Dp? = null,
     val horizontalArrangement: Arrangement.Horizontal? = null,
     val verticalAlignment: Alignment.Vertical? = null,
-    val textBrush: Brush? = null
+    val textBrush: Brush? = null,
+    val textGradient: SushiGradientColorData? = null
 )
 
 /**

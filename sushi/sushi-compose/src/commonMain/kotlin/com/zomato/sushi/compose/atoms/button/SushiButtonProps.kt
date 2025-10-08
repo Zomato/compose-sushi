@@ -6,6 +6,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import com.zomato.sushi.compose.atoms.color.ColorSpec
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorData
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.text.TextTypeSpec
@@ -43,6 +44,7 @@ data class SushiButtonProps(
     val fontColor: ColorSpec = SushiUnspecified.asColorSpec(),
     val fontType: TextTypeSpec? = null,
     val color: ColorSpec = SushiUnspecified.asColorSpec(),
+    val gradient: SushiGradientColorData? = null,
     val borderColor: ColorSpec = SushiUnspecified.asColorSpec(),
     val suffixIcon: SushiIconProps? = null,
     val prefixIcon: SushiIconProps? = null,
