@@ -98,6 +98,16 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Setup Android SDK and local.properties
+        run: |
+          chmod +x ./setup-android-sdk.sh
+          ./setup-android-sdk.sh
+          
+          # Set environment variables for the rest of the job
+          echo "ANDROID_HOME=$HOME/Library/Android/sdk" >> $GITHUB_ENV
+          echo "ANDROID_SDK_ROOT=$HOME/Library/Android/sdk" >> $GITHUB_ENV
+          echo "$HOME/Library/Android/sdk/cmdline-tools/latest/bin:$HOME/Library/Android/sdk/platform-tools" >> $GITHUB_PATH
+
       - name: Setup iOS development environment
         run: |
           # Ensure Xcode command line tools are properly configured
@@ -114,6 +124,30 @@ jobs:
           echo "iOS SDK Path: $(xcrun --show-sdk-path --sdk iphoneos)"
           
           echo "✅ iOS environment configured"
+
+      - name: Verify development environment
+        run: |
+          echo "🔍 Verifying development environment setup..."
+          
+          # Verify Android setup
+          echo "Android SDK: $ANDROID_HOME"
+          if command -v adb >/dev/null 2>&1; then
+            echo "✅ ADB available: $(adb --version | head -1)"
+          else
+            echo "⚠️  ADB not found"
+          fi
+          
+          # Verify Xcode setup
+          echo "Xcode version: $(xcodebuild -version | head -1)"
+          
+          # Verify local.properties
+          if [ -f "local.properties" ]; then
+            echo "✅ local.properties exists"
+          else
+            echo "❌ local.properties missing"
+          fi
+          
+          echo "✅ Environment verification completed"
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
