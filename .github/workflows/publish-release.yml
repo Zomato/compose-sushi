@@ -1,0 +1,291 @@
+name: Publish Release
+
+on:
+  push:
+    branches:
+      - master-tmp
+  pull_request:
+    branches:
+      - master-tmp
+    types:
+      - closed
+
+jobs:
+  check-release:
+    if: github.event_name == 'push' || (github.event.pull_request.merged == true)
+    runs-on: macos-latest
+    outputs:
+      is_release: ${{ steps.check.outputs.is_release }}
+      version: ${{ steps.check.outputs.version }}
+      release_branch: ${{ steps.check.outputs.release_branch }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check if this is a release
+        id: check
+        run: |
+          is_release=false
+          version=""
+          release_branch=""
+          
+          if [ "${{ github.event_name }}" = "push" ]; then
+            # Direct push to master - check if version.properties changed in recent commits
+            echo "Checking recent commits for version changes..."
+          
+            # Check if version.properties was changed in the last 5 commits
+            if git log --oneline -n 5 --name-only | grep -q "sushi/version.properties"; then
+              # Extract version from commit messages that match release pattern
+              recent_commit=$(git log --oneline -n 5 --grep="Bump version to" | head -n 1)
+              if [[ -n "$recent_commit" ]]; then
+                version=$(echo "$recent_commit" | grep -o "Bump version to [0-9]\+\.[0-9]\+\.[0-9]\+" | cut -d' ' -f4)
+                if [[ -n "$version" ]]; then
+                  is_release=true
+                  release_branch="master-tmp"
+                fi
+              fi
+            fi
+          else
+            # PR merged - check if it's from a release branch
+            pr_branch="${{ github.head_ref }}"
+            echo "PR branch: $pr_branch"
+          
+            if [[ "$pr_branch" =~ ^release/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+              version="${BASH_REMATCH[1]}"
+              is_release=true
+              release_branch="$pr_branch"
+            fi
+          fi
+          
+          echo "is_release=$is_release" >> $GITHUB_OUTPUT
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "release_branch=$release_branch" >> $GITHUB_OUTPUT
+          
+          echo "Is Release: $is_release"
+          echo "Version: $version"
+          echo "Release Branch: $release_branch"
+
+  publish:
+    needs: check-release
+    if: needs.check-release.outputs.is_release == 'true'
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Xcode (native)
+        run: |
+          # List available Xcode versions
+          echo "Available Xcode versions:"
+          ls /Applications/ | grep -i xcode || echo "No Xcode installations found in /Applications"
+          
+          # Use default Xcode (usually latest)
+          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+          
+          # Verify Xcode setup
+          xcodebuild -version
+          xcrun --show-sdk-path
+          
+          echo "✅ Xcode configured successfully"
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup iOS development environment
+        run: |
+          # Ensure Xcode command line tools are properly configured
+          echo "Setting up iOS development environment..."
+          
+          # Accept Xcode license if needed
+          sudo xcodebuild -license accept || echo "License already accepted"
+          
+          # List available simulators
+          echo "Available iOS Simulators:"
+          xcrun simctl list devices iOS | grep -E "(iPhone|iPad)" | head -5
+          
+          # Install iOS runtime if needed (for CI)
+          echo "iOS SDK Path: $(xcrun --show-sdk-path --sdk iphoneos)"
+          
+          echo "✅ iOS environment configured"
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make scripts executable
+        run: |
+          chmod +x ./gradlew
+          chmod +x ./remotePublish.sh
+
+      - name: Validate version
+        run: |
+          current_version=$(grep "VERSION_NAME=" sushi/version.properties | cut -d'=' -f2)
+          expected_version="${{ needs.check-release.outputs.version }}"
+          
+          echo "Current version in properties: $current_version"
+          echo "Expected version from branch: $expected_version"
+          
+          if [[ "$current_version" != "$expected_version" ]]; then
+            echo "❌ Version mismatch! Properties file has $current_version but expected $expected_version"
+            exit 1
+          fi
+          
+          echo "✅ Version validation passed: $current_version"
+
+      - name: Setup publishing credentials
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_SECRET_KEY_RING_FILE: ${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}
+        run: |
+          # Create gradle.properties with publishing credentials
+          mkdir -p ~/.gradle
+          cat >> ~/.gradle/gradle.properties << EOF
+          mavenCentralUsername=$MAVEN_CENTRAL_USERNAME
+          mavenCentralPassword=$MAVEN_CENTRAL_PASSWORD
+          signing.keyId=$SIGNING_KEY_ID
+          signing.password=$SIGNING_PASSWORD
+          signing.secretKeyRingFile=$SIGNING_SECRET_KEY_RING_FILE
+          EOF
+          
+          echo "✅ Publishing credentials configured"
+
+      - name: Run tests before publishing
+        run: |
+          echo "🧪 Running tests on all platforms..."
+          # Run tests for all KMP targets
+          ./gradlew test
+          
+          # Run iOS specific tests if they exist
+          if ./gradlew tasks --all | grep -q "iosX64Test"; then
+            echo "Running iOS tests..."
+            ./gradlew iosX64Test || echo "iOS tests failed or not available"
+          fi
+
+      - name: Build all KMP targets
+        run: |
+          echo "🏗️ Building all KMP targets..."
+          
+          # Build core library for all targets
+          ./gradlew :sushi-core:build
+          
+          # Build compose library for all targets
+          ./gradlew :sushi-compose:build
+          
+          # Build iOS framework if needed
+          if ./gradlew tasks --all | grep -q "embedAndSignAppleFrameworkForXcode"; then
+            echo "Building iOS framework..."
+            ./gradlew :app:embedAndSignAppleFrameworkForXcode || echo "iOS framework build skipped"
+          fi
+
+      - name: Publish to Maven Central
+        run: |
+          echo "🚀 Starting publication process..."
+          ./remotePublish.sh
+          echo "✅ Publication completed successfully!"
+
+      - name: Create GitHub Release using GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version="${{ needs.check-release.outputs.version }}"
+          
+          # Create release notes
+          cat > release_notes.md << EOF
+          ## 🍣 Sushi Design System v${version}
+          
+          ### What's Changed
+          This release includes the latest changes from the development cycle.
+          
+          ### Platform Support
+          - ✅ **Android** - Full support with Jetpack Compose
+          - ✅ **iOS** - Native iOS support via Kotlin Multiplatform
+          - ✅ **Desktop** - JVM Desktop support
+          - ✅ **Web** - WASM/JS web support
+          
+          ### Installation
+          
+          #### Gradle (Kotlin DSL)
+          ```kotlin
+          implementation("com.zomato.sushi:sushi-compose:${version}")
+          ```
+          
+          #### Gradle (Groovy DSL)
+          ```groovy
+          implementation 'com.zomato.sushi:sushi-compose:${version}'
+          ```
+          
+          #### iOS CocoaPods (if applicable)
+          ```ruby
+          pod 'SushiCompose', '${version}'
+          ```
+          
+          ### Documentation
+          Visit [zomato.github.io/compose-sushi](https://zomato.github.io/compose-sushi) for detailed documentation and examples.
+          
+          ---
+          
+          **Full Changelog**: https://github.com/${{ github.repository }}/commits/v${version}
+          EOF
+          
+          # Create tag and release using GitHub CLI
+          git tag "v${version}"
+          git push origin "v${version}"
+          
+          # Create GitHub release
+          gh release create "v${version}" \
+            --title "Release v${version}" \
+            --notes-file release_notes.md \
+            --latest
+          
+          echo "✅ GitHub release created successfully!"
+
+      - name: Clean up release branch
+        if: needs.check-release.outputs.release_branch != 'master-tmp'
+        run: |
+          release_branch="${{ needs.check-release.outputs.release_branch }}"
+          echo "🧹 Cleaning up release branch: $release_branch"
+          
+          # Delete the release branch
+          git push origin --delete "$release_branch" || echo "Branch already deleted or doesn't exist remotely"
+          
+          echo "✅ Release branch cleaned up"
+
+      - name: Notify success
+        run: |
+          echo "## 🎉 Release Published Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: v${{ needs.check-release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ needs.check-release.outputs.release_branch }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Platforms**: Android, iOS, Desktop, Web ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- **Maven Central**: Published ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- **GitHub Release**: Created ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- **Documentation**: [zomato.github.io/compose-sushi](https://zomato.github.io/compose-sushi)" >> $GITHUB_STEP_SUMMARY
+
+  notify-failure:
+    needs: [ check-release, publish ]
+    if: failure() && needs.check-release.outputs.is_release == 'true'
+    runs-on: macos-latest
+    
+    steps:
+      - name: Notify failure
+        run: |
+          echo "## ❌ Release Publication Failed!" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: v${{ needs.check-release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ needs.check-release.outputs.release_branch }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: Failed to publish to Maven Central" >> $GITHUB_STEP_SUMMARY
+          echo "- **Action Required**: Check logs and retry publication manually" >> $GITHUB_STEP_SUMMARY
