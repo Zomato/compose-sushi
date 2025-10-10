@@ -76,6 +76,20 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
+          # Check if branch exists remotely and delete it
+          if git ls-remote --heads origin "$branch_name" | grep -q "$branch_name"; then
+            echo "  Branch $branch_name already exists remotely. Deleting it..."
+            git push origin --delete "$branch_name" || echo "Failed to delete remote branch, it may not exist"
+          else
+            echo " Branch $branch_name does not exist remotely"
+          fi
+          
+          # Check if branch exists locally and delete it
+          if git branch --list | grep -q "$branch_name"; then
+            echo "  Branch $branch_name exists locally. Deleting it..."
+            git branch -D "$branch_name" || echo "Failed to delete local branch"
+          fi
+          
           git checkout -b "$branch_name"
           echo "branch_name=$branch_name" >> $GITHUB_ENV
           
