@@ -118,13 +118,12 @@ jobs:
           *This PR was created automatically by the Version Bump workflow.*
           EOF
           
-          # Create pull request using GitHub CLI
+          # Create pull request using GitHub CLI (without assignee to avoid bot user issues)
           gh pr create \
             --title "Release v${new_version}" \
             --body-file pr_body.md \
             --base master-tmp \
-            --head "${branch_name}" \
-            --assignee "@me"
+            --head "${branch_name}"
           
           # Get PR URL for summary
           pr_url=$(gh pr view "${branch_name}" --json url --jq '.url')
