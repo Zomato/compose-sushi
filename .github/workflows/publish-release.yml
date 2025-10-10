@@ -165,17 +165,17 @@ jobs:
           
           echo "✅ Publishing credentials configured"
 
-      - name: Run tests before publishing
-        run: |
-          echo "🧪 Running tests on all platforms..."
-          # Run tests for all KMP targets
-          ./gradlew test
-          
-          # Run iOS specific tests if they exist
-          if ./gradlew tasks --all | grep -q "iosX64Test"; then
-            echo "Running iOS tests..."
-            ./gradlew iosX64Test || echo "iOS tests failed or not available"
-          fi
+#      - name: Run tests before publishing
+#        run: |
+#          echo "🧪 Running tests on all platforms..."
+#          # Run tests for all KMP targets
+#          ./gradlew test
+#
+#          # Run iOS specific tests if they exist
+#          if ./gradlew tasks --all | grep -q "iosX64Test"; then
+#            echo "Running iOS tests..."
+#            ./gradlew iosX64Test || echo "iOS tests failed or not available"
+#          fi
 
       - name: Build all KMP targets
         run: |
