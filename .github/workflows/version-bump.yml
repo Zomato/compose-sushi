@@ -68,7 +68,7 @@ jobs:
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           echo "New version: $new_version"
 
-      - name: Create release branch
+      - name: Create release branch and update version
         run: |
           new_version="${{ steps.new_version.outputs.new_version }}"
           branch_name="release/v$new_version"
@@ -78,10 +78,6 @@ jobs:
           
           git checkout -b "$branch_name"
           echo "branch_name=$branch_name" >> $GITHUB_ENV
-
-      - name: Update version.properties
-        run: |
-          new_version="${{ steps.new_version.outputs.new_version }}"
           
           # Update version.properties with new version and current timestamp
           echo "#$(date -u)" > sushi/version.properties
@@ -90,38 +86,49 @@ jobs:
           # Show the changes
           echo "Updated version.properties:"
           cat sushi/version.properties
-
-      - name: Commit and push changes
-        run: |
-          new_version="${{ steps.new_version.outputs.new_version }}"
-          branch_name="${{ env.branch_name }}"
           
+          # Commit and push changes
           git add sushi/version.properties
           git commit -m "Bump version to $new_version"
           git push origin "$branch_name"
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.branch_name }}
-          title: "Release v${{ steps.new_version.outputs.new_version }}"
-          body: |
-            ## Release v${{ steps.new_version.outputs.new_version }}
-            
-            This PR bumps the version from `${{ steps.current_version.outputs.current_version }}` to `${{ steps.new_version.outputs.new_version }}` (**${{ github.event.inputs.bump_type }}** bump).
-            
-            ### Changes
-            - Updated `sushi/version.properties` with new version
-            
-            ### Next Steps
-            - Review and merge this PR to trigger the publication workflow
-            - The new version will be published automatically once merged to master
-            
-            ---
-            *This PR was created automatically by the Version Bump workflow.*
-          base: master
-          delete-branch: false
+      - name: Create Pull Request using GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          new_version="${{ steps.new_version.outputs.new_version }}"
+          current_version="${{ steps.current_version.outputs.current_version }}"
+          bump_type="${{ github.event.inputs.bump_type }}"
+          branch_name="${{ env.branch_name }}"
+          
+          # Create PR body
+          cat > pr_body.md << EOF
+          ## Release v${new_version}
+          
+          This PR bumps the version from \`${current_version}\` to \`${new_version}\` (**${bump_type}** bump).
+          
+          ### Changes
+          - Updated \`sushi/version.properties\` with new version
+          
+          ### Next Steps
+          - Review and merge this PR to trigger the publication workflow
+          - The new version will be published automatically once merged to master
+          
+          ---
+          *This PR was created automatically by the Version Bump workflow.*
+          EOF
+          
+          # Create pull request using GitHub CLI
+          gh pr create \
+            --title "Release v${new_version}" \
+            --body-file pr_body.md \
+            --base master-tmp \
+            --head "${branch_name}" \
+            --assignee "@me"
+          
+          # Get PR URL for summary
+          pr_url=$(gh pr view "${branch_name}" --json url --jq '.url')
+          echo "pr_url=$pr_url" >> $GITHUB_ENV
 
       - name: Summary
         run: |
@@ -130,4 +137,5 @@ jobs:
           echo "- **Previous Version**: ${{ steps.current_version.outputs.current_version }}" >> $GITHUB_STEP_SUMMARY
           echo "- **New Version**: ${{ steps.new_version.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch**: ${{ env.branch_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Status**: ✅ Pull Request created successfully" >> $GITHUB_STEP_SUMMARY
+          echo "- **Pull Request**: [${{ env.pr_url }}](${{ env.pr_url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: Pull Request created successfully" >> $GITHUB_STEP_SUMMARY
