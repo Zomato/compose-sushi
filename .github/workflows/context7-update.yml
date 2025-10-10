@@ -1,0 +1,59 @@
+name: Update Context7 Documentation
+
+on:
+  # Automatically update docs on pushes to master branch
+  push:
+    branches: [ master ]
+
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: 'Operation to perform'
+        required: true
+        default: 'refresh'
+        type: choice
+        options:
+          - refresh
+          - add
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-context7:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update Context7 Documentation
+        id: context7
+        uses: rennf93/upsert-context7@v1
+        with:
+          operation: ${{ github.event.inputs.operation || 'refresh' }}
+          # library-name is auto-detected as "/Zomato/compose-sushi"
+          # repo-url is auto-detected from the repository
+          timeout: 1800  # 30 minutes timeout for large repositories
+
+      - name: Show results
+        run: |
+          echo "✅ Operation completed!"
+          echo "Success: ${{ steps.context7.outputs.success }}"
+          echo "Status Code: ${{ steps.context7.outputs.status-code }}"
+          echo "Message: ${{ steps.context7.outputs.message }}"
+
+      - name: Handle success
+        if: steps.context7.outputs.success == 'true'
+        run: |
+          echo "🎉 Context7 documentation updated successfully!"
+          echo "Your docs should be available at https://context7.com"
+
+      - name: Handle failure
+        if: steps.context7.outputs.success == 'false'
+        run: |
+          echo "❌ Context7 update failed"
+          echo "Error: ${{ steps.context7.outputs.message }}"
+          exit 1
