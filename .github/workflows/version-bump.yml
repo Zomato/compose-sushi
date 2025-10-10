@@ -1,0 +1,133 @@
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  version-bump:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Read current version
+        id: current_version
+        run: |
+          current_version=$(grep "VERSION_NAME=" sushi/version.properties | cut -d'=' -f2)
+          echo "current_version=$current_version" >> $GITHUB_OUTPUT
+          echo "Current version: $current_version"
+
+      - name: Calculate new version
+        id: new_version
+        run: |
+          current_version="${{ steps.current_version.outputs.current_version }}"
+          bump_type="${{ github.event.inputs.bump_type }}"
+          
+          # Split version into parts
+          IFS='.' read -r -a version_parts <<< "$current_version"
+          major=${version_parts[0]}
+          minor=${version_parts[1]}
+          patch=${version_parts[2]}
+          
+          # Bump version based on type
+          case $bump_type in
+            "major")
+              major=$((major + 1))
+              minor=0
+              patch=0
+              ;;
+            "minor")
+              minor=$((minor + 1))
+              patch=0
+              ;;
+            "patch")
+              patch=$((patch + 1))
+              ;;
+          esac
+          
+          new_version="$major.$minor.$patch"
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "New version: $new_version"
+
+      - name: Create release branch
+        run: |
+          new_version="${{ steps.new_version.outputs.new_version }}"
+          branch_name="release/v$new_version"
+          
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          git checkout -b "$branch_name"
+          echo "branch_name=$branch_name" >> $GITHUB_ENV
+
+      - name: Update version.properties
+        run: |
+          new_version="${{ steps.new_version.outputs.new_version }}"
+          
+          # Update version.properties with new version and current timestamp
+          echo "#$(date -u)" > sushi/version.properties
+          echo "VERSION_NAME=$new_version" >> sushi/version.properties
+          
+          # Show the changes
+          echo "Updated version.properties:"
+          cat sushi/version.properties
+
+      - name: Commit and push changes
+        run: |
+          new_version="${{ steps.new_version.outputs.new_version }}"
+          branch_name="${{ env.branch_name }}"
+          
+          git add sushi/version.properties
+          git commit -m "Bump version to $new_version"
+          git push origin "$branch_name"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.branch_name }}
+          title: "Release v${{ steps.new_version.outputs.new_version }}"
+          body: |
+            ## Release v${{ steps.new_version.outputs.new_version }}
+            
+            This PR bumps the version from `${{ steps.current_version.outputs.current_version }}` to `${{ steps.new_version.outputs.new_version }}` (**${{ github.event.inputs.bump_type }}** bump).
+            
+            ### Changes
+            - Updated `sushi/version.properties` with new version
+            
+            ### Next Steps
+            - Review and merge this PR to trigger the publication workflow
+            - The new version will be published automatically once merged to master
+            
+            ---
+            *This PR was created automatically by the Version Bump workflow.*
+          base: master
+          delete-branch: false
+
+      - name: Summary
+        run: |
+          echo "## Version Bump Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Bump Type**: ${{ github.event.inputs.bump_type }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Previous Version**: ${{ steps.current_version.outputs.current_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **New Version**: ${{ steps.new_version.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ env.branch_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ✅ Pull Request created successfully" >> $GITHUB_STEP_SUMMARY
