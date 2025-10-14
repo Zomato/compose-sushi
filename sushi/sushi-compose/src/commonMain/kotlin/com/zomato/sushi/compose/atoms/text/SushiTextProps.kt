@@ -1,6 +1,7 @@
 package com.zomato.sushi.compose.atoms.text
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
@@ -40,7 +41,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  * @property verticalAlignment How to align content vertically
  * @property textBrush Optional brush for creating gradient or other effects on text
  * @property textGradient Optional sushi gradient color data for creating gradient or other effects on text (takes priority over textBrush)
- *
+ * @property autoSize Enable auto sizing (uses biggest font size that fits the constraints, including [maxLines]). This takes precedence over size defined in [type].
  */
 @Immutable
 data class SushiTextProps(
@@ -64,6 +65,7 @@ data class SushiTextProps(
     val horizontalArrangement: Arrangement.Horizontal? = null,
     val verticalAlignment: Alignment.Vertical? = null,
     val textBrush: Brush? = null,
+    val autoSize: TextAutoSize? = null,
     val textGradient: SushiGradientColorData? = null
 )
 

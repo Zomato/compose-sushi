@@ -15,6 +15,10 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.TextAutoSize
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,11 +32,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -144,6 +153,7 @@ private fun SushiTextImpl(
         val prefixSpacing = props.prefixSpacing ?: SushiTextDefaults.prefixSpacing
         val suffixSpacing = props.suffixSpacing ?: SushiTextDefaults.suffixSpacing
         val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
+        val autoSize = props.autoSize
         val textBrush = props.textBrush ?: props.textGradient?.toBrush()
 
         val underlineColor = (textDecoration
@@ -212,6 +222,7 @@ private fun SushiTextImpl(
                 },
                 overflowText = overflowText,
                 overflowTextColor = overflowTextColor,
+                autoSize = autoSize,
                 Modifier
                     .let {
                         textLayoutResult?.let { it1 ->
@@ -248,6 +259,7 @@ private fun SushiTextImpl(
                     textLayoutResult = it
                     onTextLayout(it)
                 },
+                autoSize = autoSize,
                 Modifier
                     .let {
                         textLayoutResult?.let { it1 ->
@@ -315,6 +327,7 @@ private fun ExpandableBaseSushiText(
     onTextLayout: (TextLayoutResult) -> Unit,
     overflowText: String,
     overflowTextColor: ColorSpec,
+    autoSize: TextAutoSize?,
     modifier: Modifier = Modifier
 ) {
     Box(modifier) {
@@ -362,6 +375,7 @@ private fun ExpandableBaseSushiText(
                 onTextLayout(it)
                 textLayoutResultState.value = it
             },
+            autoSize = autoSize,
             Modifier
         )
 
@@ -407,9 +421,10 @@ private fun BaseSushiText(
     softWrap: Boolean,
     minLines: Int,
     onTextLayout: (TextLayoutResult) -> Unit,
-    modifier: Modifier = Modifier
+    autoSize: TextAutoSize?,
+    modifier: Modifier = Modifier,
 ) {
-    Text(
+    TextImpl(
         text = text,
         modifier.wrapContentSize(),
         color = textColor.value,
@@ -422,6 +437,57 @@ private fun BaseSushiText(
         softWrap = softWrap,
         minLines = minLines,
         onTextLayout = onTextLayout,
+        autoSize = autoSize
+    )
+}
+
+// TODO: Replace this with Text() from Material, when it adds support for auto size (via BasicText)
+@Composable
+private fun TextImpl(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+    fontSize: TextUnit = TextUnit.Unspecified,
+    fontStyle: FontStyle? = null,
+    fontWeight: FontWeight? = null,
+    fontFamily: FontFamily? = null,
+    letterSpacing: TextUnit = TextUnit.Unspecified,
+    textDecoration: TextDecoration? = null,
+    textAlign: TextAlign? = null,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    overflow: TextOverflow = TextOverflow.Clip,
+    softWrap: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
+    minLines: Int = 1,
+    inlineContent: Map<String, InlineTextContent> = mapOf(),
+    onTextLayout: (TextLayoutResult) -> Unit = {},
+    style: TextStyle = LocalTextStyle.current,
+    autoSize: TextAutoSize? = null
+) {
+    val textColor = color.takeOrElse { style.color.takeOrElse { LocalContentColor.current } }
+
+    BasicText(
+        text = text,
+        modifier = modifier,
+        style =
+            style.merge(
+                color = textColor,
+                fontSize = fontSize,
+                fontWeight = fontWeight,
+                textAlign = textAlign ?: TextAlign.Unspecified,
+                lineHeight = lineHeight,
+                fontFamily = fontFamily,
+                textDecoration = textDecoration,
+                fontStyle = fontStyle,
+                letterSpacing = letterSpacing
+            ),
+        onTextLayout = onTextLayout,
+        overflow = overflow,
+        softWrap = softWrap,
+        maxLines = maxLines,
+        minLines = minLines,
+        inlineContent = inlineContent,
+        autoSize = autoSize
     )
 }
 
