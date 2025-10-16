@@ -1,0 +1,49 @@
+name: Update Context7 Documentation
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:  # Allow manual trigger
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-context7:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for complete documentation
+
+      - name: Update Context7 Documentation
+        id: context7
+        uses: rennf93/upsert-context7@v1
+        with:
+          operation: refresh
+          library-name: "/Zomato/compose-sushi"
+          timeout: 1800  # 30 minutes timeout for large library processing
+
+      - name: Display Update Results
+        run: |
+          echo "✅ Context7 Update Results:"
+          echo "Success: ${{ steps.context7.outputs.success }}"
+          echo "Status Code: ${{ steps.context7.outputs.status-code }}"
+          echo "Message: ${{ steps.context7.outputs.message }}"
+
+      - name: Handle Update Failure
+        if: steps.context7.outputs.success == 'false'
+        run: |
+          echo "❌ Context7 update failed!"
+          echo "Status: ${{ steps.context7.outputs.status-code }}"
+          echo "Error: ${{ steps.context7.outputs.message }}"
+          exit 1
+
+      - name: Notify Success
+        if: steps.context7.outputs.success == 'true'
+        run: |
+          echo "🎉 Context7 documentation successfully updated for compose-sushi!"
+          echo "The latest changes from master branch are now available on Context7.com"
