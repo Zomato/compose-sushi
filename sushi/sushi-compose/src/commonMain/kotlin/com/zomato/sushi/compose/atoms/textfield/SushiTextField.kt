@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -45,7 +43,6 @@ import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.ifNonNull
-import com.zomato.sushi.compose.utils.takeIfSpecified
 import com.zomato.sushi.compose.utils.takeIfUnspecified
 
 /**
@@ -91,6 +88,7 @@ fun SushiTextField(
     onLeadingIconClick: (() -> Unit)? = null,
     onSuffixIconClick: (() -> Unit)? = null,
     onTrailingIconClick: (() -> Unit)? = null,
+    textFieldDefaults : TextFieldDefaults = SushiTextFieldDefaults
 ) {
     SushiComponentBase(
         modifier
@@ -113,7 +111,8 @@ fun SushiTextField(
             onPrefixIconClick = onPrefixIconClick,
             onLeadingIconClick = onLeadingIconClick,
             onSuffixIconClick = onSuffixIconClick,
-            onTrailingIconClick = onTrailingIconClick
+            onTrailingIconClick = onTrailingIconClick,
+            textFieldDefaults = textFieldDefaults
         )
     }
 }
@@ -135,16 +134,17 @@ private fun SushiTextFieldImpl(
     onLeadingIconClick: (() -> Unit)? = null,
     onSuffixIconClick: (() -> Unit)? = null,
     onTrailingIconClick: (() -> Unit)? = null,
+    textFieldDefaults: TextFieldDefaults = SushiTextFieldDefaults
 ) {
     val enabled = props.enabled != false
     val readOnly = props.readOnly == true
-    val textStyle = props.textStyle ?: SushiTextFieldDefaults.textStyle
+    val textStyle = props.textStyle ?: textFieldDefaults.textStyle
     val isError = props.isError == true
     val singleLine = props.singleLine == true
     val maxLines = props.maxLines ?: if (singleLine) 1 else Int.MAX_VALUE
     val minLines = props.minLines ?: 1
-    val shape = props.shape ?: SushiTextFieldDefaults.shape
-    val colors = props.colors ?: SushiTextFieldDefaults.outlinedColors()
+    val shape = props.shape ?: textFieldDefaults.shape
+    val colors = props.colors ?: textFieldDefaults.outlinedColors()
     val textFieldValue = props.textFieldValue ?: TextFieldValue("")
 
     val useTextFieldValue = props.textFieldValue != null
@@ -168,6 +168,7 @@ private fun SushiTextFieldImpl(
                 isError = isError,
                 isDisabled = !enabled,
                 colors = colors,
+                textFieldDefaults = textFieldDefaults
             )
         },
         placeholder = {
@@ -257,7 +258,12 @@ private fun SushiTextFieldImpl(
                 onTrailingIconClick = onTrailingIconClick
             )
         },
-        supportingText = supportingText ?: props.supportText?.let { getSupportTextComposable(it) },
+        supportingText = supportingText ?: props.supportText?.let {
+            getSupportTextComposable(
+                it,
+                textFieldDefaults
+            )
+        },
         isError = isError,
         visualTransformation = props.visualTransformation ?: VisualTransformation.None,
         keyboardOptions = props.keyboardOptions ?: KeyboardOptions.Default,
@@ -277,6 +283,7 @@ private fun getLabelTextComposable(
     isError: Boolean,
     isDisabled: Boolean,
     colors: SushiTextFieldColors,
+    textFieldDefaults: TextFieldDefaults = SushiTextFieldDefaults
 ): @Composable () -> Unit {
     return {
         val defaultColor = when {
@@ -286,7 +293,7 @@ private fun getLabelTextComposable(
             else -> colors.unfocusedLabelColor
         }.value
 
-        val defaultTextStyle = SushiTextFieldDefaults.labelTextStyle
+        val defaultTextStyle = textFieldDefaults.labelTextStyle
         val placeholder = remember(label, defaultTextStyle, defaultColor) {
             label.copy(
                 type = label.type ?: defaultTextStyle,
@@ -517,10 +524,11 @@ private fun getTrailingComposable(
 }
 
 private fun getSupportTextComposable(
-    text: SushiTextProps
+    text: SushiTextProps,
+    textFieldDefaults: TextFieldDefaults = SushiTextFieldDefaults
 ): @Composable () -> Unit {
     return {
-        val defaultTextStyle = SushiTextFieldDefaults.supportTextStyle
+        val defaultTextStyle = textFieldDefaults.supportTextStyle
         val text = remember(text, defaultTextStyle) {
             text.copy(type = text.type ?: defaultTextStyle)
         }
