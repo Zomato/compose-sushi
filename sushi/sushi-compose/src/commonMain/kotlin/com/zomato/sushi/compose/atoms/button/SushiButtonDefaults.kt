@@ -4,13 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.foundation.SushiTextSize200
-import com.zomato.sushi.compose.foundation.SushiTextSize300
-import com.zomato.sushi.compose.foundation.SushiTextSize500
+import androidx.compose.ui.unit.sp
+import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
 
 /**
@@ -51,16 +52,40 @@ object SushiButtonDefaults {
     )
 
     /**
-     * Gets the appropriate text style based on button size.
+     * Gets the appropriate text style based on button size and button type.
      * 
      * @param size The size variant of the button
-     * @return The TextStyle corresponding to the given button size
+     * @param type The type of the button
+     * @return The TextStyle corresponding to the given button size and type
      */
     @Composable
-    public fun getButtonTextType(size: SushiButtonSize): TextStyle = when (size) {
-        SushiButtonSize.Small -> SushiTheme.typography.regular200
-        SushiButtonSize.Medium -> SushiTheme.typography.regular300
-        SushiButtonSize.Large -> SushiTheme.typography.regular400
+    public fun getButtonTextType(
+        size: SushiButtonSize,
+        type: SushiButtonType = SushiButtonType.Solid // Allows passing type
+    ): TextStyle = when (type) {
+        SushiButtonType.Underline -> getUnderlineButtonTextStyle(size)
+        else -> when (size) {
+            SushiButtonSize.Small -> SushiTheme.typography.regular200
+            SushiButtonSize.Medium -> SushiTheme.typography.regular300
+            SushiButtonSize.Large -> SushiTheme.typography.regular400
+        }
+    }
+
+    /**
+     * Returns the proper text style for Underline button type per size,
+     * using theme accent color, underline decoration, and smaller font
+     */
+    @Composable
+    private fun getUnderlineButtonTextStyle(size: SushiButtonSize): TextStyle {
+        val baseStyle: TextStyle = when (size) {
+            SushiButtonSize.Small -> SushiTheme.typography.regular200
+            SushiButtonSize.Medium -> SushiTheme.typography.regular300
+            SushiButtonSize.Large -> SushiTheme.typography.regular400
+        }
+        return baseStyle.copy(
+            color = SushiTheme.colors.accent.primary,
+            textDecoration = TextDecoration.Underline
+        )
     }
 
     /**

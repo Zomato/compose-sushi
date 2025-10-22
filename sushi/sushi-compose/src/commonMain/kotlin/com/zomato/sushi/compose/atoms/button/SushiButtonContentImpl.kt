@@ -8,12 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
+import com.zomato.sushi.compose.atoms.text.SushiTextDecoration
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.utils.takeIfSpecified
@@ -52,6 +54,9 @@ internal fun RowScope.SushiButtonContentImpl(
     val horizontalArrangement = with(SushiButtonDefaults) { props.horizontalArrangementOrDefault }
     val verticalAlignment = with(SushiButtonDefaults) { props.verticalAlignmentOrDefault }
 
+    val isUnderlined = props.type == SushiButtonType.Underline
+    val textDecoration = if (isUnderlined) SushiTextDecoration.Underline() else null
+
     Row(
         modifier,
         horizontalArrangement = horizontalArrangement,
@@ -69,7 +74,8 @@ internal fun RowScope.SushiButtonContentImpl(
                     text = props.text,
                     color = appliedFontColor,
                     type = textType.asTextTypeSpec(),
-                    markdown = props.markdown
+                    markdown = props.markdown,
+                    textDecoration = textDecoration
                 )
             )
             if (!props.subText.isNullOrEmpty()) {
@@ -77,7 +83,8 @@ internal fun RowScope.SushiButtonContentImpl(
                     SushiTextProps(
                         text = props.subText,
                         color = appliedFontColor,
-                        type = with(SushiButtonDefaults) { getSubtextTextStyle(textType).asTextTypeSpec() }
+                        type = with(SushiButtonDefaults) { getSubtextTextStyle(textType).asTextTypeSpec() },
+                        textDecoration = textDecoration
                     )
                 )
             }
