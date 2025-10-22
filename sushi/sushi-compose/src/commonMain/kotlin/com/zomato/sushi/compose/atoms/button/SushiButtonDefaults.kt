@@ -12,6 +12,9 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zomato.sushi.compose.atoms.text.SushiTextType
+import com.zomato.sushi.compose.foundation.SushiTextSize200
+import com.zomato.sushi.compose.foundation.SushiTextSize300
+import com.zomato.sushi.compose.foundation.SushiTextSize500
 import com.zomato.sushi.compose.foundation.SushiTheme
 
 /**
