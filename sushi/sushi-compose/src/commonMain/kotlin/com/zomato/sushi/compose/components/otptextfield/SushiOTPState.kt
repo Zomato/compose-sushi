@@ -78,10 +78,6 @@ class SushiOTPState(
             val chars = code.toCharArray()
             chars[index] = ' '
             code = chars.concatToString()
-
-            if (index > 0 && isFieldEmpty(index)) {
-                focusManager.moveFocus(FocusDirection.Companion.Previous)
-            }
         }
     }
 
@@ -94,9 +90,13 @@ class SushiOTPState(
      * @param index The position of the digit field where backspace was pressed
      */
     fun onBackspacePressed(index: Int) {
-        if (index > 0 && isFieldEmpty(index)) {
-            focusManager.moveFocus(FocusDirection.Companion.Previous)
-            onDigitDeleted(index - 1)
+        if (isFieldEmpty(index)) {
+            if (index > 0) {
+                focusManager.moveFocus(FocusDirection.Companion.Previous)
+                onDigitDeleted(index - 1)
+            }
+        } else {
+            onDigitDeleted(index)
         }
     }
 
