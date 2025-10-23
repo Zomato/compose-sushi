@@ -1,5 +1,5 @@
 [versions]
-agp = "8.9.1"
+agp = "8.13.0"
 kotlin = "2.1.21"
 kotlinxCoroutinesCore = "1.10.2"
 kotlinxDatetime = "0.7.1"
