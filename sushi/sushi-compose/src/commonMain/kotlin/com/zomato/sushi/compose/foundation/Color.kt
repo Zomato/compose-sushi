@@ -271,7 +271,16 @@ val Slate800: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawCol
 val Slate900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Slate900, SushiRawColorTokens.Slate050)
 
 // Lemon Colors
+val Lemon050: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon050, SushiRawColorTokens.Lemon050)
+val Lemon100: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon100, SushiRawColorTokens.Lemon100)
+val Lemon200: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon200, SushiRawColorTokens.Lemon200)
+val Lemon300: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon300, SushiRawColorTokens.Lemon300)
+val Lemon400: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon400, SushiRawColorTokens.Lemon400)
 val Lemon500: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon500, SushiRawColorTokens.Lemon500)
+val Lemon600: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon600, SushiRawColorTokens.Lemon600)
+val Lemon700: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon700, SushiRawColorTokens.Lemon700)
+val Lemon800: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon800, SushiRawColorTokens.Lemon800)
+val Lemon900: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Lemon900, SushiRawColorTokens.Lemon900)
 
 // Rating Colors
 val Rating1: ColorSpec = ColorSchemeTypeAdaptedColorSpec.fromColors(SushiRawColorTokens.Red600, SushiRawColorTokens.Red300)
