@@ -4,6 +4,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
@@ -13,11 +14,13 @@ import com.zomato.sushi.compose.foundation.SushiTheme
  * Provides default values and utility functions for SushiTextField components.
  * These defaults are used when specific properties are not provided in SushiTextFieldProps.
  */
-object SushiTextFieldDefaults {
+
+object SushiTextFieldDefaults : TextFieldDefaults
+interface TextFieldDefaults {
     /**
      * Default shape for text fields with rounded corners.
      */
-    val shape = RoundedCornerShape(12.dp)
+    val shape: Shape get() = RoundedCornerShape(12.dp)
     
     /**
      * Default text style for the input text.
