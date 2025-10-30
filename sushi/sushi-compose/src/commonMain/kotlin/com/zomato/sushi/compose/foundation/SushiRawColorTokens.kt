@@ -265,7 +265,16 @@ object SushiRawColorTokens {
     val Slate900 = Color(0xFF17171C)
 
     //lemon
+    val Lemon050 = Color(0xFEFDF2)
+    val Lemon100 = Color(0xFCFAD4)
+    val Lemon200 = Color(0xF8F4C0)
+    val Lemon300 = Color(0xF9F29C)
+    val Lemon400 = Color(0xF7EE7B)
     val Lemon500 = Color(0xF5EA5A)
+    val Lemon600 = Color(0xDBCE3B)
+    val Lemon700 = Color(0xC3B513)
+    val Lemon800 = Color(0x4E490E)
+    val Lemon900 = Color(0x2F2D1E)
 
     // Rating Colors
     val Rating1 = Red600
