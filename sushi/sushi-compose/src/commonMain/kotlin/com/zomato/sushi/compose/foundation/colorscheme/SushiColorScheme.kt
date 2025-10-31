@@ -232,6 +232,7 @@ fun sushiLightColorScheme(
     buttonColorScheme: SushiColorScheme.ButtonColorScheme = SushiColorScheme.ButtonColorScheme(
         primaryBackground = themeColorScheme.v500,
         primaryBackgroundPressed = themeColorScheme.v600,
+        primaryBackgroundDisabled = SushiRawColorTokens.Grey400.asColorSpec(),
         backgroundDisabled = SushiRawColorTokens.Grey400.asColorSpec(),
         primaryLabel = SushiRawColorTokens.White.asColorSpec(),
         primaryLabelPressed = SushiRawColorTokens.White.asColorSpec(),
@@ -618,6 +619,7 @@ fun sushiDarkColorScheme(
     buttonColorScheme: SushiColorScheme.ButtonColorScheme = SushiColorScheme.ButtonColorScheme(
         primaryBackground = themeColorScheme.v500,
         primaryBackgroundPressed = themeColorScheme.v200,
+        primaryBackgroundDisabled = SushiRawColorTokens.Slate600.asColorSpec(),
         backgroundDisabled = SushiRawColorTokens.Slate600.asColorSpec(),   // revert to SushiSlate600.asColorSpec() ?
         primaryLabel = SushiRawColorTokens.White.asColorSpec(),
         primaryLabelPressed = SushiRawColorTokens.White.asColorSpec(),
