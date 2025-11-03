@@ -915,6 +915,7 @@ data class SushiColorScheme(
     data class ButtonColorScheme(
         val primaryBackground: ColorSpec,
         val primaryBackgroundPressed: ColorSpec,
+        val primaryBackgroundDisabled: ColorSpec,
         val backgroundDisabled: ColorSpec,
         val primaryLabel: ColorSpec,
         val primaryLabelPressed: ColorSpec,
