@@ -97,8 +97,7 @@ fun SushiText(
     prefix: (@Composable () -> Unit)? = null,
     suffix: (@Composable () -> Unit)? = null,
     onTextLayout: (TextLayoutResult) -> Unit = {},
-    onClick: (() -> Unit)? = null,
-    markdownParser: MarkdownParser = MarkdownParser.default
+    onClick: (() -> Unit)? = null
 ) {
     if (props.isValid()) {
         SushiComponentBase(
@@ -112,8 +111,7 @@ fun SushiText(
                 prefix = prefix,
                 suffix = suffix,
                 onTextLayout = onTextLayout,
-                onClick = onClick,
-                markdownParser = markdownParser
+                onClick = onClick
             )
         }
     }
@@ -126,8 +124,7 @@ private fun SushiTextImpl(
     prefix: (@Composable () -> Unit)? = null,
     suffix: (@Composable () -> Unit)? = null,
     onTextLayout: (TextLayoutResult) -> Unit = {},
-    onClick: (() -> Unit)? = null,
-    markdownParser: MarkdownParser = MarkdownParser.default
+    onClick: (() -> Unit)? = null
 ) {
     val textAlign = props.textAlign
     val horizontalArrangement = props.horizontalArrangement ?: SushiTextDefaults.horizontalArrangementFromAlignment(textAlign)
@@ -187,7 +184,12 @@ private fun SushiTextImpl(
         }
 
         val text = when {
-            isMarkdown -> markdownParser.parse(rawText, markdownParserProps)
+            isMarkdown -> {
+                MarkdownParser.default.parse(
+                    text = rawText,
+                    props = markdownParserProps
+                )
+            }
             rawText is AnnotatedString -> {
                 rawText
             }
