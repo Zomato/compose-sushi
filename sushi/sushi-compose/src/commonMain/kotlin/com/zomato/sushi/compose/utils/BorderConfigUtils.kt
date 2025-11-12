@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.Dp
  * This class serves as the foundation for a type-safe way to define various border styles.
  * New border types can be added by extending this sealed class.
  */
-sealed class BorderConfig
+sealed class BorderType
 
 /**
  * Configuration for a dashed border style.
@@ -37,13 +37,13 @@ sealed class BorderConfig
  * @property dashGap The gap between each dash in the pattern
  * @property shape The shape to apply the border to (e.g., rectangle, rounded corner)
  */
-data class DashedBorderConfig(
+data class DashedBorderType(
     val color: Color,
     val width: Dp,
     val dashWidth: Dp,
     val dashGap: Dp,
     val shape: Shape
-) : BorderConfig()
+) : BorderType()
 
 /**
  * Applies a border to a composable based on the provided configuration.
@@ -55,10 +55,10 @@ data class DashedBorderConfig(
  * @param config The border configuration to apply, or null for no border
  * @return A modifier with the specified border applied, or the original modifier if config is null
  */
-fun Modifier.border(config: BorderConfig?): Modifier {
+fun Modifier.border(config: BorderType?): Modifier {
     config ?: return this
     return when (config) {
-        is DashedBorderConfig -> {
+        is DashedBorderType -> {
             this.then(
                 Modifier.dashedBorder(config)
             )
@@ -77,7 +77,7 @@ fun Modifier.border(config: BorderConfig?): Modifier {
  * @return A modifier with the dashed border applied, or the original modifier if config is null
  */
 fun Modifier.dashedBorder(
-    config: DashedBorderConfig? = null
+    config: DashedBorderType? = null
 ): Modifier {
     config ?: return this
     return this.then(Modifier.drawWithContent {
