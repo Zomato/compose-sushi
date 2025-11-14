@@ -25,8 +25,8 @@ import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.shapes.ticket.TicketShape
-import com.zomato.sushi.compose.utils.BorderConfig
-import com.zomato.sushi.compose.utils.DashedBorderConfig
+import com.zomato.sushi.compose.utils.BorderType
+import com.zomato.sushi.compose.utils.DashedBorderType
 import com.zomato.sushi.compose.utils.border
 import com.zomato.sushi.compose.utils.toPx
 
@@ -53,7 +53,7 @@ import com.zomato.sushi.compose.utils.toPx
 @Composable
 fun SushiCard(
     modifier: Modifier = Modifier,
-    borderConfig: BorderConfig? = null,
+    borderConfig: BorderType? = null,
     shape: Shape = RoundedCornerShape(SushiTheme.dimens.spacing.base),
     containerColor: ColorSpec = SushiTheme.colors.surface.primary,
     border: BorderStroke? = null,
@@ -170,7 +170,7 @@ private fun DashedBorderCardPreview() {
         Box(modifier = Modifier.size(300.dp, 300.dp)) {
             SushiCard(
                 shape = TicketShape(24.dp.toPx(), 0.6f),
-                borderConfig = DashedBorderConfig(
+                borderConfig = DashedBorderType(
                     color = Color.Red,
                     width = 2.dp,
                     dashWidth = 5.dp,
