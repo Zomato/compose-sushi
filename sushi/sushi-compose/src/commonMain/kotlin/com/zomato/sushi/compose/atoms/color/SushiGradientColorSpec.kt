@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -25,6 +26,7 @@ import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirecti
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 
 /**
  * Configuration for creating gradient colors in the Sushi design system.
@@ -61,6 +63,7 @@ data class SushiGradientColorSpec(
     /**
      * Defines the types of gradients supported by SushiGradientColorData.
      */
+    @Immutable
     sealed interface GradientType {
         /**
          * Linear gradient configuration.
@@ -212,6 +215,10 @@ fun SushiGradientColorSpec.LinearDirection.endOffset(size: Size): Offset = when 
  */
 fun ColorSpec.toSushiGradientColorData(): SushiGradientColorSpec {
     return SushiGradientColorSpec(persistentListOf(this))
+}
+
+fun List<ColorSpec>.toSushiGradientColorData(): SushiGradientColorSpec {
+    return SushiGradientColorSpec(this.toPersistentList())
 }
 
 @SushiPreview
