@@ -45,11 +45,7 @@ fun SushiDivider(
     props: SushiDividerProps,
     modifier: Modifier = Modifier
 ) {
-    SushiComponentBase(
-        modifier
-            .width(IntrinsicSize.Max)
-            .height(IntrinsicSize.Max)
-    ) {
+    SushiComponentBase(modifier) {
         SushiDividerImpl(
             props,
             Modifier.fillMaxWidth()
