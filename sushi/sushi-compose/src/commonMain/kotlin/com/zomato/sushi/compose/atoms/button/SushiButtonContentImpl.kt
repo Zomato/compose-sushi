@@ -27,7 +27,8 @@ internal fun RowScope.SushiButtonContentImpl(
     fontColorDisabled: ColorSpec,
     fontColorPressed: ColorSpec,
     fontColor: ColorSpec,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    shouldUnderline: Boolean = false
 ) {
 
     val appliedFontColor = when {
@@ -71,7 +72,7 @@ internal fun RowScope.SushiButtonContentImpl(
                     color = appliedFontColor,
                     type = textType.asTextTypeSpec(),
                     markdown = props.markdown,
-                    textDecoration = if (props.type?.equals(SushiButtonType.Underline) == true) SushiTextDecoration.Underline()
+                    textDecoration = if (shouldUnderline) SushiTextDecoration.Underline()
                     else null
                 )
             )
@@ -81,7 +82,7 @@ internal fun RowScope.SushiButtonContentImpl(
                         text = props.subText,
                         color = appliedFontColor,
                         type = with(SushiButtonDefaults) { getSubtextTextStyle(textType).asTextTypeSpec() },
-                        textDecoration = if (props.type?.equals(SushiButtonType.Underline) == true) SushiTextDecoration.Underline()
+                        textDecoration = if (shouldUnderline) SushiTextDecoration.Underline()
                         else null
                     )
                 )

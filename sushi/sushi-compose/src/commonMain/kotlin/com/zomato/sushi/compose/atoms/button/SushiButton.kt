@@ -91,7 +91,8 @@ private fun SushiButtonImpl(
                     props = props,
                     onClick = onClick,
                     Modifier.fillMaxSize(),
-                    content = content
+                    content = content,
+                    shouldUnderline = true
                 )
             }
         }
