@@ -9,7 +9,7 @@ package com.zomato.sushi.compose.atoms.tag
  */
 
 object SushiTagDefaults {
-    private val size = SushiTagSize.Medium
+    private val size = SushiTagSize.MEDIUM
     private val type = SushiTagType.Rounded
 
     internal val SushiTagProps.typeOrDefault get() = this.type ?: SushiTagDefaults.type

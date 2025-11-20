@@ -36,12 +36,12 @@ import com.zomato.sushi.compose.foundation.SushiTheme
  */
 @Composable
 fun SushiTagProps.getTagTextType(): TextStyle = when (sizeOrDefault) {
-    SushiTagSize.Nano -> SushiTheme.typography.semiBold050
-    SushiTagSize.Tiny -> SushiTheme.typography.semiBold100
-    SushiTagSize.Small -> SushiTheme.typography.semiBold200
-    SushiTagSize.Medium -> SushiTheme.typography.semiBold300
-    SushiTagSize.Large -> SushiTheme.typography.semiBold400
-    SushiTagSize.ExtraLarge -> SushiTheme.typography.semiBold400
+    SushiTagSize.NANO -> SushiTheme.typography.semiBold050
+    SushiTagSize.TINY -> SushiTheme.typography.semiBold100
+    SushiTagSize.SMALL -> SushiTheme.typography.semiBold200
+    SushiTagSize.MEDIUM -> SushiTheme.typography.semiBold300
+    SushiTagSize.LARGE -> SushiTheme.typography.semiBold400
+    SushiTagSize.EXTRA_LARGE -> SushiTheme.typography.semiBold400
 }
 
 /**
@@ -52,12 +52,12 @@ fun SushiTagProps.getTagTextType(): TextStyle = when (sizeOrDefault) {
  */
 @Composable
 fun SushiTagProps.getTagIconSize(): TextUnit = when (sizeOrDefault) {
-    SushiTagSize.Nano -> SushiTextSize050
-    SushiTagSize.Tiny -> SushiTextSize100
-    SushiTagSize.Small -> SushiTextSize200
-    SushiTagSize.Medium -> SushiTextSize300
-    SushiTagSize.Large -> SushiTextSize400
-    SushiTagSize.ExtraLarge -> SushiTextSize400
+    SushiTagSize.NANO -> SushiTextSize050
+    SushiTagSize.TINY -> SushiTextSize100
+    SushiTagSize.SMALL -> SushiTextSize200
+    SushiTagSize.MEDIUM -> SushiTextSize300
+    SushiTagSize.LARGE -> SushiTextSize400
+    SushiTagSize.EXTRA_LARGE -> SushiTextSize400
 }
 
 /**
@@ -69,14 +69,14 @@ fun SushiTagProps.getTagIconSize(): TextUnit = when (sizeOrDefault) {
 @Composable
 fun SushiTagProps.getTagPaddingForSize(): PaddingValues {
     val padding = when (sizeOrDefault) {
-        SushiTagSize.ExtraLarge -> PaddingValues(
+        SushiTagSize.EXTRA_LARGE -> PaddingValues(
             vertical = SushiTheme.dimens.spacing.base,
             horizontal = SushiTheme.dimens.spacing.extra
         )
-        SushiTagSize.Large -> PaddingValues(all = SushiTheme.dimens.spacing.macro)
-        SushiTagSize.Medium -> PaddingValues(all = SushiTheme.dimens.spacing.mini)
-        SushiTagSize.Small -> PaddingValues(all = SushiTheme.dimens.spacing.micro)
-        SushiTagSize.Tiny, SushiTagSize.Nano -> PaddingValues(
+        SushiTagSize.LARGE -> PaddingValues(all = SushiTheme.dimens.spacing.macro)
+        SushiTagSize.MEDIUM -> PaddingValues(all = SushiTheme.dimens.spacing.mini)
+        SushiTagSize.SMALL -> PaddingValues(all = SushiTheme.dimens.spacing.micro)
+        SushiTagSize.TINY, SushiTagSize.NANO -> PaddingValues(
             vertical = SushiTheme.dimens.spacing.femto,
             horizontal = SushiTheme.dimens.spacing.nano
         )
@@ -114,7 +114,7 @@ fun SushiTagProps.getTagShapeForType(): Shape {
 fun SushiTagProps.getTagCornerRadiusForType(): Dp {
 
     val circularRadius = 30.dp
-    val roundedRadius = if (size == SushiTagSize.Nano) 4.dp
+    val roundedRadius = if (size == SushiTagSize.NANO) 4.dp
     else 3.dp
 
     return when(typeOrDefault) {
