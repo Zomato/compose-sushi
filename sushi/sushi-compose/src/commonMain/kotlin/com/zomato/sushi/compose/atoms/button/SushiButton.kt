@@ -86,6 +86,15 @@ private fun SushiButtonImpl(
                     content = content
                 )
             }
+            SushiButtonType.Underline -> {
+                SushiTextButton(
+                    props = props,
+                    onClick = onClick,
+                    Modifier.fillMaxSize(),
+                    content = content,
+                    shouldUnderline = true
+                )
+            }
         }
     }
 }
