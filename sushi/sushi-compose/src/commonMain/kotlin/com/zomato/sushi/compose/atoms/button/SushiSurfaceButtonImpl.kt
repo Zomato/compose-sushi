@@ -105,7 +105,7 @@ internal fun SushiSurfaceButtonImpl(
                 fontColorDisabled = fontColorDisabled,
                 fontColorPressed = fontColorPressed,
                 fontColor = fontColor,
-                Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
