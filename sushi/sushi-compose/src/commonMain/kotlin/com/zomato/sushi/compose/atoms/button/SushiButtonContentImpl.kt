@@ -14,7 +14,6 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
-import com.zomato.sushi.compose.atoms.text.SushiTextDecoration
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.utils.takeIfSpecified
@@ -27,8 +26,7 @@ internal fun RowScope.SushiButtonContentImpl(
     fontColorDisabled: ColorSpec,
     fontColorPressed: ColorSpec,
     fontColor: ColorSpec,
-    modifier: Modifier = Modifier,
-    shouldUnderline: Boolean = false
+    modifier: Modifier = Modifier
 ) {
 
     val appliedFontColor = when {
@@ -71,9 +69,7 @@ internal fun RowScope.SushiButtonContentImpl(
                     text = props.text,
                     color = appliedFontColor,
                     type = textType.asTextTypeSpec(),
-                    markdown = props.markdown,
-                    textDecoration = if (shouldUnderline) SushiTextDecoration.Underline()
-                    else null
+                    markdown = props.markdown
                 )
             )
             if (!props.subText.isNullOrEmpty()) {
@@ -81,9 +77,7 @@ internal fun RowScope.SushiButtonContentImpl(
                     SushiTextProps(
                         text = props.subText,
                         color = appliedFontColor,
-                        type = with(SushiButtonDefaults) { getSubtextTextStyle(textType).asTextTypeSpec() },
-                        textDecoration = if (shouldUnderline) SushiTextDecoration.Underline()
-                        else null
+                        type = with(SushiButtonDefaults) { getSubtextTextStyle(textType).asTextTypeSpec() }
                     )
                 )
             }
