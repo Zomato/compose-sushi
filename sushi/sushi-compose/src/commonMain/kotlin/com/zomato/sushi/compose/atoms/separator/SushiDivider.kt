@@ -45,11 +45,7 @@ fun SushiDivider(
     props: SushiDividerProps,
     modifier: Modifier = Modifier
 ) {
-    SushiComponentBase(
-        modifier
-            .width(IntrinsicSize.Max)
-            .height(IntrinsicSize.Max)
-    ) {
+    SushiComponentBase(modifier) {
         SushiDividerImpl(
             props,
             Modifier.fillMaxWidth()
@@ -74,7 +70,6 @@ private fun SushiDividerImpl(
         SushiDividerType.StraightThick,
         SushiDividerType.Dotted,
         SushiDividerType.DottedSpaced,
-        SushiDividerType.Pink,
         null -> {
             Canvas(modifier) {
                 val canvasWidth = size.width
@@ -104,12 +99,6 @@ private fun SushiDividerImpl(
                         PathEffect.dashPathEffect(floatArrayOf(0.4f.dp.toPx(), 4f.dp.toPx()), 0f),
                         color,
                         canvasWidth
-                    )
-                    SushiDividerType.Pink -> Quartet(
-                        props.height ?: defaultHeight,
-                        null,
-                        pink,
-                        50f.dp.toPx()
                     )
                     else -> Quartet( // Handles Straight, null
                         props.height ?: defaultHeight,
@@ -146,30 +135,6 @@ private fun SushiDividerImpl(
                     cap = StrokeCap.Round,
                     pathEffect = pathEffect
                 )
-            }
-        }
-
-        SushiDividerType.Menu -> {
-            val menuColor = SushiTheme.colors.grey.v300.value
-            val strokeWidth = props.height ?: defaultHeight
-            Canvas(modifier) {
-                val leftLength = 12f.dp.toPx()
-                val triangleTopX = leftLength + 6f.dp.toPx()
-                val lineY = 8f.dp.toPx()
-
-                Path().apply {
-                    moveTo(0f, lineY)
-                    lineTo(leftLength, lineY)
-                    lineTo(triangleTopX, 0f)
-                    lineTo(triangleTopX + 6f.dp.toPx(), lineY)
-                    lineTo(size.width, lineY)
-                }.let { path ->
-                    drawPath(
-                        path = path,
-                        color = menuColor,
-                        style = Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Round)
-                    )
-                }
             }
         }
 
@@ -289,20 +254,6 @@ private fun SushiDividerPreview() {
                     color = SushiColorData(ColorName.White, ColorVariation.Variation500)
                 ),
                 Modifier.fillMaxWidth().fillMaxHeight(0.1f).padding(vertical = 16.dp)
-            )
-            SushiDivider(
-                props = SushiDividerProps(
-                    type = SushiDividerType.Pink,
-                    color = SushiColorData(ColorName.White, ColorVariation.Variation500)
-                ),
-                Modifier.fillMaxWidth().padding(vertical = 16.dp)
-            )
-            SushiDivider(
-                props = SushiDividerProps(
-                    type = SushiDividerType.Menu,
-                    color = SushiColorData(ColorName.Yellow, ColorVariation.Variation500)
-                ),
-                Modifier.fillMaxWidth().padding(vertical = 16.dp)
             )
             SushiDivider(
                 props = SushiDividerProps(
