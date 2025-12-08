@@ -10,7 +10,7 @@ configurations.
 
 SushiButton provides a standardized button implementation with support for:
 
-- Different visual styles (Text, Solid, Outline)
+- Different visual styles (Text, Solid, Outline, Underline)
 - Various sizes (Small, Medium, Large)
 - Prefix and suffix icons
 - Custom content through the content parameter
@@ -44,7 +44,7 @@ SushiButton(
 |-----------------------------------------|----------------------------------|
 | <div class='parameter'>`text`</div>| Primary text to display in the button |
 | <div class='parameter'>`subText`</div>| Optional secondary text below the primary text |
-| <div class='parameter'>`type`</div>| Button style type (Text, Solid, or Outline) |
+| <div class='parameter'>`type`</div>| Button style type (Text, Solid, Outline, or Underline) |
 | <div class='parameter'>`size`</div>| Button size variant (Small, Medium, or Large) |
 | <div class='parameter'>`fontColor`</div>| Color for the button text |
 | <div class='parameter'>`fontType`</div>| Typography style for the button text |
