@@ -110,7 +110,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.kotlinx.collections.immutable)
-            implementation(libs.kotlinx.datetime)
             api(project(":sushi-core"))
             implementation(libs.kotlinx.coroutines.core)
         }
