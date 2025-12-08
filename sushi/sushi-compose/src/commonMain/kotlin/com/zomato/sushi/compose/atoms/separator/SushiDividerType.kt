@@ -20,12 +20,6 @@ sealed interface SushiDividerType {
     data object Dotted : SushiDividerType
     
     /**
-     * A special pink-colored divider.
-     * Note: This style should be moved to a project-specific implementation.
-     */
-    data object Pink : SushiDividerType // Move to Z
-    
-    /**
      * A vertical dotted line divider with small, closely spaced dots.
      */
     data object VerticalDotted : SushiDividerType
@@ -44,12 +38,6 @@ sealed interface SushiDividerType {
      * A vertical solid straight line divider.
      */
     data object Vertical : SushiDividerType
-    
-    /**
-     * A menu-style divider with a triangular notch.
-     * Note: This style should be moved to a project-specific implementation.
-     */
-    data object Menu : SushiDividerType // Move to Z
     
     /**
      * A dotted line divider with larger spacing between dots.
