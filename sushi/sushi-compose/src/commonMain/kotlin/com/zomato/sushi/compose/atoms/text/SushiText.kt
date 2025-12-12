@@ -37,8 +37,10 @@ import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -56,11 +58,13 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.SushiColorData
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
+import com.zomato.sushi.compose.atoms.icon.SushiIconCode
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.foundation.WasabiFontFamily
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.markdown.MarkdownParser
 import com.zomato.sushi.compose.markdown.MarkdownParserProps
@@ -183,20 +187,13 @@ private fun SushiTextImpl(
             )
         }
 
-        val text = when {
-            isMarkdown -> {
-                MarkdownParser.default.parse(
-                    text = rawText,
-                    props = markdownParserProps
-                )
-            }
-            rawText is AnnotatedString -> {
-                rawText
-            }
-            else -> {
-                remember(rawText) { AnnotatedString(rawText.toString()) }
-            }
-        }
+        val text = getText(
+            rawText = rawText,
+            isMarkdown = isMarkdown,
+            markdownParserProps = markdownParserProps,
+            continuousPrefixIcon = props.continuousPrefixIcon,
+            continuousSuffixIcon = props.continuousSuffixIcon
+        )
 
         PrefixIcon(
             props = props.prefixIcon,
@@ -289,6 +286,61 @@ private fun SushiTextImpl(
             suffix = suffix
         )
     }
+}
+
+@Composable
+private inline fun getText(
+    rawText: CharSequence,
+    isMarkdown: Boolean,
+    markdownParserProps: MarkdownParserProps,
+    continuousPrefixIcon: SushiIconCode?,
+    continuousSuffixIcon: SushiIconCode?
+): AnnotatedString {
+    val markdownParsedText =  when {
+        isMarkdown -> {
+            MarkdownParser.default.parse(
+                text = rawText,
+                props = markdownParserProps
+            )
+        }
+        rawText is AnnotatedString -> {
+            rawText
+        }
+        else -> {
+            remember(rawText) { AnnotatedString(rawText.toString()) }
+        }
+    }
+
+    val parsedTextWithIcons = when {
+        continuousPrefixIcon != null || continuousSuffixIcon != null -> {
+            buildAnnotatedString {
+                continuousPrefixIcon?.parsedValue?.let {
+                    append(it)
+                    this.addStyle(
+                        SpanStyle(fontFamily = WasabiFontFamily),
+                        this.length - it.length,
+                        this.length
+                    )
+                    append(" ")
+                }
+                append(markdownParsedText)
+                continuousSuffixIcon?.parsedValue?.let {
+                    append(" ")
+                    append(it)
+                    this.addStyle(
+                        SpanStyle(fontFamily = WasabiFontFamily),
+                        this.length - it.length,
+                        this.length
+                    )
+                }
+            }
+        }
+        else -> {
+            markdownParsedText
+        }
+    }
+
+    return parsedTextWithIcons
 }
 
 @Composable
@@ -527,6 +579,8 @@ private fun SushiTextPreview1() {
                     text = "ladyfinger",
                     prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
+                    continuousPrefixIcon = SushiIconCodes.IconMoon,
+                    continuousSuffixIcon = SushiIconCodes.IconContactlessDining,
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
                     type = SushiTextType.Regular300,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -576,6 +630,8 @@ private fun SushiTextPreview2() {
                         code = SushiIconCodes.IconContactlessDining,
                         color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)
                     ),
+                    continuousPrefixIcon = SushiIconCodes.IconMoon,
+                    continuousSuffixIcon = SushiIconCodes.IconContactlessDining,
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
                     type = SushiTextType.Regular300,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -629,6 +685,34 @@ private fun SushiTextPreview2() {
                     verticalAlignment = Alignment.Top,
                     textDecoration = SushiTextDecoration.Underline()
                 )
+            )
+        }
+    }
+}
+
+@Composable
+@SushiPreview
+private fun SushiTextPreviewContinuousIcon() {
+    SushiPreview {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(SushiTheme.colors.surface.primary.value)
+        ) {
+            SushiText(
+                props = SushiTextProps(
+                    text = "The quick brown fox jumps over the lazy dog. " +
+                            "The quick brown fox jumps over the lazy dog. " +
+                            "The quick brown fox jumps over the lazy dog. " +
+                            "The quick brown fox jumps over the lazy dog. " +
+                            "The quick brown fox jumps over the lazy dog. " +
+                            "The quick brown fox jumps over the lazy dog",
+                    continuousPrefixIcon = SushiIconCodes.IconInfoLine,
+                    continuousSuffixIcon = SushiIconCodes.IconOk,
+                    color = SushiColorData(ColorName.Blue, ColorVariation.Variation500),
+                    type = SushiTextType.Regular300
+                ),
+                Modifier.fillMaxWidth()
             )
         }
     }
