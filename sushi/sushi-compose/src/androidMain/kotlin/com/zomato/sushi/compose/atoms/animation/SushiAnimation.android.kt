@@ -1,7 +1,6 @@
 package com.zomato.sushi.compose.atoms.animation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -10,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.compose.LottieAnimation
@@ -54,20 +54,19 @@ private fun SushiAnimationImpl(
         }
 
         if (composition != null) {
-            Box(
-                modifier
-                    .ifNonNull(props.height) { this.height(it) }
-                    .ifNonNull(props.width) { this.width(it) }
-                    .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
-                    .ifNonNull(props.bgColor.takeIfSpecified()) { this.background(it.value) }
-            ) {
-                when (playback) {
-                    is SushiAnimationPlayback.AutoPlay -> {
-                        LottieAutoPlay(composition, playback)
-                    }
-                    is SushiAnimationPlayback.Progress -> {
-                        LottieWithProgress(composition, playback)
-                    }
+            val lottieModifier = modifier
+                .ifNonNull(props.height) { this.height(it) }
+                .ifNonNull(props.width) { this.width(it) }
+                .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
+                .ifNonNull(props.bgColor.takeIfSpecified()) { this.background(it.value) }
+
+            when (playback) {
+                is SushiAnimationPlayback.AutoPlay -> {
+                    LottieAutoPlay(composition, playback, lottieModifier)
+                }
+
+                is SushiAnimationPlayback.Progress -> {
+                    LottieWithProgress(composition, playback, lottieModifier)
                 }
             }
         }
@@ -91,7 +90,8 @@ private fun LottieAutoPlay(
     LottieAnimation(
         composition = composition,
         progress = { animationState.progress },
-        modifier = modifier
+        modifier = modifier,
+        contentScale = ContentScale.Crop
     )
 }
 
