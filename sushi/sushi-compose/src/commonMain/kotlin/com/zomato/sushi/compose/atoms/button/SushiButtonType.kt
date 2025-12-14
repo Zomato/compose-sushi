@@ -11,5 +11,5 @@ package com.zomato.sushi.compose.atoms.button
  * - Outline: Button with a border outline and text
  */
 enum class SushiButtonType {
-    Text, Solid, Outline;
+    Text, Solid, Outline, Underline;
 }

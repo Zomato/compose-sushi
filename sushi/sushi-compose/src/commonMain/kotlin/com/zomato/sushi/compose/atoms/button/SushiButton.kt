@@ -86,6 +86,9 @@ private fun SushiButtonImpl(
                     content = content
                 )
             }
+            SushiButtonType.Underline -> {
+
+            }
         }
     }
 }
