@@ -28,22 +28,5 @@ data class SushiIconProps(
      * The parsed Unicode character derived from the icon code.
      * This is computed automatically from the provided code.
      */
-    val parsedIcon: String? = code?.let { parseIcon(it) }
-
-    companion object {
-        /**
-         * Parses a SushiIconCode into a string representation that can be rendered.
-         * 
-         * This function converts the hexadecimal code into the corresponding Unicode character
-         * that represents the icon in the Wasabi icon font.
-         *
-         * @param code The SushiIconCode to parse
-         * @return The string representation of the icon or null if parsing fails
-         */
-        fun parseIcon(code: SushiIconCode): String? {
-            return code.value.takeIf { it.isNotEmpty() && !it.startsWith("&#x") }
-                ?.runCatching { this.toIntOrNull(16)?.toChar().toString() }
-                ?.getOrNull()
-        }
-    }
+    val parsedIcon: String? = code?.parsedValue
 }
