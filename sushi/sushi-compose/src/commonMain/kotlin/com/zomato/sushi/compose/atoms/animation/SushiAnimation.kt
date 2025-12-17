@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -39,6 +40,38 @@ fun rememberSushiAnimationProps(
 }
 
 /**
+ * Creates and remembers [SushiAnimationState] to be used in a composable
+ *
+ * @author gupta.anirudh@zomato.com
+ */
+@Composable
+fun rememberSushiAnimationState(): SushiAnimationState {
+    return remember { SushiAnimationState() }
+}
+
+/**
+ * Class representing the state for [SushiAnimation] composable.
+ *
+ * @author gupta.anirudh@zomato.com
+ */
+@Stable
+class SushiAnimationState(
+    /**
+     * State object for lottie target.
+     */
+    val lottieState: SushiLottieAnimationState = SushiLottieAnimationState()
+)
+
+/**
+ * Class representing the state for lottie target when rendering using [SushiAnimation].
+ *
+ * As of now, this makes sense only for Android.
+ *
+ * @author gupta.anirudh@zomato.com
+ */
+expect class SushiLottieAnimationState()
+
+/**
  * A composable component for displaying animations in the Sushi design system.
  * Supports Lottie animations from various sources with customizable playback behavior.
  *
@@ -50,7 +83,9 @@ fun rememberSushiAnimationProps(
 @Composable
 expect fun SushiAnimation(
     props: SushiAnimationProps,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    state: SushiAnimationState = rememberSushiAnimationState(),
+    onClick: (() -> Unit)? = null
 )
 
 @SushiPreview
