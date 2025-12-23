@@ -19,6 +19,7 @@ import com.zomato.sushi.compose.atoms.icon.SushiIconProps
  * @property color The background color of the tag
  * @property fontColor The color of the text and icons in the tag
  * @property borderColor The color of the border (for outline and dashed types)
+ * @property borderWidth The width of the border (for outline and dashed types)
  * @property suffixIcon Optional icon to display after the text
  * @property prefixIcon Optional icon to display before the text
  * @property iconSpacing Custom spacing between icons and text
@@ -36,6 +37,7 @@ data class SushiTagProps(
     val color: ColorSpec? = null,
     val fontColor: ColorSpec? = null,
     val borderColor: ColorSpec? = null,
+    val borderWidth: Dp? = null,
     val suffixIcon: SushiIconProps? = null,
     val prefixIcon: SushiIconProps? = null,
     val iconSpacing: Dp? = null,

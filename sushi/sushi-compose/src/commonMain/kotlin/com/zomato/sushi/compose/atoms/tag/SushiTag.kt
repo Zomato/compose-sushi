@@ -94,7 +94,7 @@ private fun SushiTagImpl(
             .ifTrue(dashedBorderNeededForTag(props.typeOrDefault)) {
                 this.dashedBorder(
                     color = props.borderColor?.value ?: SushiTheme.colors.border.accentBlueIntense.value,
-                    strokeWidth = SushiTheme.dimens.spacing.nano,
+                    strokeWidth = props.borderWidth ?: SushiTheme.dimens.spacing.nano,
                     cornerRadiusDp = props.getTagCornerRadiusForType()
                 )
             },

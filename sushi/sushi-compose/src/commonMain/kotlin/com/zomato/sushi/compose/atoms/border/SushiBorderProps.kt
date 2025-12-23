@@ -11,5 +11,6 @@ import kotlinx.collections.immutable.persistentListOf
 data class SushiBorderProps(
     val colors: PersistentList<ColorSpec> = persistentListOf(),
     val shape: Shape? = null,
-    val width: Dp? = null
+    val width: Dp? = null,
+    val radius: Dp? = null
 )
