@@ -202,14 +202,8 @@ private fun SushiDividerPreview() {
             SushiDivider(
                 props = SushiDividerProps(
                     type = SushiDividerType.Straight,
-                    color = SushiColorData(ColorName.Red, ColorVariation.Variation500)
-                ),
-                Modifier.fillMaxWidth().padding(vertical = 16.dp)
-            )
-            SushiDivider(
-                props = SushiDividerProps(
-                    type = SushiDividerType.Straight,
-                    color = SushiColorData(ColorName.Red, ColorVariation.Variation500)
+                    color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
+                    height = 10.dp
                 ),
                 Modifier.fillMaxWidth().padding(vertical = 16.dp)
             )
