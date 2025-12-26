@@ -140,7 +140,7 @@ fun SushiTagProps.getBorderForType(): BorderStroke? {
     val outlinesTypes = listOf(SushiTagType.CapsuleOutline, SushiTagType.RoundedOutline)
 
     return if (typeOrDefault in outlinesTypes) BorderStroke(
-        width = SushiTheme.dimens.spacing.pico,
+        width = borderWidth ?: SushiTheme.dimens.spacing.pico,
         color = borderColor?.value ?: SushiTheme.colors.theme.accentColor.value
     )
     else return null
