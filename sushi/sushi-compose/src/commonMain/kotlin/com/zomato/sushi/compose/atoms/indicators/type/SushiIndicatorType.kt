@@ -54,4 +54,15 @@ sealed interface SushiIndicatorType {
         val dotsGraphic: DotGraphic = DotGraphic(),
         val selectorDotGraphic: DotGraphic = DotGraphic(color = Color.Black),
     ) : SushiIndicatorType
+
+    /**
+     * An indicator type where the selected dot changes its color.
+     *
+     * @property dotsGraphic The appearance configuration for the dots
+     * @property selectedColor The color of current selected indicator
+     */
+    data class Colored(
+        val dotsGraphic: DotGraphic = DotGraphic(size = 12.dp),
+        val selectedColor: Color
+    ) : SushiIndicatorType
 }

@@ -14,4 +14,18 @@ import kotlin.jvm.JvmInline
 @JvmInline
 value class SushiIconCode(
     val value: String
-)
+) {
+
+    /**
+     * The string representation of the icon that can be rendered by icon font or null if parsing fails
+     *
+     * This converts the hexadecimal code into the corresponding Unicode character
+     * that represents the icon in the Wasabi icon font.
+     */
+    val parsedValue: String?
+        get() {
+            return value.takeIf { it.isNotEmpty() && !it.startsWith("&#x") }
+                ?.runCatching { this.toIntOrNull(16)?.toChar().toString() }
+                ?.getOrNull()
+        }
+}
