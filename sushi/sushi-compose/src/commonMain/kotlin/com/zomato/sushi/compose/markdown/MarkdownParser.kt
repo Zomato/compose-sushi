@@ -40,8 +40,8 @@ class MarkdownParser private constructor(
                 .processor(BoldProcessor())
                 .processor(ItalicProcessor())
                 .processor(StrikethroughProcessor())
-                .processor(ColorProcessor())
-                .processor(FontWeightProcessor())
+                .processor(FontWeightProcessor())      // Move before Color
+                .processor(ColorProcessor())           // Move after Font
                 .processor(LinkProcessor())
                 .processor(UnderlineAnnotaterProcessor())
                 .build()
