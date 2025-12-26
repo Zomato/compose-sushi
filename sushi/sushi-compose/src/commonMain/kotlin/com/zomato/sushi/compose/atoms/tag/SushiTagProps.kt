@@ -36,6 +36,7 @@ data class SushiTagProps(
     val color: ColorSpec? = null,
     val fontColor: ColorSpec? = null,
     val borderColor: ColorSpec? = null,
+    val borderWidth: Dp? = null,
     val suffixIcon: SushiIconProps? = null,
     val prefixIcon: SushiIconProps? = null,
     val iconSpacing: Dp? = null,
