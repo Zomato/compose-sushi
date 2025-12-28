@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
@@ -16,7 +17,11 @@ import androidx.compose.material3.TooltipScope
 import androidx.compose.material3.TooltipState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.CacheDrawScope
@@ -119,15 +124,17 @@ fun TooltipScope.SushiTooltip(
 ) {
     val containerColor = props.containerColor.takeIfSpecified()?.value ?: SushiTheme.colors.surface.inverse.value
     val caretSize = props.caretSize ?: DpSize(16.dp, 8.dp)
-    val shape = props.shape ?: RoundedCornerShape(12.0.dp)
+    val defaultCornerRadius = 12.0.dp
     val shadowElevation = props.shadowElevation ?: ContainerElevation
+    
+    var caretPositionInfo by remember { mutableStateOf<CaretPositionInfo?>(null) }
 
     val drawCaretModifier =
         if (caretSize.isSpecified) {
             val density = LocalDensity.current
             val windowInfo = LocalWindowInfo.current
             Modifier.drawCaret { anchorLayoutCoordinates ->
-                drawCaretWithPath(
+                val result = drawCaretWithPath(
                     CaretType.Rich,
                     density,
                     windowInfo,
@@ -135,9 +142,63 @@ fun TooltipScope.SushiTooltip(
                     caretSize,
                     anchorLayoutCoordinates
                 )
+                // Update caret position info for shape adjustment
+                caretPositionInfo = result.second
+                result.first
             }
                 .then(modifier)
         } else modifier
+    
+    // Dynamically adjust corner radius based on caret position
+    val dynamicShape = remember(caretPositionInfo, props.shape) {
+        if (caretPositionInfo != null) {
+            val info = caretPositionInfo!!
+            val isCaretBottom = !info.isCaretTop
+            
+            when {
+                info.isAtRightEdge && isCaretBottom -> {
+                    // Bottom-right corner should be 0
+                    RoundedCornerShape(
+                        topStart = CornerSize(defaultCornerRadius),
+                        topEnd = CornerSize(defaultCornerRadius),
+                        bottomEnd = CornerSize(0.dp),
+                        bottomStart = CornerSize(defaultCornerRadius)
+                    )
+                }
+                info.isAtLeftEdge && isCaretBottom -> {
+                    // Bottom-left corner should be 0
+                    RoundedCornerShape(
+                        topStart = CornerSize(defaultCornerRadius),
+                        topEnd = CornerSize(defaultCornerRadius),
+                        bottomEnd = CornerSize(defaultCornerRadius),
+                        bottomStart = CornerSize(0.dp)
+                    )
+                }
+                info.isAtRightEdge && info.isCaretTop -> {
+                    // Top-right corner should be 0
+                    RoundedCornerShape(
+                        topStart = CornerSize(defaultCornerRadius),
+                        topEnd = CornerSize(0.dp),
+                        bottomEnd = CornerSize(defaultCornerRadius),
+                        bottomStart = CornerSize(defaultCornerRadius)
+                    )
+                }
+                info.isAtLeftEdge && info.isCaretTop -> {
+                    // Top-left corner should be 0
+                    RoundedCornerShape(
+                        topStart = CornerSize(0.dp),
+                        topEnd = CornerSize(defaultCornerRadius),
+                        bottomEnd = CornerSize(defaultCornerRadius),
+                        bottomStart = CornerSize(defaultCornerRadius)
+                    )
+                }
+                else -> props.shape ?: RoundedCornerShape(defaultCornerRadius)
+            }
+        } else {
+            props.shape ?: RoundedCornerShape(defaultCornerRadius)
+        }
+    }
+    
     Surface(
         modifier =
             drawCaretModifier.sizeIn(
@@ -145,7 +206,7 @@ fun TooltipScope.SushiTooltip(
                 maxWidth = RichTooltipMaxWidth,
                 minHeight = TooltipMinHeight
             ),
-        shape = shape,
+        shape = dynamicShape,
         color = containerColor,
         shadowElevation = shadowElevation
     ) {
@@ -187,8 +248,9 @@ private fun CacheDrawScope.drawCaretWithPath(
     containerColor: Color,
     caretSize: DpSize,
     anchorLayoutCoordinates: LayoutCoordinates?
-): DrawResult {
+): Pair<DrawResult, CaretPositionInfo?> {
     val path = Path()
+    var caretPositionInfo: CaretPositionInfo? = null
 
     if (anchorLayoutCoordinates != null) {
         val caretHeightPx: Int
@@ -254,6 +316,18 @@ private fun CacheDrawScope.drawCaretWithPath(
             }
             position = preferredPosition
         }
+        
+        // Determine if caret is at left or right edge
+        // Use full caret width as threshold to ensure corner radius is zero when caret touches edge
+        val edgeThreshold = caretWidthPx.toFloat()
+        val isAtLeftEdge = position.x < edgeThreshold
+        val isAtRightEdge = position.x > tooltipWidth - edgeThreshold
+        
+        caretPositionInfo = CaretPositionInfo(
+            isAtLeftEdge = isAtLeftEdge,
+            isAtRightEdge = isAtRightEdge,
+            isCaretTop = isCaretTop
+        )
 
         if (isCaretTop) {
             path.apply {
@@ -274,18 +348,29 @@ private fun CacheDrawScope.drawCaretWithPath(
         }
     }
 
-    return onDrawWithContent {
+    val drawResult = onDrawWithContent {
         if (anchorLayoutCoordinates != null) {
             drawContent()
             drawPath(path = path, color = containerColor)
         }
     }
+    
+    return Pair(drawResult, caretPositionInfo)
 }
 
 private enum class CaretType {
     Plain,
     Rich
 }
+
+/**
+ * Holds information about the caret position for adjusting tooltip corner radius
+ */
+private data class CaretPositionInfo(
+    val isAtLeftEdge: Boolean = false,
+    val isAtRightEdge: Boolean = false,
+    val isCaretTop: Boolean = false
+)
 
 @SushiPreview
 @Composable
