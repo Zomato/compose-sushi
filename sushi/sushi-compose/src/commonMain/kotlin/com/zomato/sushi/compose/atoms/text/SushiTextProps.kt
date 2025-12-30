@@ -3,6 +3,7 @@ package com.zomato.sushi.compose.atoms.text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextAlign
@@ -73,6 +74,7 @@ data class SushiTextProps(
  * Decorations that can be applied to text, such as underline or strikethrough.
  * Each decoration type allows customization of appearance parameters.
  */
+@Stable
 sealed interface SushiTextDecoration {
     /**
      * Underline decoration for text.
@@ -82,6 +84,7 @@ sealed interface SushiTextDecoration {
      * @property strokeWidth Width of the underline
      * @property color Color of the underline (defaults to text color if not specified)
      */
+    @Stable
     data class Underline(
         val dotSize: Dp? = null,
         val gapSize: Dp? = null,
@@ -97,6 +100,7 @@ sealed interface SushiTextDecoration {
      * @property strokeWidth Width of the line
      * @property color Color of the line (defaults to text color if not specified)
      */
+    @Stable
     data class LineThrough(
         val dotSize: Dp? = null,
         val gapSize: Dp? = null,
