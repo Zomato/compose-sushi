@@ -50,6 +50,7 @@ class MarkdownParser private constructor(
                 .processor(StrikethroughProcessor())
                 .processor(FontWeightProcessor())
                 .processor(TextColorProcessor())
+                .processor(BackgroundColorProcessor())
                 .processor(LinkProcessor())
                 .processor(UnderlineAnnotaterProcessor())
                 .build()
@@ -144,7 +145,7 @@ private fun MarkdownParserPreview1() {
             Spacer(Modifier.height(16.dp))
             SushiText(
                 props = SushiTextProps(
-                    text = "normal\n_italic_\n<bold-100|{red-500|small\nBold\nRed}\nsmall\nBold>\nnormal\n**bold**\nnormal\n~~cutthrough~~\n[<bold-800|{red-500|Go}>ooo**ooo**gle](https://google.com)",
+                    text = "normal\n_italic_\n<bold-100|{red-500|small\nBold\nRed}\nsmall\nBold>\nnormal\n**bold**\nnormal\n~~cutthrough~~\n[<bold-800|{red-500|Go}>ooo**oo==yellow-200|oo==**gle](https://google.com)",
                     color = SushiTheme.colors.text.success,
                     type = SushiTextType.Regular900,
                     textDecoration = SushiTextDecoration.Underline()
