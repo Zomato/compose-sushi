@@ -129,32 +129,13 @@ fun SushiTagProps.getTagCornerRadiusForType(): Dp {
 }
 
 /**
- * Returns the appropriate border for a tag based on its type.
- * Only outline types receive a border.
- *
- * @return The BorderStroke to use for the tag, or null if no border is needed
- */
-@Composable
-fun SushiTagProps.getBorderForType(): BorderStroke? {
-
-    val outlinesTypes = listOf(SushiTagType.CapsuleOutline, SushiTagType.RoundedOutline)
-
-    return if (typeOrDefault in outlinesTypes) BorderStroke(
-        width = borderWidth ?: SushiTheme.dimens.spacing.pico,
-        color = borderColor?.value ?: SushiTheme.colors.theme.accentColor.value
-    )
-    else return null
-
-}
-
-/**
  * Determines whether a dashed border is needed for the given tag type.
  * Only dashed types should use a dashed border.
  *
  * @param type The tag type to check
  * @return True if a dashed border is needed, false otherwise
  */
-fun dashedBorderNeededForTag(type: SushiTagType): Boolean {
+internal fun dashedBorderNeededForTag(type: SushiTagType): Boolean {
     val dashedTypes = listOf(SushiTagType.CapsuleDashed, SushiTagType.RoundedDashed)
     return type in dashedTypes
 }
