@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
@@ -14,6 +15,13 @@ import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
+
+/**
+ * Provides a [MarkdownParser] that can be used to parse markdown texts.
+ */
+val LocalMarkdownParserProvider = staticCompositionLocalOf<MarkdownParser> {
+    MarkdownParser.default
+}
 
 /**
  * Main parser for transforming markdown text into styled AnnotatedString.
@@ -40,8 +48,9 @@ class MarkdownParser private constructor(
                 .processor(BoldProcessor())
                 .processor(ItalicProcessor())
                 .processor(StrikethroughProcessor())
-                .processor(FontWeightProcessor())      // Move before Color
-                .processor(ColorProcessor())           // Move after Font
+                .processor(FontWeightProcessor())
+                .processor(TextColorProcessor())
+                .processor(BackgroundColorProcessor())
                 .processor(LinkProcessor())
                 .processor(UnderlineAnnotaterProcessor())
                 .build()
@@ -136,7 +145,7 @@ private fun MarkdownParserPreview1() {
             Spacer(Modifier.height(16.dp))
             SushiText(
                 props = SushiTextProps(
-                    text = "normal\n_italic_\n<bold-100|{red-500|small\nBold\nRed}\nsmall\nBold>\nnormal\n**bold**\nnormal\n~~cutthrough~~\n[<bold-800|{red-500|Go}>ooo**ooo**gle](https://google.com)",
+                    text = "normal\n_italic_\n<bold-100|{red-500|small\nBold\nRed}\nsmall\nBold>\nnormal\n**bold**\nnormal\n~~cutthrough~~\n[<bold-800|{red-500|Go}>ooo**oo==yellow-200|oo==**gle](https://google.com)",
                     color = SushiTheme.colors.text.success,
                     type = SushiTextType.Regular900,
                     textDecoration = SushiTextDecoration.Underline()

@@ -25,6 +25,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
+import com.zomato.sushi.compose.atoms.text.SushiTextDecoration
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
@@ -92,7 +93,7 @@ internal fun SushiTextButton(
                     props = props,
                     isDisabled = isDisabled,
                     isTapped = isTapped.value,
-                    Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         }
@@ -117,7 +118,7 @@ private fun RowScope.SushiTextButtonContent(
         fontColorDisabled = fontColorDisabled,
         fontColorPressed = fontColorPressed,
         fontColor = fontColor,
-        modifier
+        modifier = modifier
     )
 }
 
