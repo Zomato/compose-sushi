@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
@@ -14,6 +15,13 @@ import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
+
+/**
+ * Provides a [MarkdownParser] that can be used to parse markdown texts.
+ */
+val LocalMarkdownParserProvider = staticCompositionLocalOf<MarkdownParser> {
+    MarkdownParser.default
+}
 
 /**
  * Main parser for transforming markdown text into styled AnnotatedString.

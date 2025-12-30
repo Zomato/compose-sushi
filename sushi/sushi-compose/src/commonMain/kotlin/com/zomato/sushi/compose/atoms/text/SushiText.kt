@@ -66,7 +66,7 @@ import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.foundation.WasabiFontFamily
 import com.zomato.sushi.compose.internal.SushiPreview
-import com.zomato.sushi.compose.markdown.MarkdownParser
+import com.zomato.sushi.compose.markdown.LocalMarkdownParserProvider
 import com.zomato.sushi.compose.markdown.MarkdownParserProps
 import com.zomato.sushi.compose.modifiers.atomClickable
 import com.zomato.sushi.compose.modifiers.ifNonNull
@@ -298,7 +298,7 @@ private inline fun getText(
 ): AnnotatedString {
     val markdownParsedText =  when {
         isMarkdown -> {
-            MarkdownParser.default.parse(
+            LocalMarkdownParserProvider.current.parse(
                 text = rawText,
                 props = markdownParserProps
             )
