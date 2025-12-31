@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import com.zomato.sushi.compose.atoms.button.SushiButtonDefaults.typeOrDefault
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
@@ -27,8 +28,7 @@ internal fun RowScope.SushiButtonContentImpl(
     fontColorDisabled: ColorSpec,
     fontColorPressed: ColorSpec,
     fontColor: ColorSpec,
-    modifier: Modifier = Modifier,
-    shouldUnderline: Boolean = false
+    modifier: Modifier = Modifier
 ) {
 
     val appliedFontColor = when {
@@ -54,6 +54,16 @@ internal fun RowScope.SushiButtonContentImpl(
     val horizontalArrangement = with(SushiButtonDefaults) { props.horizontalArrangementOrDefault }
     val verticalAlignment = with(SushiButtonDefaults) { props.verticalAlignmentOrDefault }
 
+    val textDecoration = when (val type = props.typeOrDefault) {
+        is SushiButtonType.Underline -> SushiTextDecoration.Underline(
+            dotSize = type.dotSize,
+            gapSize = type.gapSize,
+            strokeWidth = type.strokeWidth,
+            color = type.color
+        )
+        else -> null
+    }
+
     Row(
         modifier,
         horizontalArrangement = horizontalArrangement,
@@ -72,8 +82,7 @@ internal fun RowScope.SushiButtonContentImpl(
                     color = appliedFontColor,
                     type = textType.asTextTypeSpec(),
                     markdown = props.markdown,
-                    textDecoration = if (shouldUnderline) SushiTextDecoration.Underline()
-                    else null
+                    textDecoration = textDecoration
                 )
             )
             if (!props.subText.isNullOrEmpty()) {
@@ -82,8 +91,7 @@ internal fun RowScope.SushiButtonContentImpl(
                         text = props.subText,
                         color = appliedFontColor,
                         type = with(SushiButtonDefaults) { getSubtextTextStyle(textType).asTextTypeSpec() },
-                        textDecoration = if (shouldUnderline) SushiTextDecoration.Underline()
-                        else null
+                        textDecoration = textDecoration
                     )
                 )
             }

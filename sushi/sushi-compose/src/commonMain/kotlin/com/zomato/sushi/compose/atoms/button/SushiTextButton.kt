@@ -25,6 +25,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
+import com.zomato.sushi.compose.atoms.text.SushiTextDecoration
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
@@ -38,7 +39,6 @@ internal fun SushiTextButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shouldUnderline: Boolean = false,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val isTapped = remember(props) { mutableStateOf(false) }
@@ -93,7 +93,6 @@ internal fun SushiTextButton(
                     props = props,
                     isDisabled = isDisabled,
                     isTapped = isTapped.value,
-                    shouldUnderline = shouldUnderline,
                     modifier = Modifier.fillMaxSize()
                 )
             }
@@ -106,7 +105,6 @@ private fun RowScope.SushiTextButtonContent(
     props: SushiButtonProps,
     isDisabled: Boolean,
     isTapped: Boolean,
-    shouldUnderline: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     val fontColor = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabel
@@ -120,8 +118,7 @@ private fun RowScope.SushiTextButtonContent(
         fontColorDisabled = fontColorDisabled,
         fontColorPressed = fontColorPressed,
         fontColor = fontColor,
-        modifier = modifier,
-        shouldUnderline = shouldUnderline
+        modifier = modifier
     )
 }
 
