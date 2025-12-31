@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.atoms.tag
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
@@ -24,6 +25,7 @@ import com.zomato.sushi.compose.atoms.text.SushiTextProps
  * @property prefixIcon Optional icon to display before the text
  * @property iconSpacing Custom spacing between icons and text
  * @property shape Optional custom shape to override the default shape from the type
+ * @property contentPadding Optional custom dynamic padding for the content inside the tag
  *
  * Created by Kashish on 10,January,2025
  * Zomato, Gurgaon, India.
@@ -38,5 +40,6 @@ data class SushiTagProps(
     val suffixIcon: SushiIconProps? = null,
     val prefixIcon: SushiIconProps? = null,
     val iconSpacing: Dp? = null,
-    val shape: Shape? = null
+    val shape: Shape? = null,
+    val contentPadding: PaddingValues? = null
 )
