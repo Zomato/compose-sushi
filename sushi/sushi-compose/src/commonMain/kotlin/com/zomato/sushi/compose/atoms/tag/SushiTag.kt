@@ -123,7 +123,7 @@ private fun SushiTagDefaultContent(
     val textType = props.getTagTextType()
     val textColor = props.text?.color?.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabel
 
-    val tagPadding = props.getTagPaddingForSize()
+    val tagPadding = props.contentPadding ?: props.getTagPaddingForSize()
 
     val defaultIconSize: TextUnit = props.getTagIconSize()
     val iconPadding: Dp = props.iconSpacing ?: tagPadding.calculateLeftPadding(LayoutDirection.Ltr)
