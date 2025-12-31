@@ -2,6 +2,7 @@ package com.zomato.sushi.compose.atoms.animation
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
@@ -37,4 +38,5 @@ data class SushiAnimationProps constructor(
     val bgColor: ColorSpec = SushiUnspecified.asColorSpec(),
     val alpha: Float? = null,
     val scaleFactor: Float? = null,
+    val contentScale: ContentScale? = null
 )
