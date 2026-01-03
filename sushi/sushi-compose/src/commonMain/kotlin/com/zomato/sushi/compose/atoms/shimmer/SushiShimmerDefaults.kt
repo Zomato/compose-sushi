@@ -11,7 +11,7 @@ object SushiShimmerDefaults {
     /**
      * Default background color for the shimmer effect.
      */
-    val bgColor @Composable get() = SushiTheme.colors.surface.shimmer
+    val bgColor @Composable get() = SushiTheme.colors.border.moderate
 
     /**
      * Default animation highlight color.
