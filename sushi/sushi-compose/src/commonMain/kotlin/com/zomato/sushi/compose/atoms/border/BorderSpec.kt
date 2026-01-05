@@ -26,8 +26,7 @@ data class BorderSpec(
     val color: SushiGradientColorSpec? = null,
     val borderType: BorderType? = null,
     val borderSides: BorderSides? = BorderSides(),
-    val shape: Shape? = null,
-    val radius: Dp? = null
+    val shape: Shape? = null
 )
 
 /**
