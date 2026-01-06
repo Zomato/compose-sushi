@@ -23,6 +23,10 @@ import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirecti
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.TopLeftToBottomRight
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.TopRightToBottomLeft
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.TopToBottom
+import com.zomato.sushi.compose.foundation.SushiColorSchemeType
+import com.zomato.sushi.compose.foundation.ThemedProps
+import com.zomato.sushi.compose.foundation.ThemedPropsProvider
+import com.zomato.sushi.compose.foundation.getThemedProps
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -43,8 +47,13 @@ import kotlinx.collections.immutable.toPersistentList
 @Immutable
 data class SushiGradientColorSpec(
     val colors: PersistentList<ColorSpec> = persistentListOf(),
-    val type: GradientType? = null
-) {
+    val type: GradientType? = null,
+    override val themedPropsList: PersistentList<ThemedProps<SushiGradientColorSpec>>? = null
+) : ThemedPropsProvider<SushiGradientColorSpec> {
+    override fun getThemedProps(colorSchemeType: SushiColorSchemeType): SushiGradientColorSpec {
+        return findThemedProps(colorSchemeType)?.takeIf { it.colors.isNotEmpty() } ?: this
+    }
+
     /**
      * Defines the direction for linear gradients.
      * Each direction specifies a start point and end point for the gradient.
@@ -126,7 +135,7 @@ val defaultLinearDirection: SushiGradientColorSpec.LinearDirection = SushiGradie
 fun SushiGradientColorSpec.toBrush(
     defaultTileMode: TileMode = TileMode.Clamp,
     defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
-): Brush {
+): Brush = this.getThemedProps().run {
     val colors = colors.map { it.value }.toList()
 
     return remember(this, defaultGradientType, colors) {
