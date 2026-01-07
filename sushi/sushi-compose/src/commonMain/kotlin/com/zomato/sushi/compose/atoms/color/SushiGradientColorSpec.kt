@@ -219,11 +219,19 @@ fun SushiGradientColorSpec.LinearDirection.endOffset(size: Size): Offset = when 
 /**
  * Converts ColorSpec to SushiGradientColorSpec
  *
- * @param size The size to use for calculating coordinates
- * @return The end offset for the gradient
+ * @return ColorSpec as SushiGradientColorSpec
  */
 fun ColorSpec.toSushiGradientColorData(): SushiGradientColorSpec {
     return SushiGradientColorSpec(persistentListOf(this))
+}
+
+/**
+ * Converts Color to SushiGradientColorSpec
+ *
+ * @return Color as SushiGradientColorSpec
+ */
+fun Color.toSushiGradientColorData(): SushiGradientColorSpec {
+    return this.asColorSpec().toSushiGradientColorData()
 }
 
 fun List<ColorSpec>.toSushiGradientColorData(): SushiGradientColorSpec {

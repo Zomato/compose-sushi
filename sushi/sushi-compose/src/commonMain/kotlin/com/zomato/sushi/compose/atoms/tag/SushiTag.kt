@@ -235,7 +235,7 @@ private fun SushiTagPreview4() {
             border = BorderSpec(
                 color = SushiTheme.colors.black.toSushiGradientColorData(),
                 width = 1.dp,
-                borderType = BorderType.Normal
+                borderType = BorderType.Solid
             ),
             prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
             suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),

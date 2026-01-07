@@ -173,7 +173,7 @@ private fun DashedBorderCardPreview() {
             SushiCard(
                 shape = TicketShape(24.dp.toPx(), 0.6f),
                 border = BorderSpec(
-                    color = Color.Red.asColorSpec().toSushiGradientColorData(),
+                    color = Color.Red.toSushiGradientColorData(),
                     width = 2.dp,
                     borderType = BorderType.DashedBorderType(
                         dashWidth = 5.dp,
