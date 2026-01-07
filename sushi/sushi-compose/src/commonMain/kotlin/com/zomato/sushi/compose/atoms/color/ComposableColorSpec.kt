@@ -3,10 +3,12 @@ package com.zomato.sushi.compose.atoms.color
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import kotlin.jvm.JvmInline
 
 /**
  * @author gupta.anirudh@zomato.com
  */
+@JvmInline
 private value class ComposableColorSpec(
     val provider: @Composable () -> ColorSpec
 ) : ColorSpec {
