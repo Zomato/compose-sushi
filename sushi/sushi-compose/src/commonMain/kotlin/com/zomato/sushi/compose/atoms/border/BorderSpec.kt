@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.color.toBrush
-import com.zomato.sushi.compose.atoms.color.toSushiGradientColorData
+import com.zomato.sushi.compose.atoms.color.asSushiGradientColorSpec
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.collections.immutable.persistentListOf
 
@@ -597,7 +597,7 @@ private fun BorderSpecPreview1() {
                 .border(
                     BorderSpec(
                         width = 2.dp,
-                        color = Color.Red.toSushiGradientColorData(),
+                        color = Color.Red.asSushiGradientColorSpec(),
                         borderType = BorderType.DashedBorderType(
                             dashWidth = 4.dp,
                             dashGap = 4.dp
@@ -620,7 +620,7 @@ private fun BorderSpecPreview2() {
                 .border(
                     BorderSpec(
                         width = 2.dp,
-                        color = Color.Red.toSushiGradientColorData(),
+                        color = Color.Red.asSushiGradientColorSpec(),
                         borderType = BorderType.Solid,
                         shape = RoundedCornerShape(20.dp)
                     )
@@ -640,7 +640,7 @@ private fun BorderSpecPreview3() {
                 .border(
                     BorderSpec(
                         width = 2.dp,
-                        color = Color.Red.toSushiGradientColorData(),
+                        color = Color.Red.asSushiGradientColorSpec(),
                         borderType = BorderType.Solid,
                         shape = RoundedCornerShape(20.dp),
                         borderSides = BorderSides(
@@ -663,7 +663,7 @@ private fun BorderSpecPreview4() {
                 .border(
                     BorderSpec(
                         width = 2.dp,
-                        color = Color.Red.toSushiGradientColorData(),
+                        color = Color.Red.asSushiGradientColorSpec(),
                         borderType = BorderType.Solid,
                         shape = RoundedCornerShape(20.dp),
                         borderSides = BorderSides(
@@ -718,7 +718,7 @@ private fun BorderSpecPreview6() {
                 .border(
                     BorderSpec(
                         width = 2.dp,
-                        color = Color.Blue.toSushiGradientColorData(),
+                        color = Color.Blue.asSushiGradientColorSpec(),
                         borderType = BorderType.DashedBorderType(
                             dashWidth = 6.dp,
                             dashGap = 3.dp
@@ -780,7 +780,7 @@ private fun BorderSpecPreview8() {
                 .border(
                     BorderSpec(
                         width = 2.dp,
-                        color = Color.Green.toSushiGradientColorData(),
+                        color = Color.Green.asSushiGradientColorSpec(),
                         borderType = BorderType.Solid,
                         borderSides = BorderSides(
                             left = false,
@@ -804,7 +804,7 @@ private fun BorderSpecPreview9() {
                 .border(
                     BorderSpec(
                         width = 2.dp,
-                        color = Color.Magenta.toSushiGradientColorData(),
+                        color = Color.Magenta.asSushiGradientColorSpec(),
                         borderType = BorderType.DashedBorderType(
                             dashWidth = 8.dp,
                             dashGap = 6.dp

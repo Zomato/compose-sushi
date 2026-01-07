@@ -20,8 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.border.BorderSpec
 import com.zomato.sushi.compose.atoms.border.border
 import com.zomato.sushi.compose.atoms.color.ColorSpec
-import com.zomato.sushi.compose.atoms.color.asColorSpec
-import com.zomato.sushi.compose.atoms.color.toSushiGradientColorData
+import com.zomato.sushi.compose.atoms.color.asSushiGradientColorSpec
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
@@ -110,7 +109,7 @@ private fun OutlinedElevatedCardPreview() {
                 shape = RoundedCornerShape(SushiTheme.dimens.spacing.base),
                 border = BorderSpec(
                     width = SushiTheme.dimens.spacing.pico,
-                    color = SushiTheme.colors.red.v500.toSushiGradientColorData()
+                    color = SushiTheme.colors.red.v500.asSushiGradientColorSpec()
                 ),
                 elevation = SushiTheme.dimens.spacing.micro,
                 modifier = Modifier
@@ -173,7 +172,7 @@ private fun DashedBorderCardPreview() {
             SushiCard(
                 shape = TicketShape(24.dp.toPx(), 0.6f),
                 border = BorderSpec(
-                    color = Color.Red.toSushiGradientColorData(),
+                    color = Color.Red.asSushiGradientColorSpec(),
                     width = 2.dp,
                     borderType = BorderType.DashedBorderType(
                         dashWidth = 5.dp,

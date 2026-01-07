@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -221,7 +220,7 @@ fun SushiGradientColorSpec.LinearDirection.endOffset(size: Size): Offset = when 
  *
  * @return ColorSpec as SushiGradientColorSpec
  */
-fun ColorSpec.toSushiGradientColorData(): SushiGradientColorSpec {
+fun ColorSpec.asSushiGradientColorSpec(): SushiGradientColorSpec {
     return SushiGradientColorSpec(persistentListOf(this))
 }
 
@@ -230,11 +229,11 @@ fun ColorSpec.toSushiGradientColorData(): SushiGradientColorSpec {
  *
  * @return Color as SushiGradientColorSpec
  */
-fun Color.toSushiGradientColorData(): SushiGradientColorSpec {
-    return this.asColorSpec().toSushiGradientColorData()
+fun Color.asSushiGradientColorSpec(): SushiGradientColorSpec {
+    return this.asColorSpec().asSushiGradientColorSpec()
 }
 
-fun List<ColorSpec>.toSushiGradientColorData(): SushiGradientColorSpec {
+fun List<ColorSpec>.asSushiGradientColorSpec(): SushiGradientColorSpec {
     return SushiGradientColorSpec(this.toPersistentList())
 }
 
