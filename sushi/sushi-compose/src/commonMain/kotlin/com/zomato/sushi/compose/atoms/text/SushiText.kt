@@ -57,10 +57,11 @@ import com.zomato.sushi.compose.atoms.color.ColorName
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.SushiColorData
+import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
-import com.zomato.sushi.compose.atoms.icon.SushiIconCode
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
+import com.zomato.sushi.compose.atoms.icon.SushiIconSize
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
@@ -293,8 +294,8 @@ private inline fun getText(
     rawText: CharSequence,
     isMarkdown: Boolean,
     markdownParserProps: MarkdownParserProps,
-    continuousPrefixIcon: SushiIconCode?,
-    continuousSuffixIcon: SushiIconCode?
+    continuousPrefixIcon: ContinuousIconProps?,
+    continuousSuffixIcon: ContinuousIconProps?
 ): AnnotatedString {
     val markdownParsedText =  when {
         isMarkdown -> {
@@ -312,23 +313,31 @@ private inline fun getText(
     }
 
     val parsedTextWithIcons = when {
-        continuousPrefixIcon != null || continuousSuffixIcon != null -> {
+        continuousPrefixIcon?.code != null || continuousSuffixIcon?.code != null -> {
             buildAnnotatedString {
-                continuousPrefixIcon?.parsedValue?.let {
+                continuousPrefixIcon?.code?.parsedValue?.let {
                     append(it)
                     this.addStyle(
-                        SpanStyle(fontFamily = WasabiFontFamily),
+                        SpanStyle(
+                            color = continuousPrefixIcon.color.value,
+                            fontSize = continuousPrefixIcon.size?.size ?: TextUnit.Unspecified,
+                            fontFamily = WasabiFontFamily
+                        ),
                         this.length - it.length,
                         this.length
                     )
                     append(" ")
                 }
                 append(markdownParsedText)
-                continuousSuffixIcon?.parsedValue?.let {
+                continuousSuffixIcon?.code?.parsedValue?.let {
                     append(" ")
                     append(it)
                     this.addStyle(
-                        SpanStyle(fontFamily = WasabiFontFamily),
+                        SpanStyle(
+                            color = continuousSuffixIcon.color.value,
+                            fontSize = continuousSuffixIcon.size?.size ?: TextUnit.Unspecified,
+                            fontFamily = WasabiFontFamily
+                        ),
                         this.length - it.length,
                         this.length
                     )
@@ -579,8 +588,8 @@ private fun SushiTextPreview1() {
                     text = "ladyfinger",
                     prefixIcon = SushiIconProps(code = SushiIconCodes.IconMoon),
                     suffixIcon = SushiIconProps(code = SushiIconCodes.IconContactlessDining, color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)),
-                    continuousPrefixIcon = SushiIconCodes.IconMoon,
-                    continuousSuffixIcon = SushiIconCodes.IconContactlessDining,
+                    continuousPrefixIcon = ContinuousIconProps(SushiIconCodes.IconMoon),
+                    continuousSuffixIcon = ContinuousIconProps(SushiIconCodes.IconContactlessDining),
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
                     type = SushiTextType.Regular300,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -630,8 +639,8 @@ private fun SushiTextPreview2() {
                         code = SushiIconCodes.IconContactlessDining,
                         color = SushiColorData(ColorName.Blue, ColorVariation.Variation500)
                     ),
-                    continuousPrefixIcon = SushiIconCodes.IconMoon,
-                    continuousSuffixIcon = SushiIconCodes.IconContactlessDining,
+                    continuousPrefixIcon = ContinuousIconProps(SushiIconCodes.IconMoon),
+                    continuousSuffixIcon = ContinuousIconProps(SushiIconCodes.IconContactlessDining),
                     color = SushiColorData(ColorName.Red, ColorVariation.Variation500),
                     type = SushiTextType.Regular300,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -705,10 +714,15 @@ private fun SushiTextPreviewContinuousIcon() {
                             "The quick brown fox jumps over the lazy dog. " +
                             "The quick brown fox jumps over the lazy dog. " +
                             "The quick brown fox jumps over the lazy dog. " +
-                            "The quick brown fox jumps over the lazy dog. " +
                             "The quick brown fox jumps over the lazy dog",
-                    continuousPrefixIcon = SushiIconCodes.IconInfoLine,
-                    continuousSuffixIcon = SushiIconCodes.IconOk,
+                    continuousPrefixIcon = ContinuousIconProps(
+                        code = SushiIconCodes.IconInfoLine,
+                        color = Color.Magenta.asColorSpec(),
+                        size = SushiIconSize.Size400
+                    ),
+                    continuousSuffixIcon = ContinuousIconProps(
+                        code = SushiIconCodes.IconOk
+                    ),
                     color = SushiColorData(ColorName.Blue, ColorVariation.Variation500),
                     type = SushiTextType.Regular300
                 ),

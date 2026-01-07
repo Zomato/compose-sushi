@@ -12,7 +12,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
-import com.zomato.sushi.compose.atoms.icon.SushiIconCode
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.foundation.SushiUnspecified
 
@@ -52,8 +51,8 @@ data class SushiTextProps(
     val prefixIcon: SushiIconProps? = null,
     val suffixIcon: SushiIconProps? = null,
     val letterSpacing: TextUnit = TextUnit.Unspecified,
-    val continuousPrefixIcon: SushiIconCode? = null,
-    val continuousSuffixIcon: SushiIconCode? = null,
+    val continuousPrefixIcon: ContinuousIconProps? = null,
+    val continuousSuffixIcon: ContinuousIconProps? = null,
     val markdown: Boolean? = null,
     val textDecoration: SushiTextDecoration? = null,
     val textAlign: TextAlign? = null,
