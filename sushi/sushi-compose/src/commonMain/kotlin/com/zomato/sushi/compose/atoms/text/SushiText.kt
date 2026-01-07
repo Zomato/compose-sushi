@@ -330,7 +330,7 @@ private inline fun getText(
                 }
                 append(markdownParsedText)
                 continuousSuffixIcon?.code?.parsedValue?.let {
-                    append(" ")
+                    append("\u00A0")    // Non line-breaking space to avoid this icon from wrapping to next line alone.
                     append(it)
                     this.addStyle(
                         SpanStyle(
