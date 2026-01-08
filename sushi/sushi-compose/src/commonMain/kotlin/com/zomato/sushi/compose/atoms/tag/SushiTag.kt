@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.border.BorderSpec
 import com.zomato.sushi.compose.atoms.border.border
-import com.zomato.sushi.compose.atoms.color.toSushiGradientColorData
+import com.zomato.sushi.compose.atoms.color.asSushiGradientColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
@@ -176,7 +176,7 @@ private fun SushiTagPreview1() {
             type = SushiTagType.Capsule,
             color = SushiTheme.colors.green.v400,
             border = BorderSpec(
-                color = SushiTheme.colors.black.toSushiGradientColorData()
+                color = SushiTheme.colors.black.asSushiGradientColorSpec()
             )
         )
     )
@@ -194,7 +194,7 @@ private fun SushiTagPreview2() {
             type = SushiTagType.CapsuleOutline,
             color = SushiTheme.colors.green.v400,
             border = BorderSpec(
-                color = SushiTheme.colors.black.toSushiGradientColorData()
+                color = SushiTheme.colors.black.asSushiGradientColorSpec()
             )
         )
     )
@@ -212,7 +212,7 @@ private fun SushiTagPreview3() {
             type = SushiTagType.CapsuleDashed,
             color = SushiTheme.colors.green.v400,
             border = BorderSpec(
-                color = SushiTheme.colors.black.toSushiGradientColorData(),
+                color = SushiTheme.colors.black.asSushiGradientColorSpec(),
                 width = 1.dp,
                 borderType = BorderType.DashedBorderType()
             ),
@@ -233,9 +233,9 @@ private fun SushiTagPreview4() {
             type = SushiTagType.RoundedOutline,
             color = SushiTheme.colors.blue.v300,
             border = BorderSpec(
-                color = SushiTheme.colors.black.toSushiGradientColorData(),
+                color = SushiTheme.colors.black.asSushiGradientColorSpec(),
                 width = 1.dp,
-                borderType = BorderType.Normal
+                borderType = BorderType.Solid
             ),
             prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
             suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
@@ -255,7 +255,7 @@ private fun SushiTagPreview5() {
             type = SushiTagType.RoundedDashed,
             color = SushiTheme.colors.blue.v300,
             border = BorderSpec(
-                color = SushiTheme.colors.black.toSushiGradientColorData(),
+                color = SushiTheme.colors.black.asSushiGradientColorSpec(),
                 width = 1.dp,
                 borderType = BorderType.DashedBorderType()
             ),
@@ -277,7 +277,7 @@ private fun SushiTagPreview6() {
             type = SushiTagType.Rounded,
             color = SushiTheme.colors.blue.v300,
             border = BorderSpec(
-                color = SushiTheme.colors.black.toSushiGradientColorData()
+                color = SushiTheme.colors.black.asSushiGradientColorSpec()
             ),
             prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
@@ -299,7 +299,7 @@ private fun SushiTagPreview7() {
             type = SushiTagType.CapsuleDashed,
             color = SushiTheme.colors.green.v900,
             border = BorderSpec(
-                color = SushiTheme.colors.red.v500.toSushiGradientColorData(),
+                color = SushiTheme.colors.red.v500.asSushiGradientColorSpec(),
                 width = 1.dp,
                 borderType = BorderType.DashedBorderType()
             ),
@@ -324,7 +324,7 @@ private fun SushiTagPreview8() {
                 type = SushiTagType.CapsuleDashed,
                 color = SushiTheme.colors.green.v900,
                 border = BorderSpec(
-                    color = SushiTheme.colors.red.v500.toSushiGradientColorData(),
+                    color = SushiTheme.colors.red.v500.asSushiGradientColorSpec(),
                     width = 1.dp,
                     borderType = BorderType.DashedBorderType()
                 ),

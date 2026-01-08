@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -23,6 +22,10 @@ import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirecti
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.TopLeftToBottomRight
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.TopRightToBottomLeft
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.TopToBottom
+import com.zomato.sushi.compose.foundation.SushiColorSchemeType
+import com.zomato.sushi.compose.foundation.ThemedProps
+import com.zomato.sushi.compose.foundation.ThemedPropsProvider
+import com.zomato.sushi.compose.foundation.getThemedProps
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -43,8 +46,13 @@ import kotlinx.collections.immutable.toPersistentList
 @Immutable
 data class SushiGradientColorSpec(
     val colors: PersistentList<ColorSpec> = persistentListOf(),
-    val type: GradientType? = null
-) {
+    val type: GradientType? = null,
+    override val themedPropsList: PersistentList<ThemedProps<SushiGradientColorSpec>>? = null
+) : ThemedPropsProvider<SushiGradientColorSpec> {
+    override fun getThemedProps(colorSchemeType: SushiColorSchemeType): SushiGradientColorSpec {
+        return findThemedProps(colorSchemeType)?.takeIf { it.colors.isNotEmpty() } ?: this
+    }
+
     /**
      * Defines the direction for linear gradients.
      * Each direction specifies a start point and end point for the gradient.
@@ -126,7 +134,7 @@ val defaultLinearDirection: SushiGradientColorSpec.LinearDirection = SushiGradie
 fun SushiGradientColorSpec.toBrush(
     defaultTileMode: TileMode = TileMode.Clamp,
     defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
-): Brush {
+): Brush = this.getThemedProps().run {
     val colors = colors.map { it.value }.toList()
 
     return remember(this, defaultGradientType, colors) {
@@ -210,14 +218,22 @@ fun SushiGradientColorSpec.LinearDirection.endOffset(size: Size): Offset = when 
 /**
  * Converts ColorSpec to SushiGradientColorSpec
  *
- * @param size The size to use for calculating coordinates
- * @return The end offset for the gradient
+ * @return ColorSpec as SushiGradientColorSpec
  */
-fun ColorSpec.toSushiGradientColorData(): SushiGradientColorSpec {
+fun ColorSpec.asSushiGradientColorSpec(): SushiGradientColorSpec {
     return SushiGradientColorSpec(persistentListOf(this))
 }
 
-fun List<ColorSpec>.toSushiGradientColorData(): SushiGradientColorSpec {
+/**
+ * Converts Color to SushiGradientColorSpec
+ *
+ * @return Color as SushiGradientColorSpec
+ */
+fun Color.asSushiGradientColorSpec(): SushiGradientColorSpec {
+    return this.asColorSpec().asSushiGradientColorSpec()
+}
+
+fun List<ColorSpec>.asSushiGradientColorSpec(): SushiGradientColorSpec {
     return SushiGradientColorSpec(this.toPersistentList())
 }
 
