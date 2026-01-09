@@ -9,7 +9,8 @@ import kotlin.jvm.JvmInline
  * @author gupta.anirudh@zomato.com
  */
 @JvmInline
-private value class ComposableColorSpec(
+@Stable
+private value class ProviderColorSpec(
     val provider: @Composable () -> ColorSpec
 ) : ColorSpec {
     override val value: Color
@@ -26,6 +27,6 @@ private value class ComposableColorSpec(
  *
  * @author gupta.anirudh@zomato.com
  */
-fun colorSpecProvider(provider: @Composable () -> ColorSpec): ColorSpec {
-    return ComposableColorSpec(provider)
+fun colorSpec(provider: @Composable () -> ColorSpec): ColorSpec {
+    return ProviderColorSpec(provider)
 }
