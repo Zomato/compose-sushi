@@ -19,8 +19,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  * @property prefixImage Optional image to display before the text
  * @property suffixImage Optional image to display after the text
  * @property containerColor Background color of the tooltip (defaults to inverse surface color)
- * @property caretSize Size of the tooltip's pointer/caret (width and height)
- *                     Use DpSize.Unspecified for no caret
+ * @property caretShape shape of the caret (defaults to a triangle)
  * @property shape Shape of the tooltip container (defaults to rounded corners)
  * @property shadowElevation Shadow depth for the tooltip to create visual hierarchy
  *
@@ -31,7 +30,7 @@ data class SushiTooltipProps(
     val prefixImage: SushiImageProps? = null,
     val suffixImage: SushiImageProps? = null,
     val containerColor: ColorSpec = SushiUnspecified.asColorSpec(),
-    val caretSize: DpSize? = null,   // use DpSize.Unspecified for no caret
+    val caretShape: Shape? = null,
     val shape: Shape? = null,
     val shadowElevation: Dp? = null
 )
