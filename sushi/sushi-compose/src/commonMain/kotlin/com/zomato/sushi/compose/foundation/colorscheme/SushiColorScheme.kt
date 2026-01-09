@@ -144,7 +144,7 @@ fun sushiLightColorScheme(
         warning = SushiRawColorTokens.Yellow500.asColorSpec(),
         error = SushiRawColorTokens.Orange600.asColorSpec(),
         offer = SushiRawColorTokens.Blue500.asColorSpec(),
-        shimmer = SushiRawColorTokens.Grey100.asColorSpec(),
+        shimmer = SushiRawColorTokens.Grey200.asColorSpec(),
         // ctodo: Fix with actual values, after defaults are merged in View sushi.
         backgroundDark = SushiRawColorTokens.White.asColorSpec(),
         default = SushiRawColorTokens.White.asColorSpec(),
