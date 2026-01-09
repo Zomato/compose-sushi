@@ -113,7 +113,7 @@ fun TooltipScope.SushiTooltip(
     modifier: Modifier = Modifier,
     content: (@Composable () -> Unit)? = null,
 ) {
-    val containerColor = props.containerColor.takeIfSpecified()?.value ?: SushiTheme.colors.surface.inverse.value
+    val containerColor = props.containerColor?.takeIfSpecified()?.value ?: SushiTheme.colors.surface.inverse.value
     val shape = props.shape ?: RoundedCornerShape(12.dp)
     val caretShape = props.caretShape ?: TooltipDefaults.caretShape()
     val shadowElevation = props.shadowElevation ?: ContainerElevation

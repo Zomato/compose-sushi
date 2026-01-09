@@ -20,5 +20,5 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 data class ContinuousIconProps(
     val code: SushiIconCode? = null,
     val size: IconSizeSpec? = null,
-    val color: ColorSpec = SushiUnspecified.asColorSpec(),
+    val color: ColorSpec? = null,
 )

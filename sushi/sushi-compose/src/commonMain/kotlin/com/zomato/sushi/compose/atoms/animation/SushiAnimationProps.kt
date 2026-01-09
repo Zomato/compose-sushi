@@ -34,7 +34,7 @@ data class SushiAnimationProps constructor(
     val shape: Shape? = null,
     val contentDescription: String? = null,
     val aspectRatio: Float? = null,
-    val bgColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val bgColor: ColorSpec? = null,
     val alpha: Float? = null,
     val scaleFactor: Float? = null,
 )

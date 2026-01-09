@@ -43,12 +43,12 @@ internal fun RowScope.SushiButtonContentImpl(
 
     val prefixIcon = props.prefixIcon?.copy(
         size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = props.prefixIcon.color.takeIfSpecified() ?: appliedFontColor
+        color = props.prefixIcon.color?.takeIfSpecified() ?: appliedFontColor
     )
 
     val suffixIcon = props.suffixIcon?.copy(
         size = props.suffixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = props.suffixIcon.color.takeIfSpecified() ?: appliedFontColor
+        color = props.suffixIcon.color?.takeIfSpecified() ?: appliedFontColor
     )
 
     val horizontalArrangement = with(SushiButtonDefaults) { props.horizontalArrangementOrDefault }

@@ -96,8 +96,8 @@ private fun SushiBottomSheetImpl(
     modifier: Modifier = Modifier
 ) {
     val shape = props.shape ?: RoundedCornerShape(topStart = 28.0.dp, topEnd = 28.dp)
-    val containerColor = props.containerColor.takeIfSpecified() ?: SushiTheme.colors.surface.primary
-    val contentColor = props.contentColor.takeIfSpecified() ?: SushiTheme.colors.text.primary
+    val containerColor = props.containerColor?.takeIfSpecified() ?: SushiTheme.colors.surface.primary
+    val contentColor = props.contentColor?.takeIfSpecified() ?: SushiTheme.colors.text.primary
     val tonalElevation = props.tonalElevation ?: 0.0.dp
     val properties = props.properties ?: ModalBottomSheetDefaults.properties
 

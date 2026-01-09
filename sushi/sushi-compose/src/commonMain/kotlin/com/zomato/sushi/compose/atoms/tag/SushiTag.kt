@@ -129,11 +129,11 @@ private fun SushiTagDefaultContent(
     val iconPadding: Dp = props.iconSpacing ?: tagPadding.calculateLeftPadding(LayoutDirection.Ltr)
     val prefixIcon = props.prefixIcon?.copy(
         size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = props.prefixIcon.color.takeIfSpecified() ?: textColor
+        color = props.prefixIcon.color?.takeIfSpecified() ?: textColor
     )
     val suffixIcon = props.suffixIcon?.copy(
         size = props.suffixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = props.suffixIcon.color.takeIfSpecified() ?: textColor
+        color = props.suffixIcon.color?.takeIfSpecified() ?: textColor
     )
 
     Row(

@@ -25,8 +25,8 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 @Immutable
 data class SushiSnackbarProps(
     val message: SushiTextProps? = null,
-    val containerColor: ColorSpec = SushiUnspecified.asColorSpec(),
-    val contentColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val containerColor: ColorSpec? = null,
+    val contentColor: ColorSpec? = null,
     val actionText: SushiTextProps? = null,
     override val snackbarDuration: SushiSnackbarDuration? = null
 ) : SnackbarHostData

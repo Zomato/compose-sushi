@@ -84,12 +84,12 @@ private fun SushiSnackbarImpl(
     content: (@Composable () -> Unit)? = null
 ) {
     val message = props.message ?: SushiTextProps("")
-    val containerColor = props.containerColor.takeIfSpecified() ?: SushiTheme.colors.surface.inverse
-    val contentColor = props.contentColor.takeIfSpecified() ?: SushiTheme.colors.text.inverse
+    val containerColor = props.containerColor?.takeIfSpecified() ?: SushiTheme.colors.surface.inverse
+    val contentColor = props.contentColor?.takeIfSpecified() ?: SushiTheme.colors.text.inverse
 
     val action = props.actionText?.let {
         it.copy(
-            color = it.color.takeIfSpecified() ?: SushiTheme.colors.base.theme.v600
+            color = it.color?.takeIfSpecified() ?: SushiTheme.colors.base.theme.v600
         )
     }
 
@@ -104,7 +104,7 @@ private fun SushiSnackbarImpl(
             content()
         } else {
             SushiSnackbarContent(
-                message = message.copy(color = message.color.takeIfSpecified() ?: contentColor),
+                message = message.copy(color = message.color?.takeIfSpecified() ?: contentColor),
                 action = action,
                 onActionTap = onActionTap
             )

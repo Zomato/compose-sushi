@@ -100,7 +100,7 @@ private fun SushiAnimationImpl(
                 .ifNonNull(height) { this.height(it) }
                 .ifNonNull(width) { this.width(it) }
                 .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
-                .ifNonNull(props.bgColor.takeIfSpecified()) { this.background(it.value) }
+                .ifNonNull(props.bgColor?.takeIfSpecified()) { this.background(it.value) }
                 .ifNonNull(props.scaleFactor) { this.scale(it) }
 
             when (playback) {
