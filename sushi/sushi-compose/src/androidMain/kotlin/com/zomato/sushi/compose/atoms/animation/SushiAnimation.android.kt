@@ -135,7 +135,7 @@ private fun LottieAutoPlay(
 ) {
     val animationState = animateLottieCompositionAsState(
         composition,
-        isPlaying = playback.isPlaying,
+        isPlaying = playback.isPlaying.value,
         restartOnPlay = playback.restartOnPlay,
         reverseOnRepeat = playback.reverseOnRepeat,
         speed = playback.speed,
