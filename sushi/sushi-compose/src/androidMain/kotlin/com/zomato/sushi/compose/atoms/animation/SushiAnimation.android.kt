@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import com.airbnb.lottie.LottieComposition
+import com.airbnb.lottie.RenderMode
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieAnimationState
 import com.airbnb.lottie.compose.LottieCompositionResult
@@ -149,6 +150,7 @@ private fun LottieAutoPlay(
     LottieAnimation(
         composition = composition,
         progress = { animationState.progress },
+        renderMode = RenderMode.HARDWARE,
         modifier = modifier,
         contentScale = ContentScale.Crop
     )
@@ -170,6 +172,7 @@ private fun LottieWithProgress(
     LottieAnimation(
         composition = composition,
         progress = progress.valueProvider,
+        renderMode = RenderMode.HARDWARE,
         modifier = modifier
     )
 }
