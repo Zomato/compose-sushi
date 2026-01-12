@@ -83,6 +83,8 @@ private fun SushiAnimationImpl(
             else -> null
         }
 
+        val contentScale = props.contentScale ?: ContentScale.Fit
+
         val composition: LottieComposition? = when(source) {
             is LottieCompositionSource -> source.composition
             is LottieResourceSource -> rememberLottieComposition(source).value
@@ -110,6 +112,7 @@ private fun SushiAnimationImpl(
                         composition = composition,
                         playback = playback,
                         state = state,
+                        contentScale = contentScale,
                         modifier = lottieModifier
                     )
                 }
@@ -119,6 +122,7 @@ private fun SushiAnimationImpl(
                         composition = composition,
                         progress = playback,
                         state = state,
+                        contentScale = contentScale,
                         modifier = lottieModifier
                     )
                 }
@@ -132,6 +136,7 @@ private fun LottieAutoPlay(
     composition: LottieComposition,
     playback: SushiAnimationPlayback.AutoPlay,
     state: SushiAnimationState,
+    contentScale: ContentScale,
     modifier: Modifier = Modifier
 ) {
     val animationState = animateLottieCompositionAsState(
@@ -152,7 +157,7 @@ private fun LottieAutoPlay(
         progress = { animationState.progress },
         renderMode = RenderMode.HARDWARE,
         modifier = modifier,
-        contentScale = ContentScale.Crop
+        contentScale = contentScale
     )
 }
 
@@ -161,6 +166,7 @@ private fun LottieWithProgress(
     composition: LottieComposition,
     progress: SushiAnimationPlayback.Progress,
     state: SushiAnimationState,
+    contentScale: ContentScale,
     modifier: Modifier = Modifier
 ) {
     SideEffect {
@@ -172,8 +178,9 @@ private fun LottieWithProgress(
     LottieAnimation(
         composition = composition,
         progress = progress.valueProvider,
-        renderMode = RenderMode.HARDWARE,
-        modifier = modifier
+        modifier = modifier,
+        contentScale = contentScale,
+        renderMode = RenderMode.HARDWARE
     )
 }
 
