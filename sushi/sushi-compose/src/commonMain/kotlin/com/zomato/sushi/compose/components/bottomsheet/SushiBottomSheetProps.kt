@@ -28,8 +28,8 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 @Immutable
 data class SushiBottomSheetProps @ExperimentalMaterial3Api constructor(
     val shape: Shape? = null,
-    val containerColor: ColorSpec = SushiUnspecified.asColorSpec(),
-    val contentColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val containerColor: ColorSpec? = null,
+    val contentColor: ColorSpec? = null,
     val tonalElevation: Dp? = null,
     val properties: ModalBottomSheetProperties? = null
 )

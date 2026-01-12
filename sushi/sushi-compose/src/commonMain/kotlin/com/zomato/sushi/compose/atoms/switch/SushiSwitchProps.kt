@@ -30,7 +30,7 @@ data class SushiSwitchProps(
     val text: SushiTextProps? = null,
     val subText: SushiTextProps? = null,
     val isEnabled: Boolean? = null,
-    val color: ColorSpec = SushiUnspecified.asColorSpec(),
+    val color: ColorSpec? = null,
     val padding: Dp? = null,
     val verticalAlignment: Alignment.Vertical? = null,
     val direction: SwitchDirection? = null,

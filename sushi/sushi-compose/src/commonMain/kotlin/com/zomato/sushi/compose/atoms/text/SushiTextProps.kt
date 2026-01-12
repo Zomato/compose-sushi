@@ -45,7 +45,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 @Immutable
 data class SushiTextProps(
     val text: CharSequence? = null,
-    val color: ColorSpec = SushiUnspecified.asColorSpec(),
+    val color: ColorSpec? = null,
     val type: TextTypeSpec? = null,
     val maxLines: Int? = null,
     val prefixIcon: SushiIconProps? = null,
@@ -58,7 +58,7 @@ data class SushiTextProps(
     val textAlign: TextAlign? = null,
     val overflow: TextOverflow? = null,
     val overflowText: String? = null,
-    val overflowTextColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val overflowTextColor: ColorSpec? = null,
     val softWrap: Boolean? = null,
     val minLines: Int? = null,
     val prefixSpacing: Dp? = null,

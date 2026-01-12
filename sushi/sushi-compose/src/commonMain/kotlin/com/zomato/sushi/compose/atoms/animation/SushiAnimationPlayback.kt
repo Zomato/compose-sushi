@@ -1,5 +1,7 @@
 package com.zomato.sushi.compose.atoms.animation
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import kotlin.jvm.JvmInline
 
 /**
@@ -20,7 +22,7 @@ sealed interface SushiAnimationPlayback {
      * @property iterations The number of times to repeat the animation (use -1 for infinite looping)
      */
     data class AutoPlay(
-        val isPlaying: Boolean = true,
+        val isPlaying: MutableState<Boolean> = mutableStateOf(true),
         val restartOnPlay: Boolean = true,
         val reverseOnRepeat: Boolean = false,
         val speed: Float = 1f,

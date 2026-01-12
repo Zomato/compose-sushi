@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -45,8 +43,7 @@ import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.ifNonNull
-import com.zomato.sushi.compose.utils.takeIfSpecified
-import com.zomato.sushi.compose.utils.takeIfUnspecified
+import com.zomato.sushi.compose.utils.takeIfUnspecifiedOrNull
 
 /**
  * A customizable text input field component for the Sushi design system.
@@ -290,7 +287,7 @@ private fun getLabelTextComposable(
         val placeholder = remember(label, defaultTextStyle, defaultColor) {
             label.copy(
                 type = label.type ?: defaultTextStyle,
-                color = label.color.takeIfUnspecified { defaultColor }
+                color = label.color.takeIfUnspecifiedOrNull { defaultColor }
             )
         }
         SushiText(placeholder)
@@ -317,7 +314,7 @@ private fun PlaceHolder(
         val placeholder = remember(placeholder, defaultTextStyle, defaultColor) {
             placeholder.copy(
                 type = placeholder.type ?: defaultTextStyle.asTextTypeSpec(),
-                color = placeholder.color.takeIfUnspecified { defaultColor }
+                color = placeholder.color.takeIfUnspecifiedOrNull { defaultColor }
             )
         }
         SushiText(
@@ -349,7 +346,7 @@ private fun getLeadingComposable(
         val leadingIcon = remember(props.leadingIcon) {
             props.leadingIcon.copy(
                 size = props.leadingIcon.size ?: SushiIconSize.Size200,
-                color = props.leadingIcon.color.takeIfUnspecified { defaultColor }
+                color = props.leadingIcon.color.takeIfUnspecifiedOrNull { defaultColor }
             )
         }
         SushiIcon(
@@ -383,7 +380,7 @@ private fun Prefix(
             val prefixText = remember(props.prefixText, defaultPrefixTextStyle, defaultColor) {
                 props.prefixText.copy(
                     type = props.prefixText.type ?: defaultPrefixTextStyle.asTextTypeSpec(),
-                    color = props.prefixText.color.takeIfUnspecified { defaultColor }
+                    color = props.prefixText.color.takeIfUnspecifiedOrNull { defaultColor }
                 )
             }
             SushiText(prefixText)
@@ -392,7 +389,7 @@ private fun Prefix(
             val prefixIcon = remember(props.prefixIcon) {
                 props.prefixIcon.copy(
                     size = props.prefixIcon.size ?: SushiIconSize.Size200,
-                    color = props.prefixIcon.color.takeIfUnspecified { defaultColor }
+                    color = props.prefixIcon.color.takeIfUnspecifiedOrNull { defaultColor }
                 )
             }
             SushiIcon(
@@ -439,7 +436,7 @@ private fun Suffix(
             val suffixText = remember(props.suffixText, defaultPrefixTextStyle, defaultColor) {
                 props.suffixText.copy(
                     type = props.suffixText.type ?: defaultPrefixTextStyle.asTextTypeSpec(),
-                    color = props.suffixText.color.takeIfUnspecified { defaultColor }
+                    color = props.suffixText.color.takeIfUnspecifiedOrNull { defaultColor }
                 )
             }
             SushiText(suffixText)
@@ -448,7 +445,7 @@ private fun Suffix(
             val suffixIcon = remember(props.suffixIcon) {
                 props.suffixIcon.copy(
                     size = props.suffixIcon.size ?:SushiIconSize.Size200,
-                    color = props.suffixIcon.color.takeIfUnspecified { defaultColor }
+                    color = props.suffixIcon.color.takeIfUnspecifiedOrNull { defaultColor }
                 )
             }
             SushiIcon(
@@ -501,7 +498,7 @@ private fun getTrailingComposable(
                 val trailingIcon = remember(props.trailingIcon) {
                     props.trailingIcon.copy(
                         size = props.trailingIcon.size ?:SushiIconSize.Size200,
-                        color = props.trailingIcon.color.takeIfUnspecified { defaultColor }
+                        color = props.trailingIcon.color.takeIfUnspecifiedOrNull { defaultColor }
                     )
                 }
                 SushiIcon(

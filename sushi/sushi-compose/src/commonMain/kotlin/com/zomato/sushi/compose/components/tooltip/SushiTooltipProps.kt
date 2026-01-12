@@ -29,7 +29,7 @@ data class SushiTooltipProps(
     val text: SushiTextProps? = null,
     val prefixImage: SushiImageProps? = null,
     val suffixImage: SushiImageProps? = null,
-    val containerColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val containerColor: ColorSpec? = null,
     val caretShape: Shape? = null,
     val shape: Shape? = null,
     val shadowElevation: Dp? = null

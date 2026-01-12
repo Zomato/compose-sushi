@@ -88,7 +88,7 @@ private fun SushiSwitchImpl(
         modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val enabledColor = props.color.takeIfSpecified() ?: SushiTheme.colors.base.theme.v500
+        val enabledColor = props.color?.takeIfSpecified() ?: SushiTheme.colors.base.theme.v500
         val padding = props.padding ?: SushiSwitchDefaults.padding
         val verticalAlignment = props.verticalAlignment ?: SushiSwitchDefaults.verticalAlignment
         val direction = props.direction ?: SushiSwitchDefaults.direction
