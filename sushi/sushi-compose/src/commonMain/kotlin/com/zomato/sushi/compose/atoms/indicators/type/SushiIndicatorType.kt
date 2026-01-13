@@ -35,10 +35,15 @@ sealed interface SushiIndicatorType {
      *
      * @property dotsGraphic The appearance configuration for the dots
      * @property shiftSizeFactor The maximum width multiplication factor for the active dot
+     * @property currentFillProgressProvider A function that provides the current fill
+     * progress, which will be used to animate the progress inside the active dot
+     * @property fillProgressColor The color of the filled progress inside the active dot
      */
     data class Shift(
         val dotsGraphic: DotGraphic = DotGraphic(),
         val shiftSizeFactor: Float = 3f,
+        val currentFillProgressProvider: (() -> Float)? = null,
+        val fillProgressColor: Color = Color.Unspecified
     ) : SushiIndicatorType
 
     /**
