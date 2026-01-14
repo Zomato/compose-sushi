@@ -22,7 +22,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 data class SushiIconProps(
     val code: SushiIconCode? = null,
     val size: IconSizeSpec? = null,
-    val color: ColorSpec = SushiUnspecified.asColorSpec()
+    val color: ColorSpec? = null
 ) {
     /**
      * The parsed Unicode character derived from the icon code.

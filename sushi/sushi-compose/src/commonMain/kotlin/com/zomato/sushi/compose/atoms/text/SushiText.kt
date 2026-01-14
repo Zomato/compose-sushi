@@ -144,7 +144,7 @@ private fun SushiTextImpl(
         val rawText = props.text ?: ""
         val isMarkdown = props.markdown ?: SushiTextDefaults.isMarkDown
         val textType = props.type ?: SushiTextDefaults.textType
-        val textColor = props.color.takeIfSpecified() ?: SushiTextDefaults.textColor
+        val textColor = props.color?.takeIfSpecified() ?: SushiTextDefaults.textColor
         val overflowTextColor = props.overflowTextColor?.takeIfSpecified() ?: textColor
         val letterSpacing = props.letterSpacing
         val typeStyle = textType.typeStyle
@@ -319,7 +319,7 @@ private inline fun getText(
                     append(it)
                     this.addStyle(
                         SpanStyle(
-                            color = continuousPrefixIcon.color.value,
+                            color = continuousPrefixIcon.color?.value ?: Color.Unspecified,
                             fontSize = continuousPrefixIcon.size?.size ?: TextUnit.Unspecified,
                             fontFamily = WasabiFontFamily
                         ),
@@ -334,7 +334,7 @@ private inline fun getText(
                     append(it)
                     this.addStyle(
                         SpanStyle(
-                            color = continuousSuffixIcon.color.value,
+                            color = continuousSuffixIcon.color?.value ?: Color.Unspecified,
                             fontSize = continuousSuffixIcon.size?.size ?: TextUnit.Unspecified,
                             fontFamily = WasabiFontFamily
                         ),
@@ -365,7 +365,7 @@ private fun RowScope.PrefixIcon(
         props != null -> {
             val actualIconProps = props.copy(
                 size = props.size ?: fontSize.asIconSizeSpec(),
-                color = props.color.takeIf { it.value.isSpecified } ?: textColor
+                color = props.color?.takeIf { it.value.isSpecified } ?: textColor
             )
             SushiIcon(
                 props = actualIconProps,
@@ -564,7 +564,7 @@ private fun RowScope.SuffixIcon(
         props != null -> {
             val actualIconProps = props.copy(
                 size = props.size ?: fontSize.asIconSizeSpec(),
-                color = props.color.takeIf { it.value.isSpecified } ?: textColor
+                color = props.color?.takeIf { it.value.isSpecified } ?: textColor
             )
             SushiIcon(
                 props = actualIconProps,

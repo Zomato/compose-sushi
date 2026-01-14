@@ -44,8 +44,8 @@ internal fun SushiTextButton(
     val isTapped = remember(props) { mutableStateOf(false) }
     val isDisabled = props.enabled == false
 
-    val bgColor = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackground
-    val bgColorPressed = props.color.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackgroundPressed
+    val bgColor = props.color?.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackground
+    val bgColorPressed = props.color?.takeIfSpecified() ?: SushiTheme.colors.button.ghostBackgroundPressed
     val bgColorDisabled = bgColor
 
     val appliedBgColor = when {
@@ -107,8 +107,8 @@ private fun RowScope.SushiTextButtonContent(
     isTapped: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val fontColor = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabel
-    val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabelPressed
+    val fontColor = props.fontColor?.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabel
+    val fontColorPressed = props.fontColor?.takeIfSpecified() ?: SushiTheme.colors.button.ghostLabelPressed
     val fontColorDisabled = SushiTheme.colors.button.ghostLabelDisabled
 
     SushiButtonContentImpl(

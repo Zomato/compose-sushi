@@ -17,8 +17,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.platform.testTag
 import com.airbnb.lottie.LottieComposition
+import com.airbnb.lottie.RenderMode
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieAnimationState
 import com.airbnb.lottie.compose.LottieCompositionResult
@@ -82,6 +84,8 @@ private fun SushiAnimationImpl(
             else -> null
         }
 
+        val contentScale = props.contentScale ?: ContentScale.Fit
+
         val composition: LottieComposition? = when(source) {
             is LottieCompositionSource -> source.composition
             is LottieResourceSource -> rememberLottieComposition(source).value
@@ -100,15 +104,15 @@ private fun SushiAnimationImpl(
                 .ifNonNull(height) { this.height(it) }
                 .ifNonNull(width) { this.width(it) }
                 .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
-                .ifNonNull(props.bgColor.takeIfSpecified()) { this.background(it.value) }
+                .ifNonNull(props.bgColor?.takeIfSpecified()) { this.background(it.value) }
                 .ifNonNull(props.scaleFactor) { this.scale(it) }
-
             when (playback) {
                 is SushiAnimationPlayback.AutoPlay -> {
                     LottieAutoPlay(
                         composition = composition,
                         playback = playback,
                         state = state,
+                        contentScale = contentScale,
                         modifier = lottieModifier
                     )
                 }
@@ -118,6 +122,7 @@ private fun SushiAnimationImpl(
                         composition = composition,
                         progress = playback,
                         state = state,
+                        contentScale = contentScale,
                         modifier = lottieModifier
                     )
                 }
@@ -131,11 +136,12 @@ private fun LottieAutoPlay(
     composition: LottieComposition,
     playback: SushiAnimationPlayback.AutoPlay,
     state: SushiAnimationState,
+    contentScale: ContentScale,
     modifier: Modifier = Modifier
 ) {
     val animationState = animateLottieCompositionAsState(
         composition,
-        isPlaying = playback.isPlaying,
+        isPlaying = playback.isPlaying.value,
         restartOnPlay = playback.restartOnPlay,
         reverseOnRepeat = playback.reverseOnRepeat,
         speed = playback.speed,
@@ -149,8 +155,11 @@ private fun LottieAutoPlay(
     LottieAnimation(
         composition = composition,
         progress = { animationState.progress },
-        modifier = modifier,
-        contentScale = ContentScale.Crop
+        renderMode = RenderMode.HARDWARE,
+        modifier = modifier.onVisibilityChanged {
+            playback.isPlaying.value = it
+        },
+        contentScale = contentScale
     )
 }
 
@@ -159,6 +168,7 @@ private fun LottieWithProgress(
     composition: LottieComposition,
     progress: SushiAnimationPlayback.Progress,
     state: SushiAnimationState,
+    contentScale: ContentScale,
     modifier: Modifier = Modifier
 ) {
     SideEffect {
@@ -170,7 +180,9 @@ private fun LottieWithProgress(
     LottieAnimation(
         composition = composition,
         progress = progress.valueProvider,
-        modifier = modifier
+        modifier = modifier,
+        contentScale = contentScale,
+        renderMode = RenderMode.HARDWARE
     )
 }
 

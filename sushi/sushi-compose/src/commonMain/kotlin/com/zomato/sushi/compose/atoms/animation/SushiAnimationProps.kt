@@ -2,10 +2,9 @@ package com.zomato.sushi.compose.atoms.animation
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import com.zomato.sushi.compose.atoms.color.ColorSpec
-import com.zomato.sushi.compose.atoms.color.asColorSpec
-import com.zomato.sushi.compose.foundation.SushiUnspecified
 
 /**
  * Properties for configuring a SushiAnimation component.
@@ -34,7 +33,8 @@ data class SushiAnimationProps constructor(
     val shape: Shape? = null,
     val contentDescription: String? = null,
     val aspectRatio: Float? = null,
-    val bgColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val bgColor: ColorSpec? = null,
     val alpha: Float? = null,
     val scaleFactor: Float? = null,
+    val contentScale: ContentScale? = null
 )

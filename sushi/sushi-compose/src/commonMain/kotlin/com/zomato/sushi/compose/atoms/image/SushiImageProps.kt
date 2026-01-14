@@ -36,7 +36,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 @Immutable
 data class SushiImageProps(
     val painter: Painter? = null,
-    val bgColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val bgColor: ColorSpec? = null,
     val aspectRatio: Float? = null,
     val height: Dp? = null,
     val width: Dp? = null,

@@ -86,7 +86,7 @@ private fun SushiMediaPreview1() {
         val animationProps by rememberSushiAnimationProps(
             source = LottieAssetSource("collection_lottie.json"),
             playback = SushiAnimationPlayback.AutoPlay(
-                isPlaying = true,
+                isPlaying = mutableStateOf(true),
                 restartOnPlay = true,
                 reverseOnRepeat = false,
                 speed = 1f,
