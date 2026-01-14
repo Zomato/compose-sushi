@@ -151,8 +151,8 @@ private fun SushiTextImpl(
         val maxLines = props.maxLines ?: SushiTextDefaults.maxLines
         val textDecoration = props.textDecoration
         val overflow = props.overflow ?: SushiTextDefaults.overflow
-        val softWrap = SushiTextDefaults.softWrap
-        val minLines = SushiTextDefaults.minLines
+        val softWrap = props.softWrap ?: SushiTextDefaults.softWrap
+        val minLines = props.minLines ?: SushiTextDefaults.minLines
         val overflowText = props.overflowText
         val prefixSpacing = props.prefixSpacing ?: SushiTextDefaults.prefixSpacing
         val suffixSpacing = props.suffixSpacing ?: SushiTextDefaults.suffixSpacing
@@ -219,6 +219,8 @@ private fun SushiTextImpl(
                 },
                 overflowText = overflowText,
                 overflowTextColor = overflowTextColor,
+                softWrap = softWrap,
+                minLines = minLines,
                 autoSize = autoSize,
                 Modifier
                     .let {
@@ -387,6 +389,8 @@ private fun ExpandableBaseSushiText(
     onTextLayout: (TextLayoutResult) -> Unit,
     overflowText: String,
     overflowTextColor: ColorSpec,
+    softWrap: Boolean,
+    minLines: Int,
     autoSize: TextAutoSize?,
     modifier: Modifier = Modifier
 ) {
@@ -429,8 +433,8 @@ private fun ExpandableBaseSushiText(
             textDecoration = textDecoration,
             textAlign = textAlign,
             overflow = TextOverflow.Ellipsis,
-            softWrap = SushiTextDefaults.softWrap,
-            minLines = SushiTextDefaults.minLines,
+            softWrap = softWrap,
+            minLines = minLines,
             onTextLayout = {
                 onTextLayout(it)
                 textLayoutResultState.value = it
