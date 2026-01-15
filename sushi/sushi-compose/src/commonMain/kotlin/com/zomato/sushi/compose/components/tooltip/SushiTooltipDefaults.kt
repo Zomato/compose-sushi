@@ -1,11 +1,13 @@
 package com.zomato.sushi.compose.components.tooltip
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -20,7 +22,11 @@ object SushiTooltipDefaults {
 
     val caretSize: DpSize = DpSize(16.dp, 8.dp)
 
+    val containerShape = RoundedCornerShape(12.dp)
+
     internal val DefaultCaretShape: Shape = DefaultTooltipCaretShape(caretSize)
+
+    val maxWidth: Dp = 400.dp
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -39,7 +45,7 @@ object SushiTooltipDefaults {
     @Composable
     fun rememberTooltipPositionProvider(
         positioning: TooltipAnchorPosition,
-        spacingBetweenTooltipAndAnchorProvider: () -> Dp
+        spacingBetweenTooltipAndAnchorProvider: Density.() -> Dp
     ): PopupPositionProvider {
         val density = LocalDensity.current
         val tooltipAnchorSpacingProvider = remember(spacingBetweenTooltipAndAnchorProvider, density) {

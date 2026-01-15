@@ -4,18 +4,23 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TooltipScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Matrix
@@ -209,6 +214,7 @@ internal fun TooltipScope.PlainTooltip(
     shape: Shape = TooltipDefaults.plainTooltipContainerShape,
     contentColor: Color = TooltipDefaults.plainTooltipContentColor,
     containerColor: Color = TooltipDefaults.plainTooltipContainerColor,
+    contentPadding: PaddingValues = PaddingValues(4.dp, 4.dp),
     tonalElevation: Dp = 0.dp,
     shadowElevation: Dp = 0.dp,
     content: @Composable () -> Unit,
@@ -251,9 +257,12 @@ internal fun TooltipScope.PlainTooltip(
                     maxWidth = maxWidth,
                     minHeight = TooltipMinHeight,
                 )
-                    .padding(PaddingValues(8.dp, 4.dp))
+                    .padding(contentPadding)
         ) {
-            content()
+            CompositionLocalProvider(
+                LocalContentColor provides contentColor,
+                content = content,
+            )
         }
     }
 }
@@ -276,27 +285,199 @@ private class TooltipCaretShape(
         combinedPath.reset()
         caretPath.reset()
 
-        val tooltipOutline = tooltipShape.createOutline(size, layoutDirection, density)
+        // Get the caret outline and transform it to find its position
         val caretOutline = caretShape.createOutline(size, layoutDirection, density)
-
-        when (tooltipOutline) {
-            is Outline.Generic -> tooltipPath.addPath(tooltipOutline.path)
-            is Outline.Rounded -> tooltipPath.addRoundRect(tooltipOutline.roundRect)
-            is Outline.Rectangle -> tooltipPath.addRect(tooltipOutline.rect)
-        }
-
-        // Applies the given caret shape to the caret path that will be manipulated
         when (caretOutline) {
             is Outline.Generic -> caretPath.addPath(caretOutline.path)
             is Outline.Rounded -> caretPath.addRoundRect(caretOutline.roundRect)
             is Outline.Rectangle -> caretPath.addRect(caretOutline.rect)
         }
-
         caretPath.transform(transformationMatrix.value)
 
+        // Create a modified tooltip shape with flattened corner where caret is positioned
+        val modifiedTooltipOutline = createModifiedTooltipOutline(
+            tooltipShape,
+            size,
+            layoutDirection,
+            density
+        )
+
+        when (modifiedTooltipOutline) {
+            is Outline.Generic -> tooltipPath.addPath(modifiedTooltipOutline.path)
+            is Outline.Rounded -> tooltipPath.addRoundRect(modifiedTooltipOutline.roundRect)
+            is Outline.Rectangle -> tooltipPath.addRect(modifiedTooltipOutline.rect)
+        }
+
+        // Use Union operation to combine tooltip (with flattened corner) and caret
+        // Since the corner radius is 0 where the caret touches, the union is seamless
         combinedPath.op(path1 = tooltipPath, path2 = caretPath, operation = PathOperation.Union)
 
         return Outline.Generic(combinedPath)
+    }
+    
+    private fun createModifiedTooltipOutline(
+        originalShape: Shape,
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        // If the shape is RoundedCornerShape, modify it to have 0 radius at the caret corner
+        if (originalShape is RoundedCornerShape) {
+            val originalOutline = originalShape.createOutline(size, layoutDirection, density)
+            
+            if (originalOutline is Outline.Rounded) {
+                val roundRect = originalOutline.roundRect
+                val topLeftRadius = roundRect.topLeftCornerRadius
+                val topRightRadius = roundRect.topRightCornerRadius
+                val bottomRightRadius = roundRect.bottomRightCornerRadius
+                val bottomLeftRadius = roundRect.bottomLeftCornerRadius
+                
+                // Get the caret bounds (already transformed)
+                val caretBounds = caretPath.getBounds()
+                
+                // The caret is positioned outside the tooltip (above/below/left/right)
+                // We need to check if the caret's horizontal/vertical span intersects with corner regions
+                
+                // Determine caret position relative to tooltip
+                val caretIsAbove = caretBounds.bottom <= 0f
+                val caretIsBelow = caretBounds.top >= size.height
+                val caretIsLeft = caretBounds.right <= 0f
+                val caretIsRight = caretBounds.left >= size.width
+                
+                var newTopLeft = topLeftRadius
+                var newTopRight = topRightRadius
+                var newBottomRight = bottomRightRadius
+                var newBottomLeft = bottomLeftRadius
+                
+                if (caretIsAbove) {
+                    // Caret is above tooltip, check horizontal position against top corners
+                    // Check if caret's horizontal span overlaps with top-left corner region
+                    if (caretBounds.left < topLeftRadius.x && caretBounds.right > 0f) {
+                        // Calculate how much of the corner region is NOT covered by the caret
+                        // If caret covers the corner fully, radius = 0
+                        // If caret covers partially, reduce radius proportionally
+                        val caretStartX = maxOf(0f, caretBounds.left)
+                        val caretEndX = minOf(topLeftRadius.x, caretBounds.right)
+                        val coveredWidth = caretEndX - caretStartX
+                        
+                        // The new radius should start from where the caret ends
+                        newTopLeft = if (caretStartX <= 0f) {
+                            // Caret starts at or before the corner, use remaining space
+                            CornerRadius(maxOf(0f, topLeftRadius.x - coveredWidth))
+                        } else {
+                            // Caret starts within corner region
+                            CornerRadius(caretStartX)
+                        }
+                    }
+                    // Check if caret's horizontal span overlaps with top-right corner region
+                    if (caretBounds.right > (size.width - topRightRadius.x) && caretBounds.left < size.width) {
+                        val cornerStartX = size.width - topRightRadius.x
+                        val caretStartX = maxOf(cornerStartX, caretBounds.left)
+                        val caretEndX = minOf(size.width, caretBounds.right)
+                        val coveredWidth = caretEndX - caretStartX
+                        
+                        // The new radius should be for the part not covered by caret
+                        newTopRight = if (caretEndX >= size.width) {
+                            CornerRadius(maxOf(0f, topRightRadius.x - coveredWidth))
+                        } else {
+                            CornerRadius(size.width - caretEndX)
+                        }
+                    }
+                } else if (caretIsBelow) {
+                    // Caret is below tooltip, check horizontal position against bottom corners
+                    if (caretBounds.left < bottomLeftRadius.x && caretBounds.right > 0f) {
+                        val caretStartX = maxOf(0f, caretBounds.left)
+                        val caretEndX = minOf(bottomLeftRadius.x, caretBounds.right)
+                        val coveredWidth = caretEndX - caretStartX
+                        
+                        newBottomLeft = if (caretStartX <= 0f) {
+                            CornerRadius(maxOf(0f, bottomLeftRadius.x - coveredWidth))
+                        } else {
+                            CornerRadius(caretStartX)
+                        }
+                    }
+                    if (caretBounds.right > (size.width - bottomRightRadius.x) && caretBounds.left < size.width) {
+                        val cornerStartX = size.width - bottomRightRadius.x
+                        val caretStartX = maxOf(cornerStartX, caretBounds.left)
+                        val caretEndX = minOf(size.width, caretBounds.right)
+                        val coveredWidth = caretEndX - caretStartX
+                        
+                        newBottomRight = if (caretEndX >= size.width) {
+                            CornerRadius(maxOf(0f, bottomRightRadius.x - coveredWidth))
+                        } else {
+                            CornerRadius(size.width - caretEndX)
+                        }
+                    }
+                } else if (caretIsLeft) {
+                    // Caret is to the left of tooltip, check vertical position against left corners
+                    if (caretBounds.top < topLeftRadius.y && caretBounds.bottom > 0f) {
+                        val caretStartY = maxOf(0f, caretBounds.top)
+                        val caretEndY = minOf(topLeftRadius.y, caretBounds.bottom)
+                        val coveredHeight = caretEndY - caretStartY
+                        
+                        newTopLeft = if (caretStartY <= 0f) {
+                            CornerRadius(maxOf(0f, topLeftRadius.y - coveredHeight))
+                        } else {
+                            CornerRadius(caretStartY)
+                        }
+                    }
+                    if (caretBounds.bottom > (size.height - bottomLeftRadius.y) && caretBounds.top < size.height) {
+                        val cornerStartY = size.height - bottomLeftRadius.y
+                        val caretStartY = maxOf(cornerStartY, caretBounds.top)
+                        val caretEndY = minOf(size.height, caretBounds.bottom)
+                        val coveredHeight = caretEndY - caretStartY
+                        
+                        newBottomLeft = if (caretEndY >= size.height) {
+                            CornerRadius(maxOf(0f, bottomLeftRadius.y - coveredHeight))
+                        } else {
+                            CornerRadius(size.height - caretEndY)
+                        }
+                    }
+                } else if (caretIsRight) {
+                    // Caret is to the right of tooltip, check vertical position against right corners
+                    if (caretBounds.top < topRightRadius.y && caretBounds.bottom > 0f) {
+                        val caretStartY = maxOf(0f, caretBounds.top)
+                        val caretEndY = minOf(topRightRadius.y, caretBounds.bottom)
+                        val coveredHeight = caretEndY - caretStartY
+                        
+                        newTopRight = if (caretStartY <= 0f) {
+                            CornerRadius(maxOf(0f, topRightRadius.y - coveredHeight))
+                        } else {
+                            CornerRadius(caretStartY)
+                        }
+                    }
+                    if (caretBounds.bottom > (size.height - bottomRightRadius.y) && caretBounds.top < size.height) {
+                        val cornerStartY = size.height - bottomRightRadius.y
+                        val caretStartY = maxOf(cornerStartY, caretBounds.top)
+                        val caretEndY = minOf(size.height, caretBounds.bottom)
+                        val coveredHeight = caretEndY - caretStartY
+                        
+                        newBottomRight = if (caretEndY >= size.height) {
+                            CornerRadius(maxOf(0f, bottomRightRadius.y - coveredHeight))
+                        } else {
+                            CornerRadius(size.height - caretEndY)
+                        }
+                    }
+                }
+                
+                // Create modified RoundRect
+                val modifiedRoundRect = RoundRect(
+                    left = roundRect.left,
+                    top = roundRect.top,
+                    right = roundRect.right,
+                    bottom = roundRect.bottom,
+                    topLeftCornerRadius = newTopLeft,
+                    topRightCornerRadius = newTopRight,
+                    bottomRightCornerRadius = newBottomRight,
+                    bottomLeftCornerRadius = newBottomLeft
+                )
+                
+                return Outline.Rounded(modifiedRoundRect)
+            }
+        }
+        
+        // If not a RoundedCornerShape or can't be modified, return original
+        return originalShape.createOutline(size, layoutDirection, density)
     }
 }
 

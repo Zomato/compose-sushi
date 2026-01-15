@@ -1,6 +1,7 @@
 package com.zomato.sushi.compose.components.tooltip
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -20,8 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupPositionProvider
-import com.zomato.sushi.compose.atoms.button.SushiButton
-import com.zomato.sushi.compose.atoms.button.SushiButtonProps
 import com.zomato.sushi.compose.atoms.image.SushiImage
 import com.zomato.sushi.compose.atoms.image.SushiImageProps
 import com.zomato.sushi.compose.atoms.text.SushiText
@@ -101,13 +100,14 @@ fun TooltipScope.SushiTooltip(
     content: (@Composable () -> Unit)? = null,
 ) {
     val containerColor = props.containerColor?.takeIfSpecified()?.value ?: SushiTheme.colors.surface.inverse.value
-    val shape = props.shape ?: RoundedCornerShape(12.dp)
+    val shape = props.shape ?: SushiTooltipDefaults.containerShape
     val caretShape = props.caretShape ?: SushiTooltipDefaults.caretShape()
     val shadowElevation = props.shadowElevation ?: ContainerElevation
 
     PlainTooltip(
         modifier = modifier,
         caretShape = caretShape,
+        maxWidth = SushiTooltipDefaults.maxWidth,
         shape = shape,
         containerColor = containerColor,
         shadowElevation = shadowElevation
@@ -220,13 +220,15 @@ private fun SushiToolTipButtonWithTooltipForPreview(
             },
             state = state
         ) {
-            SushiButton(
-                SushiButtonProps(text = "Button"),
-                onClick = {
-                    scope.launch {
-                        state.show()
+            SushiText(
+                SushiTextProps(text = "T"),
+                Modifier
+                    .padding(8.dp)
+                    .clickable {
+                        scope.launch {
+                            state.show()
+                        }
                     }
-                }
             )
         }
     }
