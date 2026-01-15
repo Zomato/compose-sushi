@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onVisibilityChanged
 import androidx.compose.ui.platform.testTag
 import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.RenderMode
@@ -105,7 +106,6 @@ private fun SushiAnimationImpl(
                 .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
                 .ifNonNull(props.bgColor?.takeIfSpecified()) { this.background(it.value) }
                 .ifNonNull(props.scaleFactor) { this.scale(it) }
-
             when (playback) {
                 is SushiAnimationPlayback.AutoPlay -> {
                     LottieAutoPlay(
@@ -139,9 +139,10 @@ private fun LottieAutoPlay(
     contentScale: ContentScale,
     modifier: Modifier = Modifier
 ) {
+    var isVisible by remember { mutableStateOf(true) }
     val animationState = animateLottieCompositionAsState(
         composition,
-        isPlaying = playback.isPlaying.value,
+        isPlaying = playback.isPlaying.value && isVisible,
         restartOnPlay = playback.restartOnPlay,
         reverseOnRepeat = playback.reverseOnRepeat,
         speed = playback.speed,
@@ -156,7 +157,7 @@ private fun LottieAutoPlay(
         composition = composition,
         progress = { animationState.progress },
         renderMode = RenderMode.HARDWARE,
-        modifier = modifier,
+        modifier = modifier.onVisibilityChanged { isVisible = it },
         contentScale = contentScale
     )
 }
