@@ -152,7 +152,7 @@ private fun SushiTextImpl(
         val textDecoration = props.textDecoration
         val overflow = props.overflow ?: SushiTextDefaults.overflow
         val softWrap = SushiTextDefaults.softWrap
-        val minLines = SushiTextDefaults.minLines
+        val minLines = props.minLines ?: SushiTextDefaults.minLines
         val overflowText = props.overflowText
         val prefixSpacing = props.prefixSpacing ?: SushiTextDefaults.prefixSpacing
         val suffixSpacing = props.suffixSpacing ?: SushiTextDefaults.suffixSpacing
