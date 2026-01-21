@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.layout
 
+import androidx.collection.MutableScatterMap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -10,7 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.Measurable
+import androidx.compose.ui.layout.MeasurePolicy
+import androidx.compose.ui.layout.MeasureResult
+import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.ParentDataModifier
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -39,6 +45,8 @@ import com.zomato.sushi.compose.internal.SushiPreview
  * @param modifier Modifier applied to the layout.
  * @param alignment Alignment used to position children within the layout.
  * @param content Composable children to be measured and placed.
+ *
+ * @author gupta.anirudh@zomato.com
  */
 
 @Composable
@@ -47,39 +55,61 @@ fun PassThroughBox(
     alignment: Alignment = Alignment.TopStart,
     content: @Composable PassThroughBoxScope.() -> Unit
 ) {
+    val measurePolicy = Cache[alignment] ?: PassThroughBoxMeasurePolicy(alignment)
     Layout(
+        content = { PassThroughBoxScopeImpl.content() },
+        measurePolicy = measurePolicy,
         modifier = modifier,
-        content = { PassThroughBoxScopeImpl.content() }
-    ) { measurables, constraints ->
+    )
+}
+
+private val Cache = MutableScatterMap<Alignment, MeasurePolicy>(9).apply {
+    this[Alignment.TopStart] = PassThroughBoxMeasurePolicy(Alignment.TopStart)
+    this[Alignment.TopCenter] = PassThroughBoxMeasurePolicy(Alignment.TopCenter)
+    this[Alignment.TopEnd] = PassThroughBoxMeasurePolicy(Alignment.TopEnd)
+    this[Alignment.CenterStart] = PassThroughBoxMeasurePolicy(Alignment.CenterStart)
+    this[Alignment.Center] = PassThroughBoxMeasurePolicy(Alignment.Center)
+    this[Alignment.CenterEnd] = PassThroughBoxMeasurePolicy(Alignment.CenterEnd)
+    this[Alignment.BottomStart] = PassThroughBoxMeasurePolicy(Alignment.BottomStart)
+    this[Alignment.BottomCenter] = PassThroughBoxMeasurePolicy(Alignment.BottomCenter)
+    this[Alignment.BottomEnd] = PassThroughBoxMeasurePolicy(Alignment.BottomEnd)
+}
+
+private class PassThroughBoxMeasurePolicy(
+    private val defaultAlignment: Alignment
+) : MeasurePolicy {
+
+    override fun MeasureScope.measure(
+        measurables: List<Measurable>,
+        constraints: Constraints
+    ): MeasureResult {
 
         val placeables = measurables.map { it.measure(constraints) }
 
         val width = placeables.maxOfOrNull { it.width } ?: constraints.minWidth
         val height = placeables.maxOfOrNull { it.height } ?: constraints.minHeight
 
-        layout(width, height) {
+        return layout(width, height) {
             measurables.zip(placeables).forEach { (measurable, placeable) ->
 
                 val childData =
                     measurable.parentData as? PassThroughBoxChildData
 
-                val childAlignment =
-                    childData?.alignment ?: alignment
+                val alignment =
+                    childData?.alignment ?: defaultAlignment
 
-                val position = childAlignment.align(
+                val position = alignment.align(
                     size = IntSize(placeable.width, placeable.height),
                     space = IntSize(width, height),
                     layoutDirection = layoutDirection
                 )
 
-                placeable.place(
-                    x = position.x,
-                    y = position.y
-                )
+                placeable.place(position.x, position.y)
             }
         }
     }
 }
+
 
 /**
  * A PassThroughBoxScope provides a scope for the children of [PassThroughBox].
