@@ -83,7 +83,7 @@ class MarkdownParser private constructor(
             }
             result = processors
                 .fold(initialAnnotatedString, { acc, markdownProcessor ->
-                    markdownProcessor.process(props, acc)
+                    kotlin.runCatching { markdownProcessor.process(props, acc) }.getOrElse { acc }
                 })
         }
 
