@@ -1,6 +1,6 @@
 [versions]
-agp = "8.9.1"
-kotlin = "2.1.21"
+agp = "8.13.2"
+kotlin = "2.3.0"
 kotlinxCoroutinesCore = "1.10.2"
 kotlinxDatetime = "0.7.1"
 ktor = "3.3.0"
@@ -17,7 +17,7 @@ androidx-activity = "1.11.0"
 androidx-lifecycle = "2.9.4"
 composeMultiplatform = "1.10.0"
 napier = "2.7.1"
-maven-publish = "0.34.0"
+maven-publish = "0.35.0"
 slack-lint-checks = "1.4.2"
 
 [libraries]
