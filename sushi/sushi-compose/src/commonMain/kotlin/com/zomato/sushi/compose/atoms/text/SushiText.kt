@@ -144,7 +144,9 @@ private fun SushiTextImpl(
         val rawText = props.text ?: ""
         val isMarkdown = props.markdown ?: SushiTextDefaults.isMarkDown
         val textType = props.type ?: SushiTextDefaults.textType
-        val textColor = props.color?.takeIfSpecified() ?: SushiTextDefaults.textColor
+        val textColor = props.color?.takeIfSpecified()
+            ?: textType.typeStyle.color.takeIfSpecified()?.asColorSpec()
+            ?: SushiTextDefaults.textColor
         val overflowTextColor = props.overflowTextColor?.takeIfSpecified() ?: textColor
         val letterSpacing = props.letterSpacing
         val typeStyle = textType.typeStyle
