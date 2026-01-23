@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.border.border
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -77,6 +78,7 @@ private fun SushiIconImpl(
     Text(
         text = parsedIcon,
         modifier
+            .ifNonNull(props.border) { this.border(it) }
             .ifNonNull(onClick) {
                 this.atomClickable(onClick = it)
             },
