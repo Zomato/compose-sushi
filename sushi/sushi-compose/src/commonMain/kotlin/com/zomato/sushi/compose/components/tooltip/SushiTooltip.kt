@@ -19,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupPositionProvider
 import com.zomato.sushi.compose.atoms.image.SushiImage
@@ -103,11 +104,12 @@ fun TooltipScope.SushiTooltip(
     val shape = props.shape ?: SushiTooltipDefaults.containerShape
     val caretShape = props.caretShape ?: SushiTooltipDefaults.caretShape()
     val shadowElevation = props.shadowElevation ?: ContainerElevation
+    val maxWidth = props.maxWidth ?: SushiTooltipDefaults.maxWidth
 
     PlainTooltip(
         modifier = modifier,
         caretShape = caretShape,
-        maxWidth = SushiTooltipDefaults.maxWidth,
+        maxWidth = maxWidth,
         shape = shape,
         containerColor = containerColor,
         shadowElevation = shadowElevation
@@ -135,7 +137,12 @@ private fun SushiTooltipDefaultContent(
             SushiImage(props.prefixImage)
         }
         if (props.text != null) {
-            SushiText(props.text)
+            SushiText(
+                props.text.copy(
+                    textAlign = props.text.textAlign ?: TextAlign.Center
+                ),
+                Modifier.weight(1f, fill = false)
+            )
         }
         if (props.suffixImage != null) {
             SushiImage(props.suffixImage)
@@ -198,7 +205,7 @@ private fun SushiToolTipButtonWithTooltipForPreview(
                 SushiTooltip(
                     props = SushiTooltipProps(
                         text = SushiTextProps(
-                            text = "Heya",
+                            text = "TooltipContent TooltipContent TooltipContent TooltipContent TooltipContent TooltipContent",
                             color = SushiTheme.colors.text.inverse
                         ),
                         prefixImage = SushiImageProps(

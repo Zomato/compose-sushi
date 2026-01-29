@@ -23,7 +23,7 @@ private value class ProviderColorSpec(
  * Creates a [ColorSpec] backed by a composable provider.
  *
  * This is useful when a [ColorSpec] is required in a non-composable context,
- * but its value depends on composable state.
+ * but its value depends on composable state, or when animating color.
  *
  * @author gupta.anirudh@zomato.com
  */

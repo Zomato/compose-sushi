@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
@@ -26,7 +27,10 @@ object SushiTooltipDefaults {
 
     internal val DefaultCaretShape: Shape = DefaultTooltipCaretShape(caretSize)
 
-    val maxWidth: Dp = 400.dp
+    val maxWidth: Dp
+        @Composable get() {
+            return LocalWindowInfo.current.containerDpSize.width * 0.8f
+        }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
