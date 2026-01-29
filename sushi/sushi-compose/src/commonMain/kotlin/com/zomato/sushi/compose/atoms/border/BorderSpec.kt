@@ -88,8 +88,7 @@ data class BorderSides(
     val right: Boolean = true,
     val bottom: Boolean = true
 ) {
-    val isAll: Boolean
-        get() = left && top && right && bottom
+    val isAll: Boolean = left && top && right && bottom
 }
 
 /**
