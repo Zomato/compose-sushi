@@ -19,7 +19,8 @@ sealed interface SushiAnimationPlayback {
      * @property restartOnPlay Whether the animation should restart when resuming from a paused state
      * @property reverseOnRepeat Whether the animation should play in reverse after completing a forward playback
      * @property speed The playback speed factor (1.0f is normal speed, 2.0f is double speed, etc.)
-     * @property iterations The number of times to repeat the animation (use -1 for infinite looping)
+     * @property iterations The number of times to repeat the animation, 1 means single
+     * iteration (no replay). Use [SushiAnimationConstants.IterateForever] for infinite looping).
      */
     data class AutoPlay(
         val isPlaying: MutableState<Boolean> = mutableStateOf(true),

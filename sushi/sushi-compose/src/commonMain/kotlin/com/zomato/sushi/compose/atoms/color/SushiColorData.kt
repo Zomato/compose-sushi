@@ -63,7 +63,9 @@ data class SushiColorData private constructor(
             val alphaF = (alpha.coerceIn(0.0, 1.0)).toFloat() // Convert transparency to 0-255 range
             return when (val colorInfo = colorInfo) {
                 is ColorDataInfo.Token -> {
-                    SushiTheme.colorTokenMapper.invoke(colorInfo.token).value.copy(alpha = alphaF)
+                    SushiTheme.colorTokenMapper.invoke(colorInfo.token).value.let {
+                        if (it == Color.Transparent) it else it.copy(alpha = alphaF)
+                    }
                 }
 
                 is ColorDataInfo.NameTint -> {
@@ -72,7 +74,7 @@ data class SushiColorData private constructor(
                         red = baseColor.red,
                         green = baseColor.green,
                         blue = baseColor.blue,
-                        alpha = alphaF
+                        alpha = if (baseColor == Color.Transparent) 0f else alphaF
                     )
                 }
             }

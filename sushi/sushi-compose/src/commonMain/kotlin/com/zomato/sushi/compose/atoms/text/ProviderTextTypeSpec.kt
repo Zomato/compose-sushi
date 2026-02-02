@@ -8,12 +8,12 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.zomato.sushi.compose.foundation.OkraFontFamily
 import com.zomato.sushi.compose.foundation.SushiFontWeight
 import com.zomato.sushi.compose.foundation.SushiTextSize050
 import com.zomato.sushi.compose.foundation.SushiTextSize500
-import com.zomato.sushi.compose.foundation.fontWeight
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlin.jvm.JvmInline
 
@@ -62,13 +62,20 @@ private fun ProviderTextTypeSpecPreview() {
                 animatedColor.animateTo(Color.Red, tween(1000))
             }
         }
+        val animatedFontWeight = remember { Animatable(SushiFontWeight.Light.weight.toFloat()) }
+        LaunchedEffect(Unit) {
+            while (true) {
+                animatedFontWeight.animateTo(SushiFontWeight.ExtraBold.weight.toFloat(), tween(1000))
+                animatedFontWeight.animateTo(SushiFontWeight.Light.weight.toFloat(), tween(1000))
+            }
+        }
         SushiText(
             SushiTextProps(
                 text = "Text",
                 type = textTypeSpec {
                     TextStyle(
                         fontSize = animatedTextSize.value.sp,
-                        fontWeight = SushiFontWeight.Bold.fontWeight(),
+                        fontWeight = FontWeight(animatedFontWeight.value.toInt()),
                         fontFamily = OkraFontFamily,
                         color = animatedColor.value
                     )

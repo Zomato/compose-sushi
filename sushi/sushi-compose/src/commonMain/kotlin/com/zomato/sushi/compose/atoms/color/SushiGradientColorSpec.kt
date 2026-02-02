@@ -28,6 +28,7 @@ import com.zomato.sushi.compose.foundation.ThemedPropsProvider
 import com.zomato.sushi.compose.foundation.getThemedProps
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
@@ -111,6 +112,51 @@ data class SushiGradientColorSpec(
             val center: Offset? = null
         ) : GradientType
     }
+}
+
+/**
+ * Creates a new SushiGradientColorSpec with the specified alpha (transparency) value.
+ *
+ * @param alpha Alpha value between 0.0 (fully transparent) and 1.0 (fully opaque)
+ * @return A new SushiGradientColorSpec with the specified alpha applied
+ */
+fun SushiGradientColorSpec.withAlpha(
+    alpha: Float
+): SushiGradientColorSpec {
+    return this.transform { it.withAlpha(alpha) }
+}
+
+/**
+ * Transforms a [SushiGradientColorSpec] by applying a custom transformation to its colors.
+ *
+ * This is useful for making modifications to existing [SushiGradientColorSpec] without creating
+ * completely new specs, such as adjusting alpha, saturation, or other color attributes.
+ *
+ * Example usage:
+ * ```
+ * val fadeGradient = mySushiGradientColorSpec.transform { it.copy(alpha = 0.5f) }
+ * ```
+ *
+ * @param transform The function to apply to the original [ColorSpec]
+ * @return A new [SushiGradientColorSpec] that applies the transformation to its colors.
+ */
+fun SushiGradientColorSpec.transform(
+    transform: (ColorSpec) -> ColorSpec
+): SushiGradientColorSpec {
+    return this.copy(
+        colors = this.colors.mutate {
+            for (i in it.indices) {
+                it[i] = transform(it[i])
+            }
+        },
+        themedPropsList = this.themedPropsList?.mutate {
+            for (i in it.indices) {
+                it[i] = it[i].copy(
+                    props = it[i].props.transform(transform)
+                )
+            }
+        }
+    )
 }
 
 /**

@@ -146,7 +146,7 @@ private fun LottieAutoPlay(
         restartOnPlay = playback.restartOnPlay,
         reverseOnRepeat = playback.reverseOnRepeat,
         speed = playback.speed,
-        iterations = playback.iterations
+        iterations = playback.iterations.coerceAtLeast(1)
     )
 
     LaunchedEffect(animationState) {

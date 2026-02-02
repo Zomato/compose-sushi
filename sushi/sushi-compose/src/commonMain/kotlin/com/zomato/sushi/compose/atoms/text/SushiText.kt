@@ -550,8 +550,8 @@ private fun TextImpl(
         onTextLayout = onTextLayout,
         overflow = overflow,
         softWrap = softWrap,
-        maxLines = maxLines,
-        minLines = minLines,
+        maxLines = maxLines.coerceAtLeast(1),
+        minLines = minLines.coerceAtLeast(1),
         inlineContent = inlineContent,
         autoSize = autoSize
     )

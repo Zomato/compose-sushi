@@ -22,7 +22,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  * @property caretShape shape of the caret (defaults to a triangle)
  * @property shape Shape of the tooltip container (defaults to rounded corners)
  * @property shadowElevation Shadow depth for the tooltip to create visual hierarchy
- * @property maxWidth Maximum width of the tooltip container (defaults to 75% of screen width)
+ * @property maxWidth Maximum width of the tooltip container (defaults to 80% of screen width)
  *
  * @author gupta.anirudh@zomato.com
  */
