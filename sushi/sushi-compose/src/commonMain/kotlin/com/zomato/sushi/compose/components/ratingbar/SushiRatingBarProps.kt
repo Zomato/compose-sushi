@@ -21,5 +21,6 @@ data class SushiRatingBarProps(
     val rating: Float? = null,
     val betweenSpacing: Dp? = null,
     val starCount: Int? = null,
-    val tintColor: ColorSpec? = null
+    val tintColor: ColorSpec? = null,
+    val ratingDescription: ((rating: Float) -> String)? = null
 )

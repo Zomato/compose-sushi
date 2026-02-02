@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.atoms.separator
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.Dp
 
 /**
@@ -8,6 +9,7 @@ import androidx.compose.ui.unit.Dp
  * This interface provides different divider styles ranging from simple straight lines
  * to decorative patterns like zigzags, each with their own visual characteristics.
  */
+@Stable
 sealed interface SushiDividerType {
     /**
      * A standard solid straight line divider.
@@ -18,12 +20,6 @@ sealed interface SushiDividerType {
      * A dotted line divider with small, closely spaced dots.
      */
     data object Dotted : SushiDividerType
-    
-    /**
-     * A special pink-colored divider.
-     * Note: This style should be moved to a project-specific implementation.
-     */
-    data object Pink : SushiDividerType // Move to Z
     
     /**
      * A vertical dotted line divider with small, closely spaced dots.
@@ -44,12 +40,6 @@ sealed interface SushiDividerType {
      * A vertical solid straight line divider.
      */
     data object Vertical : SushiDividerType
-    
-    /**
-     * A menu-style divider with a triangular notch.
-     * Note: This style should be moved to a project-specific implementation.
-     */
-    data object Menu : SushiDividerType // Move to Z
     
     /**
      * A dotted line divider with larger spacing between dots.

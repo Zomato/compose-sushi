@@ -12,21 +12,25 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.BottomLeftToTopRight
-import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.BottomRightToTopLeft
-import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.BottomToTop
-import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.LeftToRight
-import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.RightToLeft
-import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.TopLeftToBottomRight
-import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.TopRightToBottomLeft
-import com.zomato.sushi.compose.atoms.color.SushiGradientColorData.LinearDirection.TopToBottom
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.BottomLeftToTopRight
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.BottomRightToTopLeft
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.BottomToTop
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.LeftToRight
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.RightToLeft
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.TopLeftToBottomRight
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.TopRightToBottomLeft
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.TopToBottom
+import com.zomato.sushi.compose.foundation.SushiColorSchemeType
+import com.zomato.sushi.compose.foundation.ThemedProps
+import com.zomato.sushi.compose.foundation.ThemedPropsProvider
+import com.zomato.sushi.compose.foundation.getThemedProps
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 
 /**
  * Configuration for creating gradient colors in the Sushi design system.
@@ -36,21 +40,20 @@ import kotlinx.collections.immutable.persistentListOf
  * for use with background or other drawing operations.
  *
  * @property colors List of colors to use in the gradient
- * @property shape Optional shape to apply to the gradient
- * @property strokeColor Optional stroke color for the shape
- * @property strokeWidth Optional stroke width for the shape
  * @property type Type of gradient (Linear, Radial, or Sweep) and its configuration
  *
  * @author gupta.anirudh@zomato.com
  */
 @Immutable
-data class SushiGradientColorData(
+data class SushiGradientColorSpec(
     val colors: PersistentList<ColorSpec> = persistentListOf(),
-    val shape: Shape? = null,
-    val strokeColor: ColorSpec? = null,
-    val strokeWidth: Dp? = null,
-    val type: GradientType? = null
-) {
+    val type: GradientType? = null,
+    override val themedPropsList: PersistentList<ThemedProps<SushiGradientColorSpec>>? = null
+) : ThemedPropsProvider<SushiGradientColorSpec> {
+    override fun getThemedProps(colorSchemeType: SushiColorSchemeType): SushiGradientColorSpec {
+        return findThemedProps(colorSchemeType)?.takeIf { it.colors.isNotEmpty() } ?: this
+    }
+
     /**
      * Defines the direction for linear gradients.
      * Each direction specifies a start point and end point for the gradient.
@@ -69,6 +72,7 @@ data class SushiGradientColorData(
     /**
      * Defines the types of gradients supported by SushiGradientColorData.
      */
+    @Immutable
     sealed interface GradientType {
         /**
          * Linear gradient configuration.
@@ -111,6 +115,51 @@ data class SushiGradientColorData(
 }
 
 /**
+ * Creates a new SushiGradientColorSpec with the specified alpha (transparency) value.
+ *
+ * @param alpha Alpha value between 0.0 (fully transparent) and 1.0 (fully opaque)
+ * @return A new SushiGradientColorSpec with the specified alpha applied
+ */
+fun SushiGradientColorSpec.withAlpha(
+    alpha: Float
+): SushiGradientColorSpec {
+    return this.transform { it.withAlpha(alpha) }
+}
+
+/**
+ * Transforms a [SushiGradientColorSpec] by applying a custom transformation to its colors.
+ *
+ * This is useful for making modifications to existing [SushiGradientColorSpec] without creating
+ * completely new specs, such as adjusting alpha, saturation, or other color attributes.
+ *
+ * Example usage:
+ * ```
+ * val fadeGradient = mySushiGradientColorSpec.transform { it.copy(alpha = 0.5f) }
+ * ```
+ *
+ * @param transform The function to apply to the original [ColorSpec]
+ * @return A new [SushiGradientColorSpec] that applies the transformation to its colors.
+ */
+fun SushiGradientColorSpec.transform(
+    transform: (ColorSpec) -> ColorSpec
+): SushiGradientColorSpec {
+    return this.copy(
+        colors = this.colors.mutate {
+            for (i in it.indices) {
+                it[i] = transform(it[i])
+            }
+        },
+        themedPropsList = this.themedPropsList?.mutate {
+            for (i in it.indices) {
+                it[i] = it[i].copy(
+                    props = it[i].props.transform(transform)
+                )
+            }
+        }
+    )
+}
+
+/**
  * A Size with infinite dimensions, used as a default for gradient calculations.
  */
 private val Size.Companion.Infinite: Size get() = Size(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
@@ -118,7 +167,7 @@ private val Size.Companion.Infinite: Size get() = Size(Float.POSITIVE_INFINITY, 
 /**
  * Default direction for linear gradients.
  */
-val defaultLinearDirection: SushiGradientColorData.LinearDirection = SushiGradientColorData.LinearDirection.LeftToRight
+val defaultLinearDirection: SushiGradientColorSpec.LinearDirection = SushiGradientColorSpec.LinearDirection.LeftToRight
 
 /**
  * Converts a SushiGradientColorData to a Compose Brush that can be used for drawing.
@@ -128,15 +177,15 @@ val defaultLinearDirection: SushiGradientColorData.LinearDirection = SushiGradie
  * @return A Compose Brush representing the gradient
  */
 @Composable
-fun SushiGradientColorData.toBrush(
+fun SushiGradientColorSpec.toBrush(
     defaultTileMode: TileMode = TileMode.Clamp,
-    defaultGradientType: SushiGradientColorData.GradientType = SushiGradientColorData.GradientType.Linear(defaultLinearDirection)
-): Brush {
+    defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
+): Brush = this.getThemedProps().run {
     val colors = colors.map { it.value }.toList()
 
     return remember(this, defaultGradientType, colors) {
         when (val type = this.type ?: defaultGradientType) {
-            is SushiGradientColorData.GradientType.Linear -> {
+            is SushiGradientColorSpec.GradientType.Linear -> {
                 val direction = type.direction ?: defaultLinearDirection
                 val startOffset = direction.startOffset(type.size ?: Size.Infinite)
                 val endOffset = direction.endOffset(type.size ?: Size.Infinite)
@@ -158,7 +207,7 @@ fun SushiGradientColorData.toBrush(
                     )
                 }
             }
-            is SushiGradientColorData.GradientType.Radial -> {
+            is SushiGradientColorSpec.GradientType.Radial -> {
                 val tileMode = type.tileMode ?: defaultTileMode
 
                 Brush.radialGradient(
@@ -168,7 +217,7 @@ fun SushiGradientColorData.toBrush(
                     tileMode = tileMode
                 )
             }
-            is SushiGradientColorData.GradientType.Sweep -> {
+            is SushiGradientColorSpec.GradientType.Sweep -> {
                 Brush.sweepGradient(
                     colors = colors,
                     center = type.center ?: Offset.Unspecified
@@ -184,7 +233,7 @@ fun SushiGradientColorData.toBrush(
  * @param size The size to use for calculating coordinates
  * @return The start offset for the gradient
  */
-fun SushiGradientColorData.LinearDirection.startOffset(size: Size): Offset = when (this) {
+fun SushiGradientColorSpec.LinearDirection.startOffset(size: Size): Offset = when (this) {
     TopToBottom -> Offset(size.width / 2, 0f)
     TopRightToBottomLeft -> Offset(size.width, 0f)
     RightToLeft -> Offset(size.width, size.height / 2)
@@ -201,7 +250,7 @@ fun SushiGradientColorData.LinearDirection.startOffset(size: Size): Offset = whe
  * @param size The size to use for calculating coordinates
  * @return The end offset for the gradient
  */
-fun SushiGradientColorData.LinearDirection.endOffset(size: Size): Offset = when (this) {
+fun SushiGradientColorSpec.LinearDirection.endOffset(size: Size): Offset = when (this) {
     TopToBottom -> Offset(size.width / 2, size.height)
     TopRightToBottomLeft -> Offset(0f, size.height)
     RightToLeft -> Offset(0f, size.height / 2)
@@ -212,31 +261,53 @@ fun SushiGradientColorData.LinearDirection.endOffset(size: Size): Offset = when 
     TopLeftToBottomRight -> Offset(size.width, size.height)
 }
 
+/**
+ * Converts ColorSpec to SushiGradientColorSpec
+ *
+ * @return ColorSpec as SushiGradientColorSpec
+ */
+fun ColorSpec.asSushiGradientColorSpec(): SushiGradientColorSpec {
+    return SushiGradientColorSpec(persistentListOf(this))
+}
+
+/**
+ * Converts Color to SushiGradientColorSpec
+ *
+ * @return Color as SushiGradientColorSpec
+ */
+fun Color.asSushiGradientColorSpec(): SushiGradientColorSpec {
+    return this.asColorSpec().asSushiGradientColorSpec()
+}
+
+fun List<ColorSpec>.asSushiGradientColorSpec(): SushiGradientColorSpec {
+    return SushiGradientColorSpec(this.toPersistentList())
+}
+
 @SushiPreview
 @Composable
 private fun SushiGradientPreview() {
     SushiPreview {
         Column {
             val colors = persistentListOf(Color.Transparent.asColorSpec(), Color.Red.asColorSpec(), Color.Blue.asColorSpec(), Color.Green.asColorSpec())
-            val sweepGradientData = SushiGradientColorData(
+            val sweepGradientData = SushiGradientColorSpec(
                 colors = colors,
-                type = SushiGradientColorData.GradientType.Sweep()
+                type = SushiGradientColorSpec.GradientType.Sweep()
             )
             Box(Modifier
                 .background(sweepGradientData.toBrush())
                 .size(200.dp)
             )
-            val radialGradient = SushiGradientColorData(
+            val radialGradient = SushiGradientColorSpec(
                 colors = colors,
-                type = SushiGradientColorData.GradientType.Radial()
+                type = SushiGradientColorSpec.GradientType.Radial()
             )
             Box(Modifier
                 .background(radialGradient.toBrush())
                 .size(200.dp)
             )
-            val linearGradientData = SushiGradientColorData(
+            val linearGradientData = SushiGradientColorSpec(
                 colors = colors,
-                type = SushiGradientColorData.GradientType.Linear(
+                type = SushiGradientColorSpec.GradientType.Linear(
                     direction = TopLeftToBottomRight
                 )
             )

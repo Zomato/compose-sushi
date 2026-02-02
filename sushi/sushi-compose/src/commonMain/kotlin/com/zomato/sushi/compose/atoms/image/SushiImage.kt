@@ -71,7 +71,7 @@ private fun SushiImageImpl(
 ) {
     if (props.painter != null) {
         val painter = props.painter
-        val bgColor = props.bgColor.takeIfSpecified()
+        val bgColor = props.bgColor?.takeIfSpecified()
         val contentDescription = props.contentDescription
         val alignment = props.alignment ?: SushiImageDefaults.alignment
         val contentScale = props.contentScale ?: SushiImageDefaults.contentScale

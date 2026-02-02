@@ -60,4 +60,6 @@ fun String.asHexColorSpec(): ColorSpec = HexColorSpec(this)
  * @param alpha Alpha value between 0.0 (fully transparent) and 1.0 (fully opaque)
  * @return A new ColorSpec with the specified alpha applied
  */
-fun ColorSpec.withAlpha(alpha: Float) = this.transform { it.copy(alpha = alpha) }
+fun ColorSpec.withAlpha(alpha: Float) = this.transform {
+    if (it == Color.Transparent) it else it.copy(alpha = alpha)
+}

@@ -1,17 +1,16 @@
 package com.zomato.sushi.compose.components.tooltip
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
+import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TooltipScope
 import androidx.compose.material3.TooltipState
 import androidx.compose.material3.rememberTooltipState
@@ -19,28 +18,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.CacheDrawScope
-import androidx.compose.ui.draw.DrawResult
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.LayoutCoordinates
-import androidx.compose.ui.layout.boundsInWindow
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalWindowInfo
-import androidx.compose.ui.platform.WindowInfo
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.isSpecified
 import androidx.compose.ui.window.PopupPositionProvider
-import com.zomato.sushi.compose.atoms.button.SushiButton
-import com.zomato.sushi.compose.atoms.button.SushiButtonProps
 import com.zomato.sushi.compose.atoms.image.SushiImage
 import com.zomato.sushi.compose.atoms.image.SushiImageProps
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
+import com.zomato.sushi.compose.components.tooltip.base.PlainTooltip
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.utils.takeIfSpecified
@@ -88,10 +74,7 @@ fun SushiTooltipBox(
     )
 }
 
-private val TooltipMinWidth = 40.dp
-private val RichTooltipMaxWidth = 320.dp
-private val TooltipMinHeight = 24.dp
-private val SpacingBetweenTooltipAndAnchor = 4.dp
+internal val SpacingBetweenTooltipAndAnchor = 4.dp
 private val ContainerElevation = 3.dp
 
 /**
@@ -117,36 +100,18 @@ fun TooltipScope.SushiTooltip(
     modifier: Modifier = Modifier,
     content: (@Composable () -> Unit)? = null,
 ) {
-    val containerColor = props.containerColor.takeIfSpecified()?.value ?: SushiTheme.colors.surface.inverse.value
-    val caretSize = props.caretSize ?: DpSize(16.dp, 8.dp)
-    val shape = props.shape ?: RoundedCornerShape(12.0.dp)
+    val containerColor = props.containerColor?.takeIfSpecified()?.value ?: SushiTheme.colors.surface.inverse.value
+    val shape = props.shape ?: SushiTooltipDefaults.containerShape
+    val caretShape = props.caretShape ?: SushiTooltipDefaults.caretShape()
     val shadowElevation = props.shadowElevation ?: ContainerElevation
+    val maxWidth = props.maxWidth ?: SushiTooltipDefaults.maxWidth
 
-    val drawCaretModifier =
-        if (caretSize.isSpecified) {
-            val density = LocalDensity.current
-            val windowInfo = LocalWindowInfo.current
-            Modifier.drawCaret { anchorLayoutCoordinates ->
-                drawCaretWithPath(
-                    CaretType.Rich,
-                    density,
-                    windowInfo,
-                    containerColor,
-                    caretSize,
-                    anchorLayoutCoordinates
-                )
-            }
-                .then(modifier)
-        } else modifier
-    Surface(
-        modifier =
-            drawCaretModifier.sizeIn(
-                minWidth = TooltipMinWidth,
-                maxWidth = RichTooltipMaxWidth,
-                minHeight = TooltipMinHeight
-            ),
+    PlainTooltip(
+        modifier = modifier,
+        caretShape = caretShape,
+        maxWidth = maxWidth,
         shape = shape,
-        color = containerColor,
+        containerColor = containerColor,
         shadowElevation = shadowElevation
     ) {
         if (content != null) {
@@ -172,119 +137,17 @@ private fun SushiTooltipDefaultContent(
             SushiImage(props.prefixImage)
         }
         if (props.text != null) {
-            SushiText(props.text)
+            SushiText(
+                props.text.copy(
+                    textAlign = props.text.textAlign ?: TextAlign.Center
+                ),
+                Modifier.weight(1f, fill = false)
+            )
         }
         if (props.suffixImage != null) {
             SushiImage(props.suffixImage)
         }
     }
-}
-
-private fun CacheDrawScope.drawCaretWithPath(
-    caretType: CaretType,
-    density: Density,
-    windowInfo: WindowInfo,
-    containerColor: Color,
-    caretSize: DpSize,
-    anchorLayoutCoordinates: LayoutCoordinates?
-): DrawResult {
-    val path = Path()
-
-    if (anchorLayoutCoordinates != null) {
-        val caretHeightPx: Int
-        val caretWidthPx: Int
-        val screenWidthPx: Int
-        val tooltipAnchorSpacing: Int
-        with(density) {
-            caretHeightPx = caretSize.height.roundToPx()
-            caretWidthPx = caretSize.width.roundToPx()
-            screenWidthPx = windowInfo.containerSize.width.toDp().roundToPx()
-            tooltipAnchorSpacing = SpacingBetweenTooltipAndAnchor.roundToPx()
-        }
-        val anchorBounds = anchorLayoutCoordinates.boundsInWindow()
-        val anchorLeft = anchorBounds.left
-        val anchorRight = anchorBounds.right
-        val anchorTop = anchorBounds.top
-        val anchorMid = (anchorRight + anchorLeft) / 2
-        val anchorWidth = anchorRight - anchorLeft
-        val tooltipWidth = this.size.width
-        val tooltipHeight = this.size.height
-        val isCaretTop = anchorTop - tooltipHeight - tooltipAnchorSpacing < 0
-        val caretY =
-            if (isCaretTop) {
-                0f
-            } else {
-                tooltipHeight
-            }
-
-        val position: Offset
-        if (caretType == CaretType.Plain) {
-            position =
-                if (anchorMid + tooltipWidth / 2 > screenWidthPx) {
-                    // Caret needs to be near the right
-                    val anchorMidFromRightScreenEdge = screenWidthPx - anchorMid
-                    val caretX = tooltipWidth - anchorMidFromRightScreenEdge
-                    Offset(caretX, caretY)
-                } else {
-                    // Caret needs to be near the left
-                    val tooltipLeft = anchorLeft - (this.size.width / 2 - anchorWidth / 2)
-                    val caretX = anchorMid - maxOf(tooltipLeft, 0f)
-                    Offset(caretX, caretY)
-                }
-        } else {
-            // Default the caret to the left
-            var preferredPosition = Offset(anchorMid - anchorLeft, caretY)
-            if (anchorLeft + tooltipWidth > screenWidthPx) {
-                // Need to move the caret to the right
-                preferredPosition = Offset(anchorMid - (anchorRight - tooltipWidth), caretY)
-                if (anchorRight - tooltipWidth < 0) {
-                    // Need to center the caret
-                    // Caret might need to be offset depending on where
-                    // the tooltip is placed relative to the anchor
-                    if (anchorLeft - tooltipWidth / 2 + anchorWidth / 2 <= 0) {
-                        preferredPosition = Offset(anchorMid, caretY)
-                    } else if (anchorRight + tooltipWidth / 2 - anchorWidth / 2 >= screenWidthPx) {
-                        val anchorMidFromRightScreenEdge = screenWidthPx - anchorMid
-                        val caretX = tooltipWidth - anchorMidFromRightScreenEdge
-                        preferredPosition = Offset(caretX, caretY)
-                    } else {
-                        preferredPosition = Offset(tooltipWidth / 2, caretY)
-                    }
-                }
-            }
-            position = preferredPosition
-        }
-
-        if (isCaretTop) {
-            path.apply {
-                moveTo(x = position.x, y = position.y)
-                lineTo(x = position.x + caretWidthPx / 2, y = position.y)
-                lineTo(x = position.x, y = position.y - caretHeightPx)
-                lineTo(x = position.x - caretWidthPx / 2, y = position.y)
-                close()
-            }
-        } else {
-            path.apply {
-                moveTo(x = position.x, y = position.y)
-                lineTo(x = position.x + caretWidthPx / 2, y = position.y)
-                lineTo(x = position.x, y = position.y + caretHeightPx.toFloat())
-                lineTo(x = position.x - caretWidthPx / 2, y = position.y)
-                close()
-            }
-        }
-    }
-
-    return onDrawWithContent {
-        if (anchorLayoutCoordinates != null) {
-            drawContent()
-            drawPath(path = path, color = containerColor)
-        }
-    }
-}
-
-private enum class CaretType {
-    Plain,
-    Rich
 }
 
 @SushiPreview
@@ -335,12 +198,14 @@ private fun SushiToolTipButtonWithTooltipForPreview(
     val scope = rememberCoroutineScope()
     Box(modifier) {
         SushiTooltipBox(
-            positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+            positionProvider = SushiTooltipDefaults.rememberTooltipPositionProvider(
+                TooltipAnchorPosition.Below
+            ),
             tooltip = {
                 SushiTooltip(
                     props = SushiTooltipProps(
                         text = SushiTextProps(
-                            text = "Heya",
+                            text = "TooltipContent TooltipContent TooltipContent TooltipContent TooltipContent TooltipContent",
                             color = SushiTheme.colors.text.inverse
                         ),
                         prefixImage = SushiImageProps(
@@ -362,13 +227,15 @@ private fun SushiToolTipButtonWithTooltipForPreview(
             },
             state = state
         ) {
-            SushiButton(
-                SushiButtonProps(text = "Button"),
-                onClick = {
-                    scope.launch {
-                        state.show()
+            SushiText(
+                SushiTextProps(text = "T"),
+                Modifier
+                    .padding(8.dp)
+                    .clickable {
+                        scope.launch {
+                            state.show()
+                        }
                     }
-                }
             )
         }
     }
