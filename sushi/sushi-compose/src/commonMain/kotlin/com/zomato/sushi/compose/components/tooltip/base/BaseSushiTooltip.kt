@@ -52,9 +52,10 @@ private val SpacingBetweenTooltipAndAnchor = 4.dp
 private val ContainerElevation = 3.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
-internal class TooltipPositionProviderImpl constructor(
+class TooltipPositionProviderImpl constructor(
     val type: TooltipAnchorPosition,
     val tooltipAnchorSpacingProvider: () -> Int,
+    val transformAnchorBounds: IntOffset = IntOffset.Zero
 ) : PopupPositionProvider {
     override fun calculatePosition(
         anchorBounds: IntRect,
@@ -75,6 +76,11 @@ internal class TooltipPositionProviderImpl constructor(
             TooltipAnchorPosition.End ->
                 endPositioning(layoutDirection, anchorBounds, popupContentSize, windowSize)
             else -> abovePositioning(anchorBounds, popupContentSize, windowSize)
+        }.let {
+            it.copy(
+                x = it.x + transformAnchorBounds.x,
+                y = it.y + transformAnchorBounds.y
+            )
         }
     }
 
