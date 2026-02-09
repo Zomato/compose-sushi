@@ -79,7 +79,7 @@ private fun SushiImageImpl(
         val contentScale = props.contentScale ?: SushiImageDefaults.contentScale
         val alpha = props.alpha ?: SushiImageDefaults.alpha
         val colorFilter = props.colorFilter ?: SushiImageDefaults.colorFilter
-        val borderSpec = props.borderSpec
+        val border = props.border
 
         val height = when {
             props.height != null -> props.height
@@ -98,7 +98,7 @@ private fun SushiImageImpl(
             contentDescription,
             modifier
                 .ifNonNull(onClick) { this.clickable(onClick = it) }
-                .ifNonNull(borderSpec) { this.border(it) }
+                .ifNonNull(border) { this.border(it) }
                 .ifNonNull(props.shape) { this.clip(it) }
                 .ifNonNull(height) { this.height(it) }
                 .ifNonNull(width) { this.width(it) }
