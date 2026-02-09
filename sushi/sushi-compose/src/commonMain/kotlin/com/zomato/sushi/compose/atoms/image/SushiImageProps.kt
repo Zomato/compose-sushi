@@ -36,7 +36,7 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
 data class SushiImageProps(
     val painter: Painter? = null,
     val bgColor: ColorSpec? = null,
-    val borderSpec: BorderSpec? = null,
+    val border: BorderSpec? = null,
     val aspectRatio: Float? = null,
     val height: Dp? = null,
     val width: Dp? = null,
