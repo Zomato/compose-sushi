@@ -172,7 +172,7 @@ private fun SushiTagPreview1() {
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
             text = SushiTextProps("recommended"),
-            size = SushiTagSize.LARGE,
+            size = SushiTagSize.Large,
             type = SushiTagType.Capsule,
             color = SushiTheme.colors.green.v400,
             border = BorderSpec(
@@ -190,7 +190,7 @@ private fun SushiTagPreview2() {
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
             text = SushiTextProps("recommended"),
-            size = SushiTagSize.SMALL,
+            size = SushiTagSize.Small,
             type = SushiTagType.CapsuleOutline,
             color = SushiTheme.colors.green.v400,
             border = BorderSpec(
@@ -208,7 +208,7 @@ private fun SushiTagPreview3() {
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
             text = SushiTextProps("recommended"),
-            size = SushiTagSize.LARGE,
+            size = SushiTagSize.Large,
             type = SushiTagType.CapsuleDashed,
             color = SushiTheme.colors.green.v400,
             border = BorderSpec(
@@ -229,7 +229,7 @@ private fun SushiTagPreview4() {
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
             text = SushiTextProps("recommended"),
-            size = SushiTagSize.LARGE,
+            size = SushiTagSize.Large,
             type = SushiTagType.RoundedOutline,
             color = SushiTheme.colors.blue.v300,
             border = BorderSpec(
@@ -251,7 +251,7 @@ private fun SushiTagPreview5() {
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
             text = SushiTextProps("recommended"),
-            size = SushiTagSize.LARGE,
+            size = SushiTagSize.Large,
             type = SushiTagType.RoundedDashed,
             color = SushiTheme.colors.blue.v300,
             border = BorderSpec(
@@ -273,7 +273,7 @@ private fun SushiTagPreview6() {
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
             text = SushiTextProps("recommended"),
-            size = SushiTagSize.LARGE,
+            size = SushiTagSize.Large,
             type = SushiTagType.Rounded,
             color = SushiTheme.colors.blue.v300,
             border = BorderSpec(
@@ -295,7 +295,7 @@ private fun SushiTagPreview7() {
                 "recommended",
                 color = SushiTheme.colors.white
             ),
-            size = SushiTagSize.NANO,
+            size = SushiTagSize.Nano,
             type = SushiTagType.CapsuleDashed,
             color = SushiTheme.colors.green.v900,
             border = BorderSpec(
@@ -320,7 +320,7 @@ private fun SushiTagPreview8() {
                     "recommended",
                     color = SushiTheme.colors.white
                 ),
-                size = SushiTagSize.TINY,
+                size = SushiTagSize.Tiny,
                 type = SushiTagType.CapsuleDashed,
                 color = SushiTheme.colors.green.v900,
                 border = BorderSpec(
