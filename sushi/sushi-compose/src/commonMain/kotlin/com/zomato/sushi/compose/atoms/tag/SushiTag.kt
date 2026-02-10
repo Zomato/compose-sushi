@@ -273,7 +273,7 @@ private fun SushiTagPreview6() {
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
             text = SushiTextProps("recommended"),
-            size = SushiTagSize.Medium,
+            size = SushiTagSize.Large,
             type = SushiTagType.Rounded,
             color = SushiTheme.colors.blue.v300,
             border = BorderSpec(
