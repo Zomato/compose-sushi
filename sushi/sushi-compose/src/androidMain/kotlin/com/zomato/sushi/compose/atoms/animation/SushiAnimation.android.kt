@@ -84,7 +84,7 @@ private fun SushiAnimationImpl(
             else -> null
         }
 
-        val contentScale = props.contentScale ?: ContentScale.Crop
+        val contentScale = props.contentScale ?: ContentScale.Fit
 
         val composition: LottieComposition? = when(source) {
             is LottieCompositionSource -> source.composition
