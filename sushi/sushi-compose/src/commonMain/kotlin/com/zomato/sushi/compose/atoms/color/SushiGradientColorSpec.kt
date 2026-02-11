@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.GradientType
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.BottomLeftToTopRight
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.BottomRightToTopLeft
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.BottomToTop
@@ -112,6 +113,23 @@ data class SushiGradientColorSpec(
             val center: Offset? = null
         ) : GradientType
     }
+}
+
+/**
+ * Creates a new SushiGradientColorSpec with the specified defaults value if not provided.
+ *
+ * @return A new SushiGradientColorSpec with the specified defaults value if not provided.
+ */
+fun SushiGradientColorSpec.withDefaults(
+    colors: PersistentList<ColorSpec> = persistentListOf(),
+    type: GradientType? = null,
+    themedPropsList: PersistentList<ThemedProps<SushiGradientColorSpec>>? = null
+): SushiGradientColorSpec {
+    return this.copy(
+        colors = this.colors.ifEmpty { colors },
+        type = this.type ?: type,
+        themedPropsList = this.themedPropsList ?: themedPropsList
+    )
 }
 
 /**
