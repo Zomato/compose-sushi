@@ -209,20 +209,31 @@ fun SushiGradientColorSpec.toBrush(
                 val endOffset = direction.endOffset(type.size ?: Size.Infinite)
                 val tileMode = type.tileMode ?: defaultTileMode
 
-                if (colors.size < 2) {
-                    Brush.linearGradient(
-                        colors = listOf(colors.first(), colors.first()),
-                        start = Offset.Zero,
-                        end = Offset.Zero,
-                        tileMode = tileMode
-                    )
-                } else {
-                    Brush.linearGradient(
-                        colors = colors,
-                        start = startOffset,
-                        end = endOffset,
-                        tileMode = tileMode
-                    )
+                when {
+                    colors.isEmpty() -> {
+                        Brush.linearGradient(
+                            colors = listOf(Color.Transparent, Color.Transparent),
+                            start = Offset.Zero,
+                            end = Offset.Zero,
+                            tileMode = tileMode
+                        )
+                    }
+                    colors.size == 1 -> {
+                        Brush.linearGradient(
+                            colors = listOf(colors.first(), colors.first()),
+                            start = Offset.Zero,
+                            end = Offset.Zero,
+                            tileMode = tileMode
+                        )
+                    }
+                    else -> {
+                        Brush.linearGradient(
+                            colors = colors,
+                            start = startOffset,
+                            end = endOffset,
+                            tileMode = tileMode
+                        )
+                    }
                 }
             }
             is SushiGradientColorSpec.GradientType.Radial -> {
