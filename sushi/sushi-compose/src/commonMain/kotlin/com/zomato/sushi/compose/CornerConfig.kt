@@ -21,6 +21,25 @@ data class CornerConfig(
     val bottomStart: Dp? = null
 )
 
+
+operator fun CornerConfig?.plus(other: CornerConfig): CornerConfig {
+    return CornerConfig(
+        topStart = (this?.topStart ?: 0.dp) + (other.topStart ?: 0.dp),
+        topEnd = (this?.topEnd ?: 0.dp) + (other.topEnd ?: 0.dp),
+        bottomEnd = (this?.bottomEnd ?: 0.dp) + (other.bottomEnd ?: 0.dp),
+        bottomStart = (this?.bottomStart ?: 0.dp) + (other.bottomStart ?: 0.dp),
+    )
+}
+
+operator fun CornerConfig?.plus(other: Dp): CornerConfig {
+    return CornerConfig(
+        topStart = (this?.topStart ?: 0.dp) + other,
+        topEnd = (this?.topEnd ?: 0.dp) + other,
+        bottomEnd = (this?.bottomEnd ?: 0.dp) + other,
+        bottomStart = (this?.bottomStart ?: 0.dp) + other,
+    )
+}
+
 /**
  * Converts a [CornerConfig] to a [RoundedCornerShape].
  *
