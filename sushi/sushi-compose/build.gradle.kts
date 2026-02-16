@@ -98,7 +98,7 @@ kotlin {
             implementation(compose.preview)
             implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.lottie.compose)
+            api(libs.lottie.compose)
         }
 
         commonMain.dependencies {

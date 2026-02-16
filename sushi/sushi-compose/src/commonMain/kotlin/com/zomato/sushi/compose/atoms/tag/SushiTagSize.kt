@@ -19,6 +19,6 @@ package com.zomato.sushi.compose.atoms.tag
  * Zomato, Gurgaon, India.
  */
 
-enum class SushiTagSize {
-    ExtraLarge, Large, Medium, Small, Tiny, Nano
+enum class SushiTagSize(val id: String) {
+    ExtraLarge("extralarge"), Large("large"), Medium("medium"), Small("small"), Tiny("tiny"), Nano("nano")
 }

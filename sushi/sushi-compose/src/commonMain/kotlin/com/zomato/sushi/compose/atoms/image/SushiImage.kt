@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.border.border
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -32,7 +33,7 @@ import org.jetbrains.compose.resources.painterResource
  * SushiImage provides a consistent way to display images with various customization options
  * like shapes, sizing, scaling, filters, and more. It supports both fixed dimensions and
  * aspect ratio-based sizing, as well as click interactions.
- * 
+ *
  * The component intelligently handles different combinations of width, height, and aspect ratio:
  * - If width and height are provided, both are applied
  * - If width and aspect ratio are provided, height is calculated automatically
@@ -51,8 +52,9 @@ fun SushiImage(
     onClick: (() -> Unit)? = null
 ) {
     if (props.painter != null) {
-        SushiComponentBase(modifier
-            .testTag("SushiImage")
+        SushiComponentBase(
+            modifier
+                .testTag("SushiImage")
         ) {
             SushiImageImpl(
                 props,
@@ -77,6 +79,7 @@ private fun SushiImageImpl(
         val contentScale = props.contentScale ?: SushiImageDefaults.contentScale
         val alpha = props.alpha ?: SushiImageDefaults.alpha
         val colorFilter = props.colorFilter ?: SushiImageDefaults.colorFilter
+        val border = props.border
 
         val height = when {
             props.height != null -> props.height
@@ -95,6 +98,7 @@ private fun SushiImageImpl(
             contentDescription,
             modifier
                 .ifNonNull(onClick) { this.clickable(onClick = it) }
+                .ifNonNull(border) { this.border(it) }
                 .ifNonNull(props.shape) { this.clip(it) }
                 .ifNonNull(height) { this.height(it) }
                 .ifNonNull(width) { this.width(it) }
@@ -141,7 +145,10 @@ private fun SushiImagePreview1() {
                     contentScale = ContentScale.Fit,
                     alpha = 0.3f,
                     scaleFactor = 0.6f,
-                    colorFilter = ColorFilter.tint(SushiTheme.colors.green.v900.value, blendMode = BlendMode.SrcIn),
+                    colorFilter = ColorFilter.tint(
+                        SushiTheme.colors.green.v900.value,
+                        blendMode = BlendMode.SrcIn
+                    ),
                     aspectRatio = 3f
                 ),
                 Modifier.weight(1f)
