@@ -1,4 +1,5 @@
 import java.util.Properties
+import org.gradle.kotlin.dsl.*
 
 plugins {
     id("com.vanniktech.maven.publish")

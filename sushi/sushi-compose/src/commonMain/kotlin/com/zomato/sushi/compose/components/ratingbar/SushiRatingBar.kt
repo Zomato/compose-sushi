@@ -21,6 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
@@ -61,7 +64,7 @@ import composesushi.sushi_compose.generated.resources.sushi_rating_star_outline
 fun SushiRatingBar(
     props: SushiRatingBarProps,
     onRatingChange: (Float) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     SushiComponentBase(
         modifier
@@ -103,6 +106,7 @@ private fun SushiRatingBarImpl(
 
             Spacer(
                 Modifier
+                    .clearAndSetSemantics {}
                     .width(if (i == 0) 0.dp else spacing)
                     .clickable {
                         onRatingChange(i + 1f)
@@ -113,6 +117,13 @@ private fun SushiRatingBarImpl(
                 filledPercentage = filledPercentage,
                 tintColor = props.tintColor,
                 modifier = Modifier
+                    .clearAndSetSemantics {
+                        contentDescription = props.ratingDescription?.invoke(i + 1f) ?: ""
+                        onClick {
+                            onRatingChange(i + 1f)
+                            true
+                        }
+                    }
                     .scaleOnPressAnchor(scaleOnPressState)
                     .scaleOnPress(scaleOnPressState)
                     .clickable {
@@ -123,6 +134,7 @@ private fun SushiRatingBarImpl(
             )
             Spacer(
                 Modifier
+                    .clearAndSetSemantics {}
                     .width(if (i == starCount - 1) 0.dp else spacing)
                     .clickable {
                         onRatingChange(i + 1f)

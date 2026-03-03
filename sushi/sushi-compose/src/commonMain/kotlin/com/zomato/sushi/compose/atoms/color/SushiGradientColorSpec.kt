@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.GradientType
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.BottomLeftToTopRight
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.BottomRightToTopLeft
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.LinearDirection.BottomToTop
@@ -28,6 +29,7 @@ import com.zomato.sushi.compose.foundation.ThemedPropsProvider
 import com.zomato.sushi.compose.foundation.getThemedProps
 import com.zomato.sushi.compose.internal.SushiPreview
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
@@ -114,6 +116,68 @@ data class SushiGradientColorSpec(
 }
 
 /**
+ * Creates a new SushiGradientColorSpec with the specified defaults value if not provided.
+ *
+ * @return A new SushiGradientColorSpec with the specified defaults value if not provided.
+ */
+fun SushiGradientColorSpec.withDefaults(
+    colors: PersistentList<ColorSpec> = persistentListOf(),
+    type: GradientType? = null,
+    themedPropsList: PersistentList<ThemedProps<SushiGradientColorSpec>>? = null
+): SushiGradientColorSpec {
+    return this.copy(
+        colors = this.colors.ifEmpty { colors },
+        type = this.type ?: type,
+        themedPropsList = this.themedPropsList ?: themedPropsList
+    )
+}
+
+/**
+ * Creates a new SushiGradientColorSpec with the specified alpha (transparency) value.
+ *
+ * @param alpha Alpha value between 0.0 (fully transparent) and 1.0 (fully opaque)
+ * @return A new SushiGradientColorSpec with the specified alpha applied
+ */
+fun SushiGradientColorSpec.withAlpha(
+    alpha: Float
+): SushiGradientColorSpec {
+    return this.transform { it.withAlpha(alpha) }
+}
+
+/**
+ * Transforms a [SushiGradientColorSpec] by applying a custom transformation to its colors.
+ *
+ * This is useful for making modifications to existing [SushiGradientColorSpec] without creating
+ * completely new specs, such as adjusting alpha, saturation, or other color attributes.
+ *
+ * Example usage:
+ * ```
+ * val fadeGradient = mySushiGradientColorSpec.transform { it.copy(alpha = 0.5f) }
+ * ```
+ *
+ * @param transform The function to apply to the original [ColorSpec]
+ * @return A new [SushiGradientColorSpec] that applies the transformation to its colors.
+ */
+fun SushiGradientColorSpec.transform(
+    transform: (ColorSpec) -> ColorSpec
+): SushiGradientColorSpec {
+    return this.copy(
+        colors = this.colors.mutate {
+            for (i in it.indices) {
+                it[i] = transform(it[i])
+            }
+        },
+        themedPropsList = this.themedPropsList?.mutate {
+            for (i in it.indices) {
+                it[i] = it[i].copy(
+                    props = it[i].props.transform(transform)
+                )
+            }
+        }
+    )
+}
+
+/**
  * A Size with infinite dimensions, used as a default for gradient calculations.
  */
 private val Size.Companion.Infinite: Size get() = Size(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
@@ -145,20 +209,31 @@ fun SushiGradientColorSpec.toBrush(
                 val endOffset = direction.endOffset(type.size ?: Size.Infinite)
                 val tileMode = type.tileMode ?: defaultTileMode
 
-                if (colors.size < 2) {
-                    Brush.linearGradient(
-                        colors = listOf(colors.first(), colors.first()),
-                        start = Offset.Zero,
-                        end = Offset.Zero,
-                        tileMode = tileMode
-                    )
-                } else {
-                    Brush.linearGradient(
-                        colors = colors,
-                        start = startOffset,
-                        end = endOffset,
-                        tileMode = tileMode
-                    )
+                when {
+                    colors.isEmpty() -> {
+                        Brush.linearGradient(
+                            colors = listOf(Color.Transparent, Color.Transparent),
+                            start = Offset.Zero,
+                            end = Offset.Zero,
+                            tileMode = tileMode
+                        )
+                    }
+                    colors.size == 1 -> {
+                        Brush.linearGradient(
+                            colors = listOf(colors.first(), colors.first()),
+                            start = Offset.Zero,
+                            end = Offset.Zero,
+                            tileMode = tileMode
+                        )
+                    }
+                    else -> {
+                        Brush.linearGradient(
+                            colors = colors,
+                            start = startOffset,
+                            end = endOffset,
+                            tileMode = tileMode
+                        )
+                    }
                 }
             }
             is SushiGradientColorSpec.GradientType.Radial -> {

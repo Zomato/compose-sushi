@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 object SushiRawColorTokens {
     val Black = Color(0xFF1C1C1C)
     val White = Color(0xFFFFFFFF)
-    val Transparent = Color(0x00FFFFFF)
+    val Transparent = Color(0x00000000)
 
     val Grey050 = Color(0xFFF8F9FC)
     val Grey100 = Color(0xFFF2F4F7)
@@ -265,16 +265,16 @@ object SushiRawColorTokens {
     val Slate900 = Color(0xFF17171C)
 
     //lemon
-    val Lemon050 = Color(0xFEFDF2)
-    val Lemon100 = Color(0xFCFAD4)
-    val Lemon200 = Color(0xF8F4C0)
-    val Lemon300 = Color(0xF9F29C)
-    val Lemon400 = Color(0xF7EE7B)
-    val Lemon500 = Color(0xF5EA5A)
-    val Lemon600 = Color(0xDBCE3B)
-    val Lemon700 = Color(0xC3B513)
-    val Lemon800 = Color(0x4E490E)
-    val Lemon900 = Color(0x2F2D1E)
+    val Lemon050 = Color(0xFFFEFDF2)
+    val Lemon100 = Color(0xFFFCFAD4)
+    val Lemon200 = Color(0xFFF8F4C0)
+    val Lemon300 = Color(0xFFF9F29C)
+    val Lemon400 = Color(0xFFF7EE7B)
+    val Lemon500 = Color(0xFFF5EA5A)
+    val Lemon600 = Color(0xFFDBCE3B)
+    val Lemon700 = Color(0xFFC3B513)
+    val Lemon800 = Color(0xFF4E490E)
+    val Lemon900 = Color(0xFF2F2D1E)
 
     // Rating Colors
     val Rating1 = Red600

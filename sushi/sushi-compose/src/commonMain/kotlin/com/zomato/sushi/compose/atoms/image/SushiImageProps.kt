@@ -7,9 +7,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
+import com.zomato.sushi.compose.atoms.border.BorderSpec
 import com.zomato.sushi.compose.atoms.color.ColorSpec
-import com.zomato.sushi.compose.atoms.color.asColorSpec
-import com.zomato.sushi.compose.foundation.SushiUnspecified
 
 /**
  * Properties for configuring a SushiImage component.
@@ -37,6 +36,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 data class SushiImageProps(
     val painter: Painter? = null,
     val bgColor: ColorSpec? = null,
+    val border: BorderSpec? = null,
     val aspectRatio: Float? = null,
     val height: Dp? = null,
     val width: Dp? = null,

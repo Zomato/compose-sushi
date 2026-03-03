@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
  * 
  * @author gupta.anirudh@zomato.com
  */
-internal enum class SushiFontWeight(val label: String, val weight: Int) {
+enum class SushiFontWeight(val label: String, val weight: Int) {
     Light("light", 300),
     Regular("regular", 400),
     Medium("medium", 500),

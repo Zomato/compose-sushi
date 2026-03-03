@@ -51,9 +51,9 @@ internal fun SushiSurfaceButtonImpl(
 
     val contentPadding = with(SushiButtonDefaults) {
         when (props.sizeOrDefault) {
-            SushiButtonSize.Small -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.mini)
-            SushiButtonSize.Medium -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
-            SushiButtonSize.Large -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
+            SushiButtonSize.Small -> props.contentPadding ?: PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.mini)
+            SushiButtonSize.Medium -> props.contentPadding ?: PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
+            SushiButtonSize.Large -> props.contentPadding ?: PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
         }
     }
 

@@ -139,13 +139,14 @@ private fun LottieAutoPlay(
     contentScale: ContentScale,
     modifier: Modifier = Modifier
 ) {
+    var isVisible by remember { mutableStateOf(true) }
     val animationState = animateLottieCompositionAsState(
         composition,
-        isPlaying = playback.isPlaying.value,
+        isPlaying = playback.isPlaying.value && isVisible,
         restartOnPlay = playback.restartOnPlay,
         reverseOnRepeat = playback.reverseOnRepeat,
         speed = playback.speed,
-        iterations = playback.iterations
+        iterations = playback.iterations.coerceAtLeast(1)
     )
 
     LaunchedEffect(animationState) {
@@ -156,9 +157,7 @@ private fun LottieAutoPlay(
         composition = composition,
         progress = { animationState.progress },
         renderMode = RenderMode.HARDWARE,
-        modifier = modifier.onVisibilityChanged {
-            playback.isPlaying.value = it
-        },
+        modifier = modifier.onVisibilityChanged { isVisible = it },
         contentScale = contentScale
     )
 }

@@ -45,6 +45,26 @@ data class BorderSpec(
 )
 
 /**
+ * Helper function to apply default values to a [BorderSpec].
+ * @return A new [BorderSpec] with default values applied.
+ */
+fun BorderSpec.withDefaults(
+    width: Dp? = null,
+    color: SushiGradientColorSpec? = null,
+    borderType: BorderType? = null,
+    borderSides: BorderSides? = null,
+    shape: Shape? = null
+) : BorderSpec {
+    return this.copy(
+        width = this.width ?: width,
+        color = this.color ?: color,
+        borderType = this.borderType ?: borderType,
+        borderSides = this.borderSides ?: borderSides,
+        shape = this.shape ?: shape,
+    )
+}
+
+/**
  * Base sealed class for different types of border configurations.
  *
  * This class serves as the foundation for a type-safe way to define various border styles.
@@ -88,8 +108,7 @@ data class BorderSides(
     val right: Boolean = true,
     val bottom: Boolean = true
 ) {
-    val isAll: Boolean
-        get() = left && top && right && bottom
+    val isAll: Boolean = left && top && right && bottom
 }
 
 /**

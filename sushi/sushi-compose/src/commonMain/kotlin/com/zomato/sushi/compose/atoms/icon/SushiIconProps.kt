@@ -1,6 +1,7 @@
 package com.zomato.sushi.compose.atoms.icon
 
 import androidx.compose.runtime.Immutable
+import com.zomato.sushi.compose.atoms.border.BorderSpec
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiUnspecified
@@ -15,6 +16,7 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  * @property size The size specification for the icon
  * @property color The color specification for the icon
  * @property parsedIcon The parsed Unicode character derived from the icon code
+ * @property border The border around the icon
  *
  * @author gupta.anirudh@zomato.com
  */
@@ -22,7 +24,8 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
 data class SushiIconProps(
     val code: SushiIconCode? = null,
     val size: IconSizeSpec? = null,
-    val color: ColorSpec? = null
+    val color: ColorSpec? = null,
+    val border: BorderSpec? = null
 ) {
     /**
      * The parsed Unicode character derived from the icon code.
