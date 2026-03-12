@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
@@ -102,7 +101,11 @@ fun TooltipScope.SushiTooltip(
 ) {
     val containerColor = props.containerColor?.takeIfSpecified()?.value ?: SushiTheme.colors.surface.inverse.value
     val shape = props.shape ?: SushiTooltipDefaults.containerShape
-    val caretShape = props.caretShape ?: SushiTooltipDefaults.caretShape()
+    val caretShape = when (val cs = props.caretShape) {
+        SushiTooltipDefaults.noCaretShape -> null  // remove caret entirely
+        null -> SushiTooltipDefaults.caretShape()  // default triangle caret
+        else -> cs
+    }
     val shadowElevation = props.shadowElevation ?: ContainerElevation
     val maxWidth = props.maxWidth ?: SushiTooltipDefaults.maxWidth
 
