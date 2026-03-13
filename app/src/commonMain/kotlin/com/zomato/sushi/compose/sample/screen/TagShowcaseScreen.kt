@@ -458,7 +458,7 @@ fun TagShowcaseScreen(
                         // 30. Disabled Markdown
                         SushiTag(
                             props = SushiTagProps(
-                                text = SushiTextProps(text = "30. **Raw** _Text_", markdown = true),
+                                text = SushiTextProps(text = "30. **Raw** _Text_", markdown = false),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium
                             )
