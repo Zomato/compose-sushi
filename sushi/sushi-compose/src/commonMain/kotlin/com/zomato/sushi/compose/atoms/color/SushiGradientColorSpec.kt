@@ -31,6 +31,7 @@ import com.zomato.sushi.compose.foundation.ThemedProps
 import com.zomato.sushi.compose.foundation.ThemedPropsProvider
 import com.zomato.sushi.compose.foundation.getThemedProps
 import com.zomato.sushi.compose.internal.SushiPreview
+import com.zomato.sushi.compose.modifiers.foreground.foreground
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
@@ -313,6 +314,33 @@ fun Color.asSushiGradientColorSpec(): SushiGradientColorSpec {
 
 fun List<ColorSpec>.asSushiGradientColorSpec(): SushiGradientColorSpec {
     return SushiGradientColorSpec(this.toPersistentList())
+}
+
+/**
+ * Modifier that applies [SushiGradientColorSpec] as foreground.
+ *
+ * @param gradient the gradient to apply
+ * @param shape the shape to apply
+ * @param alpha the alpha value to apply
+ * @param defaultTileMode The default tile mode to use if not specified in the gradient type
+ * @param defaultGradientType The default gradient type to use if not specified in the SushiGradientColorData
+ * @return A modifier that applies the gradient as background
+ */
+@Composable
+fun Modifier.foreground(
+    gradient: SushiGradientColorSpec,
+    shape: Shape = RectangleShape,
+    @FloatRange(from = 0.0, to = 1.0) alpha: Float = 1.0f,
+    defaultTileMode: TileMode = TileMode.Clamp,
+    defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
+): Modifier {
+    return this.foreground(
+        gradient.toBrush(
+            defaultTileMode = defaultTileMode,
+            defaultGradientType = defaultGradientType
+        ),
+        shape = shape, alpha = alpha
+    )
 }
 
 
