@@ -312,6 +312,50 @@ fun List<ColorSpec>.asSushiGradientColorSpec(): SushiGradientColorSpec {
     return SushiGradientColorSpec(this.toPersistentList())
 }
 
+
+/**
+ * Modifier that applies [SushiGradientColorSpec] as background.
+ *
+ * @param gradient the gradient to apply
+ * @param defaultTileMode The default tile mode to use if not specified in the gradient type
+ * @param defaultGradientType The default gradient type to use if not specified in the SushiGradientColorData
+ * @return A modifier that applies the gradient as background
+ */
+@Composable
+fun Modifier.background(
+    gradient: SushiGradientColorSpec,
+    defaultTileMode: TileMode = TileMode.Clamp,
+    defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
+): Modifier {
+    return this.background(gradient.toBrush())
+}
+
+/**
+ * Modifier that applies a list of [SushiGradientColorSpec] as layered backgrounds.
+ *
+ * Gradients are applied from first (bottom-most layer) to last (top-most layer), matching
+ * the intuitive "painter's order" — the last element in the list visually appears on top.
+ *
+ * **Note**: the list size must be stable across recompositions. Changing the number of
+ * gradients will reset the composition slots held by each [toBrush] call.
+ *
+ * @param gradients the ordered list of gradients to layer; returns unchanged modifier if empty
+ * @param defaultTileMode The default tile mode to use if not specified in the gradient type
+ * @param defaultGradientType The default gradient type to use if not specified in the gradient
+ * @return A modifier that applies all gradients as stacked backgrounds
+ */
+@Composable
+fun Modifier.background(
+    gradients: List<SushiGradientColorSpec>,
+    defaultTileMode: TileMode = TileMode.Clamp,
+    defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
+): Modifier {
+    if (gradients.isEmpty()) return this
+    return gradients.fold(this) { acc, gradient ->
+        acc.background(gradient.toBrush(defaultTileMode, defaultGradientType))
+    }
+}
+
 @SushiPreview
 @Composable
 private fun SushiGradientPreview() {
