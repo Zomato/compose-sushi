@@ -46,6 +46,7 @@ import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.SushiTextType
 import com.zomato.sushi.compose.components.tooltip.SushiTooltip
 import com.zomato.sushi.compose.components.tooltip.SushiTooltipBox
+import com.zomato.sushi.compose.components.tooltip.SushiTooltipDefaults
 import com.zomato.sushi.compose.components.tooltip.SushiTooltipProps
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
@@ -275,7 +276,7 @@ fun TooltipShowcaseScreen(
                                         text = "This tooltip has a custom shape with no caret",
                                         color = SushiTheme.colors.text.inverse
                                     ),
-                                    caretSize = DpSize.Unspecified,  // No caret
+                                    caretShape = SushiTooltipDefaults.noCaretShape,  // No caret
                                     shape = RoundedCornerShape(16.dp)  // More rounded corners
                                 )
                             )

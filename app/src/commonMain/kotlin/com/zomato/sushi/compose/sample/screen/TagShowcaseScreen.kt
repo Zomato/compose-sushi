@@ -30,11 +30,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.border.BorderSpec
 import com.zomato.sushi.compose.atoms.color.ColorName
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.SushiColorData
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
@@ -50,6 +51,7 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.sample.snippets.AppTopBar
 import com.zomato.sushi.compose.sample.ui.theme.AppTheme
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -96,7 +98,7 @@ fun TagShowcaseScreen(
                         // 1. Rounded Tag
                         SushiTag(
                             props = SushiTagProps(
-                                text = "1. Rounded",
+                                text = SushiTextProps(text = "1. Rounded"),
                                 type = SushiTagType.Rounded,
                                 size = SushiTagSize.Medium
                             )
@@ -105,7 +107,7 @@ fun TagShowcaseScreen(
                         // 2. Capsule Tag
                         SushiTag(
                             props = SushiTagProps(
-                                text = "2. Capsule",
+                                text = SushiTextProps(text = "2. Capsule"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium
                             )
@@ -114,7 +116,7 @@ fun TagShowcaseScreen(
                         // 3. Rounded Outline
                         SushiTag(
                             props = SushiTagProps(
-                                text = "3. RoundedOutline",
+                                text = SushiTextProps(text = "3. RoundedOutline"),
                                 type = SushiTagType.RoundedOutline,
                                 size = SushiTagSize.Medium
                             )
@@ -123,7 +125,7 @@ fun TagShowcaseScreen(
                         // 4. Capsule Outline
                         SushiTag(
                             props = SushiTagProps(
-                                text = "4. CapsuleOutline",
+                                text = SushiTextProps(text = "4. CapsuleOutline"),
                                 type = SushiTagType.CapsuleOutline,
                                 size = SushiTagSize.Medium
                             )
@@ -132,7 +134,7 @@ fun TagShowcaseScreen(
                         // 5. Rounded Dashed
                         SushiTag(
                             props = SushiTagProps(
-                                text = "5. RoundedDashed",
+                                text = SushiTextProps(text = "5. RoundedDashed"),
                                 type = SushiTagType.RoundedDashed,
                                 size = SushiTagSize.Medium
                             )
@@ -141,7 +143,7 @@ fun TagShowcaseScreen(
                         // 6. Capsule Dashed
                         SushiTag(
                             props = SushiTagProps(
-                                text = "6. CapsuleDashed",
+                                text = SushiTextProps(text = "6. CapsuleDashed"),
                                 type = SushiTagType.CapsuleDashed,
                                 size = SushiTagSize.Medium
                             )
@@ -161,7 +163,7 @@ fun TagShowcaseScreen(
                         // 7. Nano Size
                         SushiTag(
                             props = SushiTagProps(
-                                text = "7. Nano",
+                                text = SushiTextProps(text = "7. Nano"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Nano
                             )
@@ -170,7 +172,7 @@ fun TagShowcaseScreen(
                         // 8. Tiny Size
                         SushiTag(
                             props = SushiTagProps(
-                                text = "8. Tiny",
+                                text = SushiTextProps(text = "8. Tiny"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Tiny
                             )
@@ -179,7 +181,7 @@ fun TagShowcaseScreen(
                         // 9. Small Size
                         SushiTag(
                             props = SushiTagProps(
-                                text = "9. Small",
+                                text = SushiTextProps(text = "9. Small"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Small
                             )
@@ -188,7 +190,7 @@ fun TagShowcaseScreen(
                         // 10. Medium Size
                         SushiTag(
                             props = SushiTagProps(
-                                text = "10. Medium",
+                                text = SushiTextProps(text = "10. Medium"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium
                             )
@@ -197,7 +199,7 @@ fun TagShowcaseScreen(
                         // 11. Large Size
                         SushiTag(
                             props = SushiTagProps(
-                                text = "11. Large",
+                                text = SushiTextProps(text = "11. Large"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Large
                             )
@@ -206,7 +208,7 @@ fun TagShowcaseScreen(
                         // 12. Extra Large Size
                         SushiTag(
                             props = SushiTagProps(
-                                text = "12. Extra Large",
+                                text = SushiTextProps(text = "12. Extra Large"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.ExtraLarge
                             )
@@ -226,7 +228,7 @@ fun TagShowcaseScreen(
                         // 13. Custom Background Color
                         SushiTag(
                             props = SushiTagProps(
-                                text = "13. Background Color",
+                                text = SushiTextProps(text = "13. Background Color"),
                                 type = SushiTagType.Rounded,
                                 size = SushiTagSize.Medium,
                                 color = SushiColorData(ColorName.Red, ColorVariation.Variation500)
@@ -236,32 +238,47 @@ fun TagShowcaseScreen(
                         // 14. Custom Text Color
                         SushiTag(
                             props = SushiTagProps(
-                                text = "14. Text Color",
+                                text = SushiTextProps(
+                                    text = "14. Text Color",
+                                    color = SushiColorData(ColorName.Blue, ColorVariation.Variation900)
+                                ),
                                 type = SushiTagType.Rounded,
                                 size = SushiTagSize.Medium,
-                                color = SushiColorData(ColorName.Blue, ColorVariation.Variation100),
-                                fontColor = SushiColorData(ColorName.Blue, ColorVariation.Variation900)
+                                color = SushiColorData(ColorName.Blue, ColorVariation.Variation100)
                             )
                         )
 
                         // 15. Custom Border Color
                         SushiTag(
                             props = SushiTagProps(
-                                text = "15. Border Color",
+                                text = SushiTextProps(
+                                    text = "15. Border Color"
+                                ),
+                                border = BorderSpec(
+                                    color = SushiGradientColorSpec(
+                                        colors = persistentListOf(
+                                            SushiColorData(
+                                                ColorName.Green,
+                                                ColorVariation.Variation600
+                                            )
+                                        )
+                                    )
+                                ),
                                 type = SushiTagType.RoundedOutline,
                                 size = SushiTagSize.Medium,
-                                borderColor = SushiColorData(ColorName.Green, ColorVariation.Variation600)
                             )
                         )
 
                         // 16. Dark Background, Light Text
                         SushiTag(
                             props = SushiTagProps(
-                                text = "16. Dark & Light",
+                                text = SushiTextProps(
+                                    text = "16. Dark & Light",
+                                    color = SushiColorData(ColorName.White, ColorVariation.Variation900)
+                                ),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium,
-                                color = SushiColorData(ColorName.Black, ColorVariation.Variation900),
-                                fontColor = SushiColorData(ColorName.White, ColorVariation.Variation900)
+                                color = SushiColorData(ColorName.Black, ColorVariation.Variation900)
                             )
                         )
                     }
@@ -279,7 +296,7 @@ fun TagShowcaseScreen(
                         // 17. Tag with Prefix Icon
                         SushiTag(
                             props = SushiTagProps(
-                                text = "17. Prefix Icon",
+                                text = SushiTextProps(text = "17. Prefix Icon"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium,
                                 prefixIcon = SushiIconProps(code = SushiIconCodes.IconStarFill)
@@ -289,7 +306,7 @@ fun TagShowcaseScreen(
                         // 18. Tag with Suffix Icon
                         SushiTag(
                             props = SushiTagProps(
-                                text = "18. Suffix Icon",
+                                text = SushiTextProps(text = "18. Suffix Icon"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium,
                                 suffixIcon = SushiIconProps(code = SushiIconCodes.IconChevronRight)
@@ -299,7 +316,7 @@ fun TagShowcaseScreen(
                         // 19. Tag with Both Icons
                         SushiTag(
                             props = SushiTagProps(
-                                text = "19. Both Icons",
+                                text = SushiTextProps(text = "19. Both Icons"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium,
                                 prefixIcon = SushiIconProps(code = SushiIconCodes.IconStarFill),
@@ -310,7 +327,7 @@ fun TagShowcaseScreen(
                         // 20. Custom Color Icon
                         SushiTag(
                             props = SushiTagProps(
-                                text = "20. Colored Icon",
+                                text = SushiTextProps(text = "20. Colored Icon"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium,
                                 prefixIcon = SushiIconProps(
@@ -323,7 +340,7 @@ fun TagShowcaseScreen(
                         // 21. Custom Icon Size
                         SushiTag(
                             props = SushiTagProps(
-                                text = "21. Large Icon",
+                                text = SushiTextProps(text = "21. Large Icon"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium,
                                 prefixIcon = SushiIconProps(
@@ -336,7 +353,7 @@ fun TagShowcaseScreen(
                         // 22. Custom Icon Spacing
                         SushiTag(
                             props = SushiTagProps(
-                                text = "22. Icon Spacing",
+                                text = SushiTextProps(text = "22. Icon Spacing"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium,
                                 prefixIcon = SushiIconProps(code = SushiIconCodes.IconStarFill),
@@ -358,7 +375,7 @@ fun TagShowcaseScreen(
                         // 23. Circle Shape
                         SushiTag(
                             props = SushiTagProps(
-                                text = "23",
+                                text = SushiTextProps(text = "23"),
                                 type = SushiTagType.Rounded,
                                 size = SushiTagSize.Medium,
                                 shape = CircleShape
@@ -368,7 +385,7 @@ fun TagShowcaseScreen(
                         // 24. Custom Corner Radius
                         SushiTag(
                             props = SushiTagProps(
-                                text = "24. Custom Radius",
+                                text = SushiTextProps(text = "24. Custom Radius"),
                                 type = SushiTagType.Rounded,
                                 size = SushiTagSize.Medium,
                                 shape = RoundedCornerShape(12.dp)
@@ -378,7 +395,7 @@ fun TagShowcaseScreen(
                         // 25. Cut Corner Shape
                         SushiTag(
                             props = SushiTagProps(
-                                text = "25. Cut Corners",
+                                text = SushiTextProps(text = "25. Cut Corners"),
                                 type = SushiTagType.Rounded,
                                 size = SushiTagSize.Medium,
                                 shape = CutCornerShape(8.dp)
@@ -388,7 +405,7 @@ fun TagShowcaseScreen(
                         // 26. Asymmetric Shape
                         SushiTag(
                             props = SushiTagProps(
-                                text = "26. Asymmetric",
+                                text = SushiTextProps(text = "26. Asymmetric"),
                                 type = SushiTagType.Rounded,
                                 size = SushiTagSize.Medium,
                                 shape = RoundedCornerShape(
@@ -414,40 +431,36 @@ fun TagShowcaseScreen(
                         // 27. Bold Markdown
                         SushiTag(
                             props = SushiTagProps(
-                                text = "27. **Bold** Text",
+                                text = SushiTextProps(text = "27. **Bold** Text", markdown = true),
                                 type = SushiTagType.Capsule,
-                                size = SushiTagSize.Medium,
-                                markdown = true
+                                size = SushiTagSize.Medium
                             )
                         )
 
                         // 28. Italic Markdown
                         SushiTag(
                             props = SushiTagProps(
-                                text = "28. _Italic_ Text",
+                                text = SushiTextProps(text = "28. _Italic_ Text", markdown = true),
                                 type = SushiTagType.Capsule,
-                                size = SushiTagSize.Medium,
-                                markdown = true
+                                size = SushiTagSize.Medium
                             )
                         )
 
                         // 29. Combined Markdown
                         SushiTag(
                             props = SushiTagProps(
-                                text = "29. **Bold** & _Italic_",
+                                text = SushiTextProps(text = "29. **Bold** & _Italic_", markdown = true),
                                 type = SushiTagType.Capsule,
-                                size = SushiTagSize.Medium,
-                                markdown = true
+                                size = SushiTagSize.Medium
                             )
                         )
 
                         // 30. Disabled Markdown
                         SushiTag(
                             props = SushiTagProps(
-                                text = "30. **Raw** _Text_",
+                                text = SushiTextProps(text = "30. **Raw** _Text_", markdown = false),
                                 type = SushiTagType.Capsule,
-                                size = SushiTagSize.Medium,
-                                markdown = false
+                                size = SushiTagSize.Medium
                             )
                         )
                     }
@@ -466,7 +479,7 @@ fun TagShowcaseScreen(
                         var clicked by remember { mutableStateOf(false) }
                         SushiTag(
                             props = SushiTagProps(
-                                text = if (clicked) "31. Clicked!" else "31. Click Me",
+                                text = SushiTextProps(text = if (clicked) "31. Clicked!" else "31. Click Me"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium,
                                 color = if (clicked)
@@ -480,12 +493,17 @@ fun TagShowcaseScreen(
                         var selected by remember { mutableStateOf(false) }
                         SushiTag(
                             props = SushiTagProps(
-                                text = "32. Toggle",
+                                text = SushiTextProps(text = "32. Toggle", color = if (selected) SushiTheme.colors.white else SushiTheme.colors.blue.v500),
                                 type = if (selected) SushiTagType.Capsule else SushiTagType.CapsuleOutline,
                                 size = SushiTagSize.Medium,
                                 color = if (selected) SushiTheme.colors.blue.v500 else SushiTheme.colors.surface.primary,
-                                fontColor = if (selected) SushiTheme.colors.white else SushiTheme.colors.blue.v500,
-                                borderColor = SushiTheme.colors.blue.v500
+                                border = BorderSpec(
+                                    color = SushiGradientColorSpec(
+                                        colors = persistentListOf(
+                                            SushiTheme.colors.blue.v500
+                                        )
+                                    )
+                                ),
                             ),
                             onClick = { selected = !selected }
                         )
@@ -494,7 +512,7 @@ fun TagShowcaseScreen(
                         var rotated by remember { mutableStateOf(false) }
                         SushiTag(
                             props = SushiTagProps(
-                                text = "33. Rotate Icon",
+                                text = SushiTextProps(text = "33. Rotate Icon"),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Medium,
                                 suffixIcon = SushiIconProps(code = SushiIconCodes.IconRefresh)
@@ -542,11 +560,10 @@ fun TagShowcaseScreen(
                         // Success Status
                         SushiTag(
                             props = SushiTagProps(
-                                text = "Success",
+                                text = SushiTextProps(text = "Success", color = SushiColorData(ColorName.Green, ColorVariation.Variation800)),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Small,
                                 color = SushiColorData(ColorName.Green, ColorVariation.Variation100),
-                                fontColor = SushiColorData(ColorName.Green, ColorVariation.Variation800),
                                 prefixIcon = SushiIconProps(
                                     code = SushiIconCodes.IconCheckCircle,
                                     color = SushiColorData(ColorName.Green, ColorVariation.Variation800)
@@ -557,11 +574,10 @@ fun TagShowcaseScreen(
                         // Warning Status
                         SushiTag(
                             props = SushiTagProps(
-                                text = "Warning",
+                                text = SushiTextProps(text = "Warning", color = SushiColorData(ColorName.Yellow, ColorVariation.Variation800)),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Small,
                                 color = SushiColorData(ColorName.Yellow, ColorVariation.Variation100),
-                                fontColor = SushiColorData(ColorName.Yellow, ColorVariation.Variation800),
                                 prefixIcon = SushiIconProps(
                                     code = SushiIconCodes.IconExclamation,
                                     color = SushiColorData(ColorName.Yellow, ColorVariation.Variation800)
@@ -572,11 +588,10 @@ fun TagShowcaseScreen(
                         // Error Status
                         SushiTag(
                             props = SushiTagProps(
-                                text = "Error",
+                                text = SushiTextProps(text = "Error", color = SushiColorData(ColorName.Red, ColorVariation.Variation800)),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Small,
                                 color = SushiColorData(ColorName.Red, ColorVariation.Variation100),
-                                fontColor = SushiColorData(ColorName.Red, ColorVariation.Variation800),
                                 prefixIcon = SushiIconProps(
                                     code = SushiIconCodes.IconCrossCircleFill,
                                     color = SushiColorData(ColorName.Red, ColorVariation.Variation800)
@@ -587,11 +602,10 @@ fun TagShowcaseScreen(
                         // Info Status
                         SushiTag(
                             props = SushiTagProps(
-                                text = "Info",
+                                text = SushiTextProps(text = "Info", color = SushiColorData(ColorName.Blue, ColorVariation.Variation800)),
                                 type = SushiTagType.Capsule,
                                 size = SushiTagSize.Small,
                                 color = SushiColorData(ColorName.Blue, ColorVariation.Variation100),
-                                fontColor = SushiColorData(ColorName.Blue, ColorVariation.Variation800),
                                 prefixIcon = SushiIconProps(
                                     code = SushiIconCodes.IconInfo,
                                     color = SushiColorData(ColorName.Blue, ColorVariation.Variation800)
@@ -619,10 +633,16 @@ fun TagShowcaseScreen(
                         categories.forEachIndexed { index, category ->
                             SushiTag(
                                 props = SushiTagProps(
-                                    text = category,
+                                    text = SushiTextProps(text = category),
                                     type = SushiTagType.RoundedOutline,
                                     size = SushiTagSize.Small,
-                                    borderColor = colors[index]
+                                    border = BorderSpec(
+                                        color = SushiGradientColorSpec(
+                                            colors = persistentListOf(
+                                                colors[index]
+                                            )
+                                        )
+                                    ),
                                 )
                             )
                         }
@@ -658,21 +678,19 @@ fun TagShowcaseScreen(
                             ) {
                                 SushiTag(
                                     props = SushiTagProps(
-                                        text = "Pro",
+                                        text = SushiTextProps(text = "Pro", color = SushiColorData(ColorName.Black, ColorVariation.Variation900)),
                                         type = SushiTagType.Capsule,
                                         size = SushiTagSize.Tiny,
-                                        color = SushiColorData(ColorName.Gold, ColorVariation.Variation500),
-                                        fontColor = SushiColorData(ColorName.Black, ColorVariation.Variation900)
+                                        color = SushiColorData(ColorName.Gold, ColorVariation.Variation500)
                                     )
                                 )
 
                                 SushiTag(
                                     props = SushiTagProps(
-                                        text = "Top Reviewer",
+                                        text = SushiTextProps(text = "Top Reviewer", color = SushiColorData(ColorName.White, ColorVariation.Variation900)),
                                         type = SushiTagType.Capsule,
                                         size = SushiTagSize.Tiny,
-                                        color = SushiColorData(ColorName.Purple, ColorVariation.Variation500),
-                                        fontColor = SushiColorData(ColorName.White, ColorVariation.Variation900)
+                                        color = SushiColorData(ColorName.Purple, ColorVariation.Variation500)
                                     )
                                 )
                             }
@@ -705,12 +723,17 @@ fun TagShowcaseScreen(
 
                                 SushiTag(
                                     props = SushiTagProps(
-                                        text = "NEW",
+                                        text = SushiTextProps(text = "NEW", color = SushiColorData(ColorName.Orange, ColorVariation.Variation800)),
                                         type = SushiTagType.CapsuleDashed,
                                         size = SushiTagSize.Tiny,
                                         color = SushiColorData(ColorName.Orange, ColorVariation.Variation100),
-                                        fontColor = SushiColorData(ColorName.Orange, ColorVariation.Variation800),
-                                        borderColor = SushiColorData(ColorName.Orange, ColorVariation.Variation500)
+                                        border = BorderSpec(
+                                            color = SushiGradientColorSpec(
+                                                colors = persistentListOf(
+                                                    SushiColorData(ColorName.Orange, ColorVariation.Variation500)
+                                                )
+                                            )
+                                        ),
                                     )
                                 )
                             }
@@ -729,7 +752,7 @@ fun TagShowcaseScreen(
                             ) {
                                 SushiTag(
                                     props = SushiTagProps(
-                                        text = "Specialty",
+                                        text = SushiTextProps(text = "Specialty"),
                                         type = SushiTagType.RoundedOutline,
                                         size = SushiTagSize.Nano
                                     )
@@ -737,7 +760,7 @@ fun TagShowcaseScreen(
 
                                 SushiTag(
                                     props = SushiTagProps(
-                                        text = "Organic",
+                                        text = SushiTextProps(text = "Organic"),
                                         type = SushiTagType.RoundedOutline,
                                         size = SushiTagSize.Nano
                                     )
@@ -745,7 +768,7 @@ fun TagShowcaseScreen(
 
                                 SushiTag(
                                     props = SushiTagProps(
-                                        text = "Fair Trade",
+                                        text = SushiTextProps(text = "Fair Trade"),
                                         type = SushiTagType.RoundedOutline,
                                         size = SushiTagSize.Nano
                                     )
@@ -793,21 +816,25 @@ fun TagShowcaseScreen(
                                 ) {
                                     SushiTag(
                                         props = SushiTagProps(
-                                            text = "50% OFF",
+                                            text = SushiTextProps(text = "50% OFF", color = SushiColorData(ColorName.White, ColorVariation.Variation900)),
                                             type = SushiTagType.Capsule,
                                             size = SushiTagSize.Tiny,
-                                            color = SushiColorData(ColorName.Red, ColorVariation.Variation600),
-                                            fontColor = SushiColorData(ColorName.White, ColorVariation.Variation900)
+                                            color = SushiColorData(ColorName.Red, ColorVariation.Variation600)
                                         )
                                     )
 
                                     SushiTag(
                                         props = SushiTagProps(
-                                            text = "FREE DELIVERY",
+                                            text = SushiTextProps(text = "FREE DELIVERY", color = SushiColorData(ColorName.Green, ColorVariation.Variation600)),
                                             type = SushiTagType.RoundedOutline,
                                             size = SushiTagSize.Tiny,
-                                            borderColor = SushiColorData(ColorName.Green, ColorVariation.Variation600),
-                                            fontColor = SushiColorData(ColorName.Green, ColorVariation.Variation600)
+                                            border = BorderSpec(
+                                                color = SushiGradientColorSpec(
+                                                    colors = persistentListOf(
+                                                        SushiColorData(ColorName.Green, ColorVariation.Variation600)
+                                                    )
+                                                )
+                                            )
                                         )
                                     )
                                 }
@@ -848,16 +875,21 @@ fun TagShowcaseScreen(
                                 val isSelected = selectedFilters.value.contains(filter)
                                 SushiTag(
                                     props = SushiTagProps(
-                                        text = filter,
+                                        text = SushiTextProps(text = filter, color = if (isSelected) SushiTheme.colors.white else SushiTheme.colors.base.theme.v500),
                                         type = if (isSelected) SushiTagType.Capsule else SushiTagType.CapsuleOutline,
                                         size = SushiTagSize.Small,
                                         color = if (isSelected) SushiTheme.colors.base.theme.v500 else SushiTheme.colors.surface.primary,
-                                        fontColor = if (isSelected) SushiTheme.colors.white else SushiTheme.colors.base.theme.v500,
-                                        borderColor = SushiTheme.colors.base.theme.v500,
                                         prefixIcon = if (isSelected) SushiIconProps(
                                             code = SushiIconCodes.IconCheck,
                                             color = if (isSelected) SushiTheme.colors.white else SushiTheme.colors.base.theme.v500
-                                        ) else null
+                                        ) else null,
+                                        border = BorderSpec(
+                                            color = SushiGradientColorSpec(
+                                                colors = persistentListOf(
+                                                    SushiTheme.colors.base.theme.v500
+                                                )
+                                            )
+                                        )
                                     ),
                                     onClick = {
                                         selectedFilters.value = if (isSelected) {
@@ -911,7 +943,13 @@ fun TagShowcaseScreen(
                         SushiTag(
                             props = SushiTagProps(
                                 type = SushiTagType.RoundedOutline,
-                                borderColor = SushiTheme.colors.grey.v600
+                                border = BorderSpec(
+                                    color = SushiGradientColorSpec(
+                                        colors = persistentListOf(
+                                            SushiTheme.colors.grey.v600
+                                        )
+                                    )
+                                )
                             ),
                             content = {
                                 Row(
@@ -940,7 +978,13 @@ fun TagShowcaseScreen(
                         SushiTag(
                             props = SushiTagProps(
                                 type = SushiTagType.RoundedDashed,
-                                borderColor = SushiTheme.colors.blue.v600
+                                border = BorderSpec(
+                                    color = SushiGradientColorSpec(
+                                        colors = persistentListOf(
+                                            SushiTheme.colors.blue.v600
+                                        )
+                                    )
+                                )
                             ),
                             content = {
                                 Row(
@@ -963,7 +1007,9 @@ fun TagShowcaseScreen(
                             props = SushiTagProps(
                                 type = SushiTagType.Capsule,
                                 color = SushiTheme.colors.purple.v100,
-                                fontColor = SushiTheme.colors.purple.v800
+                                text = SushiTextProps(
+                                    color = SushiTheme.colors.purple.v800
+                                )
                             ),
                             content = {
                                 Row(
