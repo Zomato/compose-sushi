@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.atoms.color
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.GradientType
@@ -317,6 +320,8 @@ fun List<ColorSpec>.asSushiGradientColorSpec(): SushiGradientColorSpec {
  * Modifier that applies [SushiGradientColorSpec] as background.
  *
  * @param gradient the gradient to apply
+ * @param shape the shape to apply
+ * @param alpha the alpha value to apply
  * @param defaultTileMode The default tile mode to use if not specified in the gradient type
  * @param defaultGradientType The default gradient type to use if not specified in the SushiGradientColorData
  * @return A modifier that applies the gradient as background
@@ -324,10 +329,18 @@ fun List<ColorSpec>.asSushiGradientColorSpec(): SushiGradientColorSpec {
 @Composable
 fun Modifier.background(
     gradient: SushiGradientColorSpec,
+    shape: Shape = RectangleShape,
+    @FloatRange(from = 0.0, to = 1.0) alpha: Float = 1.0f,
     defaultTileMode: TileMode = TileMode.Clamp,
     defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
 ): Modifier {
-    return this.background(gradient.toBrush())
+    return this.background(
+        gradient.toBrush(
+            defaultTileMode = defaultTileMode,
+            defaultGradientType = defaultGradientType
+        ),
+        shape = shape, alpha = alpha
+    )
 }
 
 /**
