@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
@@ -98,6 +99,7 @@ private fun SushiImageImpl(
             contentDescription,
             modifier
                 .ifNonNull(onClick) { this.clickable(onClick = it) }
+                .ifNonNull(props.rotation) { this.rotate(it) }
                 .ifNonNull(border) { this.border(it) }
                 .ifNonNull(props.shape) { this.clip(it) }
                 .ifNonNull(height) { this.height(it) }
