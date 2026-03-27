@@ -20,8 +20,8 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 @Composable
 internal fun SushiSolidButton(
     props: SushiButtonProps,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val color = props.color?.takeIfSpecified() ?: SushiTheme.colors.button.primaryBackground
@@ -146,7 +146,7 @@ private fun SushiSolidButtonPreview6() {
                 verticalAlignment = Alignment.CenterVertically
             ),
             onClick = {},
-            Modifier.width(180.dp).height(70.dp)
+            modifier = Modifier.width(180.dp).height(70.dp)
         )
     }
 }

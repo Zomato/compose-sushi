@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.modifiers.ifNonNull
 
 /**
  * @author gupta.anirudh@zomato.com
@@ -27,7 +28,6 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 @Composable
 internal fun SushiSurfaceButtonImpl(
     props: SushiButtonProps,
-    onClick: () -> Unit,
     color: ColorSpec,
     colorDisabled: ColorSpec,
     fontColor: ColorSpec,
@@ -38,6 +38,7 @@ internal fun SushiSurfaceButtonImpl(
     borderStrokeColorDisabled: ColorSpec,
     borderStrokeWidth: Dp,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val isTapped = remember(props) { mutableStateOf(false) }
@@ -58,7 +59,7 @@ internal fun SushiSurfaceButtonImpl(
     }
 
     ButtonImpl(
-        onClick = onClick,
+        onClick = onClick ?: {},
         modifier
             .pointerInput(isTapped) {
                 while (true) {
@@ -70,12 +71,14 @@ internal fun SushiSurfaceButtonImpl(
                     }
                 }
             }
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = ripple(),
-                enabled = !isDisabled,
-                onClick = onClick
-            ),
+            .ifNonNull(onClick) {
+                this.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = ripple(),
+                    enabled = !isDisabled,
+                    onClick = it
+                )
+            },
         enabled = !isDisabled,
         contentPadding = contentPadding,
         shape = with(SushiButtonDefaults) { props.shapeOrDefault },

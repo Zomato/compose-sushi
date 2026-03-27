@@ -14,8 +14,8 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 @Composable
 internal fun SushiOutlineButton(
     props: SushiButtonProps,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val color = props.color?.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBackground

@@ -213,7 +213,7 @@ private fun ScaleOnPressPreview1() {
                 onClick = {
                     show.value = true
                 },
-                Modifier
+                modifier = Modifier
                     .scaleOnPress(enabled = true)
             )
             if (show.value) {

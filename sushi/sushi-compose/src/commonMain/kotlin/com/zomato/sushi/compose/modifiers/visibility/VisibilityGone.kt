@@ -97,7 +97,7 @@ private fun VisibilityGonePreview1() {
                 onClick = {
                     show.value = false
                 },
-                Modifier
+                modifier = Modifier
                     .visibilityGone(enabled = !show.value)
             )
             SushiText(

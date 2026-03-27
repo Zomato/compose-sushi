@@ -157,7 +157,7 @@ private fun SushiAlertDialogImpl(
                             SushiButton(
                                 props = props.positiveButton,
                                 onClick = onPositiveButtonClick ?: {},
-                                Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
+                                modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
                             )
                         }
                         if (props.negativeButton != null) {
@@ -169,7 +169,7 @@ private fun SushiAlertDialogImpl(
                             SushiButton(
                                 props = props.negativeButton,
                                 onClick = onNegativeButtonClick ?: {},
-                                Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
+                                modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
                             )
                         }
                         if (props.neutralButton != null) {
@@ -181,7 +181,7 @@ private fun SushiAlertDialogImpl(
                             SushiButton(
                                 props = props.neutralButton,
                                 onClick = onNeutralButtonClick ?: {},
-                                Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
+                                modifier = Modifier.padding(bottom = SushiTheme.dimens.spacing.base)
                             )
                         }
                         Spacer(Modifier)
