@@ -34,18 +34,15 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 internal fun ButtonImpl(
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = ButtonDefaults.shape,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     border: BorderStroke? = null,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
-    interactionSource: MutableInteractionSource? = null,
     content: @Composable RowScope.() -> Unit
 ) {
     CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 0.dp) {
-        val interactionSource = interactionSource ?: remember { MutableInteractionSource() }
         val containerColor = if (enabled) colors.containerColor else colors.disabledContainerColor
         val contentColor = if (enabled) colors.contentColor else colors.disabledContentColor
 
@@ -54,19 +51,13 @@ internal fun ButtonImpl(
         val mergedStyle = remember(localTextStyle, materialLabelLarge) {
             localTextStyle.merge(materialLabelLarge)
         }
+
         Surface(
-            onClick = if (enabled) {
-                onClick
-            } else {
-                {}
-            },
             modifier = modifier.semantics { role = Role.Button },
-            enabled = enabled,
             shape = shape,
             color = containerColor,
             contentColor = contentColor,
-            border = border,
-            interactionSource = interactionSource
+            border = border
         ) {
             CompositionLocalProvider(
                 LocalContentColor provides contentColor,

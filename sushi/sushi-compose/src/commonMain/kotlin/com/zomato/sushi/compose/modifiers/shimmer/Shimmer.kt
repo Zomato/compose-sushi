@@ -347,7 +347,7 @@ private fun ShimmerPreview1() {
             onClick = {
 
             },
-            Modifier.shimmer(
+            modifier = Modifier.shimmer(
                 enabled = true,
                 SushiShimmerType.Overlay(
                     color = Color.White,
@@ -369,7 +369,7 @@ private fun ShimmerPreview2() {
             onClick = {
 
             },
-            Modifier.shimmer(
+            modifier = Modifier.shimmer(
                 enabled = true,
                 SushiShimmerType.Filled(
                     shape = RoundedCornerShape(10.dp),

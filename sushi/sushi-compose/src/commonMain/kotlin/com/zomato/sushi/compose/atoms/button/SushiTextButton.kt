@@ -28,6 +28,7 @@ import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.text.SushiTextDecoration
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
+import com.zomato.sushi.compose.modifiers.ifNonNull
 import com.zomato.sushi.compose.utils.takeIfSpecified
 
 /**
@@ -36,9 +37,9 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 @Composable
 internal fun SushiTextButton(
     props: SushiButtonProps,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    onClick: (() -> Unit)? = null,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val isTapped = remember(props) { mutableStateOf(false) }
@@ -67,12 +68,14 @@ internal fun SushiTextButton(
                     }
                 }
             }
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                enabled = !isDisabled,
-                onClick = onClick
-            )
+            .ifNonNull(onClick) {
+                this.clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    enabled = !isDisabled,
+                    onClick = it
+                )
+            }
             .background(color = appliedBgColor.value)
     ) {
         Row(
@@ -185,7 +188,7 @@ private fun SushiTextButtonPreview4() {
                 verticalAlignment = Alignment.CenterVertically
             ),
             onClick = {},
-            Modifier.fillMaxWidth().height(200.dp)
+            modifier = Modifier.fillMaxWidth().height(200.dp)
         )
     }
 }
