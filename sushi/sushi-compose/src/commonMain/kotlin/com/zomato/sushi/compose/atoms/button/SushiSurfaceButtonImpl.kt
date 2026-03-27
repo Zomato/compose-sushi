@@ -59,7 +59,6 @@ internal fun SushiSurfaceButtonImpl(
     }
 
     ButtonImpl(
-        onClick = onClick ?: {},
         modifier
             .pointerInput(isTapped) {
                 while (true) {
