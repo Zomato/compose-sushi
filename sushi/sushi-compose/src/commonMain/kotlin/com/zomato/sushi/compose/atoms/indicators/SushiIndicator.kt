@@ -125,6 +125,7 @@ fun SushiIndicator(
                     dotSpacing = dotSpacing,
                     onDotClicked = onDotClicked,
                     modifier = Modifier,
+                    selectedDotsGraphic = type.selectedDotGraphic,
                     dotsGraphic = type.dotsGraphic,
                     shiftSizeFactor = type.shiftSizeFactor,
                     currentFillProgressProvider = type.currentFillProgressProvider,
