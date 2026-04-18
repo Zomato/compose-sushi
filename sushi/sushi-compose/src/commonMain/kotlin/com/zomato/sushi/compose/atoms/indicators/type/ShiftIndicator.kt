@@ -66,18 +66,14 @@ internal fun ShiftIndicator(
                     }
                 }
                 val finalDotGraphic = when {
-//                    selectedDotsGraphic != null && selectedDotsGraphic != dotsGraphic -> {
-//                        remember {
-//                            derivedStateOf {
-//                                interpolateDotGraphic(
-//                                    selected = selectedDotsGraphic,
-//                                    unselected = dotsGraphic,
-//                                    currentDotIndex = currentDotIndex,
-//                                    globalOffset = offsetProvider()
-//                                )
-//                            }
-//                        }.value
-//                    }
+                    selectedDotsGraphic != null && selectedDotsGraphic != dotsGraphic -> {
+                        interpolateDotGraphic(
+                            selected = selectedDotsGraphic,
+                            unselected = dotsGraphic,
+                            dotIndex = dotIndex,
+                            globalOffset = offsetProvider()
+                        )
+                    }
                     currentDotIndex == dotIndex -> {
                         selectedDotsGraphic ?: dotsGraphic
                     }
@@ -164,10 +160,10 @@ private fun computeAlpha(
 private fun interpolateDotGraphic(
     selected: DotGraphic,
     unselected: DotGraphic,
-    currentDotIndex: Int,
+    dotIndex: Int,
     globalOffset: Float
 ): DotGraphic {
-    val distance = abs(globalOffset - currentDotIndex)
+    val distance = abs(globalOffset - dotIndex)
     val t = 1f - distance.coerceIn(0f, 1f)
 
     return DotGraphic(
