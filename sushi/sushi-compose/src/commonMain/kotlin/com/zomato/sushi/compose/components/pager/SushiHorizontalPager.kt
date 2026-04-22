@@ -10,6 +10,7 @@ import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -58,7 +59,7 @@ fun SushiHorizontalPager(
         Orientation.Horizontal
     ),
     snapPosition: SnapPosition = SnapPosition.Start,
-    pageContent: @Composable PagerScope.(page: Int) -> Unit
+    pageContent: @Composable SushiPagerScope.(page: Int) -> Unit
 ) {
     HorizontalPager(
         state = state,
@@ -73,7 +74,15 @@ fun SushiHorizontalPager(
         reverseLayout = reverseLayout,
         key = key,
         pageNestedScrollConnection = pageNestedScrollConnection,
-        snapPosition = snapPosition,
-        pageContent = pageContent
-    )
+        snapPosition = snapPosition
+    ) { page ->
+        val scope = rememberSushiPagerScope(
+            pagerScope = this,
+            pagerState = state,
+            page = page
+        )
+        CompositionLocalProvider(LocalSushiPagerScope provides scope) {
+            scope.pageContent(page)
+        }
+    }
 }
