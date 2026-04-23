@@ -8,10 +8,12 @@ fun main() {
     val config = getConfig()
 
     val ktContent = generateKtOutput(config)
+    val mkDocsContent = generateMkDocsIconBrowserPage(config)
 
     val outputDir = generatedOutputDirectory()
 
     writeFile(File(outputDir, "SushiIconCodes.kt"), ktContent)
+    writeFile(File(outputDir, "icon-browser.md"), mkDocsContent)
 }
 
 private fun getConfig(): Config {
