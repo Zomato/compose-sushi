@@ -28,6 +28,8 @@ private fun String.sanitize(): String {
         .replaceSpecialCase()
 }
 
+internal fun String.sanitizeForDisplay(): String = this.sanitize()
+
 internal fun generateKtOutput(config: Config): String {
     val stringResArr = config.glyphs.map { icon ->
         """val Icon${icon.css.sanitize()} = SushiIconCode("${icon.code.toString(16)}")"""
