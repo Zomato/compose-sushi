@@ -31,10 +31,6 @@ Browse and search all **$iconCount** Wasabi icons available in the Sushi design 
 </div>
 
 <style>
-@font-face {
-    font-family: "wasabi";
-    src: url("../assets/fonts/wasabicons.ttf") format("truetype");
-}
 #icon-browser {
     font-family: var(--md-text-font, "okra", sans-serif);
 }
@@ -83,7 +79,7 @@ Browse and search all **$iconCount** Wasabi icons available in the Sushi design 
 }
 .icon-glyph {
     font-family: "wasabi" !important;
-    font-size: 32px;
+    font-size: 22px;
     line-height: 1;
     color: #272727;
     margin-bottom: 10px;
