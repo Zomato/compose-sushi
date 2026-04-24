@@ -34,6 +34,7 @@ nav:
       - Color Scheme: foundations/color-scheme.md
       - Typography: foundations/typography.md
       - Custom Theme: foundations/theme.md
+  - Icon Browser: icon-browser.md
   - Components:
       - 'SushiText': sushitext.md
       - 'SushiIcon': sushiicon.md
