@@ -387,7 +387,7 @@ fun Modifier.background(
  */
 @Composable
 fun Modifier.background(
-    gradients: List<SushiGradientColorSpec>,
+    gradients: PersistentList<SushiGradientColorSpec>,
     defaultTileMode: TileMode = TileMode.Clamp,
     defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
 ): Modifier {
