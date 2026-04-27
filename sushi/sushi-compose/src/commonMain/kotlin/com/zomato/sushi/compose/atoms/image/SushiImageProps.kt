@@ -29,6 +29,7 @@ import com.zomato.sushi.compose.atoms.color.ColorSpec
  * @property scaleFactor Additional scaling factor applied to the image size
  * @property alignment How the image should be aligned within its bounds
  * @property colorFilter Optional filter to apply color transformations to the image
+ * @property rotation Rotation angle in degrees for the image (from the center) in clockwise rotation (Negative degrees also supported).
  *
  * @author gupta.anirudh@zomato.com
  */
@@ -47,4 +48,5 @@ data class SushiImageProps(
     val scaleFactor: Float? = null,
     val alignment: Alignment? = null,
     val colorFilter: ColorFilter? = null,
+    val rotation: Float? = null
 )

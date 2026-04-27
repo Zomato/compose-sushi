@@ -15,6 +15,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,7 @@ internal fun SushiSurfaceButtonImpl(
 ) {
     val isTapped = remember(props) { mutableStateOf(false) }
     val isDisabled = props.enabled == false
+    val shape = with(SushiButtonDefaults) { props.shapeOrDefault }
 
     val appliedStrokeColor = when {
         isDisabled -> borderStrokeColorDisabled
@@ -70,6 +72,7 @@ internal fun SushiSurfaceButtonImpl(
                     }
                 }
             }
+            .clip(shape)
             .ifNonNull(onClick) {
                 this.clickable(
                     interactionSource = remember { MutableInteractionSource() },
@@ -80,7 +83,7 @@ internal fun SushiSurfaceButtonImpl(
             },
         enabled = !isDisabled,
         contentPadding = contentPadding,
-        shape = with(SushiButtonDefaults) { props.shapeOrDefault },
+        shape = shape,
         colors = ButtonDefaults.buttonColors().copy(
             containerColor = color.value,
             contentColor = if (isTapped.value) fontColorPressed.value else fontColor.value,

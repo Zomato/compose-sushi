@@ -1,5 +1,6 @@
 package com.zomato.sushi.compose.atoms.color
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec.GradientType
@@ -28,6 +31,7 @@ import com.zomato.sushi.compose.foundation.ThemedProps
 import com.zomato.sushi.compose.foundation.ThemedPropsProvider
 import com.zomato.sushi.compose.foundation.getThemedProps
 import com.zomato.sushi.compose.internal.SushiPreview
+import com.zomato.sushi.compose.modifiers.foreground.foreground
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
@@ -310,6 +314,87 @@ fun Color.asSushiGradientColorSpec(): SushiGradientColorSpec {
 
 fun List<ColorSpec>.asSushiGradientColorSpec(): SushiGradientColorSpec {
     return SushiGradientColorSpec(this.toPersistentList())
+}
+
+/**
+ * Modifier that applies [SushiGradientColorSpec] as foreground.
+ *
+ * @param gradient the gradient to apply
+ * @param shape the shape to apply
+ * @param alpha the alpha value to apply
+ * @param defaultTileMode The default tile mode to use if not specified in the gradient type
+ * @param defaultGradientType The default gradient type to use if not specified in the SushiGradientColorData
+ * @return A modifier that applies the gradient as background
+ */
+@Composable
+fun Modifier.foreground(
+    gradient: SushiGradientColorSpec,
+    shape: Shape = RectangleShape,
+    @FloatRange(from = 0.0, to = 1.0) alpha: Float = 1.0f,
+    defaultTileMode: TileMode = TileMode.Clamp,
+    defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
+): Modifier {
+    return this.foreground(
+        gradient.toBrush(
+            defaultTileMode = defaultTileMode,
+            defaultGradientType = defaultGradientType
+        ),
+        shape = shape, alpha = alpha
+    )
+}
+
+
+/**
+ * Modifier that applies [SushiGradientColorSpec] as background.
+ *
+ * @param gradient the gradient to apply
+ * @param shape the shape to apply
+ * @param alpha the alpha value to apply
+ * @param defaultTileMode The default tile mode to use if not specified in the gradient type
+ * @param defaultGradientType The default gradient type to use if not specified in the SushiGradientColorData
+ * @return A modifier that applies the gradient as background
+ */
+@Composable
+fun Modifier.background(
+    gradient: SushiGradientColorSpec,
+    shape: Shape = RectangleShape,
+    @FloatRange(from = 0.0, to = 1.0) alpha: Float = 1.0f,
+    defaultTileMode: TileMode = TileMode.Clamp,
+    defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
+): Modifier {
+    return this.background(
+        gradient.toBrush(
+            defaultTileMode = defaultTileMode,
+            defaultGradientType = defaultGradientType
+        ),
+        shape = shape, alpha = alpha
+    )
+}
+
+/**
+ * Modifier that applies a list of [SushiGradientColorSpec] as layered backgrounds.
+ *
+ * Gradients are applied from first (bottom-most layer) to last (top-most layer), matching
+ * the intuitive "painter's order" — the last element in the list visually appears on top.
+ *
+ * **Note**: the list size must be stable across recompositions. Changing the number of
+ * gradients will reset the composition slots held by each [toBrush] call.
+ *
+ * @param gradients the ordered list of gradients to layer; returns unchanged modifier if empty
+ * @param defaultTileMode The default tile mode to use if not specified in the gradient type
+ * @param defaultGradientType The default gradient type to use if not specified in the gradient
+ * @return A modifier that applies all gradients as stacked backgrounds
+ */
+@Composable
+fun Modifier.background(
+    gradients: PersistentList<SushiGradientColorSpec>,
+    defaultTileMode: TileMode = TileMode.Clamp,
+    defaultGradientType: SushiGradientColorSpec.GradientType = SushiGradientColorSpec.GradientType.Linear(defaultLinearDirection)
+): Modifier {
+    if (gradients.isEmpty()) return this
+    return gradients.fold(this) { acc, gradient ->
+        acc.background(gradient.toBrush(defaultTileMode, defaultGradientType))
+    }
 }
 
 @SushiPreview

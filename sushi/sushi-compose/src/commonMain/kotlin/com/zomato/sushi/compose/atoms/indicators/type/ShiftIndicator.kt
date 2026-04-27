@@ -20,11 +20,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.zomato.sushi.compose.atoms.indicators.Dot
 import com.zomato.sushi.compose.atoms.indicators.model.DotGraphic
+import kotlin.math.abs
 import kotlin.math.absoluteValue
 
 /**
@@ -37,6 +39,7 @@ internal fun ShiftIndicator(
     dotSpacing: Dp,
     onDotClicked: ((Int) -> Unit)?,
     modifier: Modifier = Modifier,
+    selectedDotsGraphic: DotGraphic? = null,
     dotsGraphic: DotGraphic = DotGraphic(),
     shiftSizeFactor: Float = 3f,
     currentFillProgressProvider: (() -> Float)? = null,
@@ -62,8 +65,25 @@ internal fun ShiftIndicator(
                         computeDotWidth(dotIndex, offsetProvider(), dotsGraphic, shiftSizeFactor)
                     }
                 }
+                val finalDotGraphic = when {
+                    selectedDotsGraphic != null && selectedDotsGraphic != dotsGraphic -> {
+                        interpolateDotGraphic(
+                            selected = selectedDotsGraphic,
+                            unselected = dotsGraphic,
+                            dotIndex = dotIndex,
+                            globalOffset = offsetProvider()
+                        )
+                    }
+                    currentDotIndex == dotIndex -> {
+                        selectedDotsGraphic ?: dotsGraphic
+                    }
+                    else -> {
+                        dotsGraphic
+                    }
+                }
                 Box {
-                    Dot(dotsGraphic,
+                    Dot(
+                        finalDotGraphic,
                         Modifier
                             .clip(dotsGraphic.shape)
                             .drawWithContent {
@@ -104,6 +124,9 @@ internal fun ShiftIndicator(
                                     }
                                 }
                             }
+                            .graphicsLayer {
+                                alpha = computeAlpha(dotIndex, offsetProvider(), minAlpha = 0.8f)
+                            }
                             .width(dotWidth)
                             .clickable {
                                 onDotClicked?.invoke(dotIndex)
@@ -124,4 +147,54 @@ private fun computeDotWidth(
     val diffFactor = 1f - (currentDotIndex - globalOffset).absoluteValue.coerceAtMost(1f)
     val widthToAdd = ((shiftSizeFactor - 1f).coerceAtLeast(0f) * dotsGraphic.size * diffFactor)
     return dotsGraphic.size + widthToAdd
+}
+
+private fun computeAlpha(
+    currentDotIndex: Int,
+    globalOffset: Float,
+    minAlpha: Float
+): Float {
+    return minAlpha + (1f - minAlpha) * (1f - abs(globalOffset - currentDotIndex).coerceIn(0f, 1f))
+}
+
+private fun interpolateDotGraphic(
+    selected: DotGraphic,
+    unselected: DotGraphic,
+    dotIndex: Int,
+    globalOffset: Float
+): DotGraphic {
+    val distance = abs(globalOffset - dotIndex)
+    val t = 1f - distance.coerceIn(0f, 1f)
+
+    return DotGraphic(
+        size = lerpDp(unselected.size, selected.size, t),
+        color = lerpColor(unselected.color, selected.color, t),
+        shape = if (t > 0.5f) selected.shape else unselected.shape,
+        borderWidth = lerpDpOrNull(unselected.borderWidth, selected.borderWidth, t),
+        borderColor = lerpColor(unselected.borderColor, selected.borderColor, t)
+    )
+}
+
+private fun lerpDp(start: Dp, end: Dp, t: Float): Dp {
+    return (start.value + (end.value - start.value) * t).dp
+}
+
+private fun lerpDpOrNull(start: Dp?, end: Dp?, t: Float): Dp? {
+    if (start == null && end == null) return null
+    val s = start ?: 0.dp
+    val e = end ?: 0.dp
+    return lerpDp(s, e, t)
+}
+
+private fun lerpColor(start: Color, end: Color, t: Float): Color {
+    return Color(
+        red = lerp(start.red, end.red, t),
+        green = lerp(start.green, end.green, t),
+        blue = lerp(start.blue, end.blue, t),
+        alpha = lerp(start.alpha, end.alpha, t),
+    )
+}
+
+private fun lerp(start: Float, end: Float, t: Float): Float {
+    return start + (end - start) * t
 }

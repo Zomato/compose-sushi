@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import kotlin.math.roundToInt
 
 /**
  * Utility extension functions for converting between different measurement units in Compose.
@@ -39,6 +40,14 @@ fun TextUnit.toPx(): Float = with(LocalDensity.current) { toPx() }
  */
 @Composable
 fun Dp.toPx(): Float = with(LocalDensity.current) { toPx() }
+
+/**
+ * Converts a Dp value to raw pixels (rounded to nearest integer value).
+ * @return The equivalent pixel value (rounded to nearest integer value)
+ * based on the current screen density
+ */
+@Composable
+fun Dp.roundToPx(): Int = with(LocalDensity.current) { toPx() }.roundToInt()
 
 /**
  * Converts a Float value (assumed to be in raw pixels) to a Dp value.

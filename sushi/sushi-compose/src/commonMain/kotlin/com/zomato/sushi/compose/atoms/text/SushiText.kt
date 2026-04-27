@@ -22,6 +22,7 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,6 +49,7 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
@@ -135,11 +137,12 @@ private fun SushiTextImpl(
     val horizontalArrangement = props.horizontalArrangement ?: SushiTextDefaults.horizontalArrangementFromAlignment(textAlign)
     val verticalAlignment = props.verticalAlignment ?: Alignment.CenterVertically
 
-    Row(
+    RowImpl(
         modifier
             .ifNonNull(onClick) { this.atomClickable(onClick = it) },
         verticalAlignment = verticalAlignment,
-        horizontalArrangement = horizontalArrangement
+        horizontalArrangement = horizontalArrangement,
+        disableLinearFontScaling = props.disableLinearFontScaling == true
     ) {
         val rawText = props.text ?: ""
         val isMarkdown = props.markdown ?: SushiTextDefaults.isMarkDown
@@ -505,6 +508,35 @@ private fun BaseSushiText(
         onTextLayout = onTextLayout,
         autoSize = autoSize
     )
+}
+
+@Composable
+private inline fun RowImpl(
+    modifier: Modifier = Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    verticalAlignment: Alignment.Vertical = Alignment.Top,
+    disableLinearFontScaling: Boolean = true,
+    crossinline content: @Composable RowScope.() -> Unit,
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
+    ) {
+        if (disableLinearFontScaling) {
+            val density = LocalDensity.current
+            CompositionLocalProvider(
+                LocalDensity provides Density(
+                    density = density.density,
+                    fontScale = 1f
+                )
+            ) {
+                content()
+            }
+        } else {
+            content()
+        }
+    }
 }
 
 // TODO: Replace this with Text() from Material, when it adds support for auto size (via BasicText)
