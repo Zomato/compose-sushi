@@ -137,6 +137,7 @@ private fun SushiCheckBoxImpl(
                     .size(SushiCheckBoxDefaults.checkBoxSize * scale),
                 enabled = isEnabled,
                 colors = CheckboxDefaults.colors().copy(
+                    checkedCheckmarkColor = SushiTheme.colors.white.value,
                     checkedBoxColor = enabledColor.value,
                     checkedBorderColor = enabledColor.value,
                     uncheckedBorderColor = enabledColor.value,
