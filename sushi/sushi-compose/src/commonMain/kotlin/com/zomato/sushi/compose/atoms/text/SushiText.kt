@@ -55,10 +55,12 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import com.zomato.sushi.compose.atoms.color.BrushSpec
 import com.zomato.sushi.compose.atoms.color.ColorName
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.ColorVariation
 import com.zomato.sushi.compose.atoms.color.SushiColorData
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
@@ -148,6 +150,7 @@ private fun SushiTextImpl(
         val isMarkdown = props.markdown ?: SushiTextDefaults.isMarkDown
         val textType = props.type ?: SushiTextDefaults.textType
         val textColor = props.color?.takeIfSpecified()
+            ?.takeIf { it !is SushiGradientColorSpec }
             ?: textType.typeStyle.color.takeIfSpecified()?.asColorSpec()
             ?: SushiTextDefaults.textColor
         val overflowTextColor = props.overflowTextColor?.takeIfSpecified() ?: textColor
@@ -162,7 +165,10 @@ private fun SushiTextImpl(
         val prefixSpacing = props.prefixSpacing ?: SushiTextDefaults.prefixSpacing
         val suffixSpacing = props.suffixSpacing ?: SushiTextDefaults.suffixSpacing
         val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
-        val textBrush = props.textBrush
+        val textBrush = when (props.color) {
+            is BrushSpec -> props.color.brush
+            else -> null
+        }
         val autoSize = props.autoSize
 
         val underlineColor = (textDecoration

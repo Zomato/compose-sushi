@@ -39,7 +39,6 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  * @property suffixSpacing Space between the text and the suffix icon
  * @property horizontalArrangement How to arrange content horizontally
  * @property verticalAlignment How to align content vertically
- * @property textBrush Optional brush for creating gradient or other effects on text
  * @property autoSize Enable auto sizing (uses biggest font size that fits the constraints, including [maxLines]). This takes precedence over size defined in [type].
  * @property disableLinearFontScaling Disable linear font scaling (user preference set in system settings) for this text.
  */
@@ -66,7 +65,6 @@ data class SushiTextProps(
     val suffixSpacing: Dp? = null,
     val horizontalArrangement: Arrangement.Horizontal? = null,
     val verticalAlignment: Alignment.Vertical? = null,
-    val textBrush: Brush? = null,
     val autoSize: TextAutoSize? = null,
     val disableLinearFontScaling: Boolean? = null
 )
