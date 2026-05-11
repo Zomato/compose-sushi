@@ -33,6 +33,11 @@ jobs:
           cp dev-tools/wasabi/src/main/resources/wasabicons.ttf sushi/sushi-compose/src/nonAndroidMain/composeResources/font/wasabicons.ttf
           cp dev-tools/wasabi/src/main/resources/wasabicons.ttf mkdocs-website/docs/assets/fonts/wasabicons.ttf
 
+      - name: Rebuild Docs Website
+        run: |
+          cd mkdocs-website
+          mkdocs build
+
       - name: Commit and Push
         run: |
           git config --global user.name ${{ github.event.pusher.name }}
@@ -42,5 +47,6 @@ jobs:
           git add sushi/sushi-compose/src/nonAndroidMain/composeResources/font/wasabicons.ttf
           git add mkdocs-website/docs/assets/fonts/wasabicons.ttf
           git add mkdocs-website/docs/icon-browser.md
+          git add docs/
           git commit -m "update: wasabi icons"
           git push

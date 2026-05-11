@@ -534,7 +534,6 @@ object SushiIconCodes {
     val IconZplIcon = SushiIconCode("ea1b")
     val IconGig1 = SushiIconCode("e8d8")
     val IconWalletFill = SushiIconCode("ea1c")
-    val IconWallet1 = SushiIconCode("e8db")
     val IconPlane = SushiIconCode("ea1e")
     val IconRefresh = SushiIconCode("ec81")
     val IconIntercityTruck = SushiIconCode("ea1f")
@@ -751,7 +750,7 @@ object SushiIconCodes {
     val IconCalenderDate = SushiIconCode("eaf3")
     val IconRecommendationFill = SushiIconCode("eaf4")
     val IconSupportAgent = SushiIconCode("eaef")
-    val IconPhotoMiss = SushiIconCode("e8ee")
+    val IconPhotoMiss = SushiIconCode("ea22")
     val IconCelebration = SushiIconCode("eaf0")
     val IconGigsCancellation = SushiIconCode("eaec")
     val IconOrderCancellation = SushiIconCode("eaed")
@@ -1060,7 +1059,6 @@ object SushiIconCodes {
     val IconMLiveHelpFilled = SushiIconCode("eb82")
     val IconMDogline = SushiIconCode("eead")
     val IconMBluemedal = SushiIconCode("ec1d")
-    val IconMBronzemedal = SushiIconCode("ec1e")
     val IconMComplaint = SushiIconCode("ec1f")
     val IconMDiamondmedal = SushiIconCode("ec20")
     val IconMFoodSpilled = SushiIconCode("ec21")
@@ -1079,6 +1077,113 @@ object SushiIconCodes {
     val IconMFastfoodOutline = SushiIconCode("f049")
     val IconFoodVeg = SushiIconCode("f05e")
     val IconFoodNonveg = SushiIconCode("f05f")
+    val IconGate = SushiIconCode("f062")
+    val IconRobot = SushiIconCode("f063")
+    val IconAirindia = SushiIconCode("f493")
+    val IconFoodpacket = SushiIconCode("f060")
+    val IconCashmachine = SushiIconCode("ec35")
+    val IconDoubleArrowRight02 = SushiIconCode("ec36")
+    val IconDoubleArrowRight01 = SushiIconCode("ec37")
+    val IconDistHotlist = SushiIconCode("ec38")
+    val IconAmbulanceFill = SushiIconCode("f071")
+    val IconHealthyFilled = SushiIconCode("f06d")
+    val IconHealthyLine = SushiIconCode("f06e")
+    val IconDistDirham = SushiIconCode("f054")
+    val IconDistEvents = SushiIconCode("f055")
+    val IconDistMovies = SushiIconCode("f057")
+    val IconDistStores = SushiIconCode("f058")
+    val IconDistTrophy = SushiIconCode("f059")
+    val IconDistActivity = SushiIconCode("f05a")
+    val IconDistDining = SushiIconCode("ec43")
+    val IconDistMusicAlbum = SushiIconCode("ec44")
+    val IconShareLocation = SushiIconCode("ec47")
+    val IconNoPin = SushiIconCode("ec46")
+    val IconMChatcomplaint = SushiIconCode("f4ca")
+    val IconMTimedelay = SushiIconCode("f4cb")
+    val IconMFoodReorder = SushiIconCode("f086")
+    val IconMPopularLocationfilled = SushiIconCode("f095")
+    val IconAggregation = SushiIconCode("ec4c")
+    val IconScheduleSend = SushiIconCode("ec4d")
+    val IconCancelphoto = SushiIconCode("f09a")
+    val IconCancelorder = SushiIconCode("f09b")
+    val IconCancelgigs = SushiIconCode("f09c")
+    val IconOfferGigs = SushiIconCode("f09d")
+    val IconOfferOrder = SushiIconCode("f09e")
+    val IconOfferPhoto = SushiIconCode("f09f")
+    val IconSparkleStar = SushiIconCode("f0a3")
+    val IconWatchOutlineMx = SushiIconCode("f0a4")
+    val IconAiMx = SushiIconCode("f0a2")
+    val IconDistAirplane = SushiIconCode("ec45")
+    val IconDistForyou = SushiIconCode("f056")
+    val IconDistNewchat = SushiIconCode("ec57")
+    val IconDeaf = SushiIconCode("f0af")
+    val IconWheelchair = SushiIconCode("f0b0")
+    val IconMBikeengine = SushiIconCode("e8e9")
+    val IconMSpeedmeter = SushiIconCode("e9cb")
+    val IconMOilbarrel = SushiIconCode("f0b1")
+    val IconMFog = SushiIconCode("f0ae")
+    val IconMEvPower = SushiIconCode("ec5e")
+    val IconDistStarNew = SushiIconCode("ec5f")
+    val IconDistKidsAllowed = SushiIconCode("ec60")
+    val IconDistKidsNotAllowed = SushiIconCode("ec61")
+    val IconDistPetsAllowed = SushiIconCode("ec62")
+    val IconDistPetsNotAllowed = SushiIconCode("ec63")
+    val IconDoorstepReturns = SushiIconCode("f0c9")
+    val IconToxic = SushiIconCode("f0ca")
+    val IconLeaveAtDoor1 = SushiIconCode("f0cb")
+    val IconLeaveWithGuard = SushiIconCode("f0cc")
+    val IconDontRingTheBell = SushiIconCode("f0cd")
+    val IconPetAtHome = SushiIconCode("f0ce")
+    val IconArrowRightLeft = SushiIconCode("f0c4")
+    val IconMAndroidShare = SushiIconCode("f0c5")
+    val IconMDoctorVisit = SushiIconCode("f0d2")
+    val IconMLongDistance = SushiIconCode("f0d3")
+    val IconMStorefront = SushiIconCode("f0d4")
+    val IconHomeTabSelected = SushiIconCode("f0e8")
+    val IconHomeTab = SushiIconCode("f0e9")
+    val IconOffersTabSelected = SushiIconCode("f0ea")
+    val IconOffersTab = SushiIconCode("f0eb")
+    val IconMBronzemedal = SushiIconCode("ec1e")
+    val IconDiamondOutline = SushiIconCode("e9f2")
+    val IconMxCashDeposit = SushiIconCode("f0ed")
+    val IconMIdentity = SushiIconCode("f0e4")
+    val IconMHistory = SushiIconCode("f0e5")
+    val IconMKeyboard = SushiIconCode("f0e6")
+    val IconMAadhaar = SushiIconCode("e9fd")
+    val IconMCard = SushiIconCode("ea19")
+    val IconMFrontscooter = SushiIconCode("e8ee")
+    val IconMNovehicle = SushiIconCode("ea23")
+    val IconCalendarCross = SushiIconCode("ea45")
+    val IconCalendarTick = SushiIconCode("ea46")
+    val IconGasCylinderFilled = SushiIconCode("ea6b")
+    val IconGasCylinderOutline = SushiIconCode("ea6e")
+    val IconMForward = SushiIconCode("f100")
+    val IconMRewind = SushiIconCode("f101")
+    val IconMCertificate = SushiIconCode("f0ff")
+    val IconArrowBottomRight = SushiIconCode("f105")
+    val IconMicrophoneOff = SushiIconCode("f106")
+    val IconPersonCycle = SushiIconCode("f107")
+    val IconMPlayCircleFilled = SushiIconCode("ec88")
+    val IconSmartpromos1 = SushiIconCode("ec89")
+    val IconCalendarRoundedMx1 = SushiIconCode("ec8a")
+    val IconAiMx1 = SushiIconCode("ec8b")
+    val IconLinkMx1 = SushiIconCode("ec8c")
+    val IconFlagSharpOutlineMx101 = SushiIconCode("ec8d")
+    val IconMLockopen = SushiIconCode("ec8e")
+    val IconFlagSharpOutlineMx102 = SushiIconCode("ec8f")
+    val IconEditOffMx1 = SushiIconCode("ec90")
+    val IconMEmergencyM = SushiIconCode("ea70")
+    val IconMMobilecharge = SushiIconCode("ec91")
+    val IconMNightShelter = SushiIconCode("ec92")
+    val IconMOilchange = SushiIconCode("ec93")
+    val IconMShelterplace = SushiIconCode("ec94")
+    val IconMSofaM = SushiIconCode("ec95")
+    val IconMWrench = SushiIconCode("ec96")
+    val IconAiChat = SushiIconCode("f130")
+    val IconCartBag = SushiIconCode("f131")
+    val IconGoogle = SushiIconCode("f4d4")
+    val IconStopIcon = SushiIconCode("f132")
+    val IconShuffle = SushiIconCode("f4cc")
 }
 
 @Preview(widthDp = 560)
@@ -1614,7 +1719,6 @@ private fun SushiIconCodePreview() {
         "ZplIcon" to SushiIconCodes.IconZplIcon,
         "Gig1" to SushiIconCodes.IconGig1,
         "WalletFill" to SushiIconCodes.IconWalletFill,
-        "Wallet1" to SushiIconCodes.IconWallet1,
         "Plane" to SushiIconCodes.IconPlane,
         "Refresh" to SushiIconCodes.IconRefresh,
         "IntercityTruck" to SushiIconCodes.IconIntercityTruck,
@@ -2140,7 +2244,6 @@ private fun SushiIconCodePreview() {
         "MLiveHelpFilled" to SushiIconCodes.IconMLiveHelpFilled,
         "MDogline" to SushiIconCodes.IconMDogline,
         "MBluemedal" to SushiIconCodes.IconMBluemedal,
-        "MBronzemedal" to SushiIconCodes.IconMBronzemedal,
         "MComplaint" to SushiIconCodes.IconMComplaint,
         "MDiamondmedal" to SushiIconCodes.IconMDiamondmedal,
         "MFoodSpilled" to SushiIconCodes.IconMFoodSpilled,
@@ -2159,6 +2262,113 @@ private fun SushiIconCodePreview() {
         "MFastfoodOutline" to SushiIconCodes.IconMFastfoodOutline,
         "FoodVeg" to SushiIconCodes.IconFoodVeg,
         "FoodNonveg" to SushiIconCodes.IconFoodNonveg,
+        "Gate" to SushiIconCodes.IconGate,
+        "Robot" to SushiIconCodes.IconRobot,
+        "Airindia" to SushiIconCodes.IconAirindia,
+        "Foodpacket" to SushiIconCodes.IconFoodpacket,
+        "Cashmachine" to SushiIconCodes.IconCashmachine,
+        "DoubleArrowRight02" to SushiIconCodes.IconDoubleArrowRight02,
+        "DoubleArrowRight01" to SushiIconCodes.IconDoubleArrowRight01,
+        "DistHotlist" to SushiIconCodes.IconDistHotlist,
+        "AmbulanceFill" to SushiIconCodes.IconAmbulanceFill,
+        "HealthyFilled" to SushiIconCodes.IconHealthyFilled,
+        "HealthyLine" to SushiIconCodes.IconHealthyLine,
+        "DistDirham" to SushiIconCodes.IconDistDirham,
+        "DistEvents" to SushiIconCodes.IconDistEvents,
+        "DistMovies" to SushiIconCodes.IconDistMovies,
+        "DistStores" to SushiIconCodes.IconDistStores,
+        "DistTrophy" to SushiIconCodes.IconDistTrophy,
+        "DistActivity" to SushiIconCodes.IconDistActivity,
+        "DistDining" to SushiIconCodes.IconDistDining,
+        "DistMusicAlbum" to SushiIconCodes.IconDistMusicAlbum,
+        "ShareLocation" to SushiIconCodes.IconShareLocation,
+        "NoPin" to SushiIconCodes.IconNoPin,
+        "MChatcomplaint" to SushiIconCodes.IconMChatcomplaint,
+        "MTimedelay" to SushiIconCodes.IconMTimedelay,
+        "MFoodReorder" to SushiIconCodes.IconMFoodReorder,
+        "MPopularLocationfilled" to SushiIconCodes.IconMPopularLocationfilled,
+        "Aggregation" to SushiIconCodes.IconAggregation,
+        "ScheduleSend" to SushiIconCodes.IconScheduleSend,
+        "Cancelphoto" to SushiIconCodes.IconCancelphoto,
+        "Cancelorder" to SushiIconCodes.IconCancelorder,
+        "Cancelgigs" to SushiIconCodes.IconCancelgigs,
+        "OfferGigs" to SushiIconCodes.IconOfferGigs,
+        "OfferOrder" to SushiIconCodes.IconOfferOrder,
+        "OfferPhoto" to SushiIconCodes.IconOfferPhoto,
+        "SparkleStar" to SushiIconCodes.IconSparkleStar,
+        "WatchOutlineMx" to SushiIconCodes.IconWatchOutlineMx,
+        "AiMx" to SushiIconCodes.IconAiMx,
+        "DistAirplane" to SushiIconCodes.IconDistAirplane,
+        "DistForyou" to SushiIconCodes.IconDistForyou,
+        "DistNewchat" to SushiIconCodes.IconDistNewchat,
+        "Deaf" to SushiIconCodes.IconDeaf,
+        "Wheelchair" to SushiIconCodes.IconWheelchair,
+        "MBikeengine" to SushiIconCodes.IconMBikeengine,
+        "MSpeedmeter" to SushiIconCodes.IconMSpeedmeter,
+        "MOilbarrel" to SushiIconCodes.IconMOilbarrel,
+        "MFog" to SushiIconCodes.IconMFog,
+        "MEvPower" to SushiIconCodes.IconMEvPower,
+        "DistStarNew" to SushiIconCodes.IconDistStarNew,
+        "DistKidsAllowed" to SushiIconCodes.IconDistKidsAllowed,
+        "DistKidsNotAllowed" to SushiIconCodes.IconDistKidsNotAllowed,
+        "DistPetsAllowed" to SushiIconCodes.IconDistPetsAllowed,
+        "DistPetsNotAllowed" to SushiIconCodes.IconDistPetsNotAllowed,
+        "DoorstepReturns" to SushiIconCodes.IconDoorstepReturns,
+        "Toxic" to SushiIconCodes.IconToxic,
+        "LeaveAtDoor1" to SushiIconCodes.IconLeaveAtDoor1,
+        "LeaveWithGuard" to SushiIconCodes.IconLeaveWithGuard,
+        "DontRingTheBell" to SushiIconCodes.IconDontRingTheBell,
+        "PetAtHome" to SushiIconCodes.IconPetAtHome,
+        "ArrowRightLeft" to SushiIconCodes.IconArrowRightLeft,
+        "MAndroidShare" to SushiIconCodes.IconMAndroidShare,
+        "MDoctorVisit" to SushiIconCodes.IconMDoctorVisit,
+        "MLongDistance" to SushiIconCodes.IconMLongDistance,
+        "MStorefront" to SushiIconCodes.IconMStorefront,
+        "HomeTabSelected" to SushiIconCodes.IconHomeTabSelected,
+        "HomeTab" to SushiIconCodes.IconHomeTab,
+        "OffersTabSelected" to SushiIconCodes.IconOffersTabSelected,
+        "OffersTab" to SushiIconCodes.IconOffersTab,
+        "MBronzemedal" to SushiIconCodes.IconMBronzemedal,
+        "DiamondOutline" to SushiIconCodes.IconDiamondOutline,
+        "MxCashDeposit" to SushiIconCodes.IconMxCashDeposit,
+        "MIdentity" to SushiIconCodes.IconMIdentity,
+        "MHistory" to SushiIconCodes.IconMHistory,
+        "MKeyboard" to SushiIconCodes.IconMKeyboard,
+        "MAadhaar" to SushiIconCodes.IconMAadhaar,
+        "MCard" to SushiIconCodes.IconMCard,
+        "MFrontscooter" to SushiIconCodes.IconMFrontscooter,
+        "MNovehicle" to SushiIconCodes.IconMNovehicle,
+        "CalendarCross" to SushiIconCodes.IconCalendarCross,
+        "CalendarTick" to SushiIconCodes.IconCalendarTick,
+        "GasCylinderFilled" to SushiIconCodes.IconGasCylinderFilled,
+        "GasCylinderOutline" to SushiIconCodes.IconGasCylinderOutline,
+        "MForward" to SushiIconCodes.IconMForward,
+        "MRewind" to SushiIconCodes.IconMRewind,
+        "MCertificate" to SushiIconCodes.IconMCertificate,
+        "ArrowBottomRight" to SushiIconCodes.IconArrowBottomRight,
+        "MicrophoneOff" to SushiIconCodes.IconMicrophoneOff,
+        "PersonCycle" to SushiIconCodes.IconPersonCycle,
+        "MPlayCircleFilled" to SushiIconCodes.IconMPlayCircleFilled,
+        "Smartpromos1" to SushiIconCodes.IconSmartpromos1,
+        "CalendarRoundedMx1" to SushiIconCodes.IconCalendarRoundedMx1,
+        "AiMx1" to SushiIconCodes.IconAiMx1,
+        "LinkMx1" to SushiIconCodes.IconLinkMx1,
+        "FlagSharpOutlineMx101" to SushiIconCodes.IconFlagSharpOutlineMx101,
+        "MLockopen" to SushiIconCodes.IconMLockopen,
+        "FlagSharpOutlineMx102" to SushiIconCodes.IconFlagSharpOutlineMx102,
+        "EditOffMx1" to SushiIconCodes.IconEditOffMx1,
+        "MEmergencyM" to SushiIconCodes.IconMEmergencyM,
+        "MMobilecharge" to SushiIconCodes.IconMMobilecharge,
+        "MNightShelter" to SushiIconCodes.IconMNightShelter,
+        "MOilchange" to SushiIconCodes.IconMOilchange,
+        "MShelterplace" to SushiIconCodes.IconMShelterplace,
+        "MSofaM" to SushiIconCodes.IconMSofaM,
+        "MWrench" to SushiIconCodes.IconMWrench,
+        "AiChat" to SushiIconCodes.IconAiChat,
+        "CartBag" to SushiIconCodes.IconCartBag,
+        "Google" to SushiIconCodes.IconGoogle,
+        "StopIcon" to SushiIconCodes.IconStopIcon,
+        "Shuffle" to SushiIconCodes.IconShuffle,
     )
     SushiIconCodesPreview(icons)
 }
