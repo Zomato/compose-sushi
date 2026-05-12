@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.color.BrushSpec
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.modifiers.ifNonNull
@@ -90,6 +91,10 @@ internal fun SushiSurfaceButtonImpl(
             disabledContainerColor = colorDisabled.value,
             disabledContentColor = fontColorDisabled.value
         ),
+        containerBrush = when (color) {
+            is BrushSpec -> color.brush
+            else -> null
+        },
         border = borderStrokeWidth.takeIf { it > 0.dp }?.let {
             BorderStroke(borderStrokeWidth, appliedStrokeColor.value)
         }

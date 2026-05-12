@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -33,7 +34,6 @@ import com.zomato.sushi.compose.foundation.getThemedProps
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.foreground.foreground
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
@@ -54,10 +54,24 @@ data class SushiGradientColorSpec(
     val colors: PersistentList<ColorSpec> = persistentListOf(),
     val type: GradientType? = null,
     override val themedPropsList: PersistentList<ThemedProps<SushiGradientColorSpec>>? = null
-) : ThemedPropsProvider<SushiGradientColorSpec> {
+) : BrushSpec, ColorSpec, ThemedPropsProvider<SushiGradientColorSpec> {
     override fun getThemedProps(colorSchemeType: SushiColorSchemeType): SushiGradientColorSpec {
         return findThemedProps(colorSchemeType)?.takeIf { it.colors.isNotEmpty() } ?: this
     }
+
+    /**
+     * Return the first color in the list as the representative color for this spec
+     * This is a common convention for gradient specs when a single color is needed
+     */
+    override val value: Color
+        @Composable @Stable get() {
+            return getThemedProps().colors.firstOrNull()?.value ?: Color.Transparent
+        }
+
+    override val brush: Brush
+        @Composable @Stable get() {
+            return toBrush()
+        }
 
     /**
      * Defines the direction for linear gradients.
@@ -145,7 +159,7 @@ fun SushiGradientColorSpec.withDefaults(
 fun SushiGradientColorSpec.withAlpha(
     alpha: Float
 ): SushiGradientColorSpec {
-    return this.transform { it.withAlpha(alpha) }
+    return this.transformGradientSpec { it.copy(alpha = alpha) }
 }
 
 /**
@@ -162,23 +176,10 @@ fun SushiGradientColorSpec.withAlpha(
  * @param transform The function to apply to the original [ColorSpec]
  * @return A new [SushiGradientColorSpec] that applies the transformation to its colors.
  */
-fun SushiGradientColorSpec.transform(
-    transform: (ColorSpec) -> ColorSpec
+fun SushiGradientColorSpec.transformGradientSpec(
+    transform: (Color) -> Color
 ): SushiGradientColorSpec {
-    return this.copy(
-        colors = this.colors.mutate {
-            for (i in it.indices) {
-                it[i] = transform(it[i])
-            }
-        },
-        themedPropsList = this.themedPropsList?.mutate {
-            for (i in it.indices) {
-                it[i] = it[i].copy(
-                    props = it[i].props.transform(transform)
-                )
-            }
-        }
-    )
+    return this.transform(transform) as SushiGradientColorSpec
 }
 
 /**
