@@ -2,6 +2,7 @@ package com.zomato.sushi.compose.atoms.color
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 /**
@@ -63,3 +64,10 @@ fun String.asHexColorSpec(): ColorSpec = HexColorSpec(this)
 fun ColorSpec.withAlpha(alpha: Float) = this.transform {
     if (it == Color.Transparent) it else it.copy(alpha = alpha)
 }
+
+/**
+ * Converts a Compose [Brush] object to a [ColorSpec].
+ *
+ * @return A ColorSpec representing this Brush
+ */
+fun Brush.asColorSpec(): ColorSpec = this.asBrushSpec()

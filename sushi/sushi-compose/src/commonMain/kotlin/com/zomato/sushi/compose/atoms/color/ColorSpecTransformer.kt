@@ -2,8 +2,8 @@ package com.zomato.sushi.compose.atoms.color
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import kotlinx.collections.immutable.mutate
 
 /**
  * A wrapper around a [ColorSpec] that applies a transformation function to the original color.
@@ -25,10 +25,35 @@ private data class ColorSpecTransformer(
 ) : ColorSpec {
     override val value: Color
         @Composable @Stable get() {
+            if (original is SushiGradientColorSpec) {
+                return original.transformGradientColorSpec(transform).value
+            }
             val value = original.value
             return transform(value)
         }
+
+    @Composable
+    private fun SushiGradientColorSpec.transformGradientColorSpec(
+        transform: (Color) -> Color
+    ): SushiGradientColorSpec {
+        return this.copy(
+            colors = this.colors.mutate {
+                for (i in it.indices) {
+                    it[i] = transform(it[i].value).asColorSpec()
+                }
+            },
+            themedPropsList = this.themedPropsList?.mutate {
+                for (i in it.indices) {
+                    it[i] = it[i].copy(
+                        props = it[i].props.transformGradientColorSpec(transform)
+                    )
+                }
+            }
+        )
+    }
 }
+
+
 
 /**
  * Extension function to transform a [ColorSpec] by applying a custom transformation

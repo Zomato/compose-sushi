@@ -1,7 +1,7 @@
 package com.zomato.sushi.compose.atoms.button
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,11 +19,14 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.modifiers.ifNonNull
 
 /**
  * @author gupta.anirudh@zomato.com
@@ -38,13 +41,25 @@ internal fun ButtonImpl(
     enabled: Boolean = true,
     shape: Shape = ButtonDefaults.shape,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
+    containerBrush: Brush? = null,
     border: BorderStroke? = null,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit
 ) {
     CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 0.dp) {
-        val containerColor = if (enabled) colors.containerColor else colors.disabledContainerColor
-        val contentColor = if (enabled) colors.contentColor else colors.disabledContentColor
+        val containerBrushColor = when {
+            enabled && containerBrush != null -> containerBrush
+            else -> null
+        }
+        val containerColor = when {
+            containerBrushColor != null -> Color.Transparent
+            enabled -> colors.containerColor
+            else -> colors.disabledContainerColor
+        }
+        val contentColor = when {
+            enabled -> colors.contentColor
+            else -> colors.disabledContentColor
+        }
 
         val localTextStyle = LocalTextStyle.current
         val materialLabelLarge = MaterialTheme.typography.labelLarge
@@ -53,7 +68,9 @@ internal fun ButtonImpl(
         }
 
         Surface(
-            modifier = modifier.semantics { role = Role.Button },
+            modifier = modifier
+                .ifNonNull(containerBrush) { this.background(it) }
+                .semantics { role = Role.Button },
             shape = shape,
             color = containerColor,
             contentColor = contentColor,
