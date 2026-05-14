@@ -30,6 +30,11 @@ sealed interface SushiDividerType {
      * A dashed line divider with small dashes and gaps.
      */
     data object Dashed : SushiDividerType
+
+    /**
+     * A dashed line divider with small dashes and gaps.
+     */
+    data object DashedMedium : SushiDividerType
     
     /**
      * A solid straight line divider with a thicker stroke width.

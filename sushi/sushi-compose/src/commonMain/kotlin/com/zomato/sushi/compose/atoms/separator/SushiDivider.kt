@@ -67,6 +67,7 @@ private fun SushiDividerImpl(
     when (val type = props.type) {
         SushiDividerType.Straight,
         SushiDividerType.Dashed,
+        SushiDividerType.DashedMedium,
         SushiDividerType.StraightThick,
         SushiDividerType.Dotted,
         SushiDividerType.DottedSpaced,

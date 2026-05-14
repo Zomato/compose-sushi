@@ -10,14 +10,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.foundation.isDarkMode
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.TimeSource
@@ -201,5 +208,48 @@ fun Modifier.dashedBorder(
                 )
             }
         }
+    )
+}
+
+/**
+ * Applies a shadow to the composable only when the current [SushiTheme] is not in dark mode.
+ *
+ * Business Context: Shadows often appear visually noisy or washed out in dark themes. This
+ * modifier preserves elevation cues for light mode while skipping the shadow draw entirely
+ * in dark mode, keeping dark surfaces clean.
+ *
+ * Implementation: Reads [SushiTheme.isDarkMode] from the current composition and delegates to
+ * [Modifier.shadow] when light. In dark mode, the original modifier chain is returned untouched
+ * (no extra layers added), keeping the call essentially free.
+ *
+ * Integration: Designed for any Sushi composable themed via [SushiTheme]. Safe to chain with
+ * other visual modifiers (background, border, clip).
+ *
+ * @param elevation Shadow elevation; ignored entirely in dark mode.
+ * @param shape Shape used to clip and shape the shadow. Defaults to [RectangleShape].
+ * @param clip Whether the content should be clipped to the [shape]. Forwarded to [Modifier.shadow].
+ * @param ambientColor Ambient shadow color (Android P+). Defaults to [DefaultShadowColor].
+ * @param spotColor Spot shadow color (Android P+). Defaults to [DefaultShadowColor].
+ * @return A modifier that draws a shadow in light mode and is a no-op in dark mode.
+ *
+ * @see Modifier.shadow
+ * @see SushiTheme.isDarkMode
+ */
+@Composable
+fun Modifier.sushiShadow(
+    elevation: Dp,
+    shape: Shape = RectangleShape,
+    clip: Boolean = elevation > 0.dp,
+    ambientColor: Color = DefaultShadowColor,
+    spotColor: Color = DefaultShadowColor
+): Modifier = if (SushiTheme.isDarkMode) {
+    this
+} else {
+    this.shadow(
+        elevation = elevation,
+        shape = shape,
+        clip = clip,
+        ambientColor = ambientColor,
+        spotColor = spotColor
     )
 }
