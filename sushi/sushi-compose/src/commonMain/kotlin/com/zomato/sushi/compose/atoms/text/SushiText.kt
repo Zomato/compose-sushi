@@ -155,6 +155,7 @@ private fun SushiTextImpl(
             ?: SushiTextDefaults.textColor
         val overflowTextColor = props.overflowTextColor?.takeIfSpecified() ?: textColor
         val letterSpacing = props.letterSpacing
+        val lineHeight = props.lineHeight
         val typeStyle = textType.typeStyle
         val maxLines = props.maxLines ?: SushiTextDefaults.maxLines
         val textDecoration = props.textDecoration
@@ -221,6 +222,7 @@ private fun SushiTextImpl(
                 maxLines = maxLines,
                 textColor = textColor,
                 letterSpacing = letterSpacing,
+                lineHeight = lineHeight,
                 textStyle = textStyle,
                 textDecoration = null,
                 textAlign = textAlign,
@@ -259,6 +261,7 @@ private fun SushiTextImpl(
                 textColor = textColor,
                 maxLines = maxLines,
                 letterSpacing = letterSpacing,
+                lineHeight = lineHeight,
                 textStyle = textStyle,
                 textDecoration = null,
                 textAlign = textAlign,
@@ -394,6 +397,7 @@ private fun ExpandableBaseSushiText(
     maxLines: Int,
     textColor: ColorSpec,
     letterSpacing: TextUnit,
+    lineHeight: TextUnit,
     textStyle: TextStyle,
     textDecoration: TextDecoration?,
     textAlign: TextAlign?,
@@ -440,6 +444,7 @@ private fun ExpandableBaseSushiText(
             textColor = textColor,
             maxLines = if (expanded) Int.MAX_VALUE else maxLines,
             letterSpacing = letterSpacing,
+            lineHeight = lineHeight,
             textStyle = textStyle,
             textDecoration = textDecoration,
             textAlign = textAlign,
@@ -489,6 +494,7 @@ private fun BaseSushiText(
     textColor: ColorSpec,
     maxLines: Int,
     letterSpacing: TextUnit,
+    lineHeight: TextUnit,
     textStyle: TextStyle,
     textDecoration: TextDecoration?,
     textAlign: TextAlign?,
@@ -505,6 +511,7 @@ private fun BaseSushiText(
         color = textColor.value,
         maxLines = maxLines,
         letterSpacing = letterSpacing,
+        lineHeight = lineHeight,
         style = textStyle,
         textDecoration = textDecoration,
         textAlign = textAlign,
