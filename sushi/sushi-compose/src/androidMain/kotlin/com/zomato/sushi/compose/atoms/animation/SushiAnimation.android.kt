@@ -29,6 +29,8 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieRetrySignal
 import com.zomato.sushi.compose.accessibility.contentDescription
+import com.zomato.sushi.compose.atoms.color.SushiGradientColorSpec
+import com.zomato.sushi.compose.atoms.color.background
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.modifiers.ifNonNull
@@ -104,7 +106,11 @@ private fun SushiAnimationImpl(
                 .ifNonNull(height) { this.height(it) }
                 .ifNonNull(width) { this.width(it) }
                 .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
-                .ifNonNull(props.bgColor?.takeIfSpecified()) { this.background(it.value) }
+                .ifNonNull(props.bgColor?.takeIfSpecified()) {
+                    if (it is SushiGradientColorSpec) this.background(
+                        it
+                    ) else this.background(it.value)
+                }
                 .ifNonNull(props.scaleFactor) { this.scale(it) }
             when (playback) {
                 is SushiAnimationPlayback.AutoPlay -> {
