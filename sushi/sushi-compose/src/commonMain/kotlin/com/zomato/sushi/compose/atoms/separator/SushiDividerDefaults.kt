@@ -19,7 +19,7 @@ object SushiDividerDefaults {
      */
     fun getDividerHeight(type: SushiDividerType): Dp {
         return when (type) {
-            SushiDividerType.Straight, SushiDividerType.Dashed -> 1f.dp
+            SushiDividerType.Straight, SushiDividerType.Dashed, SushiDividerType.DashedMedium -> 1f.dp
             SushiDividerType.StraightThick -> 8f.dp
             SushiDividerType.Dotted -> 3f.dp
             SushiDividerType.DottedSpaced -> 0.8f.dp

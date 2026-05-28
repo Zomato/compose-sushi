@@ -51,6 +51,7 @@ data class SushiTextProps(
     val prefixIcon: SushiIconProps? = null,
     val suffixIcon: SushiIconProps? = null,
     val letterSpacing: TextUnit = TextUnit.Unspecified,
+    val lineHeight: TextUnit = TextUnit.Unspecified,
     val continuousPrefixIcon: ContinuousIconProps? = null,
     val continuousSuffixIcon: ContinuousIconProps? = null,
     val markdown: Boolean? = null,
