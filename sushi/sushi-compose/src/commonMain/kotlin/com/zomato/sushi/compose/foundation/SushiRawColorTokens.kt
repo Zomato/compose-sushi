@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
  * @author gupta.anirudh@zomato.com
  */
 object SushiRawColorTokens {
+    val PureBlack = Color(0xFF000000)
     val Black = Color(0xFF1C1C1C)
     val White = Color(0xFFFFFFFF)
     val Transparent = Color(0x00000000)
