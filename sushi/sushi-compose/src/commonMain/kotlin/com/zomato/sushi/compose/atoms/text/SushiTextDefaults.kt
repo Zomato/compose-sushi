@@ -57,7 +57,7 @@ object SushiTextDefaults {
 
     internal const val isMarkDown: Boolean = true
     internal val maxLines: Int = Int.MAX_VALUE
-    internal val overflow: TextOverflow = TextOverflow.Clip
+    internal val overflow: TextOverflow = TextOverflow.Ellipsis
     internal val softWrap: Boolean = true
     internal val minLines: Int = 1
 }

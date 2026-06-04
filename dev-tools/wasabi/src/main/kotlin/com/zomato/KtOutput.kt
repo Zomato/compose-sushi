@@ -28,20 +28,39 @@ private fun String.sanitize(): String {
         .replaceSpecialCase()
 }
 
+internal fun String.sanitizeForDisplay(): String = this.sanitize()
+
 internal fun generateKtOutput(config: Config): String {
     val stringResArr = config.glyphs.map { icon ->
         """val Icon${icon.css.sanitize()} = SushiIconCode("${icon.code.toString(16)}")"""
     }
+    val previewList = config.glyphs.map { icon ->
+        "\"${icon.css.sanitize()}\" to SushiIconCodes.Icon${icon.css.sanitize()},"
+    }
 
     val output = buildString {
-        appendLine("package com.zomato.sushi.compose.atoms.icon")
-        appendLine()
-        appendLine("// Generated file. DO NOT EDIT.")
-        appendLine("object SushiIconCodes {")
-        stringResArr.map {
-            appendLine("    $it")
-        }
-        appendLine("}")
+        appendLine(
+            """
+                package com.zomato.sushi.compose.atoms.icon
+                
+                import androidx.compose.runtime.Composable
+                import org.jetbrains.compose.ui.tooling.preview.Preview
+                
+                // Generated file. DO NOT EDIT.
+                object SushiIconCodes {
+${stringResArr.joinToString("\n") { "                    $it" }}
+                }
+                
+                @Preview(widthDp = 560)
+                @Composable
+                private fun SushiIconCodePreview() {
+                    val icons = listOf(
+${previewList.joinToString("\n") { "                        $it" }}
+                    )
+                    SushiIconCodesPreview(icons)
+                }
+            """.trimIndent()
+        )
     }
 
     return output

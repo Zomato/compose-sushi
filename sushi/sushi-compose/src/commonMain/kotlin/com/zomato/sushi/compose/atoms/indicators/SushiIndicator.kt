@@ -3,9 +3,11 @@ package com.zomato.sushi.compose.atoms.indicators
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.indicators.model.DotGraphic
 import com.zomato.sushi.compose.atoms.indicators.type.BalloonIndicator
+import com.zomato.sushi.compose.atoms.indicators.type.ColoredIndicator
 import com.zomato.sushi.compose.atoms.indicators.type.ShiftIndicator
 import com.zomato.sushi.compose.atoms.indicators.type.SpringIndicator
 import com.zomato.sushi.compose.atoms.indicators.type.SushiIndicatorType
@@ -74,7 +77,7 @@ fun SushiIndicator(
  * which is useful when integrating with custom paging solutions or for animation previews.
  *
  * @param dotCount The total number of pages to display indicators for
- * @param type The visual style of the indicators (Balloon, Shift, or Spring)
+ * @param type The visual style of the indicators (Balloon, Shift, Spring, or Colored)
  * @param currentPage The current page index (integer value)
  * @param currentPageOffsetFraction Provider function for the fractional offset of the current page
  * @param modifier Additional modifiers to apply to the indicator
@@ -122,8 +125,11 @@ fun SushiIndicator(
                     dotSpacing = dotSpacing,
                     onDotClicked = onDotClicked,
                     modifier = Modifier,
+                    selectedDotsGraphic = type.selectedDotGraphic,
                     dotsGraphic = type.dotsGraphic,
                     shiftSizeFactor = type.shiftSizeFactor,
+                    currentFillProgressProvider = type.currentFillProgressProvider,
+                    fillProgressColor = type.fillProgressColor
                 )
             }
             is SushiIndicatorType.Spring -> {
@@ -135,6 +141,17 @@ fun SushiIndicator(
                     modifier = Modifier.fillMaxSize(),
                     dotsGraphic = type.dotsGraphic,
                     selectorDotGraphic = type.selectorDotGraphic,
+                )
+            }
+            is SushiIndicatorType.Colored -> {
+                ColoredIndicator(
+                    offsetProvider = { currentPageOffset },
+                    dotCount = dotCount,
+                    dotSpacing = dotSpacing,
+                    onDotClicked = onDotClicked,
+                    modifier = Modifier.fillMaxSize(),
+                    dotsGraphic = type.dotsGraphic,
+                    selectedColor = type.selectedColor
                 )
             }
         }
@@ -190,9 +207,10 @@ private fun SushiIndicatorBalloonPreview() {
 private fun SushiIndicatorShiftPreview() {
     val dotCount = 5
     val animatedProgress = remember { Animatable(0f) }
+    val duration = 2000
     LaunchedEffect(Unit) {
         while (true) {
-            delay(300)
+            delay(duration.toLong())
             val newValue = (animatedProgress.value + 1) % dotCount.toFloat()
             if (newValue == 0f) {
                 animatedProgress.snapTo(newValue)
@@ -205,25 +223,52 @@ private fun SushiIndicatorShiftPreview() {
         }
     }
 
+    val progressFill = remember { Animatable(0f) }
+    LaunchedEffect(animatedProgress.targetValue) {
+        progressFill.snapTo(0f)
+        progressFill.animateTo(1f, tween(durationMillis = duration))
+    }
+
     val currentPage by remember {
         derivedStateOf { animatedProgress.value.toInt() }
     }
 
     SushiPreview {
-        SushiIndicator(
-            dotCount = dotCount,
-            dotSpacing = 8.dp,
-            type = SushiIndicatorType.Shift(
-                dotsGraphic = DotGraphic(
-                    color = SushiTheme.colors.base.theme.v500.value
-                )
-            ),
-            currentPage = currentPage,
-            currentPageOffsetFraction = {
-                val value = animatedProgress.value
-                value - value.toInt()
-            }
-        )
+        Column {
+            SushiIndicator(
+                dotCount = dotCount,
+                type = SushiIndicatorType.Shift(
+                    dotsGraphic = DotGraphic(
+                        color = SushiTheme.colors.base.theme.v500.value
+                    )
+                ),
+                currentPage = currentPage,
+                currentPageOffsetFraction = {
+                    val value = animatedProgress.value
+                    value - value.toInt()
+                },
+                dotSpacing = 8.dp,
+            )
+            SushiIndicator(
+                dotCount = dotCount,
+                type = SushiIndicatorType.Shift(
+                    dotsGraphic = DotGraphic(
+                        color = SushiTheme.colors.base.theme.v500.value
+                    ),
+                    currentFillProgressProvider = {
+                        progressFill.value
+                    },
+                    fillProgressColor = Color.Yellow
+                ),
+                currentPage = currentPage,
+                currentPageOffsetFraction = {
+                    val value = animatedProgress.value
+                    value - value.toInt()
+                },
+                Modifier.padding(top = 12.dp),
+                dotSpacing = 8.dp,
+            )
+        }
     }
 }
 
@@ -266,6 +311,50 @@ private fun SushiIndicatorSpringPreview() {
                     14.dp,
                     color = SushiTheme.colors.base.theme.v500.value
                 )
+            ),
+            currentPage = currentPage,
+            currentPageOffsetFraction = {
+                val value = animatedProgress.value
+                value - value.toInt()
+            }
+        )
+    }
+}
+
+@SushiPreview
+@Composable
+private fun SushiIndicatorColoredPreview() {
+    val dotCount = 5
+    val animatedProgress = remember { Animatable(0f) }
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(300)
+            val newValue = (animatedProgress.value + 1) % dotCount.toFloat()
+            if (newValue == 0f) {
+                animatedProgress.snapTo(newValue)
+            } else {
+                animatedProgress.animateTo(
+                    targetValue = (animatedProgress.value + 1) % dotCount.toFloat(),
+                    animationSpec = tween(durationMillis = 100, easing = LinearEasing)
+                )
+            }
+        }
+    }
+
+    val currentPage by remember {
+        derivedStateOf { animatedProgress.value.toInt() }
+    }
+
+    SushiPreview {
+        SushiIndicator(
+            dotCount = dotCount,
+            dotSpacing = 8.dp,
+            type = SushiIndicatorType.Colored(
+                dotsGraphic = DotGraphic(
+                    16.dp,
+                    color = SushiTheme.colors.grey.v500.value
+                ),
+                selectedColor = SushiTheme.colors.theme.v500.value
             ),
             currentPage = currentPage,
             currentPageOffsetFraction = {

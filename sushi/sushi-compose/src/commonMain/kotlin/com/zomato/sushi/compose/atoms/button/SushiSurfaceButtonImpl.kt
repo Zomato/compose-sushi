@@ -15,11 +15,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.color.BrushSpec
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.modifiers.ifNonNull
 
 /**
  * @author gupta.anirudh@zomato.com
@@ -27,7 +30,6 @@ import com.zomato.sushi.compose.foundation.SushiTheme
 @Composable
 internal fun SushiSurfaceButtonImpl(
     props: SushiButtonProps,
-    onClick: () -> Unit,
     color: ColorSpec,
     colorDisabled: ColorSpec,
     fontColor: ColorSpec,
@@ -38,10 +40,12 @@ internal fun SushiSurfaceButtonImpl(
     borderStrokeColorDisabled: ColorSpec,
     borderStrokeWidth: Dp,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val isTapped = remember(props) { mutableStateOf(false) }
     val isDisabled = props.enabled == false
+    val shape = with(SushiButtonDefaults) { props.shapeOrDefault }
 
     val appliedStrokeColor = when {
         isDisabled -> borderStrokeColorDisabled
@@ -51,14 +55,13 @@ internal fun SushiSurfaceButtonImpl(
 
     val contentPadding = with(SushiButtonDefaults) {
         when (props.sizeOrDefault) {
-            SushiButtonSize.Small -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.mini)
-            SushiButtonSize.Medium -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
-            SushiButtonSize.Large -> PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
+            SushiButtonSize.Small -> props.contentPadding ?: PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.mini)
+            SushiButtonSize.Medium -> props.contentPadding ?: PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
+            SushiButtonSize.Large -> props.contentPadding ?: PaddingValues(horizontal = SushiTheme.dimens.spacing.extra, vertical = SushiTheme.dimens.spacing.macro)
         }
     }
 
     ButtonImpl(
-        onClick = onClick,
         modifier
             .pointerInput(isTapped) {
                 while (true) {
@@ -70,21 +73,28 @@ internal fun SushiSurfaceButtonImpl(
                     }
                 }
             }
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = ripple(),
-                enabled = !isDisabled,
-                onClick = onClick
-            ),
+            .clip(shape)
+            .ifNonNull(onClick) {
+                this.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = ripple(),
+                    enabled = !isDisabled,
+                    onClick = it
+                )
+            },
         enabled = !isDisabled,
         contentPadding = contentPadding,
-        shape = with(SushiButtonDefaults) { props.shapeOrDefault },
+        shape = shape,
         colors = ButtonDefaults.buttonColors().copy(
             containerColor = color.value,
             contentColor = if (isTapped.value) fontColorPressed.value else fontColor.value,
             disabledContainerColor = colorDisabled.value,
             disabledContentColor = fontColorDisabled.value
         ),
+        containerBrush = when (color) {
+            is BrushSpec -> color.brush
+            else -> null
+        },
         border = borderStrokeWidth.takeIf { it > 0.dp }?.let {
             BorderStroke(borderStrokeWidth, appliedStrokeColor.value)
         }

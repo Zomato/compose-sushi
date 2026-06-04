@@ -30,6 +30,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.color.asBrushSpec
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.atoms.text.SushiText
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
@@ -136,7 +137,7 @@ private fun SushiShimmerImpl(
             @Composable
             override fun ShimmerText(sushiTextProps: SushiTextProps, modifier: Modifier) {
                 SushiText(
-                    props = sushiTextProps.copy(textBrush = brush),
+                    props = sushiTextProps.copy(color = brush.asBrushSpec()),
                     modifier = modifier
                 )
             }

@@ -20,19 +20,19 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 @Composable
 internal fun SushiSolidButton(
     props: SushiButtonProps,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
-    val color = props.color.takeIfSpecified() ?: SushiTheme.colors.button.primaryBackground
+    val color = props.color?.takeIfSpecified() ?: SushiTheme.colors.button.primaryBackground
     val disabledColor = SushiTheme.colors.button.backgroundDisabled
 
-    val fontColor = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabel
-    val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabelPressed
+    val fontColor = props.fontColor?.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabel
+    val fontColorPressed = props.fontColor?.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabelPressed
     val fontColorDisabled = SushiTheme.colors.button.primaryLabelDisabled
 
-    val borderStrokeColor = props.borderColor.takeIfSpecified() ?: color
-    val borderStrokeColorPressed = props.borderColor.takeIfSpecified() ?: color
+    val borderStrokeColor = props.borderColor?.takeIfSpecified() ?: color
+    val borderStrokeColorPressed = props.borderColor?.takeIfSpecified() ?: color
     val borderStrokeColorDisabled = SushiTheme.colors.button.secondaryBorderDisabled
 
     val minHeight = with(SushiButtonDefaults) { getButtonMinHeight(props.sizeOrDefault) }
@@ -146,7 +146,7 @@ private fun SushiSolidButtonPreview6() {
                 verticalAlignment = Alignment.CenterVertically
             ),
             onClick = {},
-            Modifier.width(180.dp).height(70.dp)
+            modifier = Modifier.width(180.dp).height(70.dp)
         )
     }
 }

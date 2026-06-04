@@ -7,9 +7,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
+import com.zomato.sushi.compose.atoms.border.BorderSpec
 import com.zomato.sushi.compose.atoms.color.ColorSpec
-import com.zomato.sushi.compose.atoms.color.asColorSpec
-import com.zomato.sushi.compose.foundation.SushiUnspecified
 
 /**
  * Properties for configuring a SushiImage component.
@@ -30,13 +29,15 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  * @property scaleFactor Additional scaling factor applied to the image size
  * @property alignment How the image should be aligned within its bounds
  * @property colorFilter Optional filter to apply color transformations to the image
+ * @property rotation Rotation angle in degrees for the image (from the center) in clockwise rotation (Negative degrees also supported).
  *
  * @author gupta.anirudh@zomato.com
  */
 @Immutable
 data class SushiImageProps(
     val painter: Painter? = null,
-    val bgColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val bgColor: ColorSpec? = null,
+    val border: BorderSpec? = null,
     val aspectRatio: Float? = null,
     val height: Dp? = null,
     val width: Dp? = null,
@@ -47,4 +48,5 @@ data class SushiImageProps(
     val scaleFactor: Float? = null,
     val alignment: Alignment? = null,
     val colorFilter: ColorFilter? = null,
+    val rotation: Float? = null
 )

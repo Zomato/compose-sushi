@@ -98,7 +98,7 @@ kotlin {
             implementation(compose.preview)
             implementation(compose.uiTooling)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.lottie.compose)
+            api(libs.lottie.compose)
         }
 
         commonMain.dependencies {
@@ -130,6 +130,7 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
     }
 
     compileOptions {

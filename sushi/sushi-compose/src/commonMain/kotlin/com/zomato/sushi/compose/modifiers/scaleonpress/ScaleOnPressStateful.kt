@@ -272,7 +272,7 @@ private fun ScaleOnPressPreview1() {
                 onClick = {
 
                 },
-                Modifier
+                modifier = Modifier
                     .scaleOnPress(scaleOnPressState)
             )
             SushiButton(
@@ -282,7 +282,7 @@ private fun ScaleOnPressPreview1() {
                 onClick = {
 
                 },
-                Modifier
+                modifier = Modifier
                     .scaleOnPress(scaleOnPressState)
             )
             SushiButton(
@@ -292,7 +292,7 @@ private fun ScaleOnPressPreview1() {
                 onClick = {
 
                 },
-                Modifier
+                modifier = Modifier
                     .scaleOnPressAnchor(scaleOnPressState)
             )
         }

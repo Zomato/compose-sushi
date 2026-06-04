@@ -14,19 +14,19 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
 @Composable
 internal fun SushiOutlineButton(
     props: SushiButtonProps,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
-    val color = props.color.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBackground
+    val color = props.color?.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBackground
     val disabledColor = color
 
-    val fontColor = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabel
-    val fontColorPressed = props.fontColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabelPressed
+    val fontColor = props.fontColor?.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabel
+    val fontColorPressed = props.fontColor?.takeIfSpecified() ?: SushiTheme.colors.button.secondaryLabelPressed
     val fontColorDisabled = SushiTheme.colors.button.secondaryLabelDisabled
 
-    val borderStrokeColor = props.borderColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBorder
-    val borderStrokeColorPressed = props.borderColor.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBorderPressed
+    val borderStrokeColor = props.borderColor?.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBorder
+    val borderStrokeColorPressed = props.borderColor?.takeIfSpecified() ?: SushiTheme.colors.button.secondaryBorderPressed
     val borderStrokeColorDisabled = SushiTheme.colors.button.secondaryBorderDisabled
 
     val minHeight = with(SushiButtonDefaults) { getButtonMinHeight(props.sizeOrDefault) }

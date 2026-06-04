@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import com.zomato.sushi.compose.atoms.color.ColorSpec
+import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.color.transform
 
 /**
@@ -40,7 +41,7 @@ inline fun ColorSpec.takeIfSpecified() = this.takeIf { it.value.isSpecified }
  * @param altColor A function that provides the alternative color to use if this ColorSpec is unspecified
  * @return A new ColorSpec with either the original specified color or the alternative
  */
-inline fun ColorSpec.takeIfUnspecified(crossinline altColor: () -> Color) = this.transform {
+inline fun ColorSpec.takeIfUnspecified(crossinline altColor: () -> Color): ColorSpec = this.transform {
     if (it.isSpecified) {
         it
     } else {
@@ -57,10 +58,10 @@ inline fun ColorSpec.takeIfUnspecified(crossinline altColor: () -> Color) = this
  * @param altColor A function that provides the alternative color to use if this ColorSpec is unspecified
  * @return A new ColorSpec with either the original specified color or the alternative
  */
-inline fun ColorSpec?.takeIfNullOrUnspecified(crossinline altColor: () -> Color) = this?.transform {
+inline fun ColorSpec?.takeIfUnspecifiedOrNull(crossinline altColor: () -> Color): ColorSpec = this?.transform {
     if (it.isSpecified) {
         it
     } else {
         altColor()
     }
-} ?: altColor()
+} ?: altColor().asColorSpec()

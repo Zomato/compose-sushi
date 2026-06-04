@@ -28,6 +28,7 @@ data class SushiColorScheme(
     val material: ColorScheme,
 
     val black: ColorSpec = Black,
+    val pureBlack: ColorSpec = PureBlack,
     val white: ColorSpec = White,
     val transparent: ColorSpec = Transparent,
 

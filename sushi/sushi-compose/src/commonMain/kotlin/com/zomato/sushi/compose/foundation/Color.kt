@@ -19,6 +19,8 @@ import com.zomato.sushi.compose.atoms.color.asColorSpec
  */
 
 val Black = SushiRawColorTokens.Black.asColorSpec()
+
+val PureBlack = SushiRawColorTokens.PureBlack.asColorSpec()
 val White = SushiRawColorTokens.White.asColorSpec()
 val Transparent = SushiRawColorTokens.Transparent.asColorSpec()
 

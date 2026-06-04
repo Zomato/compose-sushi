@@ -18,6 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import com.zomato.sushi.compose.atoms.border.BorderSpec
+import com.zomato.sushi.compose.atoms.border.border
+import com.zomato.sushi.compose.atoms.color.asSushiGradientColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
@@ -29,11 +33,9 @@ import com.zomato.sushi.compose.atoms.text.SushiTextProps
 import com.zomato.sushi.compose.atoms.text.asTextTypeSpec
 import com.zomato.sushi.compose.foundation.SushiTheme
 import com.zomato.sushi.compose.internal.SushiPreview
-import com.zomato.sushi.compose.modifiers.dashedBorder
 import com.zomato.sushi.compose.modifiers.ifNonNull
-import com.zomato.sushi.compose.modifiers.ifTrue
+import com.zomato.sushi.compose.atoms.border.BorderType
 import com.zomato.sushi.compose.utils.takeIfSpecified
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
  * A customizable tag component for the Sushi design system.
@@ -92,16 +94,21 @@ private fun SushiTagImpl(
                     interactionSource = remember { MutableInteractionSource() }
                 )
             }
-            .ifTrue(dashedBorderNeededForTag(props.typeOrDefault)) {
-                this.dashedBorder(
-                    color = props.borderColor?.value ?: SushiTheme.colors.border.accentBlueIntense.value,
-                    strokeWidth = SushiTheme.dimens.spacing.nano,
-                    cornerRadiusDp = props.getTagCornerRadiusForType()
+            .border(
+                props.border?.copy(
+                    shape = props.border.shape ?: surfaceShape,
+                    borderType = props.border.borderType ?: if (dashedBorderNeededForTag(props.typeOrDefault)) {
+                        BorderType.DashedBorderType(
+                            dashWidth = SushiTheme.dimens.spacing.micro,
+                            dashGap = SushiTheme.dimens.spacing.micro
+                        )
+                    } else {
+                        null
+                    }
                 )
-            },
+            ),
         color = props.color?.value ?: SushiTheme.colors.theme.accentColor.value,
-        shape = surfaceShape,
-        border = props.getBorderForType()
+        shape = surfaceShape
     ) {
         if (content != null) content()
         else SushiTagDefaultContent(props = props)
@@ -114,19 +121,19 @@ private fun SushiTagDefaultContent(
     modifier: Modifier = Modifier
 ) {
     val textType = props.getTagTextType()
-    val textColor = props.fontColor ?: SushiTheme.colors.button.primaryLabel
+    val textColor = props.text?.color?.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabel
 
-    val tagPadding = props.getTagPaddingForSize()
+    val tagPadding = props.contentPadding ?: props.getTagPaddingForSize()
 
     val defaultIconSize: TextUnit = props.getTagIconSize()
     val iconPadding: Dp = props.iconSpacing ?: tagPadding.calculateLeftPadding(LayoutDirection.Ltr)
     val prefixIcon = props.prefixIcon?.copy(
         size = props.prefixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = props.prefixIcon.color.takeIfSpecified() ?: textColor
+        color = props.prefixIcon.color?.takeIfSpecified() ?: textColor
     )
     val suffixIcon = props.suffixIcon?.copy(
         size = props.suffixIcon.size ?: defaultIconSize.asIconSizeSpec(),
-        color = props.suffixIcon.color.takeIfSpecified() ?: textColor
+        color = props.suffixIcon.color?.takeIfSpecified() ?: textColor
     )
 
     Row(
@@ -142,13 +149,11 @@ private fun SushiTagDefaultContent(
         }
         SushiText(
             modifier = Modifier.weight(1f).padding(tagPadding),
-            props = SushiTextProps(
-                type = textType.asTextTypeSpec(),
-                text = props.text.orEmpty(),
+            props = props.text?.copy(
+                type = props.text.type ?: textType.asTextTypeSpec(),
                 color = textColor,
-                markdown = props.markdown,
-                horizontalArrangement = Arrangement.Center
-            )
+                horizontalArrangement = props.text.horizontalArrangement ?: Arrangement.Center
+            ) ?: SushiTextProps()
         )
         if (suffixIcon != null) {
             SushiIcon(
@@ -166,11 +171,13 @@ private fun SushiTagPreview1() {
     SushiTag(
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
-            text = "recommended",
+            text = SushiTextProps("recommended"),
             size = SushiTagSize.Large,
             type = SushiTagType.Capsule,
             color = SushiTheme.colors.green.v400,
-            borderColor = SushiTheme.colors.black
+            border = BorderSpec(
+                color = SushiTheme.colors.black.asSushiGradientColorSpec()
+            )
         )
     )
 }
@@ -182,11 +189,13 @@ private fun SushiTagPreview2() {
     SushiTag(
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
-            text = "recommended",
+            text = SushiTextProps("recommended"),
             size = SushiTagSize.Small,
             type = SushiTagType.CapsuleOutline,
             color = SushiTheme.colors.green.v400,
-            borderColor = SushiTheme.colors.black
+            border = BorderSpec(
+                color = SushiTheme.colors.black.asSushiGradientColorSpec()
+            )
         )
     )
 }
@@ -198,11 +207,15 @@ private fun SushiTagPreview3() {
     SushiTag(
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
-            text = "recommended",
+            text = SushiTextProps("recommended"),
             size = SushiTagSize.Large,
             type = SushiTagType.CapsuleDashed,
             color = SushiTheme.colors.green.v400,
-            borderColor = SushiTheme.colors.black,
+            border = BorderSpec(
+                color = SushiTheme.colors.black.asSushiGradientColorSpec(),
+                width = 1.dp,
+                borderType = BorderType.DashedBorderType()
+            ),
             suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
     )
@@ -215,11 +228,15 @@ private fun SushiTagPreview4() {
     SushiTag(
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
-            text = "recommended",
+            text = SushiTextProps("recommended"),
             size = SushiTagSize.Large,
             type = SushiTagType.RoundedOutline,
             color = SushiTheme.colors.blue.v300,
-            borderColor = SushiTheme.colors.black,
+            border = BorderSpec(
+                color = SushiTheme.colors.black.asSushiGradientColorSpec(),
+                width = 1.dp,
+                borderType = BorderType.Solid
+            ),
             prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
             suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
@@ -233,11 +250,15 @@ private fun SushiTagPreview5() {
     SushiTag(
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
-            text = "recommended",
+            text = SushiTextProps("recommended"),
             size = SushiTagSize.Large,
             type = SushiTagType.RoundedDashed,
             color = SushiTheme.colors.blue.v300,
-            borderColor = SushiTheme.colors.black,
+            border = BorderSpec(
+                color = SushiTheme.colors.black.asSushiGradientColorSpec(),
+                width = 1.dp,
+                borderType = BorderType.DashedBorderType()
+            ),
             prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
             suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
@@ -251,11 +272,13 @@ private fun SushiTagPreview6() {
     SushiTag(
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
-            text = "recommended",
-            size = SushiTagSize.Medium,
+            text = SushiTextProps("recommended"),
+            size = SushiTagSize.Large,
             type = SushiTagType.Rounded,
             color = SushiTheme.colors.blue.v300,
-            borderColor = SushiTheme.colors.black,
+            border = BorderSpec(
+                color = SushiTheme.colors.black.asSushiGradientColorSpec()
+            ),
             prefixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
     )
@@ -268,12 +291,18 @@ private fun SushiTagPreview7() {
     SushiTag(
         modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
         props = SushiTagProps(
-            text = "recommended",
+            text = SushiTextProps(
+                "recommended",
+                color = SushiTheme.colors.white
+            ),
             size = SushiTagSize.Nano,
             type = SushiTagType.CapsuleDashed,
-            fontColor = SushiTheme.colors.white,
             color = SushiTheme.colors.green.v900,
-            borderColor = SushiTheme.colors.yellow.v700,
+            border = BorderSpec(
+                color = SushiTheme.colors.red.v500.asSushiGradientColorSpec(),
+                width = 1.dp,
+                borderType = BorderType.DashedBorderType()
+            ),
             suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
         )
     )
@@ -283,16 +312,24 @@ private fun SushiTagPreview7() {
 @SushiPreview
 @Composable
 private fun SushiTagPreview8() {
-    SushiTag(
-        modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
-        props = SushiTagProps(
-            text = "recommended",
-            size = SushiTagSize.Tiny,
-            type = SushiTagType.CapsuleDashed,
-            fontColor = SushiTheme.colors.white,
-            color = SushiTheme.colors.green.v900,
-            borderColor = SushiTheme.colors.yellow.v700,
-            suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
+    SushiPreview {
+        SushiTag(
+            modifier = Modifier.padding(SushiTheme.dimens.spacing.micro),
+            props = SushiTagProps(
+                text = SushiTextProps(
+                    "recommended",
+                    color = SushiTheme.colors.white
+                ),
+                size = SushiTagSize.Tiny,
+                type = SushiTagType.CapsuleDashed,
+                color = SushiTheme.colors.green.v900,
+                border = BorderSpec(
+                    color = SushiTheme.colors.red.v500.asSushiGradientColorSpec(),
+                    width = 1.dp,
+                    borderType = BorderType.DashedBorderType()
+                ),
+                suffixIcon = SushiIconProps(code = SushiIconCodes.IconScooterSharp),
+            )
         )
-    )
+    }
 }

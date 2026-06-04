@@ -33,8 +33,8 @@ import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 @Composable
 fun SushiButton(
     props: SushiButtonProps,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     SushiComponentBase(
@@ -45,8 +45,8 @@ fun SushiButton(
     ) {
         SushiButtonImpl(
             props,
-            onClick = onClick,
             Modifier.fillMaxSize(),
+            onClick = onClick,
             content = content
         )
     }
@@ -55,8 +55,8 @@ fun SushiButton(
 @Composable
 private fun SushiButtonImpl(
     props: SushiButtonProps,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val type = with(SushiButtonDefaults) { props.typeOrDefault }
@@ -65,34 +65,33 @@ private fun SushiButtonImpl(
             SushiButtonType.Text -> {
                 SushiTextButton(
                     props = props,
+                    modifier = Modifier.fillMaxSize(),
                     onClick = onClick,
-                    Modifier.fillMaxSize(),
                     content = content
                 )
             }
             SushiButtonType.Solid -> {
                 SushiSolidButton(
                     props = props,
+                    modifier = Modifier.fillMaxSize(),
                     onClick = onClick,
-                    Modifier.fillMaxSize(),
                     content = content
                 )
             }
             SushiButtonType.Outline -> {
                 SushiOutlineButton(
                     props = props,
+                    modifier = Modifier.fillMaxSize(),
                     onClick = onClick,
-                    Modifier.fillMaxSize(),
                     content = content
                 )
             }
-            SushiButtonType.Underline -> {
+            is SushiButtonType.Underline -> {
                 SushiTextButton(
                     props = props,
+                    modifier = Modifier.fillMaxSize(),
                     onClick = onClick,
-                    Modifier.fillMaxSize(),
-                    content = content,
-                    shouldUnderline = true
+                    content = content
                 )
             }
         }

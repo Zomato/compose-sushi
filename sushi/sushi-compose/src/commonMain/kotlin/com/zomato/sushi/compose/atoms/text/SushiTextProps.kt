@@ -3,6 +3,7 @@ package com.zomato.sushi.compose.atoms.text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextAlign
@@ -38,38 +39,42 @@ import com.zomato.sushi.compose.foundation.SushiUnspecified
  * @property suffixSpacing Space between the text and the suffix icon
  * @property horizontalArrangement How to arrange content horizontally
  * @property verticalAlignment How to align content vertically
- * @property textBrush Optional brush for creating gradient or other effects on text
  * @property autoSize Enable auto sizing (uses biggest font size that fits the constraints, including [maxLines]). This takes precedence over size defined in [type].
+ * @property disableLinearFontScaling Disable linear font scaling (user preference set in system settings) for this text.
  */
 @Immutable
 data class SushiTextProps(
     val text: CharSequence? = null,
-    val color: ColorSpec = SushiUnspecified.asColorSpec(),
+    val color: ColorSpec? = null,
     val type: TextTypeSpec? = null,
     val maxLines: Int? = null,
     val prefixIcon: SushiIconProps? = null,
     val suffixIcon: SushiIconProps? = null,
     val letterSpacing: TextUnit = TextUnit.Unspecified,
+    val lineHeight: TextUnit = TextUnit.Unspecified,
+    val continuousPrefixIcon: ContinuousIconProps? = null,
+    val continuousSuffixIcon: ContinuousIconProps? = null,
     val markdown: Boolean? = null,
     val textDecoration: SushiTextDecoration? = null,
     val textAlign: TextAlign? = null,
     val overflow: TextOverflow? = null,
     val overflowText: String? = null,
-    val overflowTextColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val overflowTextColor: ColorSpec? = null,
     val softWrap: Boolean? = null,
     val minLines: Int? = null,
     val prefixSpacing: Dp? = null,
     val suffixSpacing: Dp? = null,
     val horizontalArrangement: Arrangement.Horizontal? = null,
     val verticalAlignment: Alignment.Vertical? = null,
-    val textBrush: Brush? = null,
-    val autoSize: TextAutoSize? = null
+    val autoSize: TextAutoSize? = null,
+    val disableLinearFontScaling: Boolean? = null
 )
 
 /**
  * Decorations that can be applied to text, such as underline or strikethrough.
  * Each decoration type allows customization of appearance parameters.
  */
+@Stable
 sealed interface SushiTextDecoration {
     /**
      * Underline decoration for text.
@@ -79,6 +84,7 @@ sealed interface SushiTextDecoration {
      * @property strokeWidth Width of the underline
      * @property color Color of the underline (defaults to text color if not specified)
      */
+    @Stable
     data class Underline(
         val dotSize: Dp? = null,
         val gapSize: Dp? = null,
@@ -94,6 +100,7 @@ sealed interface SushiTextDecoration {
      * @property strokeWidth Width of the line
      * @property color Color of the line (defaults to text color if not specified)
      */
+    @Stable
     data class LineThrough(
         val dotSize: Dp? = null,
         val gapSize: Dp? = null,

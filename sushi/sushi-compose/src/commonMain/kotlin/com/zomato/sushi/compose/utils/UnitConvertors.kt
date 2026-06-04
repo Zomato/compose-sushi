@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import kotlin.math.roundToInt
 
 /**
  * Utility extension functions for converting between different measurement units in Compose.
@@ -17,39 +18,47 @@ import androidx.compose.ui.unit.TextUnit
  * @return The equivalent TextUnit (Sp) value based on the current screen density
  */
 @Composable
-inline fun Dp.toSp() = with(LocalDensity.current) { remember(this@with) { this@toSp.toSp() } }
+fun Dp.toSp(): TextUnit = with(LocalDensity.current) { toSp() }
 
 /**
  * Converts a TextUnit (Sp) value to a Dp value.
  * @return The equivalent Dp value based on the current screen density
  */
 @Composable
-inline fun TextUnit.toDp() = with(LocalDensity.current) { remember(this@with) { this@toDp.toDp() } }
+fun TextUnit.toDp(): Dp = with(LocalDensity.current) { toDp() }
 
 /**
  * Converts a TextUnit (Sp) value to raw pixels.
  * @return The equivalent pixel value based on the current screen density
  */
 @Composable
-inline fun TextUnit.toPx() = with(LocalDensity.current) { remember(this@with) { this@toPx.toPx() } }
+fun TextUnit.toPx(): Float = with(LocalDensity.current) { toPx() }
 
 /**
  * Converts a Dp value to raw pixels.
  * @return The equivalent pixel value based on the current screen density
  */
 @Composable
-inline fun Dp.toPx() = with(LocalDensity.current) { remember(this@with) { this@toPx.toPx() } }
+fun Dp.toPx(): Float = with(LocalDensity.current) { toPx() }
+
+/**
+ * Converts a Dp value to raw pixels (rounded to nearest integer value).
+ * @return The equivalent pixel value (rounded to nearest integer value)
+ * based on the current screen density
+ */
+@Composable
+fun Dp.roundToPx(): Int = with(LocalDensity.current) { toPx() }.roundToInt()
 
 /**
  * Converts a Float value (assumed to be in raw pixels) to a Dp value.
  * @return The equivalent Dp value based on the current screen density
  */
 @Composable
-inline fun Float.toDp() = with(LocalDensity.current) { remember(this@with) { this@toDp.toDp() } }
+fun Float.toDp(): Dp = with(LocalDensity.current) { toDp() }
 
 /**
  * Converts an Int value (assumed to be in raw pixels) to a Dp value.
  * @return The equivalent Dp value based on the current screen density
  */
 @Composable
-inline fun Int.toDp() = with(LocalDensity.current) { remember(this@with) { this@toDp.toDp() } }
+fun Int.toDp(): Dp = with(LocalDensity.current) { toDp() }

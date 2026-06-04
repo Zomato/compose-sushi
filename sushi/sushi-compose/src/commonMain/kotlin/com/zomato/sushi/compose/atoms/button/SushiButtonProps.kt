@@ -1,6 +1,7 @@
 package com.zomato.sushi.compose.atoms.button
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Shape
@@ -40,10 +41,10 @@ data class SushiButtonProps(
     val subText: String? = null,
     val type: SushiButtonType? = null,
     val size: SushiButtonSize? = null,
-    val fontColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val fontColor: ColorSpec? = null,
     val fontType: TextTypeSpec? = null,
-    val color: ColorSpec = SushiUnspecified.asColorSpec(),
-    val borderColor: ColorSpec = SushiUnspecified.asColorSpec(),
+    val color: ColorSpec? = null,
+    val borderColor: ColorSpec? = null,
     val suffixIcon: SushiIconProps? = null,
     val prefixIcon: SushiIconProps? = null,
     val enabled: Boolean? = null,
@@ -52,5 +53,6 @@ data class SushiButtonProps(
     val textAlignment: Alignment.Horizontal? = null,
     val markdown: Boolean? = null,
     val shape: Shape? = null,
-    val iconSpacing: Dp? = null
+    val iconSpacing: Dp? = null,
+    val contentPadding: PaddingValues? = null
 )

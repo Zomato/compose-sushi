@@ -34,11 +34,18 @@ sealed interface SushiIndicatorType {
      * form as it becomes inactive.
      *
      * @property dotsGraphic The appearance configuration for the dots
+     * @property selectedDotGraphic The appearance configuration for the selected dot ([dotsGraphic] used if this is null)
      * @property shiftSizeFactor The maximum width multiplication factor for the active dot
+     * @property currentFillProgressProvider A function that provides the current fill
+     * progress, which will be used to animate the progress inside the active dot
+     * @property fillProgressColor The color of the filled progress inside the active dot
      */
     data class Shift(
         val dotsGraphic: DotGraphic = DotGraphic(),
+        val selectedDotGraphic: DotGraphic? = null,
         val shiftSizeFactor: Float = 3f,
+        val currentFillProgressProvider: (() -> Float)? = null,
+        val fillProgressColor: Color = Color.Unspecified,
     ) : SushiIndicatorType
 
     /**
@@ -53,5 +60,16 @@ sealed interface SushiIndicatorType {
     data class Spring(
         val dotsGraphic: DotGraphic = DotGraphic(),
         val selectorDotGraphic: DotGraphic = DotGraphic(color = Color.Black),
+    ) : SushiIndicatorType
+
+    /**
+     * An indicator type where the selected dot changes its color.
+     *
+     * @property dotsGraphic The appearance configuration for the dots
+     * @property selectedColor The color of current selected indicator
+     */
+    data class Colored(
+        val dotsGraphic: DotGraphic = DotGraphic(size = 12.dp),
+        val selectedColor: Color
     ) : SushiIndicatorType
 }
