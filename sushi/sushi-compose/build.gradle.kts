@@ -36,14 +36,13 @@ kotlin {
         binaries.executable()
     }
 
-    js(IR) {
+    js {
         browser()
         binaries.executable()
     }
 
     val xcf = XCFramework()
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
@@ -80,10 +79,6 @@ kotlin {
 
         val wasmJsMain by getting {
             dependsOn(nonAndroidMain)
-        }
-
-        val iosX64Main by getting {
-            dependsOn(iosMain)
         }
 
         val iosArm64Main by getting {

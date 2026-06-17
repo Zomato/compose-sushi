@@ -29,14 +29,13 @@ kotlin {
         binaries.executable()
     }
 
-    js(IR) {
+    js {
         browser()
         binaries.executable()
     }
 
     val xcf = XCFramework()
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->

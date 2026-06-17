@@ -7,7 +7,9 @@ import androidx.compose.ui.Modifier
 @Composable
 actual fun SushiAnimation(
     props: SushiAnimationProps,
-    modifier: Modifier
+    modifier: Modifier,
+    state: SushiAnimationState,
+    onClick: (() -> Unit)?
 ) {
     // TODO: desktop implementation to be added
 }

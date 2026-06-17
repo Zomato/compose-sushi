@@ -29,6 +29,7 @@ mavenPublishing {
     )
 
     publishToMavenCentral(automaticRelease = true)
+
     signAllPublications()
 
     pom {

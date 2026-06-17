@@ -18,3 +18,7 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 build-logic/publishing/bin
 app/keystore.jks
+# Secrets — never commit
+secrets.properties
+secring.gpg
+*.gpg

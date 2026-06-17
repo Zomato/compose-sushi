@@ -9,7 +9,9 @@ import platform.UIKit.UIView
 @Composable
 actual fun SushiAnimation(
     props: SushiAnimationProps,
-    modifier: Modifier
+    modifier: Modifier,
+    state: SushiAnimationState,
+    onClick: (() -> Unit)?
 ) {
     UIKitView(
         modifier = modifier,

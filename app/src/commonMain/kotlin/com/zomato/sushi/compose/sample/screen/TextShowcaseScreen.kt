@@ -390,7 +390,7 @@ fun TextShowcaseScreen(
                     SushiText(
                         props = SushiTextProps(
                             text = "31. Gradient text with horizontal brush",
-                            textBrush = horizontalGradient,
+                            color = horizontalGradient.asColorSpec(),
                             type = SushiTextType.Bold700
                         )
                     )
@@ -406,7 +406,7 @@ fun TextShowcaseScreen(
                     SushiText(
                         props = SushiTextProps(
                             text = "32. Gradient text with vertical brush",
-                            textBrush = verticalGradient,
+                            color = verticalGradient.asColorSpec(),
                             type = SushiTextType.Bold700
                         )
                     )

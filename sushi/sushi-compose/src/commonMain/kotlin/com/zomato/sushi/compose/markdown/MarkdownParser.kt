@@ -81,9 +81,12 @@ class MarkdownParser private constructor(
                 text is AnnotatedString -> text
                 else -> AnnotatedString(text.toString())
             }
+            // NOTE: processors run as @Composable; the Compose compiler forbids wrapping
+            // composable invocations in try/catch (or runCatching), so each processor must
+            // handle its own failures internally.
             result = processors
                 .fold(initialAnnotatedString, { acc, markdownProcessor ->
-                    kotlin.runCatching { markdownProcessor.process(props, acc) }.getOrElse { acc }
+                    markdownProcessor.process(props, acc)
                 })
         }
 
