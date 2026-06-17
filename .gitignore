@@ -18,4 +18,3 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 build-logic/publishing/bin
 app/keystore.jks
-secrets.properties

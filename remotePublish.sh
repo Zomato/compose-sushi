@@ -1,9 +1,7 @@
 #!/bin/bash
 
-#./gradlew publishAllPublicationsToZomatoRepository --no-configuration-cache
+#./gradlew publishAllPublicationsToMavenCentralRepository --no-configuration-cache
 
 
-./gradlew :sushi-core:publishAllPublicationsToZomatoRepository --no-configuration-cache
-./gradlew :sushi-core:publishKotlinMultiplatformPublicationToZomatoRepository --no-configuration-cache
-
-./gradlew :sushi-compose:publishAndroidReleasePublicationToZomatoRepository --no-configuration-cache
+./gradlew :sushi-core:publishAllPublicationsToMavenCentralRepository --no-configuration-cache
+./gradlew :sushi-compose:publishAndroidReleasePublicationToMavenCentralRepository --no-configuration-cache
