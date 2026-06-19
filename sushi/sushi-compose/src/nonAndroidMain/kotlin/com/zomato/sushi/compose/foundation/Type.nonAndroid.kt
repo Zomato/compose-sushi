@@ -5,25 +5,53 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.platform.Font
 import com.zomato.sushi.compose.foundation.FontLoader.getFontBytes
-import composesushi.sushi_compose.generated.resources.Res.readBytes
+import composesushi.sushi_compose.generated.resources.Res
 
+/**
+ * Shared, non-composable font loader for all non-Android targets (iOS, desktop, JS, Wasm).
+ *
+ * The fonts live in `commonMain/composeResources/font` and are read once at startup via the
+ * suspend [preloadFonts] into an in-memory cache. The non-composable
+ * `Font(identity, data, weight, style)` overload then pulls the bytes synchronously from that
+ * cache, so the [OkraFontFamily]/[WasabiFontFamily] values stay plain (non-composable) `val`s
+ * usable from anywhere.
+ *
+ * [preloadFonts] MUST be invoked before any Sushi text is rendered. JS and Wasm cannot block, so
+ * a preload-then-read cache is the only option there; iOS and desktop reuse the same path for a
+ * single shared implementation. Call it from each platform's entry point (see the `:website`
+ * `main()` functions and the app's `MainViewController`).
+ */
 object FontLoader {
     private val cache = mutableMapOf<String, ByteArray>()
 
+    private val fontPaths = listOf(
+        "font/okra_thin.ttf",
+        "font/okra_extralight.ttf",
+        "font/okra_light.ttf",
+        "font/okra_regular.ttf",
+        "font/okra_medium.ttf",
+        "font/okra_semibold.ttf",
+        "font/okra_bold.ttf",
+        "font/wasabicons.ttf",
+    )
+
     suspend fun preloadFonts() {
-        cache["font/okra_thin.ttf"] = readBytes("font/okra_thin.ttf")
-        cache["font/okra_extralight.ttf"] = readBytes("font/okra_extralight.ttf")
-        cache["font/okra_light.ttf"] = readBytes("font/okra_light.ttf")
-        cache["font/okra_regular.ttf"] = readBytes("font/okra_regular.ttf")
-        cache["font/okra_medium.ttf"] = readBytes("font/okra_medium.ttf")
-        cache["font/okra_semibold.ttf"] = readBytes("font/okra_semibold.ttf")
-        cache["font/okra_bold.ttf"] = readBytes("font/okra_bold.ttf")
-        cache["font/wasabicons.ttf"] = readBytes("font/wasabicons.ttf")
+        fontPaths.forEach { path ->
+            if (!cache.containsKey(path)) {
+                cache[path] = Res.readBytes(path)
+            }
+        }
     }
 
-    fun getFontBytes(key: String): ByteArray = cache[key]!!
+    fun getFontBytes(key: String): ByteArray = cache[key]
+        ?: error("Font '$key' accessed before FontLoader.preloadFonts() completed")
 }
 
+/**
+ * Defines the Okra font family used as the primary typeface in the Sushi design system.
+ *
+ * @author gupta.anirudh@zomato.com
+ */
 // TODO: Migrate to FontResource version of Font() when its available
 // https://youtrack.jetbrains.com/issue/CMP-8231/Async-font-loading-support-for-iOS-targets
 actual val OkraFontFamily: FontFamily = FontFamily(
@@ -39,8 +67,14 @@ actual val OkraFontFamily: FontFamily = FontFamily(
     Font("com.zomato.sushi.compose.okraBold", { getFontBytes("font/okra_bold.ttf") }, FontWeight.W900),
 )
 
+/**
+ * Defines the Wasabicons font family used for icons in the Sushi design system.
+ *
+ * This custom icon font allows rendering vector icons as text characters,
+ * enabling efficient icon display with color and size control through text styling.
+ */
 actual val WasabiFontFamily: FontFamily = FontFamily(
-    Font("com.zomato.sushi.compose.okraThin", { getFontBytes("font/wasabicons.ttf") })
+    Font("com.zomato.sushi.compose.wasabicons", { getFontBytes("font/wasabicons.ttf") })
 )
 
 /**
@@ -49,7 +83,7 @@ actual val WasabiFontFamily: FontFamily = FontFamily(
  * This ensures that standard Material components will use the Sushi design system's
  * primary font family while maintaining Material's typography scale.
  */
-internal actual val MaterialTypography = Typography().let {
+internal actual val MaterialTypography: Typography = Typography().let {
     val okraFontFamily = OkraFontFamily
     it.copy(
         displayLarge = it.displayLarge.copy(fontFamily = okraFontFamily),
