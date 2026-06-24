@@ -10,10 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
+import com.zomato.sushi.compose.atoms.icon.LocalSushiIconFontFamily
+import com.zomato.sushi.compose.atoms.icon.LocalSushiInternalIcons
+import com.zomato.sushi.compose.atoms.icon.SushiInternalIcons
 import com.zomato.sushi.compose.foundation.colorscheme.sushiDefaultLightColorScheme
 import com.zomato.sushi.core.SushiColorToken
 
@@ -174,6 +178,8 @@ fun SushiTheme(
     dimens: SushiDimension = SushiTheme.dimens,
     fontSizeMultiplier: SushiFontSizeMultiplier = SushiTheme.fontSizeMultiplier,
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
+    iconFontFamily: FontFamily = WasabiFontFamily,
+    internalIcons: SushiInternalIcons = SushiInternalIcons(),
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
@@ -191,6 +197,8 @@ fun SushiTheme(
             LocalSushiDimension provides dimens,
             LocalSushiFontSizeMultiplier provides fontSizeMultiplier,
             LocalSushiColorTokenMapper provides colorTokenMapper,
+            LocalSushiIconFontFamily provides iconFontFamily,
+            LocalSushiInternalIcons provides internalIcons,
             LocalIndication provides noIndication(),
             LocalTextSelectionColors provides textSelectionColors,
             content = content

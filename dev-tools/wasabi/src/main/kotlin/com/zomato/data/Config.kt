@@ -15,6 +15,7 @@ data class Config(
     @JsonIgnoreUnknownKeys
     data class Glyph(
         @SerialName("code") val code: Int,
-        @SerialName("css") val css: String
+        @SerialName("css") val css: String,
+        @SerialName("selected") val selected: Boolean = true
     )
 }
