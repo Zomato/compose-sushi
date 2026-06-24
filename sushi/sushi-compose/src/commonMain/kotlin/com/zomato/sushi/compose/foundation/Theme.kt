@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
-import com.zomato.sushi.compose.atoms.icon.LocalSushiIconFontFamily
 import com.zomato.sushi.compose.atoms.icon.LocalSushiInternalIcons
+import com.zomato.sushi.compose.atoms.icon.SushiIcon
 import com.zomato.sushi.compose.atoms.icon.SushiInternalIcons
 import com.zomato.sushi.compose.foundation.colorscheme.sushiDefaultLightColorScheme
 import com.zomato.sushi.core.SushiColorToken
@@ -70,6 +70,13 @@ internal val LocalSushiDimension = staticCompositionLocalOf<SushiDimension> { su
 internal val LocalSushiFontSizeMultiplier = staticCompositionLocalOf<SushiFontSizeMultiplier> { { it } }
 
 /**
+ * Provides the font family that will be used to render [SushiIcon]
+ */
+internal val LocalSushiIconFontFamily = staticCompositionLocalOf<FontFamily> {
+    { WasabiFontFamily } as FontFamily
+}
+
+/**
  * Provides the current color token mapper.
  */
 internal val LocalSushiColorTokenMapper = staticCompositionLocalOf<SushiColorTokenMapper> {
@@ -105,6 +112,17 @@ object SushiTheme {
         @ReadOnlyComposable
         get() = LocalSushiTypography.current
 
+
+    /**
+     * Retrieves the current [SushiTypography] at the call site's position in the hierarchy.
+     *
+     * This property provides access to the current typography configuration, enabling consistent typography across the application.
+     */
+    val iconTypography: FontFamily
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalSushiIconFontFamily.current
+
     /**
      * Retrieves the current [SushiDimension] at the call site's position in the hierarchy.
      * 
@@ -134,6 +152,7 @@ object SushiTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalSushiColorTokenMapper.current
+
 }
 
 /**
@@ -178,7 +197,7 @@ fun SushiTheme(
     dimens: SushiDimension = SushiTheme.dimens,
     fontSizeMultiplier: SushiFontSizeMultiplier = SushiTheme.fontSizeMultiplier,
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
-    iconFontFamily: FontFamily = WasabiFontFamily,
+    iconFontFamily: FontFamily = SushiTheme.iconTypography,
     internalIcons: SushiInternalIcons = SushiInternalIcons(),
     content: @Composable () -> Unit
 ) {
