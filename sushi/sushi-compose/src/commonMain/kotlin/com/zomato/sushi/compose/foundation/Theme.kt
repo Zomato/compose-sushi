@@ -15,9 +15,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
-import com.zomato.sushi.compose.atoms.icon.LocalSushiInternalIcons
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
-import com.zomato.sushi.compose.atoms.icon.SushiInternalIcons
+import com.zomato.sushi.compose.atoms.icon.SushiDefaultIconSet
 import com.zomato.sushi.compose.foundation.colorscheme.sushiDefaultLightColorScheme
 import com.zomato.sushi.core.SushiColorToken
 
@@ -82,6 +81,11 @@ internal val LocalSushiIconFontFamily = staticCompositionLocalOf<FontFamily> {
 internal val LocalSushiColorTokenMapper = staticCompositionLocalOf<SushiColorTokenMapper> {
     { SushiUnspecified.asColorSpec() }
 }
+
+/**
+ * Provides the internal icon set used by Sushi components.
+ */
+internal val SushiDefaultIcons = staticCompositionLocalOf { SushiDefaultIconSet() }
 
 /**
  * Provides access to the current theme properties in the Sushi design system.
@@ -198,7 +202,7 @@ fun SushiTheme(
     fontSizeMultiplier: SushiFontSizeMultiplier = SushiTheme.fontSizeMultiplier,
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
     iconFontFamily: FontFamily = SushiTheme.iconTypography,
-    internalIcons: SushiInternalIcons = SushiInternalIcons(),
+    defaultIcons: SushiDefaultIconSet = SushiDefaultIconSet(),
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
@@ -217,7 +221,7 @@ fun SushiTheme(
             LocalSushiFontSizeMultiplier provides fontSizeMultiplier,
             LocalSushiColorTokenMapper provides colorTokenMapper,
             LocalSushiIconFontFamily provides iconFontFamily,
-            LocalSushiInternalIcons provides internalIcons,
+            SushiDefaultIcons provides defaultIcons,
             LocalIndication provides noIndication(),
             LocalTextSelectionColors provides textSelectionColors,
             content = content

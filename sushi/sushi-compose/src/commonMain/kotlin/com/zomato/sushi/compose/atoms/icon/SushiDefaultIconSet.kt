@@ -6,6 +6,6 @@ package com.zomato.sushi.compose.atoms.icon
  * Override this to remap internal icons when using a custom icon font
  * whose codepoints differ from Wasabi.
  */
-data class SushiInternalIcons(
+data class SushiDefaultIconSet(
     val clearField: SushiIconCode = SushiIconCodes.IconCrossCircleFill
 )
