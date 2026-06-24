@@ -72,7 +72,7 @@ internal val LocalSushiFontSizeMultiplier = staticCompositionLocalOf<SushiFontSi
  * Provides the font family that will be used to render [SushiIcon]
  */
 internal val LocalSushiIconFontFamily = staticCompositionLocalOf<FontFamily> {
-    { WasabiFontFamily } as FontFamily
+    WasabiFontFamily
 }
 
 /**
