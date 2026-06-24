@@ -4,4 +4,4 @@
 
 
 ./gradlew :sushi-core:publishAllPublicationsToMavenCentralRepository --no-configuration-cache
-./gradlew :sushi-compose:publishAndroidReleasePublicationToMavenCentralRepository --no-configuration-cache
+./gradlew :sushi-compose:publishAllPublicationsToMavenCentralRepository --no-configuration-cache
