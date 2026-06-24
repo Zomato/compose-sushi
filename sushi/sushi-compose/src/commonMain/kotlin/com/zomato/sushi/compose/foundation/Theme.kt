@@ -10,10 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.color.asColorSpec
+import com.zomato.sushi.compose.atoms.icon.SushiIcon
+import com.zomato.sushi.compose.atoms.icon.SushiDefaultIconSet
 import com.zomato.sushi.compose.foundation.colorscheme.sushiDefaultLightColorScheme
 import com.zomato.sushi.core.SushiColorToken
 
@@ -66,11 +69,23 @@ internal val LocalSushiDimension = staticCompositionLocalOf<SushiDimension> { su
 internal val LocalSushiFontSizeMultiplier = staticCompositionLocalOf<SushiFontSizeMultiplier> { { it } }
 
 /**
+ * Provides the font family that will be used to render [SushiIcon]
+ */
+internal val LocalSushiIconFontFamily = staticCompositionLocalOf<FontFamily> {
+    WasabiFontFamily
+}
+
+/**
  * Provides the current color token mapper.
  */
 internal val LocalSushiColorTokenMapper = staticCompositionLocalOf<SushiColorTokenMapper> {
     { SushiUnspecified.asColorSpec() }
 }
+
+/**
+ * Provides the internal icon set used by Sushi components.
+ */
+internal val SushiDefaultIcons = staticCompositionLocalOf { SushiDefaultIconSet() }
 
 /**
  * Provides access to the current theme properties in the Sushi design system.
@@ -101,6 +116,17 @@ object SushiTheme {
         @ReadOnlyComposable
         get() = LocalSushiTypography.current
 
+
+    /**
+     * Retrieves the current [SushiTypography] at the call site's position in the hierarchy.
+     *
+     * This property provides access to the current typography configuration, enabling consistent typography across the application.
+     */
+    val iconTypography: FontFamily
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalSushiIconFontFamily.current
+
     /**
      * Retrieves the current [SushiDimension] at the call site's position in the hierarchy.
      * 
@@ -130,6 +156,19 @@ object SushiTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalSushiColorTokenMapper.current
+
+    /**
+     * Retrieves the current [SushiDefaultIconSet] at the call site's position in the hierarchy.
+     *
+     * This property provides access to the current icon set, which defines the icon codepoints
+     * used internally by Sushi components. Override via [SushiTheme] to remap icons when using
+     * a custom icon font whose codepoints differ from Wasabi.
+     */
+    val defaultIconSet: SushiDefaultIconSet
+        @Composable
+        @ReadOnlyComposable
+        get() = SushiDefaultIcons.current
+
 }
 
 /**
@@ -152,6 +191,7 @@ val SushiTheme.colorSchemeType: SushiColorSchemeType
     @ReadOnlyComposable
     get() = SushiTheme.colors.schemeType
 
+
 /**
  * Composable function that provides Sushi theming to its content.
  * 
@@ -163,6 +203,8 @@ val SushiTheme.colorSchemeType: SushiColorSchemeType
  * @param dimens Dimension system to apply to the content
  * @param fontSizeMultiplier Function to scale font sizes
  * @param colorTokenMapper Function to map color tokens to ColorSpec values
+ * @param iconFontFamily FontFamily used to render icon glyphs; override when using a custom icon font
+ * @param defaultIconSet Icon codepoint mappings used by Sushi components; override when custom icon font codepoints differ from Wasabi
  * @param content Content to which the theming will be applied
  *
  * @author gupta.anirudh@zomato.com
@@ -174,6 +216,8 @@ fun SushiTheme(
     dimens: SushiDimension = SushiTheme.dimens,
     fontSizeMultiplier: SushiFontSizeMultiplier = SushiTheme.fontSizeMultiplier,
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
+    iconFontFamily: FontFamily = SushiTheme.iconTypography,
+    defaultIconSet: SushiDefaultIconSet = SushiTheme.defaultIconSet,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
@@ -191,6 +235,8 @@ fun SushiTheme(
             LocalSushiDimension provides dimens,
             LocalSushiFontSizeMultiplier provides fontSizeMultiplier,
             LocalSushiColorTokenMapper provides colorTokenMapper,
+            LocalSushiIconFontFamily provides iconFontFamily,
+            SushiDefaultIcons provides defaultIconSet,
             LocalIndication provides noIndication(),
             LocalTextSelectionColors provides textSelectionColors,
             content = content
