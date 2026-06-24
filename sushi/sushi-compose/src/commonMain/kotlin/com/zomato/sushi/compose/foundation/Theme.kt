@@ -164,7 +164,7 @@ object SushiTheme {
      * used internally by Sushi components. Override via [SushiTheme] to remap icons when using
      * a custom icon font whose codepoints differ from Wasabi.
      */
-    val defaultIcons: SushiDefaultIconSet
+    val defaultIconSet: SushiDefaultIconSet
         @Composable
         @ReadOnlyComposable
         get() = SushiDefaultIcons.current
@@ -203,6 +203,8 @@ val SushiTheme.colorSchemeType: SushiColorSchemeType
  * @param dimens Dimension system to apply to the content
  * @param fontSizeMultiplier Function to scale font sizes
  * @param colorTokenMapper Function to map color tokens to ColorSpec values
+ * @param iconFontFamily FontFamily used to render icon glyphs; override when using a custom icon font
+ * @param defaultIconSet Icon codepoint mappings used by Sushi components; override when custom icon font codepoints differ from Wasabi
  * @param content Content to which the theming will be applied
  *
  * @author gupta.anirudh@zomato.com
@@ -215,7 +217,7 @@ fun SushiTheme(
     fontSizeMultiplier: SushiFontSizeMultiplier = SushiTheme.fontSizeMultiplier,
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
     iconFontFamily: FontFamily = SushiTheme.iconTypography,
-    defaultIcons: SushiDefaultIconSet = SushiTheme.defaultIcons,
+    defaultIconSet: SushiDefaultIconSet = SushiTheme.defaultIconSet,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
@@ -234,7 +236,7 @@ fun SushiTheme(
             LocalSushiFontSizeMultiplier provides fontSizeMultiplier,
             LocalSushiColorTokenMapper provides colorTokenMapper,
             LocalSushiIconFontFamily provides iconFontFamily,
-            SushiDefaultIcons provides defaultIcons,
+            SushiDefaultIcons provides defaultIconSet,
             LocalIndication provides noIndication(),
             LocalTextSelectionColors provides textSelectionColors,
             content = content
