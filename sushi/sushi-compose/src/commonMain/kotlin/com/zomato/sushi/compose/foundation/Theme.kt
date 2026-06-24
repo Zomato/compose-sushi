@@ -157,6 +157,18 @@ object SushiTheme {
         @ReadOnlyComposable
         get() = LocalSushiColorTokenMapper.current
 
+    /**
+     * Retrieves the current [SushiDefaultIconSet] at the call site's position in the hierarchy.
+     *
+     * This property provides access to the current icon set, which defines the icon codepoints
+     * used internally by Sushi components. Override via [SushiTheme] to remap icons when using
+     * a custom icon font whose codepoints differ from Wasabi.
+     */
+    val defaultIcons: SushiDefaultIconSet
+        @Composable
+        @ReadOnlyComposable
+        get() = SushiDefaultIcons.current
+
 }
 
 /**
@@ -178,6 +190,7 @@ val SushiTheme.colorSchemeType: SushiColorSchemeType
     @Composable
     @ReadOnlyComposable
     get() = SushiTheme.colors.schemeType
+
 
 /**
  * Composable function that provides Sushi theming to its content.
@@ -202,7 +215,7 @@ fun SushiTheme(
     fontSizeMultiplier: SushiFontSizeMultiplier = SushiTheme.fontSizeMultiplier,
     colorTokenMapper: SushiColorTokenMapper = SushiTheme.colorTokenMapper,
     iconFontFamily: FontFamily = SushiTheme.iconTypography,
-    defaultIcons: SushiDefaultIconSet = SushiDefaultIconSet(),
+    defaultIcons: SushiDefaultIconSet = SushiTheme.defaultIcons,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
