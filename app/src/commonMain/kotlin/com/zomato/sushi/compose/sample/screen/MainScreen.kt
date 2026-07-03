@@ -225,7 +225,7 @@ private fun ExploreComponentButton(
             text = text
         ),
         onClick = onClick,
-        modifier
+        modifier = modifier
     )
 }
 

@@ -59,7 +59,7 @@ private fun SushiIconImpl(
     val baseTextStyle = LocalTextStyle.current
     val color = props.color?.takeIfSpecified() ?: SushiTheme.colors.icon.primary
     val fontSizeMultiplier = SushiTheme.fontSizeMultiplier
-    val iconFontFamily = LocalSushiIconFontFamily.current
+    val iconFontFamily = SushiTheme.iconTypography
     val overrideTextStyle = remember(
         baseTextStyle,
         size,

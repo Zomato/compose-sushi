@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.atoms.icon.SushiIcon
+import com.zomato.sushi.compose.foundation.SushiDefaultIcons
 import com.zomato.sushi.compose.atoms.icon.SushiIconCodes
 import com.zomato.sushi.compose.atoms.icon.SushiIconProps
 import com.zomato.sushi.compose.atoms.icon.SushiIconSize
@@ -215,7 +216,7 @@ private fun SushiTextFieldImpl(
                 if (showResetButton) {
                     SushiIcon(
                         SushiIconProps(
-                            SushiIconCodes.IconCrossCircleFill,
+                            SushiDefaultIcons.current.clearField,
                             color = SushiTheme.colors.grey.v500,
                             size = SushiIconSize.Size200
                         ),

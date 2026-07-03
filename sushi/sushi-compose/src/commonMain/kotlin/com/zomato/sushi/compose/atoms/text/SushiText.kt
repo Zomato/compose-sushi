@@ -69,7 +69,6 @@ import com.zomato.sushi.compose.atoms.icon.SushiIconSize
 import com.zomato.sushi.compose.atoms.icon.asIconSizeSpec
 import com.zomato.sushi.compose.atoms.internal.SushiComponentBase
 import com.zomato.sushi.compose.foundation.SushiTheme
-import com.zomato.sushi.compose.foundation.WasabiFontFamily
 import com.zomato.sushi.compose.internal.SushiPreview
 import com.zomato.sushi.compose.markdown.LocalMarkdownParserProvider
 import com.zomato.sushi.compose.markdown.MarkdownParserProps
@@ -337,7 +336,7 @@ private inline fun getText(
                         SpanStyle(
                             color = continuousPrefixIcon.color?.value ?: Color.Unspecified,
                             fontSize = continuousPrefixIcon.size?.size ?: TextUnit.Unspecified,
-                            fontFamily = WasabiFontFamily
+                            fontFamily = SushiTheme.iconTypography
                         ),
                         this.length - it.length,
                         this.length
@@ -352,7 +351,7 @@ private inline fun getText(
                         SpanStyle(
                             color = continuousSuffixIcon.color?.value ?: Color.Unspecified,
                             fontSize = continuousSuffixIcon.size?.size ?: TextUnit.Unspecified,
-                            fontFamily = WasabiFontFamily
+                            fontFamily = SushiTheme.iconTypography
                         ),
                         this.length - it.length,
                         this.length
