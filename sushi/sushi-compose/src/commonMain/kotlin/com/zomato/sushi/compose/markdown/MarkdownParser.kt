@@ -81,9 +81,14 @@ class MarkdownParser private constructor(
                 text is AnnotatedString -> text
                 else -> AnnotatedString(text.toString())
             }
+            // BEHAVIOUR CHANGE (forced): this fold previously wrapped `process` in
+            // runCatching { ... }.getOrElse { acc }. The Compose compiler (Kotlin 2.4) rejects
+            // @Composable invocations inside BOTH runCatching and try/catch, so a per-processor
+            // fallback can no longer be expressed here. A throwing MarkdownProcessor now
+            // propagates instead of being silently skipped; processors must not throw.
             result = processors
                 .fold(initialAnnotatedString, { acc, markdownProcessor ->
-                    kotlin.runCatching { markdownProcessor.process(props, acc) }.getOrElse { acc }
+                    markdownProcessor.process(props, acc)
                 })
         }
 

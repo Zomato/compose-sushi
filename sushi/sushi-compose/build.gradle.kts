@@ -130,7 +130,7 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        // AGP 9 removed targetSdk from library defaultConfig (libraries must not declare it).
     }
 
     compileOptions {
