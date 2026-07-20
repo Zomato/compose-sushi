@@ -5,6 +5,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import com.zomato.sushi.compose.atoms.color.asColorSpec
 import com.zomato.sushi.compose.foundation.SushiColorScheme
+import com.zomato.sushi.compose.foundation.SushiColorSchemeExtension
 import com.zomato.sushi.compose.foundation.SushiColorSchemeType
 import com.zomato.sushi.compose.foundation.SushiRawColorTokens
 
@@ -350,7 +351,8 @@ fun sushiLightColorScheme(
         secondaryYellow = SushiRawColorTokens.Honey050.asColorSpec(),
         secondaryOrange = SushiRawColorTokens.Tangerine100.asColorSpec(),
         secondaryBlue = SushiRawColorTokens.Blue050.asColorSpec(),
-    )
+    ),
+    extension: SushiColorSchemeExtension? = null,
 ): SushiColorScheme =
     SushiColorScheme(
         schemeType = SushiColorSchemeType.Light,
@@ -393,6 +395,7 @@ fun sushiLightColorScheme(
         filter = filterColorScheme,
         aerobar = aeroBarColorScheme,
         tag = tagColorScheme,
+        extension = extension,
     )
 
 /**
@@ -739,7 +742,8 @@ fun sushiDarkColorScheme(
         secondaryYellow = SushiRawColorTokens.Honey800.asColorSpec(),
         secondaryOrange = SushiRawColorTokens.Tangerine800.asColorSpec(),
         secondaryBlue = SushiRawColorTokens.Blue800.asColorSpec(),
-    )
+    ),
+    extension: SushiColorSchemeExtension? = null,
 ): SushiColorScheme =
     SushiColorScheme(
         schemeType = SushiColorSchemeType.Dark,
@@ -782,4 +786,5 @@ fun sushiDarkColorScheme(
         filter = filterColorScheme,
         aerobar = aeroBarColorScheme,
         tag = tagColorScheme,
+        extension = extension,
     )
