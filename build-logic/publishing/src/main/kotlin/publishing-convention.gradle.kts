@@ -30,7 +30,14 @@ mavenPublishing {
 
     publishToMavenCentral(automaticRelease = true)
 
-    signAllPublications()
+    // Sign only when a key is configured (CI / release machines). Local publishToMavenLocal
+    // for development needs no signatory.
+    if (providers.gradleProperty("signingInMemoryKey").isPresent ||
+        providers.gradleProperty("signing.keyId").isPresent ||
+        providers.gradleProperty("signing.gnupg.keyName").isPresent
+    ) {
+        signAllPublications()
+    }
 
     pom {
         name.set(project.findProperty("publishingName") as String? ?: "Sushi Compose")

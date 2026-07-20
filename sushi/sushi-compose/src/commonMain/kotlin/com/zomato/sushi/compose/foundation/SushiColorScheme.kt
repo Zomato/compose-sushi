@@ -70,6 +70,7 @@ data class SushiColorScheme(
     val filter: FilterColorScheme,
     val aerobar: AerobarColorScheme,
     val tag: TagColorScheme,
+    val extension: SushiColorSchemeExtension? = null,
 ) {
     // Grey
     @Immutable

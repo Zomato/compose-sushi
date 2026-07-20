@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.0"
+agp = "9.2.1"
 kotlin = "2.4.0"
 kotlinxCoroutinesCore = "1.11.0"
 kotlinxDatetime = "0.8.0"
@@ -43,7 +43,6 @@ slack-lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", ver
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-compose-screenshot = { id = "com.android.compose.screenshot", version.ref = "composeScreenshot" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
