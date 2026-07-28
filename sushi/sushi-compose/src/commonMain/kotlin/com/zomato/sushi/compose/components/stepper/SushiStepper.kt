@@ -100,8 +100,7 @@ fun SushiStepper(
     val shape = props.shape ?: rememberDefaultStepperShape(stepperSize)
     val colorConfig = props.colorConfig ?: rememberDefaultStepperColorConfig(
         stepperEnabledState = stepperEnabledState,
-        stepperCurrentCount = currentCount,
-        stepperMaxCount = maxCount
+        stepperCurrentCount = currentCount
     )
     val stepperText = props.text
     val disabledMessage = props.disabledMessage
@@ -292,26 +291,12 @@ private fun rememberDefaultStepperShape(stepperSize: SushiStepperSize): Shape {
 @Composable
 private fun rememberDefaultStepperColorConfig(
     stepperEnabledState: Boolean,
-    stepperCurrentCount: Int,
-    stepperMaxCount: Int
+    stepperCurrentCount: Int
 ): SushiStepperColorConfig {
-    val defaultColorConfig = SushiStepperColorConfig.defaults()
-    val enabledNonZeroConfig = SushiStepperColorConfig.enabledNonZero()
-    val enabledZeroConfig = SushiStepperColorConfig.enabledZero()
-    val disabledConfig = SushiStepperColorConfig.disabled()
-
-    return remember(stepperEnabledState) {
-        when {
-            stepperEnabledState -> {
-                when (stepperCurrentCount) {
-                    0 -> enabledZeroConfig
-                    in 1 until stepperMaxCount -> enabledNonZeroConfig
-                    else -> defaultColorConfig
-                }
-            }
-
-            else -> disabledConfig
-        }
+    return when {
+        !stepperEnabledState -> SushiStepperColorConfig.disabled()
+        stepperCurrentCount == 0 -> SushiStepperColorConfig.enabledZero()
+        else -> SushiStepperColorConfig.enabledNonZero()
     }
 }
 
