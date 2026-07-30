@@ -45,6 +45,9 @@ class MarkdownParser private constructor(
          */
         val default by lazy {
             MarkdownParser.Builder()
+                // Syntax: {gradient(direction=left_right;colors=<token>@<alpha>,<token>@<alpha>)|<text>}
+                // Keep this before ItalicProcessor so the underscore in left_right is not parsed as italics.
+                .processor(GradientTextColorProcessor())
                 .processor(BoldProcessor())
                 .processor(ItalicProcessor())
                 .processor(StrikethroughProcessor())
@@ -161,5 +164,3 @@ private fun MarkdownParserPreview1() {
         }
     }
 }
-
-
