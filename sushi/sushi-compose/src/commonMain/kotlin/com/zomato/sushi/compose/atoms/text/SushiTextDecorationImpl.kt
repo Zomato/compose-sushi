@@ -101,17 +101,27 @@ internal fun Modifier.textDashedUnderline(
 ): Modifier = this.then(
     Modifier.drawBehind {
         val pathEffect = PathEffect.dashPathEffect(floatArrayOf(dotSize, gapSize), 0f)
+        val textLength = layoutResult.layoutInput.text.length
+        if (textLength == 0) return@drawBehind
 
         val annotations = layoutResult.layoutInput.text.getStringAnnotations(
-            UnderlineAnnotaterProcessor.ANNOTATION_TAG, 0, layoutResult.layoutInput.text.length)
+            UnderlineAnnotaterProcessor.ANNOTATION_TAG, 0, textLength)
 
         annotations.forEach { ann ->
-            val startLine = layoutResult.getLineForOffset(ann.start)
-            val endLine = layoutResult.getLineForOffset(ann.end)
+            if (ann.start >= ann.end) return@forEach
+            val startOffset = ann.start.coerceIn(0, textLength - 1)
+            val endOffset = (ann.end - 1).coerceIn(startOffset, textLength - 1)
+            val startLine = layoutResult.getLineForOffset(startOffset)
+            val endLine = layoutResult.getLineForOffset(endOffset)
 
             for (line in startLine..endLine) {
-                val lineStartOffset = if (line == startLine) ann.start else layoutResult.getLineStart(line)
-                val lineEndOffset = if (line == endLine) ann.end else layoutResult.getLineEnd(line) - 1
+                val lineStartOffset = if (line == startLine) startOffset else layoutResult.getLineStart(line)
+                val lineEndOffset = if (line == endLine) endOffset else layoutResult.getLineEnd(line) - 1
+                if (lineStartOffset !in 0 until textLength ||
+                    lineEndOffset !in lineStartOffset until textLength
+                ) {
+                    continue
+                }
 
                 val startBox = layoutResult.getBoundingBox(lineStartOffset)
                 val endBox = layoutResult.getBoundingBox(lineEndOffset)
