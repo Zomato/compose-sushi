@@ -114,6 +114,9 @@ kotlin {
             api(project(":sushi-core"))
             implementation(libs.kotlinx.coroutines.core)
         }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
         wasmJsMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
         }
