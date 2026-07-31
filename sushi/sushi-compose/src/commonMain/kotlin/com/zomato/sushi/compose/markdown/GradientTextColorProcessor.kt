@@ -7,6 +7,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import com.zomato.sushi.compose.foundation.SushiTheme
+import com.zomato.sushi.compose.foundation.isDarkMode
 import com.zomato.sushi.core.SushiColorToken
 
 /**
@@ -14,6 +15,9 @@ import com.zomato.sushi.core.SushiColorToken
  *
  * Supported syntax:
  * `{gradient(direction=left_right;colors=color.primary@1.0,color.secondary@0.5)|text}`
+ *
+ * An optional `dark_colors` section overrides the colors in dark mode:
+ * `{gradient(direction=left_right;colors=color.base.red.500@1.0,color.base.purple.500@1.0;dark_colors=color.base.red.400@1.0,color.base.purple.300@1.0)|text}`
  */
 class GradientTextColorProcessor : Processor {
 
@@ -31,11 +35,12 @@ class GradientTextColorProcessor : Processor {
     }
 
     override val cacheKeys: List<Any>
-        @Composable get() = listOf(SushiTheme.colorTokenMapper)
+        @Composable get() = listOf(SushiTheme.colorTokenMapper, SushiTheme.isDarkMode)
 
     @Composable
     override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
         val colorTokenMapper = SushiTheme.colorTokenMapper
+        val isDarkMode = SushiTheme.isDarkMode
         val transformations = mutableListOf<Transformation>()
 
         REGEX.findAll(src).forEach { matchResult ->
@@ -44,7 +49,7 @@ class GradientTextColorProcessor : Processor {
             val transformedText = matchResult.groups[TEXT_GROUP]
                 ?.let { src.subSequence(it.getTextRange()) }
                 ?: return@forEach
-            val colors = config?.colorStops?.mapNotNull { colorStop ->
+            val colors = config?.colorStopsFor(isDarkMode)?.mapNotNull { colorStop ->
                 colorTokenMapper(SushiColorToken(colorStop.token)).value
                     .takeIf { color -> color.isSpecified }
                     ?.copy(alpha = colorStop.alpha)
@@ -85,7 +90,8 @@ class GradientTextColorProcessor : Processor {
 }
 
 internal data class GradientTextConfig(
-    val colorStops: List<GradientColorStop>
+    val colorStops: List<GradientColorStop>,
+    val darkColorStops: List<GradientColorStop>? = null
 )
 
 internal data class GradientColorStop(
@@ -93,35 +99,53 @@ internal data class GradientColorStop(
     val alpha: Float
 )
 
-private const val DIRECTION_PREFIX = "direction="
-private const val COLORS_PREFIX = "colors="
+private const val CONFIG_SEPARATOR = '='
+private const val DIRECTION_KEY = "direction"
+private const val COLORS_KEY = "colors"
+private const val DARK_COLORS_KEY = "dark_colors"
 private const val LEFT_TO_RIGHT = "left_right"
 private const val COLOR_TOKEN_PREFIX = "color."
 private const val COLOR_ALPHA_SEPARATOR = '@'
-private const val EXPECTED_CONFIG_PART_COUNT = 2
 private const val MIN_GRADIENT_COLOR_COUNT = 2
 
 /** Parses the supported gradient text descriptor into validated semantic color stops. */
 internal fun parseGradientTextConfig(config: String): GradientTextConfig? {
-    val configParts = config.split(';')
-    if (configParts.size != EXPECTED_CONFIG_PART_COUNT) return null
+    val supportedKeys = setOf(DIRECTION_KEY, COLORS_KEY, DARK_COLORS_KEY)
+    val configEntries = config.split(';').map { part ->
+        val separatorIndex = part.indexOf(CONFIG_SEPARATOR)
+        if (separatorIndex <= 0 || separatorIndex == part.lastIndex) return null
 
-    val direction = configParts.first().trim().removePrefix(DIRECTION_PREFIX)
-    if (direction != LEFT_TO_RIGHT || !configParts.first().trim().startsWith(DIRECTION_PREFIX)) {
-        return null
+        part.substring(0, separatorIndex).trim() to
+            part.substring(separatorIndex + 1).trim()
+    }
+    val keys = configEntries.map { it.first }
+    if (keys.any { it !in supportedKeys } || keys.distinct().size != keys.size) return null
+
+    val configMap = configEntries.toMap()
+    if (configMap[DIRECTION_KEY] != LEFT_TO_RIGHT) return null
+
+    val colorStops = configMap[COLORS_KEY]
+        ?.let(::parseGradientColorStops)
+        ?: return null
+    val darkColorStops = configMap[DARK_COLORS_KEY]?.let { colors ->
+        parseGradientColorStops(colors) ?: return null
     }
 
-    val colorsPart = configParts.last().trim()
-    if (!colorsPart.startsWith(COLORS_PREFIX)) return null
+    return GradientTextConfig(
+        colorStops = colorStops,
+        darkColorStops = darkColorStops
+    )
+}
 
-    val colorStops = colorsPart.removePrefix(COLORS_PREFIX)
-        .split(',')
-        .map(::parseGradientColorStop)
+/** Returns the active theme's stops, falling back to the default colors in dark mode. */
+internal fun GradientTextConfig.colorStopsFor(isDarkMode: Boolean): List<GradientColorStop> =
+    if (isDarkMode) darkColorStops ?: colorStops else colorStops
+
+private fun parseGradientColorStops(value: String): List<GradientColorStop>? {
+    val colorStops = value.split(',').map(::parseGradientColorStop)
     if (colorStops.any { it == null }) return null
 
-    return colorStops.filterNotNull()
-        .takeIf { it.size >= MIN_GRADIENT_COLOR_COUNT }
-        ?.let(::GradientTextConfig)
+    return colorStops.filterNotNull().takeIf { it.size >= MIN_GRADIENT_COLOR_COUNT }
 }
 
 /** Parses and validates one `<semantic-token>@<alpha>` gradient color stop. */
