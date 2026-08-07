@@ -42,8 +42,8 @@ kotlin {
     }
 
     val xcf = XCFramework()
+    // iosX64 dropped: Compose Multiplatform 1.11.1 no longer publishes iosX64 artifacts.
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
@@ -80,10 +80,6 @@ kotlin {
 
         val wasmJsMain by getting {
             dependsOn(nonAndroidMain)
-        }
-
-        val iosX64Main by getting {
-            dependsOn(iosMain)
         }
 
         val iosArm64Main by getting {
@@ -130,7 +126,7 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        // AGP 9 removed targetSdk from library defaultConfig (libraries must not declare it).
     }
 
     compileOptions {
