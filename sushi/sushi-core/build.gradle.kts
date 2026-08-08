@@ -35,8 +35,10 @@ kotlin {
     }
 
     val xcf = XCFramework()
+    // iosX64 (Intel-Mac simulator) dropped: Compose Multiplatform 1.11.1 no longer publishes
+    // iosX64 artifacts (Apple x64 demoted to tier-3). iosArm64 + iosSimulatorArm64 cover
+    // real devices + Apple-Silicon simulators.
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
