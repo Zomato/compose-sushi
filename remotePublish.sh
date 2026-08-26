@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 #./gradlew publishAllPublicationsToZomatoRepository --no-configuration-cache
 
