@@ -13,7 +13,7 @@ on:
 jobs:
   check-release:
     if: github.event_name == 'push' || (github.event.pull_request.merged == true)
-    runs-on: macos-latest
+    runs-on: [ Zomato-mac-mini-android ]
     outputs:
       is_release: ${{ steps.check.outputs.is_release }}
       version: ${{ steps.check.outputs.version }}
