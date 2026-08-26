@@ -181,12 +181,29 @@ jobs:
 
       - name: Setup publishing credentials
         env:
+          PUBLISHING_REPO_USERNAME: ${{ secrets.PUBLISHING_REPO_USERNAME }}
+          PUBLISHING_REPO_PASSWORD: ${{ secrets.PUBLISHING_REPO_PASSWORD }}
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
           SIGNING_SECRET_KEY_RING_FILE: ${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}
         run: |
+          # secrets.properties is git-ignored and is read by
+          # build-logic/publishing/src/main/kotlin/publishing-convention.gradle.kts
+          # for the "zomato" (GitHub Packages) maven repository credentials.
+          if [ -z "$PUBLISHING_REPO_USERNAME" ] || [ -z "$PUBLISHING_REPO_PASSWORD" ]; then
+            echo "❌ PUBLISHING_REPO_USERNAME / PUBLISHING_REPO_PASSWORD secrets are not set"
+            exit 1
+          fi
+
+          {
+            printf 'publishing.repo.username=%s\n' "$PUBLISHING_REPO_USERNAME"
+            printf 'publishing.repo.password=%s\n' "$PUBLISHING_REPO_PASSWORD"
+          } > secrets.properties
+
+          echo "✅ secrets.properties created"
+
           # Create gradle.properties with publishing credentials
           mkdir -p ~/.gradle
           cat >> ~/.gradle/gradle.properties << EOF
