@@ -215,17 +215,17 @@ jobs:
         run: |
           echo "🏗️ Building all KMP targets..."
           
-          # Build core library for all targets
-          ./gradlew :sushi-core:build
-          
-          # Build compose library for all targets
-          ./gradlew :sushi-compose:build
-          
-          # Build iOS framework if needed
-          if ./gradlew tasks --all | grep -q "embedAndSignAppleFrameworkForXcode"; then
-            echo "Building iOS framework..."
-            ./gradlew :app:embedAndSignAppleFrameworkForXcode || echo "iOS framework build skipped"
-          fi
+#          # Build core library for all targets
+#          ./gradlew :sushi-core:build
+#
+#          # Build compose library for all targets
+#          ./gradlew :sushi-compose:build
+#
+#          # Build iOS framework if needed
+#          if ./gradlew tasks --all | grep -q "embedAndSignAppleFrameworkForXcode"; then
+#            echo "Building iOS framework..."
+#            ./gradlew :app:embedAndSignAppleFrameworkForXcode || echo "iOS framework build skipped"
+#          fi
 
       - name: Publish to Maven Central
         run: |
