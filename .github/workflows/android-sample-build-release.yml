@@ -20,7 +20,7 @@ env:
   SAMPLE_APP_SIGNING_KEY_PASSWORD: ${{ secrets.SAMPLE_APP_SIGNING_KEY_PASSWORD }}
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ Zomato-mac-mini-android ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

@@ -14,7 +14,7 @@ on:
 
 jobs:
   version-bump:
-    runs-on: macos-latest
+    runs-on: [ Zomato-mac-mini-android ]
     
     steps:
       - name: Checkout code
