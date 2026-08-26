@@ -25,7 +25,7 @@ internal fun SushiSolidButton(
     content: (@Composable SushiButtonContentScope.() -> Unit)? = null
 ) {
     val color = props.color?.takeIfSpecified() ?: SushiTheme.colors.button.primaryBackground
-    val disabledColor = SushiTheme.colors.button.backgroundDisabled
+    val disabledColor = SushiTheme.colors.button.primaryBackgroundDisabled
 
     val fontColor = props.fontColor?.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabel
     val fontColorPressed = props.fontColor?.takeIfSpecified() ?: SushiTheme.colors.button.primaryLabelPressed

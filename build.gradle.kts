@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.composeMultiplatform) apply false
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
-    alias(libs.plugins.compose.screenshot) apply false
     alias(libs.plugins.maven.publish) apply false
 }
 

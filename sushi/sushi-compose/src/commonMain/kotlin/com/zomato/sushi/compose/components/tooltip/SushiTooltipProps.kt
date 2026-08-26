@@ -1,7 +1,9 @@
 package com.zomato.sushi.compose.components.tooltip
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import com.zomato.sushi.compose.atoms.border.BorderSpec
 import com.zomato.sushi.compose.atoms.color.ColorSpec
 import com.zomato.sushi.compose.atoms.image.SushiImageProps
 import com.zomato.sushi.compose.atoms.text.SushiTextProps
@@ -20,6 +22,8 @@ import com.zomato.sushi.compose.atoms.text.SushiTextProps
  * @property shape Shape of the tooltip container (defaults to rounded corners)
  * @property shadowElevation Shadow depth for the tooltip to create visual hierarchy
  * @property maxWidth Maximum width of the tooltip container (defaults to 80% of screen width)
+ * @property contentPadding Optional padding between the tooltip surface and its content
+ * @property border Optional border drawn around the complete tooltip shape, including its caret
  *
  * @author gupta.anirudh@zomato.com
  */
@@ -31,5 +35,7 @@ data class SushiTooltipProps(
     val caretShape: Shape? = null,
     val shape: Shape? = null,
     val shadowElevation: Dp? = null,
-    val maxWidth: Dp? = null
+    val maxWidth: Dp? = null,
+    val contentPadding: PaddingValues? = null,
+    val border: BorderSpec? = null
 )

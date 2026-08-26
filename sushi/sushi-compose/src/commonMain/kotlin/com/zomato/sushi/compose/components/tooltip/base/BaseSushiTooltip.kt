@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
@@ -43,6 +44,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupPositionProvider
+import com.zomato.sushi.compose.atoms.border.BorderSpec
+import com.zomato.sushi.compose.atoms.color.toBrush
 import com.zomato.sushi.compose.components.tooltip.SushiTooltipDefaults
 
 private val TooltipMinWidth = 40.dp
@@ -55,7 +58,8 @@ private val ContainerElevation = 3.dp
 class TooltipPositionProviderImpl constructor(
     val type: TooltipAnchorPosition,
     val tooltipAnchorSpacingProvider: () -> Int,
-    val transformAnchorBounds: IntOffset = IntOffset.Zero
+    val transformAnchorBounds: IntOffset = IntOffset.Zero,
+    val transformAnchorBoundsProvider: (() -> IntOffset)? = null
 ) : PopupPositionProvider {
     override fun calculatePosition(
         anchorBounds: IntRect,
@@ -63,24 +67,26 @@ class TooltipPositionProviderImpl constructor(
         layoutDirection: LayoutDirection,
         popupContentSize: IntSize,
     ): IntOffset {
+        val currentTransformAnchorBounds = transformAnchorBoundsProvider?.invoke() ?: transformAnchorBounds
+        val transformedAnchorBounds = IntRect(
+            left = anchorBounds.left + currentTransformAnchorBounds.x,
+            top = anchorBounds.top + currentTransformAnchorBounds.y,
+            right = anchorBounds.right + currentTransformAnchorBounds.x,
+            bottom = anchorBounds.bottom + currentTransformAnchorBounds.y
+        )
         return when (type) {
-            TooltipAnchorPosition.Left -> leftPositioning(anchorBounds, popupContentSize)
+            TooltipAnchorPosition.Left -> leftPositioning(transformedAnchorBounds, popupContentSize)
             TooltipAnchorPosition.Right ->
-                rightPositioning(anchorBounds, popupContentSize, windowSize)
+                rightPositioning(transformedAnchorBounds, popupContentSize, windowSize)
             TooltipAnchorPosition.Above ->
-                abovePositioning(anchorBounds, popupContentSize, windowSize)
+                abovePositioning(transformedAnchorBounds, popupContentSize, windowSize)
             TooltipAnchorPosition.Below ->
-                belowPositioning(anchorBounds, popupContentSize, windowSize)
+                belowPositioning(transformedAnchorBounds, popupContentSize, windowSize)
             TooltipAnchorPosition.Start ->
-                startPositioning(layoutDirection, anchorBounds, popupContentSize, windowSize)
+                startPositioning(layoutDirection, transformedAnchorBounds, popupContentSize, windowSize)
             TooltipAnchorPosition.End ->
-                endPositioning(layoutDirection, anchorBounds, popupContentSize, windowSize)
-            else -> abovePositioning(anchorBounds, popupContentSize, windowSize)
-        }.let {
-            it.copy(
-                x = it.x + transformAnchorBounds.x,
-                y = it.y + transformAnchorBounds.y
-            )
+                endPositioning(layoutDirection, transformedAnchorBounds, popupContentSize, windowSize)
+            else -> abovePositioning(transformedAnchorBounds, popupContentSize, windowSize)
         }
     }
 
@@ -223,6 +229,7 @@ internal fun TooltipScope.PlainTooltip(
     contentPadding: PaddingValues = PaddingValues(4.dp, 4.dp),
     tonalElevation: Dp = 0.dp,
     shadowElevation: Dp = 0.dp,
+    border: BorderSpec? = null,
     content: @Composable () -> Unit,
 ) {
     val tooltipShape: Shape
@@ -248,6 +255,9 @@ internal fun TooltipScope.PlainTooltip(
         tooltipShape = shape
         tooltipModifier = modifier
     }
+    val borderStroke = border?.color?.let { borderColor ->
+        BorderStroke(border.width ?: 0.dp, borderColor.toBrush())
+    }
 
     Surface(
         modifier = tooltipModifier,
@@ -255,6 +265,7 @@ internal fun TooltipScope.PlainTooltip(
         color = containerColor,
         tonalElevation = tonalElevation,
         shadowElevation = shadowElevation,
+        border = borderStroke,
     ) {
         Box(
             modifier =
