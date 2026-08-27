@@ -3,6 +3,7 @@ package com.zomato.sushi.compose.markdown
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.LinkInteractionListener
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
@@ -72,7 +73,8 @@ class LinkProcessor() : Processor {
                             style = SpanStyle(
                                 textDecoration = TextDecoration.Underline
                             ),
-                        )
+                        ),
+                        linkInteractionListener = markdownLinkInteractionListener(props.onLinkClick)
                     )
                 ) {
                     append(it.transformedText)
@@ -82,5 +84,13 @@ class LinkProcessor() : Processor {
 
             append(src.subSequence(currentStartIdx, src.length))
         }
+    }
+}
+
+internal fun markdownLinkInteractionListener(
+    onLinkClick: ((String) -> Unit)?
+): LinkInteractionListener? = onLinkClick?.let { callback ->
+    LinkInteractionListener { link ->
+        (link as? LinkAnnotation.Url)?.url?.let(callback)
     }
 }

@@ -96,6 +96,7 @@ import com.zomato.sushi.compose.utils.takeIfSpecified
  * @param suffix An optional composable to display after the text
  * @param onTextLayout Callback that provides the text layout information
  * @param onClick Optional callback to handle click events on the text
+ * @param onMarkdownLinkClick Optional callback that overrides default URI handling for markdown links
  *
  */
 @Composable
@@ -105,7 +106,8 @@ fun SushiText(
     prefix: (@Composable () -> Unit)? = null,
     suffix: (@Composable () -> Unit)? = null,
     onTextLayout: (TextLayoutResult) -> Unit = {},
-    onClick: (() -> Unit)? = null
+    onClick: (() -> Unit)? = null,
+    onMarkdownLinkClick: ((String) -> Unit)? = null
 ) {
     if (props.isValid()) {
         SushiComponentBase(
@@ -119,7 +121,8 @@ fun SushiText(
                 prefix = prefix,
                 suffix = suffix,
                 onTextLayout = onTextLayout,
-                onClick = onClick
+                onClick = onClick,
+                onMarkdownLinkClick = onMarkdownLinkClick
             )
         }
     }
@@ -132,7 +135,8 @@ private fun SushiTextImpl(
     prefix: (@Composable () -> Unit)? = null,
     suffix: (@Composable () -> Unit)? = null,
     onTextLayout: (TextLayoutResult) -> Unit = {},
-    onClick: (() -> Unit)? = null
+    onClick: (() -> Unit)? = null,
+    onMarkdownLinkClick: ((String) -> Unit)? = null
 ) {
     val textAlign = props.textAlign
     val horizontalArrangement = props.horizontalArrangement ?: SushiTextDefaults.horizontalArrangementFromAlignment(textAlign)
@@ -193,9 +197,10 @@ private fun SushiTextImpl(
                 brush = textBrush
             )
         }
-        val markdownParserProps = remember(fontSizeMultiplier) {
+        val markdownParserProps = remember(fontSizeMultiplier, onMarkdownLinkClick) {
             MarkdownParserProps.default.copy(
-                fontSizeMultiplier = fontSizeMultiplier
+                fontSizeMultiplier = fontSizeMultiplier,
+                onLinkClick = onMarkdownLinkClick
             )
         }
 
