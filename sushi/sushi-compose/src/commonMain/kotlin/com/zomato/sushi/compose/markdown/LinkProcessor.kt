@@ -73,8 +73,7 @@ class LinkProcessor() : Processor {
                             style = SpanStyle(
                                 textDecoration = TextDecoration.Underline
                             ),
-                        ),
-                        linkInteractionListener = markdownLinkInteractionListener(props.onLinkClick)
+                        )
                     )
                 ) {
                     append(it.transformedText)
@@ -84,13 +83,5 @@ class LinkProcessor() : Processor {
 
             append(src.subSequence(currentStartIdx, src.length))
         }
-    }
-}
-
-internal fun markdownLinkInteractionListener(
-    onLinkClick: ((String) -> Unit)?
-): LinkInteractionListener? = onLinkClick?.let { callback ->
-    LinkInteractionListener { link ->
-        (link as? LinkAnnotation.Url)?.url?.let(callback)
     }
 }

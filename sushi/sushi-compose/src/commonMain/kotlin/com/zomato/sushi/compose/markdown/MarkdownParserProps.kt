@@ -10,14 +10,12 @@ import com.zomato.sushi.compose.foundation.SushiFontSizeMultiplier
  *
  * @property isClickable Whether links in the text should be clickable
  * @property fontSizeMultiplier Function to scale font sizes, enabling text size accessibility
- * @property onLinkClick Optional callback that overrides the platform URI handler for markdown links
  *
  * @author gupta.anirudh@zomato.com
  */
 data class MarkdownParserProps(
     val isClickable: Boolean,
-    val fontSizeMultiplier: SushiFontSizeMultiplier,
-    val onLinkClick: ((String) -> Unit)? = null
+    val fontSizeMultiplier: SushiFontSizeMultiplier
 ) {
     companion object {
         /**
@@ -25,8 +23,7 @@ data class MarkdownParserProps(
          */
         val default = MarkdownParserProps(
             isClickable = true,
-            fontSizeMultiplier = { it },
-            onLinkClick = null
+            fontSizeMultiplier = { it }
         )
     }
 }
