@@ -202,7 +202,9 @@ jobs:
             printf 'publishing.repo.password=%s\n' "$PUBLISHING_REPO_PASSWORD"
           } > secrets.properties
 
-          echo "✅ secrets.properties created"
+          echo "✅ secrets.properties created at $(pwd)/secrets.properties"
+          ls -l secrets.properties
+          echo "   keys written: $(cut -d= -f1 secrets.properties | paste -sd, -)"
 
           # Create gradle.properties with publishing credentials
           mkdir -p ~/.gradle
@@ -247,6 +249,13 @@ jobs:
       - name: Publish to Maven Central
         run: |
           echo "🚀 Starting publication process..."
+          echo "workspace: $(pwd)"
+          ls -l secrets.properties secrets.properties.example
+          if [ ! -s secrets.properties ]; then
+            echo "❌ secrets.properties missing or empty at $(pwd)"
+            exit 1
+          fi
+
           ./remotePublish.sh
           echo "✅ Publication completed successfully!"
 
