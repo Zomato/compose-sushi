@@ -235,7 +235,7 @@ jobs:
   notify-failure:
     needs: [ check-release, publish ]
     if: failure() && needs.check-release.outputs.is_release == 'true'
-    runs-on: macos-latest
+    runs-on: [ Zomato-mac-mini-android ]
     
     steps:
       - name: Notify failure
