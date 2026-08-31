@@ -69,7 +69,7 @@ jobs:
   publish:
     needs: check-release
     if: needs.check-release.outputs.is_release == 'true'
-    runs-on: macos-latest
+    runs-on: [ Zomato-mac-mini-android ]
     
     steps:
       - name: Checkout code
@@ -77,87 +77,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Xcode (native)
-        run: |
-          # List available Xcode versions
-          echo "Available Xcode versions:"
-          ls /Applications/ | grep -i xcode || echo "No Xcode installations found in /Applications"
-          
-          # Use default Xcode (usually latest)
-          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
-          
-          # Verify Xcode setup
-          xcodebuild -version
-          xcrun --show-sdk-path
-          
-          echo "✅ Xcode configured successfully"
-
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Setup Android SDK and local.properties
-        run: |
-          chmod +x ./setup-android-sdk.sh
-          ./setup-android-sdk.sh
-          
-          # Set environment variables for the rest of the job
-          echo "ANDROID_HOME=$HOME/Library/Android/sdk" >> $GITHUB_ENV
-          echo "ANDROID_SDK_ROOT=$HOME/Library/Android/sdk" >> $GITHUB_ENV
-          echo "$HOME/Library/Android/sdk/cmdline-tools/latest/bin:$HOME/Library/Android/sdk/platform-tools" >> $GITHUB_PATH
-
-      - name: Setup iOS development environment
-        run: |
-          # Ensure Xcode command line tools are properly configured
-          echo "Setting up iOS development environment..."
-          
-          # Accept Xcode license if needed
-          sudo xcodebuild -license accept || echo "License already accepted"
-          
-          # List available simulators
-          echo "Available iOS Simulators:"
-          xcrun simctl list devices iOS | grep -E "(iPhone|iPad)" | head -5
-          
-          # Install iOS runtime if needed (for CI)
-          echo "iOS SDK Path: $(xcrun --show-sdk-path --sdk iphoneos)"
-          
-          echo "✅ iOS environment configured"
-
-      - name: Verify development environment
-        run: |
-          echo "🔍 Verifying development environment setup..."
-          
-          # Verify Android setup
-          echo "Android SDK: $ANDROID_HOME"
-          if command -v adb >/dev/null 2>&1; then
-            echo "✅ ADB available: $(adb --version | head -1)"
-          else
-            echo "⚠️  ADB not found"
-          fi
-          
-          # Verify Xcode setup
-          echo "Xcode version: $(xcodebuild -version | head -1)"
-          
-          # Verify local.properties
-          if [ -f "local.properties" ]; then
-            echo "✅ local.properties exists"
-          else
-            echo "❌ local.properties missing"
-          fi
-          
-          echo "✅ Environment verification completed"
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
 
       - name: Make scripts executable
         run: |
@@ -217,34 +141,6 @@ jobs:
           EOF
           
           echo "✅ Publishing credentials configured"
-
-#      - name: Run tests before publishing
-#        run: |
-#          echo "🧪 Running tests on all platforms..."
-#          # Run tests for all KMP targets
-#          ./gradlew test
-#
-#          # Run iOS specific tests if they exist
-#          if ./gradlew tasks --all | grep -q "iosX64Test"; then
-#            echo "Running iOS tests..."
-#            ./gradlew iosX64Test || echo "iOS tests failed or not available"
-#          fi
-
-      - name: Build all KMP targets
-        run: |
-          echo "🏗️ Building all KMP targets..."
-          
-#          # Build core library for all targets
-#          ./gradlew :sushi-core:build
-#
-#          # Build compose library for all targets
-#          ./gradlew :sushi-compose:build
-#
-#          # Build iOS framework if needed
-#          if ./gradlew tasks --all | grep -q "embedAndSignAppleFrameworkForXcode"; then
-#            echo "Building iOS framework..."
-#            ./gradlew :app:embedAndSignAppleFrameworkForXcode || echo "iOS framework build skipped"
-#          fi
 
       - name: Publish to Maven Central
         run: |
@@ -339,7 +235,7 @@ jobs:
   notify-failure:
     needs: [ check-release, publish ]
     if: failure() && needs.check-release.outputs.is_release == 'true'
-    runs-on: macos-latest
+    runs-on: [ Zomato-mac-mini-android ]
     
     steps:
       - name: Notify failure
