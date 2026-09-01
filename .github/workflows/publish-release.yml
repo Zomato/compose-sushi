@@ -146,6 +146,7 @@ jobs:
         run: |
           echo "🚀 Starting publication process..."
           echo "workspace: $(pwd)"
+          touch local.properties
           ls -l secrets.properties secrets.properties.example
           if [ ! -s secrets.properties ]; then
             echo "❌ secrets.properties missing or empty at $(pwd)"
