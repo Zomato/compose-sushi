@@ -224,6 +224,60 @@ jobs:
           
           echo "✅ Release branch cleaned up"
 
+      - name: Create master -> dev sync PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version="${{ needs.check-release.outputs.version }}"
+
+          git fetch origin master dev
+
+          # Nothing to sync if dev already contains every commit on master
+          behind=$(git rev-list --count origin/dev..origin/master)
+          if [ "$behind" -eq 0 ]; then
+            echo "✅ dev is already up to date with master, no sync PR needed"
+            echo "sync_pr_url=" >> $GITHUB_ENV
+            echo "sync_pr_status=Not needed (dev already up to date)" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          echo "🔁 master is $behind commit(s) ahead of dev, opening sync PR"
+
+          # Reuse the existing open sync PR if one is already waiting
+          existing_pr=$(gh pr list --base dev --head master --state open --json url --jq '.[0].url // empty')
+          if [[ -n "$existing_pr" ]]; then
+            echo "ℹ️ Sync PR already open: $existing_pr"
+            echo "sync_pr_url=$existing_pr" >> $GITHUB_ENV
+            echo "sync_pr_status=Already open" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          cat > sync_pr_body.md << EOF
+          ## Sync master → dev after v${version}
+
+          This PR brings \`dev\` back in sync with \`master\` after publishing **v${version}**.
+
+          ### Changes
+          - Release commits from \`master\` (version bump for v${version} and anything else merged into \`master\`)
+
+          ### Next Steps
+          - Review and merge so \`dev\` keeps the released version history
+
+          ---
+          *This PR was created automatically by the Publish Release workflow.*
+          EOF
+
+          gh pr create \
+            --title "Sync master → dev after v${version}" \
+            --body-file sync_pr_body.md \
+            --base dev \
+            --head master
+
+          sync_pr_url=$(gh pr list --base dev --head master --state open --json url --jq '.[0].url')
+          echo "sync_pr_url=$sync_pr_url" >> $GITHUB_ENV
+          echo "sync_pr_status=Created" >> $GITHUB_ENV
+          echo "✅ Sync PR created: $sync_pr_url"
+
       - name: Notify success
         run: |
           echo "## 🎉 Release Published Successfully!" >> $GITHUB_STEP_SUMMARY
@@ -232,6 +286,7 @@ jobs:
           echo "- **Platforms**: Android, iOS, Desktop, Web ✅" >> $GITHUB_STEP_SUMMARY
           echo "- **Maven Central**: Published ✅" >> $GITHUB_STEP_SUMMARY
           echo "- **GitHub Release**: Created ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- **master → dev Sync PR**: ${{ env.sync_pr_status }} ${{ env.sync_pr_url }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Documentation**: [zomato.github.io/compose-sushi](https://zomato.github.io/compose-sushi)" >> $GITHUB_STEP_SUMMARY
 
   notify-failure:
