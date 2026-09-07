@@ -164,7 +164,10 @@ private fun LottieAutoPlay(
         progress = { animationState.progress },
         renderMode = RenderMode.HARDWARE,
         modifier = modifier.onVisibilityChanged { isVisible = it },
-        contentScale = contentScale
+        contentScale = contentScale,
+        // A throw while rendering the composition would otherwise escape into the Compose draw
+        // phase and take the process down. Safe mode logs it and skips the frame instead.
+        safeMode = true
     )
 }
 
@@ -187,7 +190,9 @@ private fun LottieWithProgress(
         progress = progress.valueProvider,
         modifier = modifier,
         contentScale = contentScale,
-        renderMode = RenderMode.HARDWARE
+        renderMode = RenderMode.HARDWARE,
+        // See LottieAutoPlay - keeps a render failure from escaping into the Compose draw phase.
+        safeMode = true
     )
 }
 
