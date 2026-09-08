@@ -94,6 +94,11 @@ private fun SushiImageImpl(
             else -> null
         }
 
+        val aspectRatio = when {
+            width == null && height == null -> props.aspectRatio
+            else -> null
+        }
+
         Image(
             painter,
             contentDescription,
@@ -104,7 +109,7 @@ private fun SushiImageImpl(
                 .ifNonNull(props.shape) { this.clip(it) }
                 .ifNonNull(height) { this.height(it) }
                 .ifNonNull(width) { this.width(it) }
-                .ifNonNull(props.aspectRatio) { this.aspectRatio(it) }
+                .ifNonNull(aspectRatio) { this.aspectRatio(it) }
                 .ifNonNull(bgColor) { this.background(it.value) }
                 .ifNonNull(props.scaleFactor) { this.scale(it) },
             alignment = alignment,
