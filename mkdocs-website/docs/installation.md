@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.eternal.kits:sushi-compose:0.0.8")
+    implementation("com.eternal.kits:sushi-compose:0.4.1.6")
 }
 ```
 
