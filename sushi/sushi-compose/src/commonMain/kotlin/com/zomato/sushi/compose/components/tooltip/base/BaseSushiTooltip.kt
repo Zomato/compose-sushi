@@ -59,20 +59,8 @@ class TooltipPositionProviderImpl constructor(
     val type: TooltipAnchorPosition,
     val tooltipAnchorSpacingProvider: () -> Int,
     val transformAnchorBounds: IntOffset = IntOffset.Zero,
-    val transformAnchorBoundsProvider: (() -> IntOffset)? = null,
-    val screenEdgeMargin: Int = 0
+    val transformAnchorBoundsProvider: (() -> IntOffset)? = null
 ) : PopupPositionProvider {
-
-    private fun horizontalPosition(
-        anchorBounds: IntRect,
-        popupContentSize: IntSize,
-        windowSize: IntSize,
-    ): Int {
-        val minX = screenEdgeMargin
-        val maxX = (windowSize.width - popupContentSize.width - screenEdgeMargin).coerceAtLeast(minX)
-        return (anchorBounds.left + (anchorBounds.width - popupContentSize.width) / 2)
-            .coerceIn(minX, maxX)
-    }
     override fun calculatePosition(
         anchorBounds: IntRect,
         windowSize: IntSize,
@@ -150,7 +138,18 @@ class TooltipPositionProviderImpl constructor(
         // Horizontal alignment preference: middle -> start -> end
         // Vertical preference: above -> below
 
-        val x = horizontalPosition(anchorBounds, popupContentSize, windowSize)
+        // Tooltip prefers to be center aligned horizontally.
+        var x = anchorBounds.left + (anchorBounds.width - popupContentSize.width) / 2
+
+        if (x < 0) {
+            // Make tooltip start aligned if colliding with the
+            // left side of the screen
+            x = anchorBounds.left
+        } else if (x + popupContentSize.width > windowSize.width) {
+            // Make tooltip end aligned if colliding with the
+            // right side of the screen
+            x = anchorBounds.right - popupContentSize.width
+        }
 
         // Tooltip prefers to be above the anchor,
         // but if this causes the tooltip to overlap with the anchor
@@ -168,7 +167,18 @@ class TooltipPositionProviderImpl constructor(
         // Horizontal alignment preference: middle -> start -> end
         // Vertical preference: below -> above
 
-        val x = horizontalPosition(anchorBounds, popupContentSize, windowSize)
+        // Tooltip prefers to be center aligned horizontally.
+        var x = anchorBounds.left + (anchorBounds.width - popupContentSize.width) / 2
+
+        if (x < 0) {
+            // Make tooltip start aligned if colliding with the
+            // left side of the screen
+            x = anchorBounds.left
+        } else if (x + popupContentSize.width > windowSize.width) {
+            // Make tooltip end aligned if colliding with the
+            // right side of the screen
+            x = anchorBounds.right - popupContentSize.width
+        }
 
         // Tooltip prefers to be below the anchor,
         // but if this causes the tooltip to overlap with the anchor
@@ -564,27 +574,6 @@ private fun Modifier.layoutCaret(
                     }
                 }
 
-            // Ask the provider where the popup actually lands instead of re-deriving the placement
-            // rules here; any clamping it applies (screen-edge margin, anchor alignment) is then
-            // reflected by the caret automatically.
-            val horizontalCaretX: Float =
-                if (positionProvider is TooltipPositionProviderImpl) {
-                    val popupX = positionProvider.calculatePosition(
-                        anchorBounds = IntRect(
-                            left = anchorLeft.toInt(),
-                            top = anchorTop.toInt(),
-                            right = anchorRight.toInt(),
-                            bottom = anchorBottom.toInt(),
-                        ),
-                        windowSize = windowContainerSize,
-                        layoutDirection = layoutDirection,
-                        popupContentSize = IntSize(width, height),
-                    ).x
-                    (((anchorLeft + anchorRight) / 2f) - popupX).coerceIn(0f, tooltipWidth)
-                } else {
-                    caretX(tooltipWidth, screenWidthPx, anchorBounds)
-                }
-
             val position =
                 if (positionProvider is TooltipPositionProviderImpl) {
                     when (positionProvider.type) {
@@ -656,11 +645,14 @@ private fun Modifier.layoutCaret(
                             Offset(x = caretX, y = caretY)
                         }
                         else -> {
-                            Offset(x = horizontalCaretX, y = caretY)
+                            Offset(
+                                x = caretX(tooltipWidth, screenWidthPx, anchorBounds),
+                                y = caretY,
+                            )
                         }
                     }
                 } else {
-                    Offset(x = horizontalCaretX, y = caretY)
+                    Offset(x = caretX(tooltipWidth, screenWidthPx, anchorBounds), y = caretY)
                 }
 
             // Translate matrix to position
