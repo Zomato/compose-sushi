@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   update-wasabi-icons:
-    runs-on: ubuntu-latest
+    runs-on: [ Zomato-mac-mini-android ]
     steps:
       - uses: actions/checkout@v2
         with:

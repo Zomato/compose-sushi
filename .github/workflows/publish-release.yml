@@ -13,7 +13,7 @@ on:
 jobs:
   check-release:
     if: github.event_name == 'push' || (github.event.pull_request.merged == true)
-    runs-on: macos-latest
+    runs-on: [ Zomato-mac-mini-android ]
     outputs:
       is_release: ${{ steps.check.outputs.is_release }}
       version: ${{ steps.check.outputs.version }}
@@ -69,7 +69,7 @@ jobs:
   publish:
     needs: check-release
     if: needs.check-release.outputs.is_release == 'true'
-    runs-on: macos-latest
+    runs-on: [ Zomato-mac-mini-android ]
     
     steps:
       - name: Checkout code
@@ -77,87 +77,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Xcode (native)
-        run: |
-          # List available Xcode versions
-          echo "Available Xcode versions:"
-          ls /Applications/ | grep -i xcode || echo "No Xcode installations found in /Applications"
-          
-          # Use default Xcode (usually latest)
-          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
-          
-          # Verify Xcode setup
-          xcodebuild -version
-          xcrun --show-sdk-path
-          
-          echo "✅ Xcode configured successfully"
-
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Setup Android SDK and local.properties
-        run: |
-          chmod +x ./setup-android-sdk.sh
-          ./setup-android-sdk.sh
-          
-          # Set environment variables for the rest of the job
-          echo "ANDROID_HOME=$HOME/Library/Android/sdk" >> $GITHUB_ENV
-          echo "ANDROID_SDK_ROOT=$HOME/Library/Android/sdk" >> $GITHUB_ENV
-          echo "$HOME/Library/Android/sdk/cmdline-tools/latest/bin:$HOME/Library/Android/sdk/platform-tools" >> $GITHUB_PATH
-
-      - name: Setup iOS development environment
-        run: |
-          # Ensure Xcode command line tools are properly configured
-          echo "Setting up iOS development environment..."
-          
-          # Accept Xcode license if needed
-          sudo xcodebuild -license accept || echo "License already accepted"
-          
-          # List available simulators
-          echo "Available iOS Simulators:"
-          xcrun simctl list devices iOS | grep -E "(iPhone|iPad)" | head -5
-          
-          # Install iOS runtime if needed (for CI)
-          echo "iOS SDK Path: $(xcrun --show-sdk-path --sdk iphoneos)"
-          
-          echo "✅ iOS environment configured"
-
-      - name: Verify development environment
-        run: |
-          echo "🔍 Verifying development environment setup..."
-          
-          # Verify Android setup
-          echo "Android SDK: $ANDROID_HOME"
-          if command -v adb >/dev/null 2>&1; then
-            echo "✅ ADB available: $(adb --version | head -1)"
-          else
-            echo "⚠️  ADB not found"
-          fi
-          
-          # Verify Xcode setup
-          echo "Xcode version: $(xcodebuild -version | head -1)"
-          
-          # Verify local.properties
-          if [ -f "local.properties" ]; then
-            echo "✅ local.properties exists"
-          else
-            echo "❌ local.properties missing"
-          fi
-          
-          echo "✅ Environment verification completed"
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
 
       - name: Make scripts executable
         run: |
@@ -181,12 +105,31 @@ jobs:
 
       - name: Setup publishing credentials
         env:
+          PUBLISHING_REPO_USERNAME: ${{ secrets.PUBLISHING_REPO_USERNAME }}
+          PUBLISHING_REPO_PASSWORD: ${{ secrets.PUBLISHING_REPO_PASSWORD }}
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
           SIGNING_SECRET_KEY_RING_FILE: ${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}
         run: |
+          # secrets.properties is git-ignored and is read by
+          # build-logic/publishing/src/main/kotlin/publishing-convention.gradle.kts
+          # for the "zomato" (GitHub Packages) maven repository credentials.
+          if [ -z "$PUBLISHING_REPO_USERNAME" ] || [ -z "$PUBLISHING_REPO_PASSWORD" ]; then
+            echo "❌ PUBLISHING_REPO_USERNAME / PUBLISHING_REPO_PASSWORD secrets are not set"
+            exit 1
+          fi
+
+          {
+            printf 'publishing.repo.username=%s\n' "$PUBLISHING_REPO_USERNAME"
+            printf 'publishing.repo.password=%s\n' "$PUBLISHING_REPO_PASSWORD"
+          } > secrets.properties
+
+          echo "✅ secrets.properties created at $(pwd)/secrets.properties"
+          ls -l secrets.properties
+          echo "   keys written: $(cut -d= -f1 secrets.properties | paste -sd, -)"
+
           # Create gradle.properties with publishing credentials
           mkdir -p ~/.gradle
           cat >> ~/.gradle/gradle.properties << EOF
@@ -199,37 +142,18 @@ jobs:
           
           echo "✅ Publishing credentials configured"
 
-#      - name: Run tests before publishing
-#        run: |
-#          echo "🧪 Running tests on all platforms..."
-#          # Run tests for all KMP targets
-#          ./gradlew test
-#
-#          # Run iOS specific tests if they exist
-#          if ./gradlew tasks --all | grep -q "iosX64Test"; then
-#            echo "Running iOS tests..."
-#            ./gradlew iosX64Test || echo "iOS tests failed or not available"
-#          fi
-
-      - name: Build all KMP targets
-        run: |
-          echo "🏗️ Building all KMP targets..."
-          
-          # Build core library for all targets
-          ./gradlew :sushi-core:build
-          
-          # Build compose library for all targets
-          ./gradlew :sushi-compose:build
-          
-          # Build iOS framework if needed
-          if ./gradlew tasks --all | grep -q "embedAndSignAppleFrameworkForXcode"; then
-            echo "Building iOS framework..."
-            ./gradlew :app:embedAndSignAppleFrameworkForXcode || echo "iOS framework build skipped"
-          fi
-
       - name: Publish to Maven Central
         run: |
           echo "🚀 Starting publication process..."
+          echo "workspace: $(pwd)"
+          rm ~/.gradle/gradle.properties
+          touch local.properties
+          ls -l secrets.properties secrets.properties.example
+          if [ ! -s secrets.properties ]; then
+            echo "❌ secrets.properties missing or empty at $(pwd)"
+            exit 1
+          fi
+
           ./remotePublish.sh
           echo "✅ Publication completed successfully!"
 
@@ -300,6 +224,60 @@ jobs:
           
           echo "✅ Release branch cleaned up"
 
+      - name: Create master -> dev sync PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version="${{ needs.check-release.outputs.version }}"
+
+          git fetch origin master dev
+
+          # Nothing to sync if dev already contains every commit on master
+          behind=$(git rev-list --count origin/dev..origin/master)
+          if [ "$behind" -eq 0 ]; then
+            echo "✅ dev is already up to date with master, no sync PR needed"
+            echo "sync_pr_url=" >> $GITHUB_ENV
+            echo "sync_pr_status=Not needed (dev already up to date)" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          echo "🔁 master is $behind commit(s) ahead of dev, opening sync PR"
+
+          # Reuse the existing open sync PR if one is already waiting
+          existing_pr=$(gh pr list --base dev --head master --state open --json url --jq '.[0].url // empty')
+          if [[ -n "$existing_pr" ]]; then
+            echo "ℹ️ Sync PR already open: $existing_pr"
+            echo "sync_pr_url=$existing_pr" >> $GITHUB_ENV
+            echo "sync_pr_status=Already open" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          cat > sync_pr_body.md << EOF
+          ## Sync master → dev after v${version}
+
+          This PR brings \`dev\` back in sync with \`master\` after publishing **v${version}**.
+
+          ### Changes
+          - Release commits from \`master\` (version bump for v${version} and anything else merged into \`master\`)
+
+          ### Next Steps
+          - Review and merge so \`dev\` keeps the released version history
+
+          ---
+          *This PR was created automatically by the Publish Release workflow.*
+          EOF
+
+          gh pr create \
+            --title "Sync master → dev after v${version}" \
+            --body-file sync_pr_body.md \
+            --base dev \
+            --head master
+
+          sync_pr_url=$(gh pr list --base dev --head master --state open --json url --jq '.[0].url')
+          echo "sync_pr_url=$sync_pr_url" >> $GITHUB_ENV
+          echo "sync_pr_status=Created" >> $GITHUB_ENV
+          echo "✅ Sync PR created: $sync_pr_url"
+
       - name: Notify success
         run: |
           echo "## 🎉 Release Published Successfully!" >> $GITHUB_STEP_SUMMARY
@@ -308,12 +286,13 @@ jobs:
           echo "- **Platforms**: Android, iOS, Desktop, Web ✅" >> $GITHUB_STEP_SUMMARY
           echo "- **Maven Central**: Published ✅" >> $GITHUB_STEP_SUMMARY
           echo "- **GitHub Release**: Created ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- **master → dev Sync PR**: ${{ env.sync_pr_status }} ${{ env.sync_pr_url }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Documentation**: [zomato.github.io/compose-sushi](https://zomato.github.io/compose-sushi)" >> $GITHUB_STEP_SUMMARY
 
   notify-failure:
     needs: [ check-release, publish ]
     if: failure() && needs.check-release.outputs.is_release == 'true'
-    runs-on: macos-latest
+    runs-on: [ Zomato-mac-mini-android ]
     
     steps:
       - name: Notify failure
