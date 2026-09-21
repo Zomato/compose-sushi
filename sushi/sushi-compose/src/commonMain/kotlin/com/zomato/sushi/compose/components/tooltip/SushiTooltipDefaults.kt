@@ -45,16 +45,25 @@ object SushiTooltipDefaults {
             return LocalWindowInfo.current.containerDpSize.width * 0.8f
         }
 
+    /** Minimum gap kept between a tooltip and the horizontal edges of the window. */
+    val screenMargin: Dp = 12.dp
+
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun rememberTooltipPositionProvider(
         positioning: TooltipAnchorPosition,
         spacingBetweenTooltipAndAnchor: Dp = SpacingBetweenTooltipAndAnchor,
+        horizontalScreenMargin: Dp = screenMargin,
     ): PopupPositionProvider {
-        val tooltipAnchorSpacing =
-            with(LocalDensity.current) { spacingBetweenTooltipAndAnchor.roundToPx() }
-        return remember(tooltipAnchorSpacing, positioning) {
-            TooltipPositionProviderImpl(positioning, { tooltipAnchorSpacing })
+        val density = LocalDensity.current
+        val tooltipAnchorSpacing = with(density) { spacingBetweenTooltipAndAnchor.roundToPx() }
+        val screenMarginPx = with(density) { horizontalScreenMargin.roundToPx() }
+        return remember(tooltipAnchorSpacing, screenMarginPx, positioning) {
+            TooltipPositionProviderImpl(
+                type = positioning,
+                tooltipAnchorSpacingProvider = { tooltipAnchorSpacing },
+                horizontalScreenMarginProvider = { screenMarginPx }
+            )
         }
     }
 
@@ -62,14 +71,20 @@ object SushiTooltipDefaults {
     @Composable
     fun rememberTooltipPositionProvider(
         positioning: TooltipAnchorPosition,
-        spacingBetweenTooltipAndAnchorProvider: Density.() -> Dp
+        spacingBetweenTooltipAndAnchorProvider: Density.() -> Dp,
+        horizontalScreenMargin: Dp = screenMargin,
     ): PopupPositionProvider {
         val density = LocalDensity.current
         val tooltipAnchorSpacingProvider = remember(spacingBetweenTooltipAndAnchorProvider, density) {
             { with(density) { spacingBetweenTooltipAndAnchorProvider().roundToPx() } }
         }
-        return remember(tooltipAnchorSpacingProvider, positioning) {
-            TooltipPositionProviderImpl(positioning, tooltipAnchorSpacingProvider)
+        val screenMarginPx = with(density) { horizontalScreenMargin.roundToPx() }
+        return remember(tooltipAnchorSpacingProvider, screenMarginPx, positioning) {
+            TooltipPositionProviderImpl(
+                type = positioning,
+                tooltipAnchorSpacingProvider = tooltipAnchorSpacingProvider,
+                horizontalScreenMarginProvider = { screenMarginPx }
+            )
         }
     }
 }
