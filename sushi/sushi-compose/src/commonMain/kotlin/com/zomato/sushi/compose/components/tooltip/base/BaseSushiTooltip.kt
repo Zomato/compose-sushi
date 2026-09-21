@@ -47,6 +47,7 @@ import androidx.compose.ui.window.PopupPositionProvider
 import com.zomato.sushi.compose.atoms.border.BorderSpec
 import com.zomato.sushi.compose.atoms.color.toBrush
 import com.zomato.sushi.compose.components.tooltip.SushiTooltipDefaults
+import kotlin.math.roundToInt
 
 private val TooltipMinWidth = 40.dp
 private val RichTooltipMaxWidth = 320.dp
@@ -58,8 +59,7 @@ private val ContainerElevation = 3.dp
 class TooltipPositionProviderImpl constructor(
     val type: TooltipAnchorPosition,
     val tooltipAnchorSpacingProvider: () -> Int,
-    val transformAnchorBounds: IntOffset = IntOffset.Zero,
-    val transformAnchorBoundsProvider: (() -> IntOffset)? = null
+    val horizontalScreenMarginProvider: () -> Int = { 0 }
 ) : PopupPositionProvider {
     override fun calculatePosition(
         anchorBounds: IntRect,
@@ -67,27 +67,45 @@ class TooltipPositionProviderImpl constructor(
         layoutDirection: LayoutDirection,
         popupContentSize: IntSize,
     ): IntOffset {
-        val currentTransformAnchorBounds = transformAnchorBoundsProvider?.invoke() ?: transformAnchorBounds
-        val transformedAnchorBounds = IntRect(
-            left = anchorBounds.left + currentTransformAnchorBounds.x,
-            top = anchorBounds.top + currentTransformAnchorBounds.y,
-            right = anchorBounds.right + currentTransformAnchorBounds.x,
-            bottom = anchorBounds.bottom + currentTransformAnchorBounds.y
-        )
         return when (type) {
-            TooltipAnchorPosition.Left -> leftPositioning(transformedAnchorBounds, popupContentSize)
+            TooltipAnchorPosition.Left -> leftPositioning(anchorBounds, popupContentSize)
             TooltipAnchorPosition.Right ->
-                rightPositioning(transformedAnchorBounds, popupContentSize, windowSize)
+                rightPositioning(anchorBounds, popupContentSize, windowSize)
             TooltipAnchorPosition.Above ->
-                abovePositioning(transformedAnchorBounds, popupContentSize, windowSize)
+                abovePositioning(anchorBounds, popupContentSize, windowSize)
             TooltipAnchorPosition.Below ->
-                belowPositioning(transformedAnchorBounds, popupContentSize, windowSize)
+                belowPositioning(anchorBounds, popupContentSize, windowSize)
             TooltipAnchorPosition.Start ->
-                startPositioning(layoutDirection, transformedAnchorBounds, popupContentSize, windowSize)
+                startPositioning(layoutDirection, anchorBounds, popupContentSize, windowSize)
             TooltipAnchorPosition.End ->
-                endPositioning(layoutDirection, transformedAnchorBounds, popupContentSize, windowSize)
-            else -> abovePositioning(transformedAnchorBounds, popupContentSize, windowSize)
+                endPositioning(layoutDirection, anchorBounds, popupContentSize, windowSize)
+            else -> abovePositioning(anchorBounds, popupContentSize, windowSize)
         }
+    }
+
+    /**
+     * Horizontal placement shared by [abovePositioning] and [belowPositioning]: centre the tooltip
+     * on the anchor, then clamp it so the whole tooltip stays inside the window.
+     *
+     * Clamping is what keeps the tooltip pointing at its anchor. Popups are added to the window
+     * manager with clipping enabled, so a position that leaves any part of the tooltip outside the
+     * window is silently slid back in - which pinned wide tooltips flush against the right edge of
+     * the screen instead of leaving them near their anchor.
+     */
+    fun horizontalPositioning(
+        anchorBounds: IntRect,
+        popupContentSize: IntSize,
+        windowSize: IntSize,
+    ): Int {
+        val margin = horizontalScreenMarginProvider()
+        val centeredOnAnchor = anchorBounds.left + (anchorBounds.width - popupContentSize.width) / 2
+        val maxX = windowSize.width - popupContentSize.width - margin
+        // The tooltip is too wide to honour the margins: centre it in the window rather than
+        // leaving the window manager to pick an edge for us.
+        if (maxX < margin) {
+            return ((windowSize.width - popupContentSize.width) / 2).coerceAtLeast(0)
+        }
+        return centeredOnAnchor.coerceIn(margin, maxX)
     }
 
     fun leftPositioning(anchorBounds: IntRect, popupContentSize: IntSize): IntOffset {
@@ -104,8 +122,8 @@ class TooltipPositionProviderImpl constructor(
         }
 
         // We vertically center the tooltip with the anchor
-        var y = (anchorBounds.top + anchorBounds.bottom - popupContentSize.height) / 2
-        return IntOffset(x, y)
+        val y = (anchorBounds.top + anchorBounds.bottom - popupContentSize.height) / 2
+        return IntOffset(x.coerceAtLeast(horizontalScreenMarginProvider()), y)
     }
 
     fun rightPositioning(
@@ -126,8 +144,10 @@ class TooltipPositionProviderImpl constructor(
         }
 
         // We vertically center the tooltip with the anchor
-        var y = (anchorBounds.top + anchorBounds.bottom - popupContentSize.height) / 2
-        return IntOffset(x, y)
+        val y = (anchorBounds.top + anchorBounds.bottom - popupContentSize.height) / 2
+        val margin = horizontalScreenMarginProvider()
+        val maxX = (windowSize.width - popupContentSize.width - margin).coerceAtLeast(margin)
+        return IntOffset(x.coerceIn(margin, maxX), y)
     }
 
     fun abovePositioning(
@@ -135,21 +155,11 @@ class TooltipPositionProviderImpl constructor(
         popupContentSize: IntSize,
         windowSize: IntSize,
     ): IntOffset {
-        // Horizontal alignment preference: middle -> start -> end
+        // Horizontal alignment preference: centred on the anchor, clamped to the window
         // Vertical preference: above -> below
 
-        // Tooltip prefers to be center aligned horizontally.
-        var x = anchorBounds.left + (anchorBounds.width - popupContentSize.width) / 2
-
-        if (x < 0) {
-            // Make tooltip start aligned if colliding with the
-            // left side of the screen
-            x = anchorBounds.left
-        } else if (x + popupContentSize.width > windowSize.width) {
-            // Make tooltip end aligned if colliding with the
-            // right side of the screen
-            x = anchorBounds.right - popupContentSize.width
-        }
+        // Tooltip prefers to be center aligned horizontally, clamped inside the window.
+        val x = horizontalPositioning(anchorBounds, popupContentSize, windowSize)
 
         // Tooltip prefers to be above the anchor,
         // but if this causes the tooltip to overlap with the anchor
@@ -164,21 +174,11 @@ class TooltipPositionProviderImpl constructor(
         popupContentSize: IntSize,
         windowSize: IntSize,
     ): IntOffset {
-        // Horizontal alignment preference: middle -> start -> end
+        // Horizontal alignment preference: centred on the anchor, clamped to the window
         // Vertical preference: below -> above
 
-        // Tooltip prefers to be center aligned horizontally.
-        var x = anchorBounds.left + (anchorBounds.width - popupContentSize.width) / 2
-
-        if (x < 0) {
-            // Make tooltip start aligned if colliding with the
-            // left side of the screen
-            x = anchorBounds.left
-        } else if (x + popupContentSize.width > windowSize.width) {
-            // Make tooltip end aligned if colliding with the
-            // right side of the screen
-            x = anchorBounds.right - popupContentSize.width
-        }
+        // Tooltip prefers to be center aligned horizontally, clamped inside the window.
+        val x = horizontalPositioning(anchorBounds, popupContentSize, windowSize)
 
         // Tooltip prefers to be below the anchor,
         // but if this causes the tooltip to overlap with the anchor
@@ -519,9 +519,11 @@ private fun Modifier.layoutCaret(
         if (anchorLayoutCoordinates != null) {
             val screenWidthPx: Int
             val tooltipAnchorSpacing: Int
+            val caretHalfWidthPx: Float
             with(density) {
                 screenWidthPx = windowContainerWidthInPx
                 tooltipAnchorSpacing = SpacingBetweenTooltipAndAnchor.roundToPx()
+                caretHalfWidthPx = SushiTooltipDefaults.caretSize.width.toPx() / 2
             }
             val anchorBounds = anchorLayoutCoordinates.boundsInWindow()
             val anchorTop = anchorBounds.top
@@ -646,7 +648,15 @@ private fun Modifier.layoutCaret(
                         }
                         else -> {
                             Offset(
-                                x = caretX(tooltipWidth, screenWidthPx, anchorBounds),
+                                x = caretXFor(
+                                    positionProvider = positionProvider,
+                                    anchorBounds = anchorBounds,
+                                    tooltipWidth = tooltipWidth,
+                                    tooltipHeight = tooltipHeight,
+                                    windowWidthPx = windowContainerWidthInPx,
+                                    windowHeightPx = windowContainerHeightInPx,
+                                    caretHalfWidthPx = caretHalfWidthPx,
+                                ),
                                 y = caretY,
                             )
                         }
@@ -746,6 +756,33 @@ private fun Modifier.layoutCaret(
         }
         layout(width, height) { placeable.place(0, 0) }
     }
+
+@OptIn(ExperimentalMaterial3Api::class)
+private fun caretXFor(
+    positionProvider: TooltipPositionProviderImpl,
+    anchorBounds: Rect,
+    tooltipWidth: Float,
+    tooltipHeight: Float,
+    windowWidthPx: Int,
+    windowHeightPx: Int,
+    caretHalfWidthPx: Float,
+): Float {
+    val anchor = IntRect(
+        left = anchorBounds.left.roundToInt(),
+        top = anchorBounds.top.roundToInt(),
+        right = anchorBounds.right.roundToInt(),
+        bottom = anchorBounds.bottom.roundToInt()
+    )
+    val tooltipX = positionProvider.horizontalPositioning(
+        anchorBounds = anchor,
+        popupContentSize = IntSize(tooltipWidth.roundToInt(), tooltipHeight.roundToInt()),
+        windowSize = IntSize(windowWidthPx, windowHeightPx)
+    )
+    val anchorMid = (anchor.left + anchor.right) / 2f
+    // Keep the caret attached to the tooltip if the anchor ends up outside of it.
+    val maxCaretX = (tooltipWidth - caretHalfWidthPx).coerceAtLeast(0f)
+    return (anchorMid - tooltipX).coerceIn(caretHalfWidthPx.coerceAtMost(maxCaretX), maxCaretX)
+}
 
 private fun caretX(tooltipWidth: Float, screenWidthPx: Int, anchorBounds: Rect): Float {
     val anchorLeft = anchorBounds.left
