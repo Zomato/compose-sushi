@@ -122,7 +122,11 @@ kotlin {
 android {
     namespace = "com.zomato.sushi.compose"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        }
+    }
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
