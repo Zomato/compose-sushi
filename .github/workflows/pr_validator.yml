@@ -1,0 +1,34 @@
+name: PR Validator
+
+# Checks that a PR carries what the Zomato release changelog needs: a release milestone
+# ("zomato-v19.9.1", optional when the PR opts out of the changelog), a filled Shipping title and
+# at least one Classification tick. milestoned / demilestoned / edited re-run it when the author
+# fixes the PR. The validator is shared with the other release repos, see dev-tools/pr_body.py.
+
+on:
+  pull_request:
+    branches:
+      - dev
+    types: [opened, reopened, synchronize, edited, milestoned, demilestoned, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    runs-on: [ Zomato-mac-mini-android ]
+    steps:
+      - uses: actions/checkout@v3.5.2
+
+      # Standard library only, so the runner's own python3 is enough.
+      - name: PR validator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 $GITHUB_WORKSPACE/dev-tools/pr_validator.py "${{ github.event.pull_request.number }}" "$GITHUB_REPOSITORY" "$GITHUB_TOKEN"
