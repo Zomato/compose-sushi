@@ -214,7 +214,7 @@ fun SushiStepper(
                     start = SushiTheme.dimens.spacing.micro,
                     end = SushiTheme.dimens.spacing.micro
                 )
-                .invisibleIf(!disabledMessage?.text.isNullOrBlank())
+                .invisibleIf(!disabledMessage?.text.isNullOrBlank() || props.isAddIconInvisible)
                 .align(if (currentCount == 0) Alignment.Top else Alignment.CenterVertically),
                 props = SushiIconProps(
                     code = SushiIconCodes.IconPlus, // icon code for "plus"

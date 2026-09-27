@@ -32,4 +32,5 @@ data class SushiStepperProps(
     val colorConfig: SushiStepperColorConfig? = null,
     val shape: Shape? = null,
     val disabledMessage: SushiTextProps? = null,
+    val isAddIconInvisible: Boolean = false,
 )
