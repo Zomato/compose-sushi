@@ -18,6 +18,8 @@ import com.zomato.sushi.compose.atoms.text.SushiTextProps
  * @property colorConfig Custom color configuration for the stepper
  * @property shape Custom shape for the stepper container
  * @property disabledMessage Message to display when the stepper is disabled
+ * @property isAddButtonVisible Controls visibility of the add ("+") button. `null` uses Sushi's
+ *   default behaviour (visible), `true` forces it visible, `false` forces it hidden.
  *
  * Created by Nitin Kumar on 08/01/25
  * Zomato, Gurgaon, India.
