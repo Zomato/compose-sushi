@@ -4,9 +4,14 @@ name: PR Validator
 # ("zomato-v19.9.1", optional when the PR opts out of the changelog), a filled Shipping title and
 # at least one Classification tick. milestoned / demilestoned / edited re-run it when the author
 # fixes the PR. The validator is shared with the other release repos, see dev-tools/pr_body.py.
+#
+# Security: this runs on pull_request_target so the workflow file and the validator script always
+# come from the base branch, never from the PR. A PR (including one from a fork) cannot change
+# what executes on the self-hosted runner. The validator only reads PR metadata through the API,
+# so the PR's code is never checked out. Do NOT add a checkout of the PR head / merge ref here.
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - dev
     types: [opened, reopened, synchronize, edited, milestoned, demilestoned, ready_for_review]
@@ -17,7 +22,8 @@ permissions:
   issues: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  # github.ref is the base branch under pull_request_target, so key on the PR number instead.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
@@ -25,10 +31,15 @@ jobs:
     if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: [ Zomato-mac-mini-android ]
     steps:
+      # Trusted code only: the base branch commit, without leaving the token in .git/config.
       - uses: actions/checkout@v3.5.2
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
 
       # Standard library only, so the runner's own python3 is enough.
       - name: PR validator
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 $GITHUB_WORKSPACE/dev-tools/pr_validator.py "${{ github.event.pull_request.number }}" "$GITHUB_REPOSITORY" "$GITHUB_TOKEN"
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: python3 "$GITHUB_WORKSPACE/dev-tools/pr_validator.py" "$PR_NUMBER" "$GITHUB_REPOSITORY" "$GITHUB_TOKEN"
