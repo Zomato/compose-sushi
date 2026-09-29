@@ -5,30 +5,36 @@ name: PR Validator
 # at least one Classification tick. milestoned / demilestoned / edited re-run it when the author
 # fixes the PR. The validator is shared with the other release repos, see dev-tools/pr_body.py.
 #
-# Security: this runs on pull_request_target so the workflow file and the validator script always
-# come from the base branch, never from the PR. A PR (including one from a fork) cannot change
-# what executes on the self-hosted runner. The validator only reads PR metadata through the API,
-# so the PR's code is never checked out. Do NOT add a checkout of the PR head / merge ref here.
+# Security: the validator script is checked out from the base branch, never from the PR, and the
+# job only runs for OWNER / MEMBER / COLLABORATOR PRs. Under pull_request the workflow file itself
+# comes from the PR, so a fork could edit this check away; the repo setting that requires approval
+# for fork PR workflows is what actually stops untrusted code reaching the self-hosted runner.
 
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - dev
     types: [opened, reopened, synchronize, edited, milestoned, demilestoned, ready_for_review]
 
-permissions:
-  contents: read
-  pull-requests: write
-  issues: write
-
 concurrency:
-  # github.ref is the base branch under pull_request_target, so key on the PR number instead.
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   validate:
-    if: ${{ github.actor != 'dependabot[bot]' }}
+    # Only PRs from people with write-level association run the validator; fork PRs from anyone
+    # else (and dependabot) are skipped. The validator posts its comment through the issues API,
+    # so pull-requests: read is enough.
+    if: >-
+      ${{
+        github.event.pull_request.author_association == 'OWNER' ||
+        github.event.pull_request.author_association == 'MEMBER' ||
+        github.event.pull_request.author_association == 'COLLABORATOR'
+      }}
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: write
     runs-on: [ Zomato-mac-mini-android ]
     steps:
       # Trusted code only: the base branch commit, without leaving the token in .git/config.
@@ -37,7 +43,6 @@ jobs:
           ref: ${{ github.event.pull_request.base.sha }}
           persist-credentials: false
 
-      # Standard library only, so the runner's own python3 is enough.
       - name: PR validator
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
