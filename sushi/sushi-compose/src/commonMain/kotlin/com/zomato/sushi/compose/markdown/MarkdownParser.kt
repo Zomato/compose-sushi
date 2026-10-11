@@ -78,7 +78,10 @@ class MarkdownParser private constructor(
         props: MarkdownParserProps
     ): AnnotatedString {
         val keys = listOf(text, props) + processors.flatMap { it.cacheKeys }
-        var result: AnnotatedString? = remember(*keys.toTypedArray()) { null }
+        // Processors are @Composable, so they can't run inside remember's calculation block.
+        // Remember a holder instead and fill it on the first composition for these keys.
+        val cache = remember(*keys.toTypedArray()) { ParseCache() }
+        var result = cache.value
 
         if (result == null) {
             val initialAnnotatedString = when {
@@ -94,9 +97,14 @@ class MarkdownParser private constructor(
                 .fold(initialAnnotatedString, { acc, markdownProcessor ->
                     markdownProcessor.process(props, acc)
                 })
+            cache.value = result
         }
 
         return result
+    }
+
+    private class ParseCache {
+        var value: AnnotatedString? = null
     }
 
     /**
