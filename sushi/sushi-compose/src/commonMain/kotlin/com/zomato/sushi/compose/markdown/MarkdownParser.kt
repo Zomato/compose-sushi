@@ -45,6 +45,8 @@ class MarkdownParser private constructor(
          */
         val default by lazy {
             MarkdownParser.Builder()
+                // Extract URLs into annotations before formatting touches the visible labels.
+                .processor(LinkProcessor())
                 // Syntax: {gradient(direction=left_right;colors=<token>@<alpha>,<token>@<alpha>;dark_colors=<token>@<alpha>,<token>@<alpha>)|<text>}
                 // dark_colors is optional and falls back to colors when omitted.
                 // Keep this before ItalicProcessor so the underscore in left_right is not parsed as italics.
@@ -55,7 +57,6 @@ class MarkdownParser private constructor(
                 .processor(FontWeightProcessor())
                 .processor(TextColorProcessor())
                 .processor(BackgroundColorProcessor())
-                .processor(LinkProcessor())
                 .processor(UnderlineAnnotaterProcessor())
                 .build()
         }
