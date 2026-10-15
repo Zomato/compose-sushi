@@ -75,7 +75,11 @@ kotlin {
 android {
     namespace = "com.zomato.sushi.core"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        }
+    }
 //    sourceSets["main"].apply {
 //        res.srcDirs("src/androidMain/res", "src/commonMain/composeResources")
 //        resources.srcDirs("src/androidMain/res", "src/commonMain/composeResources")

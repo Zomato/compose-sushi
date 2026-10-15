@@ -1,0 +1,50 @@
+name: PR Validator
+
+# Checks that a PR carries what the Zomato release changelog needs: a release milestone
+# ("zomato-v19.9.1", optional when the PR opts out of the changelog), a filled Shipping title and
+# at least one Classification tick. milestoned / demilestoned / edited re-run it when the author
+# fixes the PR. The validator is shared with the other release repos, see dev-tools/pr_body.py.
+#
+# Security: the validator script is checked out from the base branch, never from the PR, and the
+# job only runs for OWNER / MEMBER / COLLABORATOR PRs. Under pull_request the workflow file itself
+# comes from the PR, so a fork could edit this check away; the repo setting that requires approval
+# for fork PR workflows is what actually stops untrusted code reaching the self-hosted runner.
+
+on:
+  pull_request:
+    branches:
+      - dev
+    types: [opened, reopened, synchronize, edited, milestoned, demilestoned, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    # Only PRs from people with write-level association run the validator; fork PRs from anyone
+    # else (and dependabot) are skipped. The validator posts its comment through the issues API,
+    # so pull-requests: read is enough.
+    if: >-
+      ${{
+        github.event.pull_request.author_association == 'OWNER' ||
+        github.event.pull_request.author_association == 'MEMBER' ||
+        github.event.pull_request.author_association == 'COLLABORATOR'
+      }}
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: write
+    runs-on: [ Zomato-mac-mini-android ]
+    steps:
+      # Trusted code only: the base branch commit, without leaving the token in .git/config.
+      - uses: actions/checkout@v3.5.2
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - name: PR validator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: python3 "$GITHUB_WORKSPACE/dev-tools/pr_validator.py" "$PR_NUMBER" "$GITHUB_REPOSITORY" "$GITHUB_TOKEN"
