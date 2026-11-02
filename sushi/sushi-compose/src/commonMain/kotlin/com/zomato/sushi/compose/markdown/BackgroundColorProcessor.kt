@@ -37,7 +37,7 @@ class BackgroundColorProcessor() : Processor {
         private const val TEXT_GROUP = 4
     }
 
-    override val cacheKeys: List<Any> @Composable get() = listOf(SushiTheme.colorTokenMapper)
+    override val cacheKeys: List<Any> @Composable get() = listOf(SushiTheme.colors, SushiTheme.colorTokenMapper)
 
     @Composable
     override fun process(props: MarkdownParserProps, src: AnnotatedString): AnnotatedString {
