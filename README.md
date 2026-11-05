@@ -75,10 +75,10 @@ Or open the project in Android Studio and run the `app` configuration.
 #### Alternative: Command Line
 
 ```bash
-# Build iOS app
-./gradlew :app:iosX64MainKlibrary
-# or for ARM64
+# Build iOS app (ARM64 physical device)
 ./gradlew :app:iosArm64MainKlibrary
+# Apple Silicon simulator
+./gradlew :app:iosSimulatorArm64MainKlibrary
 ```
 
 ## 🌐 Running WASM Website
