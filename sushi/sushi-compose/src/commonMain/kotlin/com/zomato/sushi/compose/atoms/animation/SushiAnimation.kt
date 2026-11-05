@@ -77,6 +77,8 @@ expect class SushiLottieAnimationState()
  *
  * @param props The properties to configure the animation appearance and behavior
  * @param modifier The modifier to be applied to the component
+ * @param state The animation state controlling playback; use [rememberSushiAnimationState]
+ * @param onClick Optional click handler invoked when the animation is tapped
  *
  * @author gupta.anirudh@zomato.com
  */

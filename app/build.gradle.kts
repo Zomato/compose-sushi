@@ -18,8 +18,9 @@ kotlin {
         }
     }
     
+    // iosX64 dropped: Compose Multiplatform 1.11.1 no longer publishes iosX64 artifacts.
+    // iosArm64 + iosSimulatorArm64 cover all modern Apple silicon devices and simulators.
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
