@@ -1,9 +1,8 @@
 name: Publish Release
 
+# Only a merged release/vX.Y.Z PR publishes. There is deliberately no `push: master` trigger:
+# merging a PR fires both events, which could publish the same version twice.
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -12,7 +11,7 @@ on:
 
 jobs:
   check-release:
-    if: github.event_name == 'push' || (github.event.pull_request.merged == true)
+    if: github.event.pull_request.merged == true
     runs-on: [ Zomato-mac-mini-android ]
     outputs:
       is_release: ${{ steps.check.outputs.is_release }}
@@ -30,32 +29,14 @@ jobs:
           version=""
           release_branch=""
           
-          if [ "${{ github.event_name }}" = "push" ]; then
-            # Direct push to master - check if version.properties changed in recent commits
-            echo "Checking recent commits for version changes..."
-          
-            # Check if version.properties was changed in the last 5 commits
-            if git log --oneline -n 5 --name-only | grep -q "sushi/version.properties"; then
-              # Extract version from commit messages that match release pattern
-              recent_commit=$(git log --oneline -n 5 --grep="Bump version to" | head -n 1)
-              if [[ -n "$recent_commit" ]]; then
-                version=$(echo "$recent_commit" | grep -o "Bump version to [0-9]\+\.[0-9]\+\.[0-9]\+" | cut -d' ' -f4)
-                if [[ -n "$version" ]]; then
-                  is_release=true
-                  release_branch="master"
-                fi
-              fi
-            fi
-          else
-            # PR merged - check if it's from a release branch
-            pr_branch="${{ github.head_ref }}"
-            echo "PR branch: $pr_branch"
-          
-            if [[ "$pr_branch" =~ ^release/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
-              version="${BASH_REMATCH[1]}"
-              is_release=true
-              release_branch="$pr_branch"
-            fi
+          # PR merged - check if it's from a release branch
+          pr_branch="${{ github.head_ref }}"
+          echo "PR branch: $pr_branch"
+        
+          if [[ "$pr_branch" =~ ^release/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            version="${BASH_REMATCH[1]}"
+            is_release=true
+            release_branch="$pr_branch"
           fi
           
           echo "is_release=$is_release" >> $GITHUB_OUTPUT
